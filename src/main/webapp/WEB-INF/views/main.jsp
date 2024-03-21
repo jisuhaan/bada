@@ -19,7 +19,7 @@ if(hs.getAttribute("loginstate")==null){
 
 <div class="mainsearch">
 어디로 가볼까요?<br>
-<input type="text" name="area" id="area">
+<input type="text" name="area" id="area" placeholder="지역명을 입력하세요! ex)강원">
 </div>
 
 <div class="mains">

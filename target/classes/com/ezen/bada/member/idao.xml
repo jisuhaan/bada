@@ -4,5 +4,8 @@
     
 <mapper namespace="com.ezen.bada.member.Service">
 
+<select id="login_check" resultType="String">
+	SELECT role FROM bada_user WHERE id =#{param1} and pw = #{param2}
+</select>
 
 </mapper>

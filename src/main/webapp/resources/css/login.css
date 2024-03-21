@@ -1,0 +1,74 @@
+@charset "UTF-8";
+
+.main {
+    width: 350px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 수평 및 수직으로 50% 이동하여 가운데 정렬 */
+    
+}
+
+.parent-container {
+    position: relative; /* 부모 요소를 relative로 설정 */
+}
+
+.logo {
+    margin-top: 0px;
+    margin-bottom: 40px;
+}
+
+.account {
+    display: block;
+    margin: 5px 0;
+    margin-bottom: 3px;
+    padding: 3px;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    width: calc(100% - 10px);
+}
+
+.account input {
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column; /* 입력 필드와 버튼들을 수직으로 배치 */
+    align-items: center; /* 수직정렬 */
+    margin-top: 20px; /* 버튼과 입력 필드 사이의 간격 조절 */
+}
+
+
+#sign #login_search {
+    width: 32%;
+}
+
+
+#login {
+    width: 100%;
+    background-color: skyblue;
+    border-color: transparent;
+    color: white;
+}
+
+#sign {
+    width: 50%;
+    background-color: #fba600;
+    border-color: transparent;
+    color: white;
+}
+
+#login_search {
+    width: 50%;
+    background-color: #0B909E;
+    border-color: transparent;
+    color: white;
+}

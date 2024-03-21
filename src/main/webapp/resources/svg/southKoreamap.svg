@@ -12,7 +12,7 @@
 				stroke-width:0.5;
 			}
 			.yessea:hover {
-				fill: #4899c2;
+				fill: #489AC2;
 			}
 			.nosea {
 				fill: #dcdcdc;

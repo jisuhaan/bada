@@ -44,6 +44,10 @@ public class MemberController {
 		Service ss = sqlsession.getMapper(Service.class);
 		String logincount = ss.login_check(id,pw);
 		
+		System.out.println("로그인 시도 아이디 : "+id);
+		System.out.println("로그인 시도 비번 : "+pw);
+		System.out.println("로그인 결과 : "+logincount);
+		
 		
 		String result = "";
 		
@@ -61,6 +65,7 @@ public class MemberController {
 			result = "yes";
 		}
 	
+		System.out.println("결과 : "+result);
 		
 		return result;
 	}

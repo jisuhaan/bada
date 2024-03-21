@@ -7,7 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="${pageContext.request.contextPath}/resources/css/slide.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -18,7 +17,22 @@ if(hs.getAttribute("loginstate")==null){
 }
 %>
 
-이곳은 메인화면...
-    
+<div class="mainsearch">
+어디로 가볼까요?<br>
+<input type="text" name="area" id="area">
+</div>
+
+<div class="mains">
+<div class="mainleft">
+<div class="mainmaps">
+<object type="image/svg+xml" data="./resources/svg/southKoreamap.svg" width="620px" height="800px">
+</object>
+</div>
+</div>
+<div class="mainright">
+<div class="righttop"></div>
+<div class="rightbottom"></div>
+</div>
+</div>
 </body>
 </html>

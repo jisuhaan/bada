@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+.land
+{
+	fill: #e3f4f9;
+	fill-opacity: 1;
+	stroke:white;
+	stroke-opacity: 1;
+	stroke-width:0.5;
+}
+
+.yessea :hover{
+	fill: #489AC2;
+}
+
+.nosea{
+	fill: #dcdcdc;
+}

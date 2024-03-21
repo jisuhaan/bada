@@ -8,4 +8,14 @@
 	SELECT role FROM bada_user WHERE id =#{param1} and pw = #{param2}
 </select>
 
+<select id="idcheck" resultType="java.lang.String">
+	select id from bada_member where id=#{param1}
+</select>
+
+<insert id="membersave">
+	insert into bada_member values (bada_user_seq.nextval, #{param1}, #{param2}, 
+	#{param3}, #{param4}, #{param5}, #{param6}, #{param7})
+</insert>
+
+
 </mapper>

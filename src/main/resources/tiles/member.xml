@@ -14,5 +14,9 @@
 		<put-attribute name="body" value="/WEB-INF/views/member/member_join.jsp"/>
 	</definition>
 
+	<definition name="login" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 로그인"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/login.jsp"/>
+	</definition>
    
 </tiles-definitions>

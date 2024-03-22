@@ -113,5 +113,13 @@ public class MemberController {
 		return "main";
 	}
 	
+	@RequestMapping(value = "/logout")
+	public String logout(HttpServletRequest request) {
+		HttpSession hs=request.getSession();
+		hs.setAttribute("loginstate", false);
+		
+		return "redirect:/main";
+	} //logout ³¡
+	
 	
 }

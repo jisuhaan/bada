@@ -117,7 +117,14 @@
 		            success: function (response) {
 		                // 저장이 성공적으로 이루어졌을 때 알럿창을 띄움
 		            	alert("회원가입이 완료되었습니다.");
-		                window.location.href='member_try_bbti'
+		            	var result = confirm('바다성향테스트(BBTI) 페이지로 이동합니다!');
+		            	if(result){
+		            		window.location.href='member_try_bbti';
+		            	}
+		            	else{
+		            		alert('메인화면으로 이동합니다.');
+		            		window.location.href='main';
+		            	}
 		            },
 		            error: function () {
 		                alert("오류가 발생했습니다.");

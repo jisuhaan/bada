@@ -100,7 +100,7 @@ public class MemberController {
 	
 	
 	@RequestMapping(value = "/member_save", method = RequestMethod.POST)
-	public String membersave(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String membersave(HttpServletRequest request) throws IOException {
 		
 		String id = request.getParameter("id");
         String pw = request.getParameter("pw");
@@ -111,17 +111,8 @@ public class MemberController {
 
         Service ss=sqlsession.getMapper(Service.class);
         ss.membersave(id, pw, name, email, gender, age);
-        
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
-	    PrintWriter out = response.getWriter();
-	    out.print("<script type='text/javascript'>");
-	    out.print("var result = window.confirm('바다성향테스트(BBTI) 페이지로 이동합니다!'); ");
-	    out.print("if(result){ window.location.href='member_try_bbti'} ");
-	    out.print("else{ alert('메인화면으로 이동합니다.'); window.location.href='main'} ");
-	    out.print("</script>");
  	
-		return null;
+		return "main";
 	}
 	
 	

@@ -112,8 +112,17 @@ public class MemberController {
         Service ss=sqlsession.getMapper(Service.class);
         ss.membersave(id, pw, name, email, gender, age);
  	
-		return "main";
+		return "member_try_bbti";
 	}
+	
+	
+	@RequestMapping(value = "/member_try_bbti")
+	public String membertrybbti() {
+		
+		return "member_try_bbti";
+	}
+	
+	
 	
 	@RequestMapping(value = "/logout")
 	public String logout(HttpServletRequest request,HttpServletResponse response) throws IOException {

@@ -18,6 +18,12 @@
     $(document).ready(function () {
         $("#idcheck").click(function () {
             var id = $("#id").val();
+            
+         	// 아이디가 비어 있을 때 아이디 중복 검사를 할 경우
+            if (id.trim() === "") {
+                alert("아이디를 입력해주세요.");
+                return;
+            }
 
             $.ajax({
                 type: "post",
@@ -111,7 +117,7 @@
 		            success: function (response) {
 		                // 저장이 성공적으로 이루어졌을 때 알럿창을 띄움
 		            	alert("회원가입이 완료되었습니다.");
-		                window.location.href='main'
+		                window.location.href='member_try_bbti'
 		            },
 		            error: function () {
 		                alert("오류가 발생했습니다.");

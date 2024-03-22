@@ -12,4 +12,28 @@ public interface Service {
 
 	ArrayList<MemberDTO> memberout();
 
+	ArrayList<MemberDTO> member_search_num_n_n(String value);
+
+	ArrayList<MemberDTO> member_search_num_n_a(String value, int age);
+
+	ArrayList<MemberDTO> member_search_num_g_n(String value, String gender);
+
+	ArrayList<MemberDTO> member_search_num_g_a(String value, String gender, int age);
+
+	ArrayList<MemberDTO> member_search_id_n_n(String value);
+
+	ArrayList<MemberDTO> member_search_id_n_a(String value, int age);
+
+	ArrayList<MemberDTO> member_search_id_g_n(String value, String gender);
+
+	ArrayList<MemberDTO> member_search_id_g_a(String value, String gender, int age);
+
+	ArrayList<MemberDTO> member_search_name_n_n(String value);
+
+	ArrayList<MemberDTO> member_search_name_n_a(String value, int age);
+
+	ArrayList<MemberDTO> member_search_name_g_n(String value, String gender);
+
+	ArrayList<MemberDTO> member_search_name_g_a(String value, String gender, int age);
+
 }

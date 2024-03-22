@@ -179,5 +179,67 @@ public class MemberController {
 		
 		return "member_out";
 	}
+
+	@RequestMapping(value = "/member_search")
+	public String membersearch(HttpServletRequest request, Model mo) {
+		
+		String keyword=request.getParameter("search_keyword");
+		String value=request.getParameter("search_value");
+		String gender=request.getParameter("gender");
+		int age=Integer.parseInt(request.getParameter("age"));
+		
+		Service ss=sqlsession.getMapper(Service.class);
+		ArrayList<MemberDTO> list=null;
+		
+		if(keyword.equals("user_number")) { //검색 키워드가 회원 번호인 경우
+			
+			if(gender==null && age==0) { //성별과 나이를 모두 입력하지 않은 경우
+				list=ss.member_search_num_n_n(value);
+			}//내부 if문 끝
+			else if(gender==null && age!=0) { //성별은 입력하지 않고 나이는 입력한 경우
+				list=ss.member_search_num_n_a(value, age);
+			}//내부 else if문 끝
+			else if(gender!=null && age==0) { //성별은 입력하고 나이는 입력하지 않은 경우
+				list=ss.member_search_num_g_n(value, gender);
+			}//내부 else if문2 끝
+			else { //성별과 나이 모두 입력한 경우
+				list=ss.member_search_num_g_a(value, gender, age);
+			}//내부 else문 끝
+		}
+		
+		else if(keyword.equals("id")) { //검색 키워드가 아이디인 경우
+			if(gender==null && age==0) {
+				list=ss.member_search_id_n_n(value);
+			}//내부 if문 끝
+			else if(gender==null && age!=0) {
+				list=ss.member_search_id_n_a(value, age);
+			}//내부 else if문 끝
+			else if(gender!=null && age==0) {
+				list=ss.member_search_id_g_n(value, gender);
+			}//내부 else if문2 끝
+			else {
+				list=ss.member_search_id_g_a(value, gender, age);
+			}//내부 else문 끝
+		}
+		
+		else { //검색 키워드가 이름인 경우
+			if(gender==null && age==0) {
+				list=ss.member_search_name_n_n(value);
+			}//내부 if문 끝
+			else if(gender==null && age!=0) {
+				list=ss.member_search_name_n_a(value, age);
+			}//내부 else if문 끝
+			else if(gender!=null && age==0) {
+				list=ss.member_search_name_g_n(value, gender);
+			}//내부 else if문2 끝
+			else {
+				list=ss.member_search_name_g_a(value, gender, age);
+			}//내부 else문 끝
+		}
+		
+		mo.addAttribute("list", list);
+		
+		return "member_out";
+	}
 	
 }

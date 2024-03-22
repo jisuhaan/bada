@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ezen</groupId>
 	<artifactId>bada</artifactId>
-	<name>bada_web</name>
+	<name>bada</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
@@ -116,7 +116,7 @@
 			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 <!-- 마이바티스 설치 시작 -->
 		
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
@@ -183,9 +183,9 @@
           <version>2.2.2</version>
       </dependency>
 
-<!-- 타일즈 셋팅 종료 -->   
-		        		
-		     
+<!-- 타일즈 셋팅 종료 -->     
+		
+      
 	</dependencies>
     <build>
         <plugins>

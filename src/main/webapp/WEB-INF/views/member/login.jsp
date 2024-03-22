@@ -33,8 +33,8 @@ $(document).ready(function(){
 					
 					errstack ++;
 					
-					if(errstack>=3){
-						alert("로그인 3회 오류! 회원가입/회원정보 찾기 창으로 이동합니다!")
+					if(errstack>=5){
+						alert("로그인 5회 오류! 회원가입/회원정보 찾기 창으로 이동합니다!")
 						window.location="sign" // 회원가입창으로 이동 or (회원정보 찾기)
 					}
 					else{

@@ -27,8 +27,8 @@
 			<li class="navbar__menud"><a href="#">바다정보</a>
 			<div class="navbar__dropdown">
 			<ul>
-				<li class="navbar__dropdownli"><a href="#">회원등록</a></li>
-				<li class="navbar__dropdownli"><a href="#">회원출력</a></li>
+				<li class="navbar__dropdownli"><a href="#">바다정보</a></li>
+				<li class="navbar__dropdownli"><a href="#">후기정보</a></li>
 			</ul>
 			</div>
 		</li>

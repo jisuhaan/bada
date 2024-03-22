@@ -1,5 +1,8 @@
 package com.ezen.bada.member;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class MemberController {
-
+	
 	@Autowired
 	SqlSession sqlsession;
 	
@@ -68,6 +71,46 @@ public class MemberController {
 		System.out.println("결과 : "+result);
 		
 		return result;
+	}
+
+	
+	@ResponseBody
+	@RequestMapping(value = "/idcheck")
+	public String idcheck(HttpServletRequest request) {
+		
+		String id = request.getParameter("id");
+		Service ss=sqlsession.getMapper(Service.class);
+		String result=""; //originid의 유무 여부로 결과인 result를 반환하기 위해 변수 선언
+		String originid="";
+		
+		System.out.println("받은 아이디 : "+id);
+		
+		originid=ss.idcheck(id); //originid: table 안에서 가져올 기존에 존재하는 id
+		if(originid==null) {result="ok";} //중복된 아이디가 없을 경우
+		else {result="nope";} //중복된 아이디가 있을 경우	
+
+		System.out.println("sql결과 : "+originid);
+		System.out.println("최종결과 : "+result);
+		
+		return result;
+	} //public String idcheck 끝
+	
+	
+	
+	@RequestMapping(value = "/member_save", method = RequestMethod.POST)
+	public String membersave(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		String id = request.getParameter("id");
+        String pw = request.getParameter("pw");
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String gender = request.getParameter("gender");
+        String age = request.getParameter("age");
+
+        Service ss=sqlsession.getMapper(Service.class);
+        ss.membersave(id, pw, name, email, gender, age);
+ 	
+		return "main";
 	}
 	
 	

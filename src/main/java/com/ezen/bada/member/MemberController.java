@@ -80,20 +80,20 @@ public class MemberController {
 		
 		String id = request.getParameter("id");
 		Service ss=sqlsession.getMapper(Service.class);
-		String result=""; //originid�� ���� ���η� ����� result�� ��ȯ�ϱ� ���� ���� ����
+		String result=""; //originid로 얻어온 결과로 if문 실행
 		String originid="";
 		
 		System.out.println("���� ���̵� : "+id);
 		
-		originid=ss.idcheck(id); //originid: table �ȿ��� ������ ������ �����ϴ� id
-		if(originid==null) {result="ok";} //�ߺ��� ���̵� ���� ���
-		else {result="nope";} //�ߺ��� ���̵� ���� ���	
+		originid=ss.idcheck(id); //originid: table에서 id로 select where 해서 나온 값
+		if(originid==null) {result="ok";} // 결과가 null이면 ok반환
+		else {result="nope";} //select 결과가 있으면 nope 반환
 
 		System.out.println("sql��� : "+originid);
 		System.out.println("������� : "+result);
 		
 		return result;
-	} //public String idcheck ��
+	} //idcheck 종료
 	
 	
 	
@@ -126,7 +126,7 @@ public class MemberController {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 	    PrintWriter out = response.getWriter();
-	    out.print("<script type='text/javascript'> alert('�α׾ƿ� �Ǿ����ϴ�!'); window.location.replace('main')");
+	    out.print("<script type='text/javascript'> alert('로그아웃 되었습니다!'); window.location.replace('main')");
 	    out.print("</script>");
 		
 		

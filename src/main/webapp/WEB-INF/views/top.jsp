@@ -46,7 +46,7 @@
 	</c:when>
 	<c:otherwise>
 		<li class="navbar__menud">
-		<a href="member_input">가입하기</a>
+		<a href="member_join">가입하기</a>
 		</li>
 		<li class="navbar__menud">
 		<a href="login">로그인</a>

@@ -71,4 +71,43 @@ public class MemberController {
 	}
 	
 	
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/idcheck")
+	public String idcheck(String id) {
+		
+		Service ss=sqlsession.getMapper(Service.class);
+		String originid=ss.idcheck(id); //originid: table 안에서 가져올 기존에 존재하는 id
+		String result; //originid의 유무 여부로 결과인 result를 반환하기 위해 변수 선언
+		
+		if(originid==null) {result="ok";} //중복된 아이디가 없을 경우
+		else {result="nope";} //중복된 아이디가 있을 경우
+		
+		return result;
+	} //public String idcheck 끝
+	
+	
+	
+	@RequestMapping(value = "/member_save")
+	public String membersave(HttpServletRequest request) {
+		
+		String id = request.getParameter("id");
+        String pw = request.getParameter("pw");
+        String role="";
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String gender = request.getParameter("gender");
+        String age = request.getParameter("age");
+        
+       if (id.equals("admin")) {role="admin";}
+       else {role="user";}
+        
+        Service ss=sqlsession.getMapper(Service.class);
+        ss.membersave(id, pw, role, name, email, gender, age);
+		
+		return "member_goto_bbti";
+	}
+	
+	
 }

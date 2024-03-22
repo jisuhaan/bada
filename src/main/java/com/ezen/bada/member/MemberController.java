@@ -114,11 +114,23 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/logout")
-	public String logout(HttpServletRequest request) {
+	public String logout(HttpServletRequest request,HttpServletResponse response) throws IOException {
 		HttpSession hs=request.getSession();
-		hs.setAttribute("loginstate", false);
 		
-		return "redirect:/main";
+		hs.removeAttribute("loginstate");
+		hs.setAttribute("loginstate", false);
+		hs.removeAttribute("loginid");
+		hs.removeAttribute("pw");
+		hs.removeAttribute("position");
+		
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+	    PrintWriter out = response.getWriter();
+	    out.print("<script type='text/javascript'> alert('로그아웃 되었습니다!'); window.location.replace('main')");
+	    out.print("</script>");
+		
+		
+		return null;
 	} //logout 끝
 	
 	

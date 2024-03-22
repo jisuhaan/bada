@@ -47,9 +47,9 @@ public class MemberController {
 		Service ss = sqlsession.getMapper(Service.class);
 		String logincount = ss.login_check(id,pw);
 		
-		System.out.println("·Î±×ÀÎ ½Ãµµ ¾ÆÀÌµğ : "+id);
-		System.out.println("·Î±×ÀÎ ½Ãµµ ºñ¹ø : "+pw);
-		System.out.println("·Î±×ÀÎ °á°ú : "+logincount);
+		System.out.println("ë¡œê·¸ì¸ ì‹œë„ ì•„ì´ë”” : "+id);
+		System.out.println("ë¡œê·¸ì¸ ì‹œë„ ë¹„ë°€ë²ˆí˜¸ : "+pw);
+		System.out.println("ë¡œê·¸ì¸ì²´í¬ : "+logincount);
 		
 		
 		String result = "";
@@ -68,7 +68,7 @@ public class MemberController {
 			result = "yes";
 		}
 	
-		System.out.println("°á°ú : "+result);
+		System.out.println("ê²°ê³¼ : "+result);
 		
 		return result;
 	}
@@ -80,20 +80,20 @@ public class MemberController {
 		
 		String id = request.getParameter("id");
 		Service ss=sqlsession.getMapper(Service.class);
-		String result=""; //originidÀÇ À¯¹« ¿©ºÎ·Î °á°úÀÎ result¸¦ ¹İÈ¯ÇÏ±â À§ÇØ º¯¼ö ¼±¾ğ
+		String result=""; //originidï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ resultï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		String originid="";
 		
-		System.out.println("¹ŞÀº ¾ÆÀÌµğ : "+id);
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ : "+id);
 		
-		originid=ss.idcheck(id); //originid: table ¾È¿¡¼­ °¡Á®¿Ã ±âÁ¸¿¡ Á¸ÀçÇÏ´Â id
-		if(originid==null) {result="ok";} //Áßº¹µÈ ¾ÆÀÌµğ°¡ ¾øÀ» °æ¿ì
-		else {result="nope";} //Áßº¹µÈ ¾ÆÀÌµğ°¡ ÀÖÀ» °æ¿ì	
+		originid=ss.idcheck(id); //originid: table ï¿½È¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ id
+		if(originid==null) {result="ok";} //ï¿½ßºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+		else {result="nope";} //ï¿½ßºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½	
 
-		System.out.println("sql°á°ú : "+originid);
-		System.out.println("ÃÖÁ¾°á°ú : "+result);
+		System.out.println("sqlï¿½ï¿½ï¿½ : "+originid);
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : "+result);
 		
 		return result;
-	} //public String idcheck ³¡
+	} //public String idcheck ï¿½ï¿½
 	
 	
 	
@@ -126,12 +126,12 @@ public class MemberController {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 	    PrintWriter out = response.getWriter();
-	    out.print("<script type='text/javascript'> alert('·Î±×¾Æ¿ô µÇ¾ú½À´Ï´Ù!'); window.location.replace('main')");
+	    out.print("<script type='text/javascript'> alert('ï¿½Î±×¾Æ¿ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½!'); window.location.replace('main')");
 	    out.print("</script>");
 		
 		
 		return null;
-	} //logout ³¡
+	} //logout ï¿½ï¿½
 	
 	
 }

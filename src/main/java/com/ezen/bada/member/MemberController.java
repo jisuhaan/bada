@@ -30,12 +30,34 @@ public class MemberController {
 		return "member_join";
 	}
 	
-	
+
 	
 	@RequestMapping(value = "/login")
 	public String login1() {
 		
 		return "login";
+	}
+	
+	// 회원정보 찾기
+	
+	@RequestMapping(value = "/info_search")
+	public String search_login() {
+		
+		return "info_search";
+	}
+	
+
+	@RequestMapping(value = "/find_id")
+	public String find1() {
+		
+		return "find_id";
+	}
+	
+	
+	@RequestMapping(value = "/find_pw")
+	public String find2() {
+		
+		return "find_pw";
 	}
 	
 	
@@ -48,11 +70,6 @@ public class MemberController {
 		
 		Service ss = sqlsession.getMapper(Service.class);
 		String logincount = ss.login_check(id,pw);
-		
-		System.out.println("로그인 시도 아이디 : "+id);
-		System.out.println("로그인 시도 비밀번호 : "+pw);
-		System.out.println("로그인체크 : "+logincount);
-		
 		
 		String result = "";
 		
@@ -70,7 +87,9 @@ public class MemberController {
 			result = "yes";
 		}
 	
+
 		System.out.println("결과 : "+result);
+
 		
 		return result;
 	}
@@ -82,11 +101,12 @@ public class MemberController {
 		
 		String id = request.getParameter("id");
 		Service ss=sqlsession.getMapper(Service.class);
+
 		String result=""; //originid로 얻어온 결과로 if문 실행
 		String originid="";
 		
 		System.out.println("받아온 id : "+id);
-		
+
 		originid=ss.idcheck(id); //originid: table에서 id로 select where 해서 나온 값
 		if(originid==null) {result="ok";} // 결과가 null이면 ok반환
 		else {result="nope";} //select 결과가 있으면 nope 반환
@@ -94,8 +114,11 @@ public class MemberController {
 		System.out.println("sql결과 : "+originid);
 		System.out.println("최종결과 : "+result);
 		
+
 		return result;
+
 	} //idcheck 종료
+
 	
 	
 	
@@ -142,6 +165,7 @@ public class MemberController {
 		
 		
 		return null;
+
 	} //logout 끝
 	
 	
@@ -155,6 +179,5 @@ public class MemberController {
 		
 		return "member_out";
 	}
-	
 	
 }

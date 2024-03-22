@@ -18,5 +18,17 @@
 		<put-attribute name="title" value="바라는 바다! :: 로그인"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/login.jsp"/>
 	</definition>
+	
+	<definition name="member_out" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 회원 기본정보 확인"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/member_out.jsp"/>
+	</definition>
+	
+	<definition name="member_search" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 회원 정보 검색창"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/member_search.jsp"/>
+	</definition>
+	
+	
    
 </tiles-definitions>

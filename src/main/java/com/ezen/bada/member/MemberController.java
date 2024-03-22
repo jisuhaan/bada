@@ -2,6 +2,7 @@ package com.ezen.bada.member;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -83,14 +85,14 @@ public class MemberController {
 		String result=""; //originid로 얻어온 결과로 if문 실행
 		String originid="";
 		
-		System.out.println("���� ���̵� : "+id);
+		System.out.println("받아온 id : "+id);
 		
 		originid=ss.idcheck(id); //originid: table에서 id로 select where 해서 나온 값
 		if(originid==null) {result="ok";} // 결과가 null이면 ok반환
 		else {result="nope";} //select 결과가 있으면 nope 반환
 
-		System.out.println("sql��� : "+originid);
-		System.out.println("������� : "+result);
+		System.out.println("sql결과 : "+originid);
+		System.out.println("최종결과 : "+result);
 		
 		return result;
 	} //idcheck 종료
@@ -131,7 +133,19 @@ public class MemberController {
 		
 		
 		return null;
-	} //logout ��
+	} //logout 끝
+	
+	
+	
+	@RequestMapping(value = "/member_out")
+	public String memberout(HttpServletRequest request, Model mo) {
+		
+		Service ss=sqlsession.getMapper(Service.class);
+		ArrayList<MemberDTO> list=ss.memberout();
+		mo.addAttribute("list", list);
+		
+		return "member_out";
+	}
 	
 	
 }

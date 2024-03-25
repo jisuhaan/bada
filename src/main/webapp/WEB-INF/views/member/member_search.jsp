@@ -32,7 +32,7 @@
 			<caption>회원 정보 검색창</caption>
 			
 			<tr>
-				<th>겅색 항목</th>
+				<th>검색 항목</th>
 				<td>
 					<select name="search_keyword">
 						<option value="user_number">회원 번호</option>
@@ -46,8 +46,9 @@
 				<th>회원 성별</th>
 				<td>
 					<select name="gender">
+						<option value="">선택 안 함</option>
 						<option value="male">남성</option>
-						<option value="female">남성</option>
+						<option value="female">여성</option>
 						<option value="other">밝히고 싶지 않음(기타)</option>
 					</select>
 				</td>
@@ -56,6 +57,7 @@
 				<th>회원 나이대</th>
 				<td>
 					<select name="age">
+						<option value="0">선택 안 함</option>
 						<option value="10">10대 이하</option>
 						<option value="20">20대</option>
 						<option value="30">30대</option>

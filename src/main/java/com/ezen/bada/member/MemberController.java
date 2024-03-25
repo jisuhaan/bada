@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -179,5 +180,135 @@ public class MemberController {
 		
 		return "member_out";
 	}
+
+	@RequestMapping(value = "/member_search")
+	public String membersearch(HttpServletRequest request, Model mo) {
+		
+		String keyword=request.getParameter("search_keyword");
+		String value=request.getParameter("search_value");
+		String gender=request.getParameter("gender");
+		int age=Integer.parseInt(request.getParameter("age"));
+		
+		Service ss=sqlsession.getMapper(Service.class);
+		ArrayList<MemberDTO> list=null;
+		
+		if(keyword.equals("user_number")) { //검색 키워드가 회원 번호인 경우
+			
+			if(gender==null && age==0) { //성별과 나이를 모두 입력하지 않은 경우
+				list=ss.member_search_num_n_n(value);
+			}//내부 if문 끝
+			else if(gender==null && age!=0) { //성별은 입력하지 않고 나이는 입력한 경우
+				list=ss.member_search_num_n_a(value, age);
+			}//내부 else if문 끝
+			else if(gender!=null && age==0) { //성별은 입력하고 나이는 입력하지 않은 경우
+				list=ss.member_search_num_g_n(value, gender);
+			}//내부 else if문2 끝
+			else { //성별과 나이 모두 입력한 경우
+				list=ss.member_search_num_g_a(value, gender, age);
+			}//내부 else문 끝
+		}
+		
+		else if(keyword.equals("id")) { //검색 키워드가 아이디인 경우
+			if(gender==null && age==0) {
+				list=ss.member_search_id_n_n(value);
+			}//내부 if문 끝
+			else if(gender==null && age!=0) {
+				list=ss.member_search_id_n_a(value, age);
+			}//내부 else if문 끝
+			else if(gender!=null && age==0) {
+				list=ss.member_search_id_g_n(value, gender);
+			}//내부 else if문2 끝
+			else {
+				list=ss.member_search_id_g_a(value, gender, age);
+			}//내부 else문 끝
+		}
+		
+		else { //검색 키워드가 이름인 경우
+			if(gender==null && age==0) {
+				list=ss.member_search_name_n_n(value);
+			}//내부 if문 끝
+			else if(gender==null && age!=0) {
+				list=ss.member_search_name_n_a(value, age);
+			}//내부 else if문 끝
+			else if(gender!=null && age==0) {
+				list=ss.member_search_name_g_n(value, gender);
+			}//내부 else if문2 끝
+			else {
+				list=ss.member_search_name_g_a(value, gender, age);
+			}//내부 else문 끝
+		}
+		
+		mo.addAttribute("list", list);
+		
+		return "member_out";
+	}
+	
+	
+	   @ResponseBody
+	   @RequestMapping(value = "/look_id",method = RequestMethod.POST , produces = "application/json;charset=UTF-8")
+	   public String look1(HttpServletRequest request, HttpServletResponse response) {
+	      
+	      String name = request.getParameter("name");
+	      String email = request.getParameter("email");
+	      System.out.println("name"+name);
+	      System.out.println("email"+email);
+	      
+	      
+	      Service ss = sqlsession.getMapper(Service.class);
+	      MemberDTO result = ss.lookid(name,email);
+	      
+	      System.out.println("확인해 : "+result.id);
+	      System.out.println("확인해2 : "+result.name);
+	      System.out.println("뭘까? : "+result.toString());
+
+	      
+	      JSONObject returnObj = new JSONObject();
+	       
+	      if (result != null) {
+	           returnObj.put("name", result.getName());
+	           returnObj.put("id", result.getId());
+	       } 
+	      else 
+	      {
+	           returnObj.put("error", "가입하지 않은 회원입니다.");
+	       }
+
+	       
+	       return returnObj.toString();
+	   }
+	
+	   @ResponseBody
+	   @RequestMapping(value = "/look_pw",method = RequestMethod.POST , produces = "application/json;charset=UTF-8")
+	   public String look2(HttpServletRequest request, HttpServletResponse response) {
+	      
+	      String id = request.getParameter("id");
+	      String email = request.getParameter("email");
+
+	      System.out.println("email"+email);
+	      
+	      
+	      Service ss = sqlsession.getMapper(Service.class);
+	      MemberDTO result = ss.lookpw(id,email);
+	      
+	      System.out.println("확인해 : "+result.id);
+	      System.out.println("확인해2 : "+result.name);
+	      System.out.println("뭘까? : "+result.toString());
+
+	      
+	      JSONObject returnObj = new JSONObject();
+	       
+	      if (result != null) {
+	           returnObj.put("name", result.getName());
+	           returnObj.put("pw", result.getPw());
+	       } 
+	      else 
+	      {
+	           returnObj.put("error", "해당 회원정보로 가입된 회원이 없습니다.");
+	       }
+
+	       
+	       return returnObj.toString();
+	   }
+	
 	
 }

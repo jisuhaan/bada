@@ -34,6 +34,12 @@
 		<put-attribute name="body" value="/WEB-INF/views/member/member_try_bbti.jsp"/>
 	</definition>
 
+
+	<definition name="info_search" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 아이디찾기"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/info_search.jsp"/>
+	</definition>
+
 	
 	<definition name="find_id" extends="baseLayout">
 		<put-attribute name="title" value="바라는 바다! :: 아이디찾기"/>

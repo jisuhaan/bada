@@ -102,7 +102,7 @@ $(document).ready(function(){
 	<body>
 
 <div class="main">
-        <h1 class="logo">bada_login</h1>
+        <h1 class="logo"><img src="./resources/image/login.png" width="250" style="margin-bottom: -10px;"> </h1>
         <div class="container">
             <input type="text" name="id" placeholder="ID" id="id" class="input_field">
             <input type="password" name="pw" placeholder="Password" id="pw" class="input_field">

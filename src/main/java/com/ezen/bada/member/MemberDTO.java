@@ -3,12 +3,13 @@ package com.ezen.bada.member;
 public class MemberDTO {
 	
 	int user_number;
-	String id, pw, role, name, email, gender, age;
+	String id, pw, role, name, email, gender; 
+	int age;
 	
 	public MemberDTO() {}
 	
 	public MemberDTO(int user_number, String id, String pw, String role, String name, String email, String gender,
-			String age) {
+			int age) {
 		super();
 		this.user_number = user_number;
 		this.id = id;
@@ -18,8 +19,8 @@ public class MemberDTO {
 		this.email = email;
 		this.gender = gender;
 		this.age = age;
-		}
-	
+	}
+
 	public int getUser_number() {
 		return user_number;
 	}
@@ -62,11 +63,12 @@ public class MemberDTO {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public String getAge() {
+	public int getAge() {
 		return age;
 	}
-	public void setAge(String age) {
+	public void setAge(int age) {
 		this.age = age;
 	}
+
 	
 }

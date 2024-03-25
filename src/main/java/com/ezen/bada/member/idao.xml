@@ -86,5 +86,14 @@ from. (정)지수 -->
 </select>
 <!-- 이름으로 서치 끝 -->
 
+<!-- 회원 번호로 정보 전체 가져오기 -->
+<select id="member_detail_out" resultType="com.ezen.bada.member.MemberDTO">
+	select * from bada_user where user_number = #{param1}
+</select>
+
+<!-- 회원 정보 수정하기 -->
+<update id="member_modify">
+	update bada_user set id = #{param1}, pw = #{param2}, name = #{param3}, email = #{param4}, gender = #{param5}, age = #{param6} where user_number = #{param7}
+</update>
 
 </mapper>

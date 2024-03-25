@@ -130,7 +130,7 @@ public class MemberController {
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String gender = request.getParameter("gender");
-        String age = request.getParameter("age");
+        int age=Integer.parseInt(request.getParameter("age"));
 
         Service ss=sqlsession.getMapper(Service.class);
         ss.membersave(id, pw, name, email, gender, age);
@@ -242,4 +242,42 @@ public class MemberController {
 		return "member_out";
 	}
 	
+	@RequestMapping(value = "/member_detail")
+	public String member_detail(HttpServletRequest request, Model mo) {
+		int user_number = Integer.parseInt(request.getParameter("user_number"));
+		
+		Service ss=sqlsession.getMapper(Service.class);
+		ArrayList<MemberDTO> list=ss.member_detail_out(user_number);
+		mo.addAttribute("list", list);
+		
+		return "member_detail";
+	}
+	
+	@RequestMapping(value = "/member_modify_view")
+	public String member_modify_view(HttpServletRequest request, Model mo) {
+		int user_number = Integer.parseInt(request.getParameter("user_number"));
+		
+		Service ss=sqlsession.getMapper(Service.class);
+		ArrayList<MemberDTO> list=ss.member_detail_out(user_number);
+		mo.addAttribute("list", list);
+		
+		return "member_modify_view";
+	}
+	
+	@RequestMapping(value = "/member_modify", method = RequestMethod.POST)
+	public String member_modify(HttpServletRequest request) throws IOException {
+		int user_number = Integer.parseInt(request.getParameter("user_number"));
+		
+		String id = request.getParameter("id");
+        String pw = request.getParameter("pw");
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String gender = request.getParameter("gender");
+        int age=Integer.parseInt(request.getParameter("age"));
+
+        Service ss=sqlsession.getMapper(Service.class);
+        ss.member_modify(id, pw, name, email, gender, age, user_number);
+ 	
+		return "main";
+	}
 }

@@ -8,7 +8,7 @@ public interface Service {
 
 	String idcheck(String id);
 
-	void membersave(String id, String pw, String name, String email, String gender, String age);
+	void membersave(String id, String pw, String name, String email, String gender, int age);
 
 	ArrayList<MemberDTO> memberout();
 
@@ -35,5 +35,9 @@ public interface Service {
 	ArrayList<MemberDTO> member_search_name_g_n(String value, String gender);
 
 	ArrayList<MemberDTO> member_search_name_g_a(String value, String gender, int age);
+
+	ArrayList<MemberDTO> member_detail_out(int user_number);
+
+	void member_modify(String id, String pw, String name, String email, String gender, int age, int user_number);
 
 }

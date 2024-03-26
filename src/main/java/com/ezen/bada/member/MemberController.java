@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -241,5 +242,73 @@ public class MemberController {
 		
 		return "member_out";
 	}
+	
+	
+	   @ResponseBody
+	   @RequestMapping(value = "/look_id",method = RequestMethod.POST , produces = "application/json;charset=UTF-8")
+	   public String look1(HttpServletRequest request, HttpServletResponse response) {
+	      
+	      String name = request.getParameter("name");
+	      String email = request.getParameter("email");
+	      System.out.println("name"+name);
+	      System.out.println("email"+email);
+	      
+	      
+	      Service ss = sqlsession.getMapper(Service.class);
+	      MemberDTO result = ss.lookid(name,email);
+	      
+	      System.out.println("확인해 : "+result.id);
+	      System.out.println("확인해2 : "+result.name);
+	      System.out.println("뭘까? : "+result.toString());
+
+	      
+	      JSONObject returnObj = new JSONObject();
+	       
+	      if (result != null) {
+	           returnObj.put("name", result.getName());
+	           returnObj.put("id", result.getId());
+	       } 
+	      else 
+	      {
+	           returnObj.put("error", "가입하지 않은 회원입니다.");
+	       }
+
+	       
+	       return returnObj.toString();
+	   }
+	
+	   @ResponseBody
+	   @RequestMapping(value = "/look_pw",method = RequestMethod.POST , produces = "application/json;charset=UTF-8")
+	   public String look2(HttpServletRequest request, HttpServletResponse response) {
+	      
+	      String id = request.getParameter("id");
+	      String email = request.getParameter("email");
+
+	      System.out.println("email"+email);
+	      
+	      
+	      Service ss = sqlsession.getMapper(Service.class);
+	      MemberDTO result = ss.lookpw(id,email);
+	      
+	      System.out.println("확인해 : "+result.id);
+	      System.out.println("확인해2 : "+result.name);
+	      System.out.println("뭘까? : "+result.toString());
+
+	      
+	      JSONObject returnObj = new JSONObject();
+	       
+	      if (result != null) {
+	           returnObj.put("name", result.getName());
+	           returnObj.put("pw", result.getPw());
+	       } 
+	      else 
+	      {
+	           returnObj.put("error", "해당 회원정보로 가입된 회원이 없습니다.");
+	       }
+
+	       
+	       return returnObj.toString();
+	   }
+	
 	
 }

@@ -36,4 +36,8 @@ public interface Service {
 
 	ArrayList<MemberDTO> member_search_name_g_a(String value, String gender, int age);
 
+	MemberDTO lookid(String name, String email);
+
+	MemberDTO lookpw(String id, String email);
+
 }

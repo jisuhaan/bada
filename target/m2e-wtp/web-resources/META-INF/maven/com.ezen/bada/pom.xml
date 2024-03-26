@@ -116,6 +116,15 @@
 			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>
+		
+	<!-- JSON 라이브러리 추가 -->
+    <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20210307</version> <!-- 사용할 버전에 따라 변경해주세요 -->
+    </dependency>
+		
+		
 
 <!-- 마이바티스 설치 시작 -->
 		

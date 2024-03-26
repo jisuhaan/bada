@@ -60,8 +60,7 @@
 					</c:choose>
 		        </td>
 		        <td colspan="2" align="center">
-		        	<a href="member_delete"><input type="button" value="회원 삭제"></a>
-		        	<a href="member_modify_admin"><input type="button" value="관리자 권한으로 회원 정보 수정"></a>
+		        	<a href="member_detail?user_number=${m.user_number}"><input type="button" value="상세 정보 확인"></a>
 		        </td>
 		      </tr>
 		      </c:forEach>

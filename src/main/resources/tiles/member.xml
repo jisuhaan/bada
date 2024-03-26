@@ -52,5 +52,14 @@
 		<put-attribute name="body" value="/WEB-INF/views/member/find_pw.jsp"/>
 	</definition>
 	
-   
+	
+	<definition name="member_detail" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 회원 정보 상세창(관리자 권한)"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/member_detail.jsp"/>
+	</definition>	
+	
+	<definition name="member_modify_view" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 회원 정보 수정창"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/member_modify_view.jsp"/>
+	</definition>		   
 </tiles-definitions>

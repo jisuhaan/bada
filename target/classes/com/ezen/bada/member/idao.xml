@@ -86,5 +86,15 @@ from. (정)지수 -->
 </select>
 <!-- 이름으로 서치 끝 -->
 
+<!-- 회원정보 찾기 -->
+
+<select id="lookid" resultType="com.ezen.bada.member.MemberDTO">
+    SELECT name, id FROM bada_user where name = #{param1} AND email= #{param2}
+</select>
+
+<select id="lookpw" resultType="com.ezen.bada.member.MemberDTO">
+    SELECT name, id, pw FROM bada_user where id = #{param1} AND email= #{param2}
+</select>
+
 
 </mapper>

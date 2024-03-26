@@ -190,14 +190,14 @@ public class MemberController {
 		int age=Integer.parseInt(request.getParameter("age"));
 		
 		Service ss=sqlsession.getMapper(Service.class);
-		ArrayList<MemberDTO> list=null;
+		ArrayList<MemberDTO> list;
 		
 		if(keyword.equals("user_number")) { //검색 키워드가 회원 번호인 경우
 			
-			if(gender==null && age==0) { //성별과 나이를 모두 입력하지 않은 경우
+			if(gender.equals("") && age==0) { //성별과 나이를 모두 입력하지 않은 경우
 				list=ss.member_search_num_n_n(value);
 			}//내부 if문 끝
-			else if(gender==null && age!=0) { //성별은 입력하지 않고 나이는 입력한 경우
+			else if(gender.equals("") && age!=0) { //성별은 입력하지 않고 나이는 입력한 경우
 				list=ss.member_search_num_n_a(value, age);
 			}//내부 else if문 끝
 			else if(gender!=null && age==0) { //성별은 입력하고 나이는 입력하지 않은 경우
@@ -209,10 +209,10 @@ public class MemberController {
 		}
 		
 		else if(keyword.equals("id")) { //검색 키워드가 아이디인 경우
-			if(gender==null && age==0) {
+			if(gender.equals("") && age==0) {
 				list=ss.member_search_id_n_n(value);
 			}//내부 if문 끝
-			else if(gender==null && age!=0) {
+			else if(gender.equals("") && age!=0) {
 				list=ss.member_search_id_n_a(value, age);
 			}//내부 else if문 끝
 			else if(gender!=null && age==0) {
@@ -224,10 +224,10 @@ public class MemberController {
 		}
 		
 		else { //검색 키워드가 이름인 경우
-			if(gender==null && age==0) {
+			if(gender.equals("") && age==0) {
 				list=ss.member_search_name_n_n(value);
 			}//내부 if문 끝
-			else if(gender==null && age!=0) {
+			else if(gender.equals("") && age!=0) {
 				list=ss.member_search_name_n_a(value, age);
 			}//내부 else if문 끝
 			else if(gender!=null && age==0) {
@@ -237,6 +237,8 @@ public class MemberController {
 				list=ss.member_search_name_g_a(value, gender, age);
 			}//내부 else문 끝
 		}
+		
+		System.out.println(list);
 		
 		mo.addAttribute("list", list);
 		

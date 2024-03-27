@@ -245,7 +245,7 @@ public class MemberController {
 		return "member_out";
 	}
 	
-	   @ResponseBody
+	@ResponseBody
 	   @RequestMapping(value = "/look_id",method = RequestMethod.POST , produces = "application/json;charset=UTF-8")
 	   public String look1(HttpServletRequest request, HttpServletResponse response) {
 	      
@@ -258,23 +258,17 @@ public class MemberController {
 	      Service ss = sqlsession.getMapper(Service.class);
 	      MemberDTO result = ss.lookid(name,email);
 	      
-	      System.out.println("확인해 : "+result.id);
-	      System.out.println("확인해2 : "+result.name);
-	      System.out.println("뭘까? : "+result.toString());
-
-	      
 	      JSONObject returnObj = new JSONObject();
 	       
-	      if (result != null) {
-	           returnObj.put("name", result.getName());
-	           returnObj.put("id", result.getId());
-	       } 
-	      else 
-	      {
-	           returnObj.put("error", "가입하지 않은 회원입니다.");
-	       }
+	      try {
+	          returnObj.put("name", result.getName());
+	          returnObj.put("id", result.getId());
+	      } catch (NullPointerException e) {
+	          
+	          System.out.println("null? : " + result);
+	          returnObj.put("error", "가입하지 않은 회원입니다.");
+	      }
 
-	       
 	       return returnObj.toString();
 	   }
 	
@@ -348,6 +342,15 @@ public class MemberController {
         ss.member_modify(id, pw, name, email, gender, age, user_number);
  	
 		return "main";
+	}
+	
+	//마이페이지
+	
+	
+	@RequestMapping(value = "/mypage")
+	public String my1() {
+		
+		return "mypage";
 	}
 
 }

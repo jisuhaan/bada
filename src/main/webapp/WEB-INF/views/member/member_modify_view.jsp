@@ -7,7 +7,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta charset="UTF-8">
-	<title>바라는 바다! :: 회원 정보 수정</title>
+	<title>바라는 바다! :: 관리자 권한 회원 정보 수정</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function () {
@@ -39,6 +39,36 @@
                 }
             });
         });
+        
+        
+	        $("#emailcheck").click(function () {
+	            var email = $("#email").val();
+	            
+	         	// 이메일이 비어 있을 때 이메일 중복 검사를 할 경우
+	            if (email.trim() === "") {
+	                alert("이메일을 입력해주세요.");
+	                return;
+	            }
+	
+	            $.ajax({
+	                type: "post",
+	                async: true,
+	                dataType: "text",
+	                url: "emailcheck",
+	                data: {"email": email},
+	                success: function (result) {
+	                    if (result == "ok") {
+	                        alert("사용 가능한 이메일입니다.");
+	                    } 
+	                    else {
+	                        alert("이미 가입된 이메일입니다.");
+	                    }
+	                },
+	                error: function () {
+	                    alert("오류가 발생했습니다.");
+	                }
+	            });
+	        });
         
 
 		    $("#submitBtn").click(function () {
@@ -127,6 +157,10 @@
     </script>
 </head>
 <body>
+
+<c:choose>
+	<c:when test="${loginstate==true && position=='admin'}">
+
 	<div style="text-align: center;">
 	  <form action="member_modify" method="post">
 		<c:forEach items="${list}" var="li">
@@ -198,6 +232,20 @@
 	</div>
 
     <div style="text-align: center;"><a href="member_out">목록으로</a></div>
+    
+    </c:when>
+    
+    <c:otherwise>
+	
+		<script>
+			window.onload = function() {
+			    alert("관리자 외 접근할 수 없는 페이지 입니다.");
+			    window.location.href = "${pageContext.request.contextPath}/main";
+			};
+	    </script>
+	    
+	</c:otherwise>
+</c:choose>
 
 </body>
 </html>

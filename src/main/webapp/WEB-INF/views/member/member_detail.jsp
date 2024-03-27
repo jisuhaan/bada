@@ -8,6 +8,10 @@
 <title>Insert title here</title>
 </head>
 <body>
+
+<c:choose>
+	<c:when test="${loginstate==true && position=='admin'}">
+
 	<div style="text-align: center;">
 		<c:forEach items="${list}" var="li">
 	    <table border="1" width="600" align="center">
@@ -58,6 +62,19 @@
 	</div>
 
     <div style="text-align: center;"><a href="member_out">목록으로</a></div>
-
+    
+    </c:when>
+    
+    <c:otherwise>
+	
+		<script>
+			window.onload = function() {
+			    alert("관리자 외 접근할 수 없는 페이지 입니다.");
+			    window.location.href = "${pageContext.request.contextPath}/main";
+			};
+	    </script>
+	    
+	</c:otherwise>
+</c:choose>
 </body>
 </html>

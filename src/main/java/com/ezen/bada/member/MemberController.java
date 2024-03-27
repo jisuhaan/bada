@@ -339,13 +339,66 @@ public class MemberController {
 		return "main";
 	}
 	
-	//마이페이지
+	/////* 마이페이지
 	
 	
 	@RequestMapping(value = "/mypage")
-	public String my1() {
+	public String mypage(HttpServletRequest request, Model mo) {
 		
+		String loginid = request.getParameter("loginid");
+		Service ss = sqlsession.getMapper(Service.class);
+	    MemberDTO result = ss.myinfo_main(loginid);
+	    mo.addAttribute("info", result);		
+
 		return "mypage";
+	}
+	
+	// 회원정보수정확인창
+	
+	@RequestMapping(value = "/info_modify")
+	public String mypage_modi1(HttpServletRequest request, Model mo) {
+		
+		String id = request.getParameter("id");
+		Service ss = sqlsession.getMapper(Service.class);
+	    MemberDTO myinfo = ss.myinfo_modify(id);
+	    mo.addAttribute("info", myinfo);
+
+		return "info_modify";
+	}
+	
+	// 회원정보 수정완료
+	@RequestMapping(value = "infomodi_save" , method = RequestMethod.POST)
+	public String mypage_modi2(HttpServletRequest request) {
+		
+	    String id = request.getParameter("id");
+	    String email = request.getParameter("email");
+	    String gender = request.getParameter("gender");
+	    int age = Integer.parseInt(request.getParameter("age"));
+
+	    String pw = request.getParameter("pw");
+	    if (pw != null && !pw.trim().isEmpty()) {
+	        // 비밀번호 변경시
+	        Service service = sqlsession.getMapper(Service.class);
+	        service.info_update1(id, pw, email, gender, age);
+	    } else {
+	        // 비밀번호 미변경시
+	        Service service = sqlsession.getMapper(Service.class);
+	        service.info_update2(id, email, gender, age);
+	    }
+	    
+	    
+		return "redirect:/mypage";
+	}
+	
+	
+	//탈퇴하기
+	
+	
+	@RequestMapping(value = "/#")
+	public String my3(HttpServletRequest request, Model mo) {
+		
+
+		return "#";
 	}
 
 }

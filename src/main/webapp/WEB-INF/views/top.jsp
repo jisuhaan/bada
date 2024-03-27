@@ -38,7 +38,7 @@
 <c:choose>
 	<c:when test="${loginstate==true}">
 		<li class="navbar__menud" id="myinfo">
-		<a href="mypage">${loginid} 님의<br>마이페이지</a>
+		<a href="mypage?loginid=${loginid}">${loginid} 님의<br>마이페이지</a>
 		</li>
 		<li class="navbar__menud">
 		<a href="logout">로그아웃</a>

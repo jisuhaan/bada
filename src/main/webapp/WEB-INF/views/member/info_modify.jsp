@@ -37,6 +37,13 @@ function CheckForm() {
             return false;
         }
     }
+    
+	// 이메일 유효성 검사
+    var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+        alert("올바른 이메일 형식이 아닙니다.");
+        return false;
+    }
 
     return true;
 }
@@ -78,7 +85,7 @@ function CheckForm() {
             <tr>
                 <th>이메일</th>
                 <td>
-                    <input type="email" id="email" value="${info.email}" required>
+                    <input type="email" id="email" value="${info.email}" onchange="check_Email(this.value)" required>
                 </td>
             </tr>
             <tr>

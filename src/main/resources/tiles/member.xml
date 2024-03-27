@@ -59,7 +59,20 @@
 	</definition>	
 	
 	<definition name="member_modify_view" extends="baseLayout">
-		<put-attribute name="title" value="바라는 바다! :: 회원 정보 수정창"/>
+		<put-attribute name="title" value="바라는 바다! :: 관리자 권한 회원 정보 수정"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/member_modify_view.jsp"/>
-	</definition>		   
+	</definition>
+	
+	<definition name="mypage" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 마이페이지"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/mypage.jsp"/>
+	</definition>
+
+
+	<definition name="info_modify" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 나의 정보 수정"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/info_modify.jsp"/>
+	</definition>	
+	
+			   
 </tiles-definitions>

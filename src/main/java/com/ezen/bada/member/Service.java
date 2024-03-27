@@ -44,4 +44,14 @@ public interface Service {
 
 	void member_modify(String id, String pw, String name, String email, String gender, int age, int user_number);
 
+	String emailcheck(String email);
+
+	MemberDTO myinfo_main(String loginid);
+
+	MemberDTO myinfo_modify(String id);
+
+	void info_update1(String id, String pw, String email, String gender, int age);
+
+	void info_update2(String id, String email, String gender, int age);
+
 }

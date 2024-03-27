@@ -78,8 +78,8 @@ $(document).ready(function(){
                  alert("이름 : " + result.name + "\n아이디 : " + result.id);
              }
 			
-		},error: function(){
-			
+		},error: function(xhr, status, error){
+			console.log(xhr.responseText);
 			alert("데이터 전송 과정에 에러발생");
 		}
 		

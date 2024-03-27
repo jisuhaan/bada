@@ -12,6 +12,10 @@
 	select id from bada_user where id=#{param1}
 </select>
 
+<select id="emailcheck" resultType="java.lang.String">
+	select email from bada_user where email=#{param1}
+</select>
+
 <insert id="membersave">
 	insert into bada_user(user_number,id,pw,name,email,gender,age)
 	values (user_seq.nextval, #{param1}, #{param2}, #{param3},
@@ -116,5 +120,18 @@ from. (정)지수 -->
 <update id="member_modify">
 	update bada_user set id = #{param1}, pw = #{param2}, name = #{param3}, email = #{param4}, gender = #{param5}, age = #{param6} where user_number = #{param7}
 </update>
+
+
+<!-- 마이페이지 -->
+
+<select id="myinfo_main" resultType="com.ezen.bada.member.MemberDTO">
+	select * from bada_user where id = #{param1}
+</select>
+
+<select id="myinfo_modify" resultType="com.ezen.bada.member.MemberDTO">
+	select * from bada_user where id = #{param1}
+</select>
+
+
 
 </mapper>

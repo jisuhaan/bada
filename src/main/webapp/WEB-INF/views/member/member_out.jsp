@@ -25,6 +25,9 @@
 
 
 <body>
+
+<c:choose>
+	<c:when test="${loginstate==true && position=='admin'}">
 	
 	<table border="1" align="center" width="80%">
 	
@@ -68,6 +71,20 @@
 	   
 	<br> <br>
 	<a href="main">메인으로</a>
+	
+	</c:when>
+	
+	<c:otherwise>
+	
+		<script>
+			window.onload = function() {
+			    alert("관리자 외 접근할 수 없는 페이지 입니다.");
+			    window.location.href = "${pageContext.request.contextPath}/main";
+			};
+	    </script>
+	    
+	</c:otherwise>
+</c:choose>
 	
 </body>
 

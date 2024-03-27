@@ -14,7 +14,7 @@
 
 body {
 	width:1800px;
-	background-color: #f5eedd;
+	background-color: #f5f1e5;
 	font-family: Pretendard;
 	margin:0 auto;
 }
@@ -110,7 +110,7 @@ a {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background: #f5eedd;
+	background: #f5f1e5;
 	padding: 10px;
 	margin:0 auto;
 }

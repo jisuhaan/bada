@@ -13,7 +13,7 @@
 <body>
 <nav class="navbar">
 	<div class="navbar__logo">
-		<a href="./">바라는 바다!</a>
+		<a href="./"><img src="./resources/image/로고4-1.png" width="200px" height="120px"></a>
 	</div>
 	<ul class="navbar__menu">
 		<li class="navbar__menud"><a href="#">회원관리</a>
@@ -27,7 +27,7 @@
 			<li class="navbar__menud"><a href="#">바다정보</a>
 			<div class="navbar__dropdown">
 			<ul>
-				<li class="navbar__dropdownli"><a href="#">바다정보</a></li>
+				<li class="navbar__dropdownli"><a href="sea_info">바다정보</a></li>
 				<li class="navbar__dropdownli"><a href="#">후기정보</a></li>
 			</ul>
 			</div>

@@ -272,34 +272,29 @@ public class MemberController {
 	       return returnObj.toString();
 	   }
 	
-	   @ResponseBody
+	 @ResponseBody
 	   @RequestMapping(value = "/look_pw",method = RequestMethod.POST , produces = "application/json;charset=UTF-8")
 	   public String look2(HttpServletRequest request, HttpServletResponse response) {
 	      
+		   
 	      String id = request.getParameter("id");
 	      String email = request.getParameter("email");
 
 	      System.out.println("email"+email);
 	      
-	      
 	      Service ss = sqlsession.getMapper(Service.class);
 	      MemberDTO result = ss.lookpw(id,email);
 	      
-	      System.out.println("확인해 : "+result.id);
-	      System.out.println("확인해2 : "+result.name);
-	      System.out.println("뭘까? : "+result.toString());
-
 	      
 	      JSONObject returnObj = new JSONObject();
 	       
-	      if (result != null) {
-	           returnObj.put("name", result.getName());
-	           returnObj.put("pw", result.getPw());
-	       } 
-	      else 
-	      {
-	           returnObj.put("error", "해당 회원정보로 가입된 회원이 없습니다.");
-	       }
+	      try {
+	    	  returnObj.put("name", result.getName());
+	          returnObj.put("pw", result.getPw());
+	      } catch (NullPointerException e) {
+	         
+	    	  returnObj.put("error", "해당 회원정보로 가입된 회원이 없습니다.");
+	      }
 
 	       
 	       return returnObj.toString();

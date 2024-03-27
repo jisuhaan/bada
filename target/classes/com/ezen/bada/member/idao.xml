@@ -12,6 +12,10 @@
 	select id from bada_user where id=#{param1}
 </select>
 
+<select id="emailcheck" resultType="java.lang.String">
+	select email from bada_user where email=#{param1}
+</select>
+
 <insert id="membersave">
 	insert into bada_user(user_number,id,pw,name,email,gender,age)
 	values (user_seq.nextval, #{param1}, #{param2}, #{param3},

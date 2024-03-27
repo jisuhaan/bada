@@ -17,6 +17,8 @@ public class WeatherController {
 	public String weather1(Model model) {
 		Bada_list_DTO weatherData = fetchWeatherData();
         // 가져온 날씨 정보를 모델에 추가하여 JSP로 전달
+		Service service = sqlsession.getMapper(Service.class);
+		
         model.addAttribute("weatherData", weatherData);
 		return "sea_info";
 	}

@@ -14,5 +14,9 @@
 		<put-attribute name="body" value="/WEB-INF/views/weathers/sea_info.jsp"/>
 	</definition>
 
+	<definition name="sea_search" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 바다정보 :: 지역 api 예제"/>
+		<put-attribute name="body" value="/WEB-INF/views/weathers/sea_search.jsp"/>
+	</definition>
 	
 </tiles-definitions>

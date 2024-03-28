@@ -1,5 +1,7 @@
 package com.ezen.bada.weathers;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Bada_list_DTO {
 	// 해수욕장 기본 정보
 	String beach;
@@ -12,22 +14,50 @@ public class Bada_list_DTO {
 	int gride_y;
 	
 	// 해수욕장 단기 예보 결과
-	int baseDate; //발표일자
-	int baseTime; //발표시간
-	int POP; //강수확률
-	String PTY; //강수형태 -> 코드 변환 필요
-	int PCP; //1시간 강수량
-	int REH; //습도
-	int SNO; //1시간 신적설
-	String SKY; //하늘상태 -> 코드 변환 필요
-	int TMP; //1시간 기온
-	int TMN; //아침 최저기온
-	int TMX; //낮 최고기온
-	int UUU; //풍속(동서성분)
-	int VVV; //풍속(남북성분)
-	int WAV; //파고
-	int VEC; //풍향
-	int WSD; //풍속
+	String baseDate; //발표일자
+	String baseTime; //발표시간
+	// 어노테이션을 붙여야 json의 key값이 아래 dto 필드명에 정확하게 찾아감
+	@JsonProperty("POP") // 강수확률
+    int pop;
+
+    @JsonProperty("PTY") // 강수형태 -> 코드 변환 필요
+    String pty;
+
+    @JsonProperty("PCP") // 1시간 강수량
+    int pcp;
+
+    @JsonProperty("REH") // 습도
+    int reh;
+
+    @JsonProperty("SNO") // 1시간 신적설
+    int sno;
+
+    @JsonProperty("SKY") // 하늘상태 -> 코드 변환 필요
+    String sky;
+
+    @JsonProperty("TMP") // 1시간 기온
+    int tmp;
+
+    @JsonProperty("TMN") // 아침 최저기온
+    int tmn;
+
+    @JsonProperty("TMX") // 낮 최고기온
+    int tmx;
+
+    @JsonProperty("UUU") // 풍속(동서성분)
+    int uuu;
+
+    @JsonProperty("VVV") // 풍속(남북성분)
+    int vvv;
+
+    @JsonProperty("WAV") // 파고
+    int wav;
+
+    @JsonProperty("VEC") // 풍향
+    int vec;
+
+    @JsonProperty("WSD") // 풍속
+    int wsd;
 
 	// 수온
 	int tm; // 관측시간 년월일시분
@@ -40,8 +70,8 @@ public class Bada_list_DTO {
 	public Bada_list_DTO() {}
 
 	public Bada_list_DTO(String beach, int beach_code, String state, String address, int latitude, int longitude,
-			int grid_x, int gride_y, int baseDate, int baseTime, int pOP, String pTY, int pCP, int rEH, int sNO,
-			String sKY, int tMP, int tMN, int tMX, int uUU, int vVV, int wAV, int vEC, int wSD, int tm, int tw,
+			int grid_x, int gride_y, String baseDate, String baseTime, int pop, String pty, int pcp, int reh, int sno,
+			String sky, int tmp, int tmn, int tmx, int uuu, int vvv, int wav, int vec, int wsd, int tm, int tw,
 			String sunrise, String sunset) {
 		super();
 		this.beach = beach;
@@ -54,20 +84,20 @@ public class Bada_list_DTO {
 		this.gride_y = gride_y;
 		this.baseDate = baseDate;
 		this.baseTime = baseTime;
-		POP = pOP;
-		PTY = pTY;
-		PCP = pCP;
-		REH = rEH;
-		SNO = sNO;
-		SKY = sKY;
-		TMP = tMP;
-		TMN = tMN;
-		TMX = tMX;
-		UUU = uUU;
-		VVV = vVV;
-		WAV = wAV;
-		VEC = vEC;
-		WSD = wSD;
+		this.pop = pop;
+		this.pty = pty;
+		this.pcp = pcp;
+		this.reh = reh;
+		this.sno = sno;
+		this.sky = sky;
+		this.tmp = tmp;
+		this.tmn = tmn;
+		this.tmx = tmx;
+		this.uuu = uuu;
+		this.vvv = vvv;
+		this.wav = wav;
+		this.vec = vec;
+		this.wsd = wsd;
 		this.tm = tm;
 		this.tw = tw;
 		this.sunrise = sunrise;
@@ -138,132 +168,132 @@ public class Bada_list_DTO {
 		this.gride_y = gride_y;
 	}
 
-	public int getBaseDate() {
+	public String getBaseDate() {
 		return baseDate;
 	}
 
-	public void setBaseDate(int baseDate) {
+	public void setBaseDate(String baseDate) {
 		this.baseDate = baseDate;
 	}
 
-	public int getBaseTime() {
+	public String getBaseTime() {
 		return baseTime;
 	}
 
-	public void setBaseTime(int baseTime) {
+	public void setBaseTime(String baseTime) {
 		this.baseTime = baseTime;
 	}
 
-	public int getPOP() {
-		return POP;
+	public int getPop() {
+		return pop;
 	}
 
-	public void setPOP(int pOP) {
-		POP = pOP;
+	public void setPop(int pop) {
+		this.pop = pop;
 	}
 
-	public String getPTY() {
-		return PTY;
+	public String getPty() {
+		return pty;
 	}
 
-	public void setPTY(String pTY) {
-		PTY = pTY;
+	public void setPty(String pty) {
+		this.pty = pty;
 	}
 
-	public int getPCP() {
-		return PCP;
+	public int getPcp() {
+		return pcp;
 	}
 
-	public void setPCP(int pCP) {
-		PCP = pCP;
+	public void setPcp(int pcp) {
+		this.pcp = pcp;
 	}
 
-	public int getREH() {
-		return REH;
+	public int getReh() {
+		return reh;
 	}
 
-	public void setREH(int rEH) {
-		REH = rEH;
+	public void setReh(int reh) {
+		this.reh = reh;
 	}
 
-	public int getSNO() {
-		return SNO;
+	public int getSno() {
+		return sno;
 	}
 
-	public void setSNO(int sNO) {
-		SNO = sNO;
+	public void setSno(int sno) {
+		this.sno = sno;
 	}
 
-	public String getSKY() {
-		return SKY;
+	public String getSky() {
+		return sky;
 	}
 
-	public void setSKY(String sKY) {
-		SKY = sKY;
+	public void setSky(String sky) {
+		this.sky = sky;
 	}
 
-	public int getTMP() {
-		return TMP;
+	public int getTmp() {
+		return tmp;
 	}
 
-	public void setTMP(int tMP) {
-		TMP = tMP;
+	public void setTmp(int tmp) {
+		this.tmp = tmp;
 	}
 
-	public int getTMN() {
-		return TMN;
+	public int getTmn() {
+		return tmn;
 	}
 
-	public void setTMN(int tMN) {
-		TMN = tMN;
+	public void setTmn(int tmn) {
+		this.tmn = tmn;
 	}
 
-	public int getTMX() {
-		return TMX;
+	public int getTmx() {
+		return tmx;
 	}
 
-	public void setTMX(int tMX) {
-		TMX = tMX;
+	public void setTmx(int tmx) {
+		this.tmx = tmx;
 	}
 
-	public int getUUU() {
-		return UUU;
+	public int getUuu() {
+		return uuu;
 	}
 
-	public void setUUU(int uUU) {
-		UUU = uUU;
+	public void setUuu(int uuu) {
+		this.uuu = uuu;
 	}
 
-	public int getVVV() {
-		return VVV;
+	public int getVvv() {
+		return vvv;
 	}
 
-	public void setVVV(int vVV) {
-		VVV = vVV;
+	public void setVvv(int vvv) {
+		this.vvv = vvv;
 	}
 
-	public int getWAV() {
-		return WAV;
+	public int getWav() {
+		return wav;
 	}
 
-	public void setWAV(int wAV) {
-		WAV = wAV;
+	public void setWav(int wav) {
+		this.wav = wav;
 	}
 
-	public int getVEC() {
-		return VEC;
+	public int getVec() {
+		return vec;
 	}
 
-	public void setVEC(int vEC) {
-		VEC = vEC;
+	public void setVec(int vec) {
+		this.vec = vec;
 	}
 
-	public int getWSD() {
-		return WSD;
+	public int getWsd() {
+		return wsd;
 	}
 
-	public void setWSD(int wSD) {
-		WSD = wSD;
+	public void setWsd(int wsd) {
+		this.wsd = wsd;
 	}
 
 	public int getTm() {
@@ -297,6 +327,8 @@ public class Bada_list_DTO {
 	public void setSunset(String sunset) {
 		this.sunset = sunset;
 	}
-	
+
+
+
 	
 }

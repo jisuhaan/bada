@@ -32,8 +32,8 @@
 }
 
 .bg-video__content{
-	height: 100%;
-	width: 100%;
+	height: auto;
+	width: auto;
 	object-fit: cover; 
 }
 

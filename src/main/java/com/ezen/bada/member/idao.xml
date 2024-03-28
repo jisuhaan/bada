@@ -5,25 +5,21 @@
 <mapper namespace="com.ezen.bada.member.Service">
 
 <select id="login_check" resultType="String">
-	SELECT role FROM bada_user WHERE id =#{param1} and pw = #{param2}
+   SELECT role FROM bada_user WHERE id =#{param1} and pw = #{param2}
 </select>
 
 <select id="idcheck" resultType="java.lang.String">
-	select id from bada_user where id=#{param1}
-</select>
-
-<select id="emailcheck" resultType="java.lang.String">
-	select email from bada_user where email=#{param1}
+   select id from bada_user where id=#{param1}
 </select>
 
 <insert id="membersave">
-	insert into bada_user(user_number,id,pw,name,email,gender,age)
-	values (user_seq.nextval, #{param1}, #{param2}, #{param3},
-	#{param4}, #{param5}, #{param6})
+   insert into bada_user(user_number,id,pw,name,email,gender,age)
+   values (user_seq.nextval, #{param1}, #{param2}, #{param3},
+   #{param4}, #{param5}, #{param6})
 </insert>
 
 <select id="memberout" resultType="com.ezen.bada.member.MemberDTO">
-	select * from bada_user
+   select * from bada_user
 </select>
 <!-- 기본 memberout이지만 일단은 *로 뽑았습니다! jsp 파일에서 출력 시에 출력만 선별해서 하면 되니까요!
 근데 혹시 보안상의 문제가 있을 것 같다면 select user_number, id, name, gender, age from bada_user로 수정해주셔도 좋아용~
@@ -31,74 +27,65 @@ from. (정)지수 -->
 
 <!-- 서치의 늪 시작 -->
 <select id="member_search_num_n_n" resultType="com.ezen.bada.member.MemberDTO">
-	select * from bada_user where user_number like '%' || #{param1} || '%'
+   select * from bada_user where user_number like '%' || #{param1} || '%'
 </select>
 
 <select id="member_search_num_n_a" resultType="com.ezen.bada.member.MemberDTO">
-	select * from bada_user where user_number like '%' || #{param1} || '%' 
-	and age = #{param2}
+   select * from bada_user where user_number like '%' || #{param1} || '%' 
+   and age = #{param2}
 </select>
 
 <select id="member_search_num_g_n" resultType="com.ezen.bada.member.MemberDTO">
-	select * from bada_user where user_number like '%' || #{param1} || '%' 
-	and gender = #{param2}
+   select * from bada_user where user_number like '%' || #{param1} || '%' 
+   and gender = #{param2}
 </select>
 
 <select id="member_search_num_g_a" resultType="com.ezen.bada.member.MemberDTO">
-	select * from bada_user where user_number like '%' || #{param1} || '%'
-	and gender = #{param2} and age = #{param3}
+   select * from bada_user where user_number like '%' || #{param1} || '%'
+   and gender = #{param2} and age = #{param3}
 </select>
 <!-- 회원번호로 서치 끝 -->
 
 <select id="member_search_id_n_n" resultType="com.ezen.bada.member.MemberDTO">
-	select * from bada_user where id like '%' || #{param1} || '%'
+   select * from bada_user where id like '%' || #{param1} || '%'
 </select>
 
 <select id="member_search_id_n_a" resultType="com.ezen.bada.member.MemberDTO">
-	select * from bada_user where id like '%' || #{param1} || '%' 
-	and age = #{param2}
+   select * from bada_user where id like '%' || #{param1} || '%' 
+   and age = #{param2}
 </select>
 
 <select id="member_search_id_g_n" resultType="com.ezen.bada.member.MemberDTO">
-	select * from bada_user where id like '%' || #{param1} || '%' 
-	and gender = #{param2}
+   select * from bada_user where id like '%' || #{param1} || '%' 
+   and gender = #{param2}
 </select>
 
 <select id="member_search_id_g_a" resultType="com.ezen.bada.member.MemberDTO">
-	select * from bada_user where id like '%' || #{param1} || '%'
-	and gender = #{param2} and age = #{param3}
+   select * from bada_user where id like '%' || #{param1} || '%'
+   and gender = #{param2} and age = #{param3}
 </select>
 <!-- 아이디로 서치 끝 -->
 
 <select id="member_search_name_n_n" resultType="com.ezen.bada.member.MemberDTO">
-	select * from bada_user where name like '%' || #{param1} || '%'
+   select * from bada_user where name like '%' || #{param1} || '%'
 </select>
 
 <select id="member_search_name_n_a" resultType="com.ezen.bada.member.MemberDTO">
-	select * from bada_user where name like '%' || #{param1} || '%' 
-	and age = #{param2}
+   select * from bada_user where name like '%' || #{param1} || '%' 
+   and age = #{param2}
 </select>
 
 <select id="member_search_name_g_n" resultType="com.ezen.bada.member.MemberDTO">
-	select * from bada_user where name like '%' || #{param1} || '%' 
-	and gender = #{param2}
+   select * from bada_user where name like '%' || #{param1} || '%' 
+   and gender = #{param2}
 </select>
 
 <select id="member_search_name_g_a" resultType="com.ezen.bada.member.MemberDTO">
-	select * from bada_user where name like '%' || #{param1} || '%'
-	and gender = #{param2} and age = #{param3}
+   select * from bada_user where name like '%' || #{param1} || '%'
+   and gender = #{param2} and age = #{param3}
 </select>
 <!-- 이름으로 서치 끝 -->
 
-<!-- 회원 번호로 정보 전체 가져오기 -->
-<select id="member_detail_out" resultType="com.ezen.bada.member.MemberDTO">
-	select * from bada_user where user_number = #{param1}
-</select>
-
-<!-- 회원 정보 수정하기 -->
-<update id="member_modify">
-	update bada_user set id = #{param1}, pw = #{param2}, name = #{param3}, email = #{param4}, gender = #{param5}, age = #{param6} where user_number = #{param7}
-</update>
 
 <!-- 회원정보 찾기 -->
 
@@ -113,25 +100,52 @@ from. (정)지수 -->
 
 <!-- 회원 번호로 정보 전체 가져오기 -->
 <select id="member_detail_out" resultType="com.ezen.bada.member.MemberDTO">
-	select * from bada_user where user_number = #{param1}
+   select * from bada_user where user_number = #{param1}
 </select>
 
 <!-- 회원 정보 수정하기 -->
 <update id="member_modify">
-	update bada_user set id = #{param1}, pw = #{param2}, name = #{param3}, email = #{param4}, gender = #{param5}, age = #{param6} where user_number = #{param7}
+   update bada_user set id = #{param1}, pw = #{param2}, name = #{param3}, email = #{param4}, gender = #{param5}, age = #{param6} where user_number = #{param7}
 </update>
 
 
 <!-- 마이페이지 -->
 
 <select id="myinfo_main" resultType="com.ezen.bada.member.MemberDTO">
-	select * from bada_user where id = #{param1}
+   select * from bada_user where id = #{param1}
 </select>
 
 <select id="myinfo_modify" resultType="com.ezen.bada.member.MemberDTO">
-	select * from bada_user where id = #{param1}
+   select * from bada_user where id = #{param1}
+</select>
+<!-- 이메일 중복확인 -->
+<select id="email_check" resultType="String">
+   select email from bada_user where email = #{param1}
 </select>
 
+<!-- 회원정보 수정 -->
+<update id="update_info">
+   update bada_user set pw = #{param2}, email = #{param3}, gender = #{param4}, age = #{param5} where id = #{param1}
+</update>
 
+<update id="update_no_pw">
+   update bada_user set email = #{param2}, gender = #{param3}, age = #{param4} where id = #{param1}
+</update>
+
+<!-- 비밀번호 검증 -->
+
+<select id="verify_Password" resultType="String">
+   select pw from bada_user where id = #{param1}
+</select>
+
+<select id="quit_Password" resultType="String">
+   select pw from bada_user where id = #{param1}
+</select>
+
+<!-- 회원탈퇴 -->
+
+<delete id="quit_member">
+	delete from bada_user where id = #{param1}
+</delete>
 
 </mapper>

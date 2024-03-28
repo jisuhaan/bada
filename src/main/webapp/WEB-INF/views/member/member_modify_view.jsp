@@ -11,34 +11,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function () {
-        $("#idcheck").click(function () {
-            var id = $("#id").val();
-            
-         	// 아이디가 비어 있을 때 아이디 중복 검사를 할 경우
-            if (id.trim() === "") {
-                alert("아이디를 입력해주세요.");
-                return;
-            }
-
-            $.ajax({
-                type: "post",
-                async: true,
-                dataType: "text",
-                url: "idcheck",
-                data: {"id": id},
-                success: function (result) {
-                    if (result == "ok") {
-                        alert("사용 가능한 아이디입니다.");
-                    } 
-                    else {
-                        alert("중복된 아이디입니다.");
-                    }
-                },
-                error: function () {
-                    alert("오류가 발생했습니다.");
-                }
-            });
-        });
         
         
 	        $("#emailcheck").click(function () {
@@ -80,6 +52,13 @@
 		        var gender = $("input[name='gender']:checked").val();
 		        var age = $("#age").val();
 				var user_number = $("#user_number").val();
+				
+				var admin_pw=prompt("관리자 비밀번호를 입력해주세요."); //모든 조건 통과 시 전송 전에 관리자 비밀번호 한 번 더 확인
+				
+				if(admin_pw.trim() === "") {
+	                alert("관리자 비밀번호를 공란으로 둘 수 없습니다.");
+	                return;
+	            } //관리자 비밀번호를 공란으로 제출한 경우
 				
 		        // 아이디 유효성 검사
 		        var idPattern = /^[a-zA-Z0-9]{6,20}$/;
@@ -131,7 +110,7 @@
 		        // 모든 조건 통과 시 폼 제출
 		        $.ajax({
 		            type: "post",
-		            url: "member_modify",
+		            url: "member_admin_check",
 		            data: {
 		            	user_number : user_number,
 		                id: id,
@@ -139,17 +118,23 @@
 		                name: name,
 		                email: email,
 		                gender: gender,
-		                age: age
+		                age: age,
+		                admin_pw: admin_pw
 		            },
-		            success: function (response) {
-		                // 저장이 성공적으로 이루어졌을 때 알럿창을 띄움
-		            	alert("회원수정이 완료되었습니다.");
-		            	alert('메인화면으로 이동합니다.');
-	            		window.location.href='main';
-		            },
-		            error: function () {
-		                alert("오류가 발생했습니다.");
-		            }
+		            dataType: "json",
+	                success: function (response) {
+	                    if (response.result === "ok") {
+	                        alert("회원 정보 변경이 완료되었습니다.");
+	                        window.location.href = 'member_out';
+	                    } else {
+	                        alert("관리자 비밀번호가 맞지 않습니다.");
+	                        window.location.href = 'main';
+	                    }
+	                },
+	                error: function () {
+	                    alert("서버 오류가 발생했습니다.");
+	                    window.location.href = 'member_out';
+	                }
 		        });
 		
 		    });
@@ -162,15 +147,14 @@
 	<c:when test="${loginstate==true && position=='admin'}">
 
 	<div style="text-align: center;">
-	  <form action="member_modify" method="post">
+	  <form action="member_admin_check" method="post">
 		<c:forEach items="${list}" var="li">
 		  <input type="hidden" name="user_number" id="user_number" value="${li.user_number}">
 	      <table border="1" width="600" align="center">
 	        <tr>
                 <th>아이디</th>
                 <td>
-                    <input type="text" name="id" id="id" value="${li.id}" placeholder="영어 소문자와 숫자를 포함해 6-20자" required>
-                	<input type="button" value="중복 확인" id="idcheck">
+                    <input type="text" name="id" id="id" value="${li.id}" readonly>
                 </td>
             </tr>
             <tr>
@@ -195,14 +179,15 @@
                 <th>이메일</th>
                 <td>
                     <input type="email" id="email" value="${li.email}" placeholder="이메일을 ----@--.- 형식으로 입력해주세요." required>
+                	<input type="button" value="중복 확인" id="emailcheck">
                 </td>
             </tr>
             <tr>
                 <th>성별</th>
                 <td>
-                    <input type="radio" name="gender" value="male" required <c:if test="${li.gender eq male}">checked</c:if>> 남성
-                    <input type="radio" name="gender" value="female" required <c:if test="${li.gender eq female}">checked</c:if>> 여성
-                    <input type="radio" name="gender" value="other" required <c:if test="${li.gender eq other}">checked</c:if>> 밝히고 싶지 않음(기타)
+                    <input type="radio" name="gender" value="male" id="male" <c:if test="${li.gender eq 'male'}">checked</c:if>> 남성
+        			<input type="radio" name="gender" value="female" id="female" <c:if test="${li.gender eq 'female'}">checked</c:if>> 여성
+        			<input type="radio" name="gender" value="other" id="other" <c:if test="${li.gender eq 'other'}">checked</c:if>> 밝히고 싶지 않음(기타)
                 </td>
             </tr>
 			<tr>

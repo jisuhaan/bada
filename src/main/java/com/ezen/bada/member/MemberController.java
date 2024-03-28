@@ -357,21 +357,35 @@ public class MemberController {
 		return "member_modify_view";
 	}
 	
-	@RequestMapping(value = "/member_modify", method = RequestMethod.POST)
-	public String member_modify(HttpServletRequest request) throws IOException {
-		int user_number = Integer.parseInt(request.getParameter("user_number"));
+	
+	@RequestMapping(value = "/member_admin_check", method = RequestMethod.POST)
+	public void memberadmincheck(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
+		int user_number = Integer.parseInt(request.getParameter("user_number"));
 		String id = request.getParameter("id");
         String pw = request.getParameter("pw");
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String gender = request.getParameter("gender");
         int age=Integer.parseInt(request.getParameter("age"));
-
+        String admin_pw=request.getParameter("admin_pw");
+        
         Service ss=sqlsession.getMapper(Service.class);
-        ss.member_modify(id, pw, name, email, gender, age, user_number);
- 	
-		return "main";
+        String bringadmin=ss.admincheck(admin_pw);
+        System.out.println("어드민 아이디는 당연히: "+bringadmin);
+        
+        JSONObject jsonResponse = new JSONObject();
+
+        if (bringadmin != null) {
+            ss.member_modify(pw, name, email, gender, age, id);
+            jsonResponse.put("result", "ok"); // 수정 성공 시
+        } else {
+            jsonResponse.put("result", "nope");
+        }
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsonResponse.toString());
 	}
 
 }

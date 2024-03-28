@@ -42,8 +42,10 @@ public interface Service {
 	
 	ArrayList<MemberDTO> member_detail_out(int user_number);
 
-	void member_modify(String id, String pw, String name, String email, String gender, int age, int user_number);
-
 	String emailcheck(String email);
+
+	String admincheck(String admin_pw);
+
+	void member_modify(String pw, String name, String email, String gender, int age, String id);
 
 }

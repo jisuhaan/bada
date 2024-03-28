@@ -41,11 +41,26 @@
 	        </tr>
 	       	<tr>
 	        	<th>성별</th>
-	        	<td>${li.gender}</td> 
+	        	<td>
+		        	<c:choose>
+						    <c:when test="${m.gender == 'male'}">남성</c:when>
+						    <c:when test="${m.gender == 'female'}">여성</c:when>
+						    <c:when test="${m.gender == 'other'}">밝히고 싶지 않음(기타)</c:when>
+					</c:choose>
+		        </td> 
 	        </tr>	   
 	       	<tr>
 	        	<th>연령대</th>
-	        	<td>${li.age}</td> 
+	        	<td>
+		        	<c:choose>
+						    <c:when test="${m.age == 10}">10대 이하</c:when>
+						    <c:when test="${m.age == 20}">20대</c:when>
+						    <c:when test="${m.age == 30}">30대</c:when>
+						    <c:when test="${m.age == 40}">40대</c:when>
+						    <c:when test="${m.age == 50}">50대</c:when>
+						    <c:when test="${m.age == 60}">60대 이상</c:when>
+					</c:choose>
+		        </td>
 	        </tr>		
 	       	<tr>
 	        	<th>bbti</th>

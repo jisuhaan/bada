@@ -12,31 +12,19 @@
 
 <style type="text/css">
 
-#top header {
-	width: 100%;
-	background: #FFFFFF;
-	color: #004d31;
-	padding-top: 20px;
-	padding-bottom: 20px;
-	text-align: center;
-}
-
-#top .parentheader{
-	display:flex;
-	align-items: center;
-	justify-content: space-between;
-}
-
 </style>
 
 </head>
 <body>
    <div id="container">
-      <div id="top">
-         <t:insertAttribute name="top"/>
-      </div>
       <div id="body">
          <t:insertAttribute name="body"/>
+      </div>
+      <div id="sidebar-left">
+      	<t:insertAttribute name="sidebar"/>
+      </div>
+      <div id="footer">
+         <t:insertAttribute name="footer"/>
       </div>
    </div>
 </body>

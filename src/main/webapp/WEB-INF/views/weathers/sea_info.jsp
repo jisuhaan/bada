@@ -10,9 +10,9 @@
 <body>
 <div class="seamain">
 <div class="seamainleft">
-	<span id="maptext">가고싶은 지역을 선택해보세요!</span>
 	<div class="seamainmaps">
-	<img src="./resources/image/southKoreamap_origin.png" width="700px">
+	<span id="maptext">가고싶은 지역을 선택해보세요!</span>
+	<object type="image/svg+xml" data="./resources/svg/southKoreamap.svg" width="650px" height="800px" id="selectmap"></object>
 		<div class="map">
 			<ul class="map-step1"><!--링크 클릭 시 해당지역 추가-->
 				<li class="kyungin">

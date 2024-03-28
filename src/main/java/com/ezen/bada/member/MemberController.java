@@ -392,7 +392,7 @@ public class MemberController {
 	
 	// 회원정보 수정완료
 	@RequestMapping(value = "infomodi_save" , method = RequestMethod.POST)
-	public String mypage_modi2(HttpServletRequest request) {
+	public String mypage_modi2(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
 	    String id = request.getParameter("id");
 	    String email = request.getParameter("email");
@@ -403,15 +403,22 @@ public class MemberController {
 	    if (pw != null && !pw.trim().isEmpty()) {
 	        // 비밀번호 변경시
 	        Service service = sqlsession.getMapper(Service.class);
-	        service.info_update1(id, pw, email, gender, age);
+	        service.info_update1(pw, email, gender, age, id);
 	    } else {
 	        // 비밀번호 미변경시
 	        Service service = sqlsession.getMapper(Service.class);
-	        service.info_update2(id, email, gender, age);
+	        service.info_update2(email, gender, age, id);
 	    }
 	    
-	    
-		return "redirect:/mypage";
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		
+	    out.print("<script type='text/javascript'> alert('회원 정보 수정이 완료되었습니다!");
+	    out.print("window.location.href='main';");
+	    out.print("</script>");
+		
+		return null;
 	}
 	
 	

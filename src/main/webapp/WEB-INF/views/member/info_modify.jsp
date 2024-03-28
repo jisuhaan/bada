@@ -54,7 +54,7 @@ function CheckForm() {
             <tr>
                 <th>아이디</th>
                 <td>
-                    <input type="text" name="id" id="id" value="${info.id }" readonly>
+                    <input type="text" name="id" id="id" value="${info.id}" readonly>
                 </td>
             </tr>
             <tr>

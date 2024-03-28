@@ -9,8 +9,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<link href="${pageContext.request.contextPath}/resources/css/slide.css" rel="stylesheet" type="text/css">
-
 </head>
 <body>
 
@@ -24,17 +22,12 @@ if(hs.getAttribute("loginstate")==null){
 <div class="mainsearch">
 <span id="searchtext">떠나자, </span>
 <input type="text" name="area" id="area" placeholder="지역명을 입력하세요! ex)강원" class="searchbar">&nbsp;
-<a href="#"><i class="fa-solid fa-magnifying-glass fa-beat fa-xl" style="color: #ffcc57;"></i></a>&nbsp;
+<a href="#"><i class="fa-solid fa-magnifying-glass fa-beat fa-xl" style="color: #1B70A6;"></i></a>&nbsp;
 <span id="searchtext"> 바다로!</span>
 </div>
 
 <div class="mains">
-<div class="mainleft">
-<div class="mainmaps">
-<object type="image/svg+xml" data="./resources/svg/southKoreamap.svg" width="620px" height="800px">
-</object>
-</div>
-</div>
+<div class="mainleft"></div>
 <div class="mainright">
 <div class="righttop">지역별 추천글(베스트) 영역</div>
 <div class="rightbottom">날씨, 나도한마디</div>

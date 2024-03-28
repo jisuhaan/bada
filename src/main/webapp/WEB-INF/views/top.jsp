@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet" type="text/css">
-<script src="https://kit.fontawesome.com/097b31c9b8.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
 <nav class="navbar">

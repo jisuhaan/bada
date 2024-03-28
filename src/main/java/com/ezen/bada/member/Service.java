@@ -50,8 +50,8 @@ public interface Service {
 
 	MemberDTO myinfo_modify(String id);
 
-	void info_update1(String id, String pw, String email, String gender, int age);
+	void info_update1(String id, String pw, String email, int age, String gender);
 
-	void info_update2(String id, String email, String gender, int age);
+	void info_update2(String id, String email, int age, String gender);
 
 }

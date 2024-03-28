@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
 <!DOCTYPE html>
@@ -14,6 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function () {
+    	
         $("#idcheck").click(function () {
             var id = $("#id").val();
             
@@ -35,6 +38,36 @@
                     } 
                     else {
                         alert("중복된 아이디입니다.");
+                    }
+                },
+                error: function () {
+                    alert("오류가 발생했습니다.");
+                }
+            });
+        });
+        
+        
+        $("#emailcheck").click(function () {
+            var email = $("#email").val();
+            
+         	// 이메일이 비어 있을 때 이메일 중복 검사를 할 경우
+            if (email.trim() === "") {
+                alert("이메일을 입력해주세요.");
+                return;
+            }
+
+            $.ajax({
+                type: "post",
+                async: true,
+                dataType: "text",
+                url: "emailcheck",
+                data: {"email": email},
+                success: function (result) {
+                    if (result == "ok") {
+                        alert("사용 가능한 이메일입니다.");
+                    } 
+                    else {
+                        alert("이미 가입된 이메일입니다.");
                     }
                 },
                 error: function () {
@@ -120,8 +153,8 @@
 		            		window.location.href='member_try_bbti';
 		            	}
 		            	else{
-		            		alert('메인화면으로 이동합니다.');
-		            		window.location.href='main';
+		            		alert('메인 화면으로 이동합니다.');
+		            		window.location.href = 'main';
 		            	}
 		            },
 		            error: function () {
@@ -137,6 +170,9 @@
 
 
 <body>
+
+<c:choose>
+	<c:when test="${loginstate==false}">
 
     <form action="member_save" method="post" name="member_save_form">
         <table>
@@ -171,6 +207,7 @@
                 <th>이메일</th>
                 <td>
                     <input type="email" id="email" placeholder="이메일을 ----@--.- 형식으로 입력해주세요." required>
+                    <input type="button" value="중복 확인" id="emailcheck">
                 </td>
             </tr>
             <tr>
@@ -206,6 +243,21 @@
             </tr>
         </table>
     </form>
+    
+    </c:when>
+    
+    <c:otherwise>
+
+		<script>
+			window.onload = function() {
+			    alert("로그인한 회원은 새로 회원가입할 수 없습니다.");
+			    window.location.href = "${pageContext.request.contextPath}/main";
+			};
+	    </script>
+
+	</c:otherwise>
+	
+</c:choose>
 
 </body>
 

@@ -119,6 +119,30 @@ public class MemberController {
 		return result;
 
 	} //idcheck 종료
+	
+	@ResponseBody
+	@RequestMapping(value = "/emailcheck")
+	public String emailcheck(HttpServletRequest request) {
+		
+		String email = request.getParameter("email");
+		Service ss=sqlsession.getMapper(Service.class);
+
+		String result=""; //originemail로 얻어온 결과로 if문 실행
+		String originemail="";
+		
+		System.out.println("받아온 email : "+email);
+
+		originemail=ss.emailcheck(email); //originemail: table에서 email로 select where 해서 나온 값
+		if(originemail==null) {result="ok";} // 결과가 null이면 ok반환
+		else {result="nope";} //select 결과가 있으면 nope 반환
+
+		System.out.println("sql결과 : "+originemail);
+		System.out.println("최종결과 : "+result);
+		
+
+		return result;
+
+	} //emailcheck 종료
 
 	
 	
@@ -136,7 +160,7 @@ public class MemberController {
         Service ss=sqlsession.getMapper(Service.class);
         ss.membersave(id, pw, name, email, gender, age);
  	
-		return "main";
+		return "member_try_bbti";
 	}
 	
 	
@@ -245,7 +269,7 @@ public class MemberController {
 		return "member_out";
 	}
 	
-	   @ResponseBody
+	@ResponseBody
 	   @RequestMapping(value = "/look_id",method = RequestMethod.POST , produces = "application/json;charset=UTF-8")
 	   public String look1(HttpServletRequest request, HttpServletResponse response) {
 	      
@@ -258,54 +282,43 @@ public class MemberController {
 	      Service ss = sqlsession.getMapper(Service.class);
 	      MemberDTO result = ss.lookid(name,email);
 	      
-	      System.out.println("확인해 : "+result.id);
-	      System.out.println("확인해2 : "+result.name);
-	      System.out.println("뭘까? : "+result.toString());
-
-	      
 	      JSONObject returnObj = new JSONObject();
 	       
-	      if (result != null) {
-	           returnObj.put("name", result.getName());
-	           returnObj.put("id", result.getId());
-	       } 
-	      else 
-	      {
-	           returnObj.put("error", "가입하지 않은 회원입니다.");
-	       }
+	      try {
+	          returnObj.put("name", result.getName());
+	          returnObj.put("id", result.getId());
+	      } catch (NullPointerException e) {
+	          
+	          System.out.println("null? : " + result);
+	          returnObj.put("error", "가입하지 않은 회원입니다.");
+	      }
 
-	       
 	       return returnObj.toString();
 	   }
 	
-	   @ResponseBody
+	 @ResponseBody
 	   @RequestMapping(value = "/look_pw",method = RequestMethod.POST , produces = "application/json;charset=UTF-8")
 	   public String look2(HttpServletRequest request, HttpServletResponse response) {
 	      
+		   
 	      String id = request.getParameter("id");
 	      String email = request.getParameter("email");
 
 	      System.out.println("email"+email);
 	      
-	      
 	      Service ss = sqlsession.getMapper(Service.class);
 	      MemberDTO result = ss.lookpw(id,email);
 	      
-	      System.out.println("확인해 : "+result.id);
-	      System.out.println("확인해2 : "+result.name);
-	      System.out.println("뭘까? : "+result.toString());
-
 	      
 	      JSONObject returnObj = new JSONObject();
 	       
-	      if (result != null) {
-	           returnObj.put("name", result.getName());
-	           returnObj.put("pw", result.getPw());
-	       } 
-	      else 
-	      {
-	           returnObj.put("error", "해당 회원정보로 가입된 회원이 없습니다.");
-	       }
+	      try {
+	    	  returnObj.put("name", result.getName());
+	          returnObj.put("pw", result.getPw());
+	      } catch (NullPointerException e) {
+	         
+	    	  returnObj.put("error", "해당 회원정보로 가입된 회원이 없습니다.");
+	      }
 
 	       
 	       return returnObj.toString();
@@ -349,4 +362,67 @@ public class MemberController {
  	
 		return "main";
 	}
+	
+	/////* 마이페이지
+	
+	
+	@RequestMapping(value = "/mypage")
+	public String mypage(HttpServletRequest request, Model mo) {
+		
+		String loginid = request.getParameter("loginid");
+		Service ss = sqlsession.getMapper(Service.class);
+	    MemberDTO result = ss.myinfo_main(loginid);
+	    mo.addAttribute("info", result);		
+
+		return "mypage";
+	}
+	
+	// 회원정보수정확인창
+	
+	@RequestMapping(value = "/info_modify")
+	public String mypage_modi1(HttpServletRequest request, Model mo) {
+		
+		String id = request.getParameter("id");
+		Service ss = sqlsession.getMapper(Service.class);
+	    MemberDTO myinfo = ss.myinfo_modify(id);
+	    mo.addAttribute("info", myinfo);
+
+		return "info_modify";
+	}
+	
+	// 회원정보 수정완료
+	@RequestMapping(value = "infomodi_save" , method = RequestMethod.POST)
+	public String mypage_modi2(HttpServletRequest request) {
+		
+	    String id = request.getParameter("id");
+	    String email = request.getParameter("email");
+	    String gender = request.getParameter("gender");
+	    int age = Integer.parseInt(request.getParameter("age"));
+
+	    String pw = request.getParameter("pw");
+	    if (pw != null && !pw.trim().isEmpty()) {
+	        // 비밀번호 변경시
+	        Service service = sqlsession.getMapper(Service.class);
+	        service.info_update1(id, pw, email, gender, age);
+	    } else {
+	        // 비밀번호 미변경시
+	        Service service = sqlsession.getMapper(Service.class);
+	        service.info_update2(id, email, gender, age);
+	    }
+	    
+	    
+		return "redirect:/mypage";
+	}
+	
+	
+	//탈퇴하기
+	
+	
+	@RequestMapping(value = "/#")
+	public String my3(HttpServletRequest request, Model mo) {
+		
+
+		return "#";
+	}
+
 }

@@ -106,9 +106,13 @@ from. (정)지수 -->
 	select * from bada_user where user_number = #{param1}
 </select>
 
+<select id="admincheck" resultType="java.lang.String">
+	select id from bada_user where role='admin' and pw=#{param1}
+</select>
+
 <!-- 회원 정보 수정하기 -->
 <update id="member_modify">
-	update bada_user set id = #{param1}, pw = #{param2}, name = #{param3}, email = #{param4}, gender = #{param5}, age = #{param6} where user_number = #{param7}
+	update bada_user set pw = #{param1}, name = #{param2}, email = #{param3}, gender = #{param4}, age = #{param5} where id = #{param6}
 </update>
 
 

@@ -7,15 +7,28 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TTHakgyoansimMonggeulmonggeulR';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimMonggeulmonggeulR.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
 	margin: 0;
 	padding: 0;
 }
 
 body {
-	width:1800px;
-	background-color: #f5f1e5;
-	font-family: Pretendard;
+	width:1600px;
+	font-family: 'Pretendard-Regular';
 	margin:0 auto;
 }
 
@@ -40,13 +53,13 @@ a {
 #searchtext {
 	font-size: 40px;
 	font-family: 'YEONGJU';
-	color: #FFCC57;
+	color: #1B70A6;
 	text-shadow: -1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white;
 }
 
 .searchbar {
-  width: 300px;
-  border: 3px solid #FFCC57;
+  width: 500px;
+  border: 3px solid #1B70A6;
   border-radius: 8px;
   padding: 10px 12px;
   font-family: Pretendard;
@@ -74,13 +87,6 @@ a {
 	
 }
 
-.mainmaps {
-	position:relative;
-	left:50px;
-	bottom:100px;
-	margin: 0 auto;
-	
-}
 
 .mainright {
 	
@@ -110,33 +116,36 @@ a {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background: #f5f1e5;
 	padding: 10px;
 	margin:0 auto;
+	font-family: 'TTHakgyoansimMonggeulmonggeulR';
 }
 
 .navbar a {
-	color: black;
+	color: #F5CE9A;
 }
 
 .navbar__logo {
 	margin-left:10px;
 	font-size: 24px;
-	color: black;
+	color: #1C1C1C;
 }
 
 .navbar__menu {
 	display: flex;
 	list-style: none;
 	justify-content: center;
-	font-size: 20px;
+	font-size: 30px;
+	font-family: 'TTHakgyoansimMonggeulmonggeulR';
+	color: #F5CE9A;
+	text-shadow: -1px 0px #1C1C1C, 0px 1px #1C1C1C, 1px 0px #1C1C1C, 0px -1px #1C1C1C;
 }
 
 .navbar__menu a {
 	display: block;
 	padding: 10px 15px;
 	text-decoration: none;
-	color: black;
+	color: #F5CE9A;
 }
 
 .navbar__menu li {
@@ -153,18 +162,21 @@ a {
 	display: block;
 	position: absolute;
 	z-index: 1;
-	background-color: #ffe9ca;
+	background-color: #F5EBDE;
 	justify-content: center;
 	align-items: center;
 	border-radius: 4px;
 	top: 2.5rem;
 	right: 0rem;
 	width: 10rem;
-	border: 1px solid rgb(99, 96, 96);
-	box-shadow: 0 40px 40px rgb(0 0 0 /6%);
+	border: 1px solid #1C1C1C;
+	box-shadow: 0 40px 40px rgb(28 28 28 /6%);
 	opacity: 0;
 	visibility: hidden;
 	font-size: 16px;
+	font-family: 'TTHakgyoansimMonggeulmonggeulR';
+	color: #F5CE9A;
+	text-shadow: -1px 0px #1C1C1C, 0px 1px #1C1C1C, 1px 0px #1C1C1C, 0px -1px #1C1C1C;
 }
 
 .navbar__dropdown li {
@@ -175,7 +187,7 @@ a {
 
 .navbar__dropdown a {
 	display: block;
-	color: black;
+	color: #F5CE9A;
 	text-decoration: none;	
 }
 
@@ -185,20 +197,18 @@ a {
 }
 
 .navbar__menu li:hover {
-	background: #FFCC57;
-	color: black;
+	background: #F5CE9A;
 	border-radius: 4px;
 	list-style: none;
 	padding-left:0px;
 }
 
 .navbar__menu li a:hover {
-	color: black;
+	color: #48B0D9;
 }
 
 .navbar__icons {
 	list-style: none;
-	color: skyblue;
 	display: flex;
 	padding-left: 0px;
 }

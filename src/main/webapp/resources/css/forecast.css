@@ -7,17 +7,13 @@
     font-style: normal;
 }
 
-* {
-	margin: 0;
-	padding: 0;
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
 }
 
-body {
-	width:1800px;
-	background-color: #f5eedd;
-	font-family: Pretendard;
-	margin:0 auto;
-}
 
 li a {
 	display: block;
@@ -26,8 +22,6 @@ li a {
 a {
 	text-decoration: none;
 }
-
-
 
 .seamain {
 	
@@ -42,15 +36,31 @@ a {
 	width: 40%;
 	height:700px;
 	float:left;
+	background-color: #F1F1F1;
 	align-items: center;
 	text-align : center;
-	vertical-allign: middle;
 }
 
 .seamainmaps {
+	height:700px;
 	position:absolute;
 	margin: 0 auto;
 	z-index: 1;
+}
+
+#maptext {
+	position:relative;
+	bottom: 700px;
+	left:50px;
+	z-index: 3;
+	
+}
+
+#selectmap {
+	position:relative;
+	bottom:120px;
+	z-index: 2;
+	left:-120px;
 }
 
 .map li {
@@ -66,48 +76,47 @@ a {
 
 .kyungin {
 	top: 170px;
-	left: 150px;
+	left: 180px;
 }
 
 .gangwon{
-	top:100px;
-	left:310px;
+	top:120px;
+	left:300px;
 }
 
 .kyungbuk{
-	top:300px;
+	top:280px;
 	left:350px;
 }
 
 .kyungnam{
-	top:430px;
+	top:400px;
 	left:300px;
 }
 
 .buul {
-	top:420px;
-	left:410px;
+	top:410px;
+	left:450px;
 }
 
-
 .jeonnam {
-	top:490px;
-	left:150px;
+	top:450px;
+	left:230px;
 }
 
 .jeonbuk {
-	top: 380px;
-	left: 180px;
+	top: 360px;
+	left: 270px;
 }
 
 .chungnam {
-	top:280px;
-	left:150px;
+	top:270px;
+	left:240px;
 }
 
 .jeju {
-	top:685px;
-	left:110px;
+	top:630px;
+	left:200px;
 }
 
 .seamainright {

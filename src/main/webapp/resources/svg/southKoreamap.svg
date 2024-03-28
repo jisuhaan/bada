@@ -5,14 +5,14 @@
 	
 		<style>
 			.land {
-				fill: #e3f4f9;
+				fill: #CDE4F2;
 				fill-opacity: 1;
 				stroke:white;
 				stroke-opacity: 1;
 				stroke-width:0.5;
 			}
 			.yessea:hover {
-				fill: #489AC2;
+				fill: #1B70A6;
 			}
 			.nosea {
 				fill: #dcdcdc;

@@ -124,6 +124,12 @@
         <version>20210307</version> <!-- 사용할 버전에 따라 변경해주세요 -->
     </dependency>
 		
+	<!-- Jackson 라이브러리 -->
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-databind</artifactId>
+	    <version>2.13.1</version> <!-- 최신 버전 확인 -->
+	</dependency>
 		
 
 <!-- 마이바티스 설치 시작 -->

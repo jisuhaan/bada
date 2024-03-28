@@ -42,8 +42,6 @@ public interface Service {
 	
 	ArrayList<MemberDTO> member_detail_out(int user_number);
 
-	void member_modify(String id, String pw, String name, String email, String gender, int age, int user_number);
-
 	String emailcheck(String email);
 
 	MemberDTO myinfo_main(String loginid);
@@ -53,5 +51,9 @@ public interface Service {
 	void info_update1(String id, String pw, String email, int age, String gender);
 
 	void info_update2(String id, String email, int age, String gender);
+
+	String admincheck(String admin_pw);
+
+	void member_modify(String pw, String name, String email, String gender, int age, String id);
 
 }

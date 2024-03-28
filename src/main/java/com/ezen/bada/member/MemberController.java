@@ -119,6 +119,30 @@ public class MemberController {
 		return result;
 
 	} //idcheck 종료
+	
+	@ResponseBody
+	@RequestMapping(value = "/emailcheck")
+	public String emailcheck(HttpServletRequest request) {
+		
+		String email = request.getParameter("email");
+		Service ss=sqlsession.getMapper(Service.class);
+
+		String result=""; //originemail로 얻어온 결과로 if문 실행
+		String originemail="";
+		
+		System.out.println("받아온 email : "+email);
+
+		originemail=ss.emailcheck(email); //originemail: table에서 email로 select where 해서 나온 값
+		if(originemail==null) {result="ok";} // 결과가 null이면 ok반환
+		else {result="nope";} //select 결과가 있으면 nope 반환
+
+		System.out.println("sql결과 : "+originemail);
+		System.out.println("최종결과 : "+result);
+		
+
+		return result;
+
+	} //emailcheck 종료
 
 	
 	
@@ -136,7 +160,7 @@ public class MemberController {
         Service ss=sqlsession.getMapper(Service.class);
         ss.membersave(id, pw, name, email, gender, age);
  	
-		return "main";
+		return "member_try_bbti";
 	}
 	
 	

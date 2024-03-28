@@ -13,7 +13,7 @@
 <body>
 <nav class="navbar">
 	<div class="navbar__logo">
-		<a href="./"><img src="./resources/image/로고4-1.png" width="200px" height="120px"></a>
+		<a href="./"><img src="./resources/image/로고4-1.png" width="200px" height="100px"></a>
 	</div>
 	<ul class="navbar__menu">
 		<li class="navbar__menud"><a href="#">회원관리</a>

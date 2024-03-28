@@ -351,7 +351,7 @@ public class MemberController {
 	
       Service ss = sqlsession.getMapper(Service.class);
       MemberDTO result = ss.myinfo_main(loginid);
-      mo.addAttribute("info", result);      
+      mo.addAttribute("info", result);
 
       return "mypage";
    }

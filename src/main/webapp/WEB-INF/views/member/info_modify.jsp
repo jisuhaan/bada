@@ -92,6 +92,7 @@ $(document).ready(function() {
 });
 
 </script>
+<script>console.log("${info.gender}");</script>
 </head>
 <body>
 
@@ -108,7 +109,7 @@ $(document).ready(function() {
             <tr>
                 <th>비밀번호 변경</th>
                 <td>
-                    <input type="password" name="pw" id="pw" placeholder="영어 소문자와 숫자를 포함해 6-20자">
+                    <input type="password" name="pw" id="pw" placeholder="영어 소문자,숫자 포함 6-20자">
                 </td>
             </tr>
             <tr>
@@ -132,9 +133,9 @@ $(document).ready(function() {
             <tr>
                 <th>성별</th>
                 <td>
-                    <input type="radio" name="gender" value="male" ${info.gender == 'male' ? 'checked' : ''} required> 남성
-                    <input type="radio" name="gender" value="female" ${info.gender == 'female' ? 'checked' : ''} required> 여성
-                    <input type="radio" name="gender" value="other" ${info.gender == 'other' ? 'checked' : '' }required> 밝히고 싶지 않음(기타)
+                    <input type="radio" name="gender" value="male" ${info.gender.equals("male") ? "checked" : ""} required> 남성
+                    <input type="radio" name="gender" value="female" ${info.gender.equals("female") ? "checked" : ""} required> 여성
+                    <input type="radio" name="gender" value="other" ${info.gender.equals("other") ? "checked" : ""} required> 밝히고 싶지 않음(기타)
                 </td>
             </tr>
             <tr>
@@ -154,7 +155,7 @@ $(document).ready(function() {
             
             <tr>
                <td colspan="2" align="center">
-                  <input type="button" value="회원정보수정" id="submitBtn" onclick="confirm_Pw()" >
+                  <input type="button" value="회원정보수정" id="submitBtn"  >
                   <a href="main">
                      <input type="button" value="수정취소">
                   </a>

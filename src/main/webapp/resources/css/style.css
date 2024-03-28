@@ -27,7 +27,8 @@
 }
 
 body {
-	width:1600px;
+	width:90%;
+	height:100%;
 	font-family: 'Pretendard-Regular';
 	margin:0 auto;
 }

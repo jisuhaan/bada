@@ -106,6 +106,8 @@ $(document).ready(function(){
 	<strong>Your browser does not support the video tag.</strong>
 </video>
 </div>
+<div class="bodybox">
+
 <div class="login_main">
 	<div class="login_logo1"><img src="./resources/image/로고5-2.png" width="100px" height="80px"></div>
 	<h1 class="login_logo2">로그인 해볼까요?</h1>
@@ -126,8 +128,9 @@ $(document).ready(function(){
 	</div>
 	</div>
 
-</div>   
+</div>
 
+</div>
 
 
 </body>

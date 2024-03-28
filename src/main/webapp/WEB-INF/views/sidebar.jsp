@@ -24,7 +24,7 @@
                     <ion-icon name="home-outline" class="nav__icon"></ion-icon>
                     <span class="nav_name">메인으로</span>
                 </a>
-                <a href="sea_info" class="nav__link">
+                <a href="sea_search" class="nav__link">
                    <ion-icon name="map-outline" class="nav__icon"></ion-icon>
                    <span class="nav_name">찾아봐, 바다!</span>
                 </a>

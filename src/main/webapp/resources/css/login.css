@@ -7,24 +7,64 @@
     font-style: normal;
 }
 
-.main {
-    width: 350px;
-    height: 500px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    border: 1px solid lightgrey;
-    border-radius: 5px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); 
-    
+@font-face {
+    font-family: 'Ownglyph_meetme-Rg';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/Ownglyph_meetme-Rg.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
 }
 
-.logo {
-    margin-top: 0px;
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+.login_video {
+	position : fixed;
+	top : 0; 
+	left : 0;
+	min-width : 100%;
+	min-height : 100%;
+	width : auto;
+	height : auto;
+	z-index : -1;
+}
+
+.bg-video__content{
+	height: 100%;
+	width: 100%;
+	object-fit: cover; 
+}
+
+.login_main {
+    width: 350px;
+    height: 500px;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #1C1C1C;
+    border-radius: 5px;
+    position: absolute;
+    margin-top:150px;
+    top: 50%;
+    left: 50%;
+    padding: 30px;
+    background-color: rgba(241, 241, 241, 0.6);
+}
+
+.login_logo1{
+	text-align: center;
+	align-items:center;
+}
+
+.login_logo2 {
+	font-family: 'Ownglyph_meetme-Rg';
+	font-size: 42px;
+	color:#1C1C1C;
+	text-align: center;
+	align-items:center;
+	text-shadow: -1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white;
 }
 
 .input_field, .button_field {
@@ -50,7 +90,8 @@
 }        
           
 
-.container {
+.login_container {
+	postion: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -66,9 +107,9 @@
 }
 
 .div_line {
- width : 100%;
- border-bottom: 1px solid lightgrey;
- margin: 20px 0 7px;
+	width : 100%;
+	border-bottom: 1px solid lightgrey;
+	margin: 20px 0 7px;
 }
 
 
@@ -90,16 +131,16 @@
 
 
 
-#login {
+#login_button {
     width: 100%;
-    background-color: skyblue;
+    background-color: #F5CE9A;
     border-color: transparent;
     color: white;
 }
 
-#sign {
+#sign_button {
     width: 100%;
-    background-color: #fba600;
+    background-color: #48B0D9;
     border-color: transparent;
     color: white;
 }

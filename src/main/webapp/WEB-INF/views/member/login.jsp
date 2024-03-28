@@ -29,7 +29,7 @@ $(document).ready(function(){
     }
     
     
-    $("#login").click(function(){
+    $("#login_button").click(function(){
         
         var id = $("#id").val();
         var pw = $("#pw").val();
@@ -97,29 +97,36 @@ $(document).ready(function(){
 });
 
 </script>
-	<title>바라던 바다 :: 로그인</title>
-	</head>
-	<body>
+<title>바라던 바다 :: 로그인</title>
+</head>
+<body>
+<div class="login_video">
+<video class="bg-video__content" autoplay muted loop>
+	<source src = "./resources/image/sea_movie.mp4" type = "video/mp4">
+	<strong>Your browser does not support the video tag.</strong>
+</video>
+</div>
+<div class="login_main">
+	<div class="login_logo1"><img src="./resources/image/로고5-2.png" width="100px" height="80px"></div>
+	<h1 class="login_logo2">로그인 해볼까요?</h1>
+	<div class="login_container">
+		<input type="text" name="id" placeholder="ID" id="id" class="input_field">
+		<input type="password" name="pw" placeholder="Password" id="pw" class="input_field">
+		<div class="remember_id" style="margin-bottom: 20px;">
+			<input type="checkbox" id="remember" name="remember">
+			<label for="remember">아이디 저장하기</label>
+		</div>
+	           
+		<button id="login_button" class="button_field">로그인</button>
+		<button id="sign_button" class="button_field" onclick="loaction.href='member_join'">회원가입</button>
+	
+	<div class="div_line"></div>
+	<div class="search_info">
+		<a class="forgot" onclick="location.href='info_search'">아이디 / 비밀번호를 잊으셨나요?</a>
+	</div>
+	</div>
 
-<div class="main">
-        <h1 class="logo"><img src="./resources/image/login.png" width="250" style="margin-bottom: -10px;"> </h1>
-        <div class="container">
-            <input type="text" name="id" placeholder="ID" id="id" class="input_field">
-            <input type="password" name="pw" placeholder="Password" id="pw" class="input_field">
-                 <div class="remember_id" style="margin-bottom: 20px;">
-   					 <input type="checkbox" id="remember" name="remember">
-  					 <label for="remember">아이디 저장하기</label>
-				</div>
-               
-            	<button id="login" class="button_field">로그인</button>
-            	<button id="sign" class="button_field">회원가입</button>
-
-			<div class="div_line"></div>
-			<div class="search_info">
-                    <a class="forgot" onclick="location.href='info_search'">아이디 / 비밀번호를 잊으셨나요?</a>
-            </div>
-        </div>
-    </div>   
+</div>   
 
 
 

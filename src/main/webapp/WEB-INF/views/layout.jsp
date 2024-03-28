@@ -11,21 +11,20 @@
 <title><t:insertAttribute name="title"/></title>
 
 <style type="text/css">
-
 </style>
 
 </head>
 <body>
-   <div id="container">
-      <div id="body">
-         <t:insertAttribute name="body"/>
-      </div>
-      <div id="sidebar-left">
-      	<t:insertAttribute name="sidebar"/>
-      </div>
-      <div id="footer">
-         <t:insertAttribute name="footer"/>
-      </div>
-   </div>
+	<div id="container">
+		<div id="top">
+			<t:insertAttribute name="top"/>
+		</div>
+		<div id="body">
+			<t:insertAttribute name="body"/>
+		</div>
+		<div id="sidebar-left">
+			<t:insertAttribute name="sidebar"/>
+		</div>
+	</div>
 </body>
 </html>

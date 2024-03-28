@@ -16,6 +16,10 @@
     background: #fff;
     border-radius: 8px;
     margin-right: 20px;
+    position: absolute;
+    top:50%;
+    left:50%;
+    margin-top: 150px;
     
   }
 

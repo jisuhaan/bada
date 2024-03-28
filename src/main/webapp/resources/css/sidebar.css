@@ -1,5 +1,4 @@
 /* GOOGLE FONTS */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Jua&display=swap")
 
 @font-face {
@@ -21,8 +20,8 @@
 
     /* Fuente y tipografia */
     --body-font: 'Jua', 'Pretendard-Regular';
-    --normal-font-size: 1rem;
-    --small-font-size: .875rem;
+    --normal-font-size: 1.3rem;
+    --small-font-size: 1rem;
 
     /* z index */
     --z-fixed: 100;
@@ -116,7 +115,7 @@ a {
 }
 
 .nav__icon {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
 }
 
 .nav_name {
@@ -125,7 +124,7 @@ a {
 
 /* Expander menu */
 .expander {
-    width: calc(var(--nav--width) + 9.25rem);
+    width: calc(var(--nav--width) + 12rem);
 }
 
 /* Add padding body*/
@@ -150,12 +149,15 @@ a {
 
 .collapse__menu {
     display: none;
-    padding: .75rem 2.25rem;
+    padding: .75rem 1.75rem;
 }
 
 .collapse__sublink {
     color: var(--sub-color);
     font-size: var(--small-font-size);
+    white-space: nowrap;
+    overflow: hidden; /* 텍스트가 넘치는 경우에 대비하여 가려지도록 설정 */
+    text-overflow: ellipsis; /* 텍스트가 넘치는 경우 말줄임표로 표시되도록 설정 */
 }
 
 .collapse__sublink:hover {

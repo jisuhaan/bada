@@ -27,6 +27,11 @@ public class WeatherController {
 
    ObjectMapper objectMapper = new ObjectMapper();
    
+   @RequestMapping(value = "/sea_info")
+   public String sea_info1() {
+	      return "sea_info";
+	   }
+   
    @RequestMapping(value = "/sea_search")
    public String sea_search() {
       return "sea_search";

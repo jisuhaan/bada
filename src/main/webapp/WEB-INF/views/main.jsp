@@ -18,7 +18,9 @@ if(hs.getAttribute("loginstate")==null){
 	hs.setAttribute("loginstate", false);
 }
 %>
-
+<div class="mainlogos">
+<img src ="./resources/image/로고4-1.png" width="300px">
+</div>
 <div class="mainsearch">
 <span id="searchtext">떠나자, </span>
 <input type="text" name="area" id="area" placeholder="지역명을 입력하세요! ex)강원" class="searchbar">&nbsp;

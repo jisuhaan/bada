@@ -41,6 +41,12 @@ a {
 	text-decoration: none;
 }
 
+.mainlogos	{	
+	margin: 0 auto;
+	align-items: center;
+	text-align: center;
+}
+
 .mainsearch {
 	margin: 0 auto;
 	margin-top:30px;

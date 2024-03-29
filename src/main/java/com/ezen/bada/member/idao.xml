@@ -115,6 +115,8 @@ from. (정)지수 -->
 	update bada_user set pw = #{param1}, name = #{param2}, email = #{param3}, gender = #{param4}, age = #{param5} where id = #{param6}
 </update>
 
+<!-- 회원 정보 삭제하기가 아래 quit_member의 쿼리와 겹쳐서 생략합니다!-->
+
 
 <!-- 마이페이지 -->
 

@@ -5,15 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Bada_list_DTO {
 	// 해수욕장 기본 정보
 	String beach;
-	int beach_code;
 	String state;
 	String address;
 	double latitude;
 	double longitude;
 	int grid_x;
-	int gride_y;
+	int grid_y;
 	
 	// 해수욕장 단기 예보 결과
+	String beachNum; //해변코드
 	String baseDate; //발표일자
 	String baseTime; //발표시간
 	// 어노테이션을 붙여야 json의 key값이 아래 dto 필드명에 정확하게 찾아감
@@ -70,19 +70,19 @@ public class Bada_list_DTO {
 	
 	public Bada_list_DTO() {}
 
-	public Bada_list_DTO(String beach, int beach_code, String state, String address, double latitude, double longitude,
-			int grid_x, int gride_y, String baseDate, String baseTime, String pop, String pty, String pcp, String reh,
-			String sno, String sky, String tmp, String tmn, String tmx, String uuu, String vvv, String wav, String vec,
-			String wsd, String tm, String tw, String sunrise, String sunset) {
+	public Bada_list_DTO(String beach, String state, String address, double latitude, double longitude, int grid_x,
+			int grid_y, String beachNum, String baseDate, String baseTime, String pop, String pty, String pcp,
+			String reh, String sno, String sky, String tmp, String tmn, String tmx, String uuu, String vvv, String wav,
+			String vec, String wsd, String tm, String tw, String sunrise, String sunset) {
 		super();
 		this.beach = beach;
-		this.beach_code = beach_code;
 		this.state = state;
 		this.address = address;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.grid_x = grid_x;
-		this.gride_y = gride_y;
+		this.grid_y = grid_y;
+		this.beachNum = beachNum;
 		this.baseDate = baseDate;
 		this.baseTime = baseTime;
 		this.pop = pop;
@@ -113,14 +113,6 @@ public class Bada_list_DTO {
 		this.beach = beach;
 	}
 
-	public int getBeach_code() {
-		return beach_code;
-	}
-
-	public void setBeach_code(int beach_code) {
-		this.beach_code = beach_code;
-	}
-
 	public String getState() {
 		return state;
 	}
@@ -141,7 +133,7 @@ public class Bada_list_DTO {
 		return latitude;
 	}
 
-	public void setLatitude(int latitude) {
+	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
 
@@ -149,7 +141,7 @@ public class Bada_list_DTO {
 		return longitude;
 	}
 
-	public void setLongitude(int longitude) {
+	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
 
@@ -161,12 +153,20 @@ public class Bada_list_DTO {
 		this.grid_x = grid_x;
 	}
 
-	public int getGride_y() {
-		return gride_y;
+	public int getGrid_y() {
+		return grid_y;
 	}
 
-	public void setGride_y(int gride_y) {
-		this.gride_y = gride_y;
+	public void setGrid_y(int grid_y) {
+		this.grid_y = grid_y;
+	}
+
+	public String getBeachNum() {
+		return beachNum;
+	}
+
+	public void setBeachNum(String beachNum) {
+		this.beachNum = beachNum;
 	}
 
 	public String getBaseDate() {
@@ -329,5 +329,5 @@ public class Bada_list_DTO {
 		this.sunset = sunset;
 	}
 
-
 }
+

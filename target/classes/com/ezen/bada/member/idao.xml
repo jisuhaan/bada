@@ -125,10 +125,6 @@ from. (정)지수 -->
 <select id="myinfo_modify" resultType="com.ezen.bada.member.MemberDTO">
    select * from bada_user where id = #{param1}
 </select>
-<!-- 이메일 중복확인 -->
-<select id="email_check" resultType="String">
-   select email from bada_user where email = #{param1}
-</select>
 
 <update id="info_update1">
 	update bada_user set pw=#{param1}, email=#{param2}, gender=#{param3},

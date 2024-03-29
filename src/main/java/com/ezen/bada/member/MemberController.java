@@ -322,7 +322,7 @@ public class MemberController {
           return returnObj.toString();
       }
 
-	@RequestMapping(value = "/member_detail")
+	@RequestMapping(value = "/member_detail") //회원 정보 출력 창
 	public String member_detail(HttpServletRequest request, Model mo) {
 		int user_number = Integer.parseInt(request.getParameter("user_number"));
 		
@@ -333,7 +333,7 @@ public class MemberController {
 		return "member_detail";
 	}
 	
-	@RequestMapping(value = "/member_modify_view")
+	@RequestMapping(value = "/member_modify_view") //관리자 권한의 수정창
 	public String member_modify_view(HttpServletRequest request, Model mo) {
 		int user_number = Integer.parseInt(request.getParameter("user_number"));
 		
@@ -345,7 +345,7 @@ public class MemberController {
 	}
 	
 	
-	@RequestMapping(value = "/member_admin_check", method = RequestMethod.POST)
+	@RequestMapping(value = "/member_admin_check", method = RequestMethod.POST) //관리자 권한의 수정 (만들다 보니 이름이 좀 직관적이지 못하게 돼버렸어요ㅠㅠ 죄송합니다)
 	public void memberadmincheck(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
 		String id = request.getParameter("id");
@@ -373,7 +373,34 @@ public class MemberController {
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsonResponse.toString());
 	}
+	
+	@RequestMapping(value = "/member_delete", method = RequestMethod.POST) //관리자 권한의 삭제
+	public void memberdelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		String id = request.getParameter("id");
+        String admin_pw=request.getParameter("admin_pw");
+        
+        Service ss=sqlsession.getMapper(Service.class);
+        String bringadmin=ss.admincheck(admin_pw);
+        System.out.println("어드민 아이디는 당연히: "+bringadmin);
+        
+        JSONObject jsonResponse = new JSONObject();
+
+        if (bringadmin != null) {
+            ss.quit_member(id);
+            jsonResponse.put("result", "ok"); // 삭제 성공 시
+        } else {
+            jsonResponse.put("result", "nope");
+        }
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsonResponse.toString());
+	}
    
+	
+	
+	
    /////* 마이페이지
    
    

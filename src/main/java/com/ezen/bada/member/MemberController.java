@@ -199,6 +199,7 @@ public class MemberController {
       Service ss=sqlsession.getMapper(Service.class);
       ArrayList<MemberDTO> list=ss.memberout();
       mo.addAttribute("list", list);
+      System.out.println("리스트:"+list);
       
       return "member_out";
    }

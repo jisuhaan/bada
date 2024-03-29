@@ -19,67 +19,46 @@
     
     <!-- 자바 스크립트 시작. 버튼이 눌린 다음 메소드들이 기능하도록 위치는 아래로 설정. -->
     <script>
-        $(document).ready(function() {
-            $("#searchBtn").click(function() {
-                var beachName = $("#beachName").val();
-                fetchWeather(beachName);
-            });
+        document.getElementById("searchBtn").addEventListener("click", function() {
+            var beachName = document.getElementById("beachName").value;
+            fetchWeather(beachName);
         });
 
         function fetchWeather(beachName) {
-    	 $.ajax({
-    	        url: "weather_beachName", // URL 수정
-    	        type: "GET", // GET 방식으로 전송
-    	        data: { beachName: beachName },
-    	        success: function(response) {
-    	            displayWeatherTable(response);
-    	        },
-    	        error: function(xhr, status, error) {
-    	            console.error("Failed to fetch weather data:", error);
-    	        }
-    	    });
+            fetch("weather_beachName?beachName=" + beachName)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch weather data");
+                }
+                return response.json();
+            })
+            .then(data => {
+                displayWeatherTable(data);
+            })
+            .catch(error => {
+                console.error("Error fetching weather data:", error);
+            });
         }
 
-        // 컨트롤러에서 받아온 dto 정보를 json 타입으로 파싱하여 활용하기
-		function displayWeatherTable(response) {
-		    if (response.trim() === "") {
-		        // JSON 데이터가 비어 있는 경우에 대한 처리
-		        console.error("Empty JSON data received.");
-		        return;
-		    }
-		
-		    var weatherData;
-		    try {
-		        weatherData = JSON.parse(response);
-		    } catch (error) {
-		        // JSON 파싱 오류가 발생한 경우에 대한 처리
-		        console.error("Failed to parse JSON data:", error);
-		        return;
-		    }
-		
-		    var tableHTML = "<table border='1'><tr><th>Category</th><th>Value</th></tr>";
-		
-		    // DTO에서 데이터를 읽어와서 테이블에 추가
-		    tableHTML += "<tr><td>강수확률</td><td>" + weatherData.pop + "</td></tr>";
-		    tableHTML += "<tr><td>강수형태</td><td>" + weatherData.pty + "</td></tr>";
-		    tableHTML += "<tr><td>1시간 강수량</td><td>" + weatherData.pcp + "</td></tr>";
-		    tableHTML += "<tr><td>습도</td><td>" + weatherData.reh + "</td></tr>";
-		    tableHTML += "<tr><td>1시간 신적설</td><td>" + weatherData.sno + "</td></tr>";
-		    tableHTML += "<tr><td>하늘상태</td><td>" + weatherData.sky + "</td></tr>";
-		    tableHTML += "<tr><td>1시간 기온</td><td>" + weatherData.tmp + "</td></tr>";
-		    tableHTML += "<tr><td>아침 최저기온</td><td>" + weatherData.tmn + "</td></tr>";
-		    tableHTML += "<tr><td>낮 최고기온</td><td>" + weatherData.tmx + "</td></tr>";
-		    tableHTML += "<tr><td>풍속(동서성분)</td><td>" + weatherData.uuu + "</td></tr>";
-		    tableHTML += "<tr><td>풍속(남북성분)</td><td>" + weatherData.vvv + "</td></tr>";
-		    tableHTML += "<tr><td>파고</td><td>" + weatherData.wav + "</td></tr>";
-		    tableHTML += "<tr><td>풍향</td><td>" + weatherData.vec + "</td></tr>";
-		    tableHTML += "<tr><td>풍속</td><td>" + weatherData.wsd + "</td></tr>";
-		    // 나머지 필드에 대한 처리도 동일하게 추가
-		
-		    tableHTML += "</table>";
-		    $("#weather-info").html(tableHTML);
-		}
-
+        function displayWeatherTable(weatherData) {
+            var tableHTML = "<table border='1'><tr><th>Category</th><th>Value</th></tr>";
+            tableHTML += "<tr><td>강수확률</td><td>" + weatherData.pop + "</td></tr>";
+            tableHTML += "<tr><td>강수형태</td><td>" + weatherData.pty + "</td></tr>";
+            tableHTML += "<tr><td>1시간 강수량</td><td>" + weatherData.pcp + "</td></tr>";
+            tableHTML += "<tr><td>습도</td><td>" + weatherData.reh + "</td></tr>";
+            tableHTML += "<tr><td>1시간 신적설</td><td>" + weatherData.sno + "</td></tr>";
+            tableHTML += "<tr><td>하늘상태</td><td>" + weatherData.sky + "</td></tr>";
+            tableHTML += "<tr><td>1시간 기온</td><td>" + weatherData.tmp + "</td></tr>";
+            tableHTML += "<tr><td>아침 최저기온</td><td>" + weatherData.tmn + "</td></tr>";
+            tableHTML += "<tr><td>낮 최고기온</td><td>" + weatherData.tmx + "</td></tr>";
+            tableHTML += "<tr><td>풍속(동서성분)</td><td>" + weatherData.uuu + "</td></tr>";
+            tableHTML += "<tr><td>풍속(남북성분)</td><td>" + weatherData.vvv + "</td></tr>";
+            tableHTML += "<tr><td>파고</td><td>" + weatherData.wav + "</td></tr>";
+            tableHTML += "<tr><td>풍향</td><td>" + weatherData.vec + "</td></tr>";
+            tableHTML += "<tr><td>풍속</td><td>" + weatherData.wsd + "</td></tr>";
+            tableHTML += "</table>";
+            document.getElementById("weather-info").innerHTML = tableHTML;
+        }
     </script>
 </body>
 </html>

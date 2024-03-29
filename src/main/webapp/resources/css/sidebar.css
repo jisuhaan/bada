@@ -65,7 +65,7 @@ a {
     background-color: var(--bg-color);
     color: var(--white-color);
     padding: 1.5rem 1.5rem 2rem;
-    transition: .5s;
+    transition: width .5s;
     z-index: var(--z-fixed);
 }
 
@@ -129,7 +129,7 @@ a {
 
 /* Add padding body*/
 .body-pd {
-    padding: 2rem 0 0 16rem;
+    padding: 2rem 0 0 calc(var(--nav--width) + 20rem);
 }
 
 /* Active links menu */

@@ -21,15 +21,17 @@ $(document).ready(function() {
             return false;
         }
 
-        if (pw && pw2) {
+        if (pw && pw2 !== null) {
             var pwPattern = /^[a-zA-Z0-9]{6,20}$/;
             if (!pwPattern.test(pw)) {
                 alert("비밀번호는 영문, 숫자를 포함해 6자~20자 사이여야 합니다.");
+                $('#pw').focus();
                 return false;
             }
 
             if (pw !== pw2) {
                 alert('비밀번호가 일치하지 않습니다.');
+                $('#pw2').focus();
                 return false;
             }
         }

@@ -119,8 +119,8 @@ $(document).ready(function(){
 			<label for="remember">아이디 저장하기</label>
 		</div>
 	           
-		<button id="login_button" class="button_field">로그인</button>
-		<button id="sign_button" class="button_field" onclick="loaction.href='member_join'">회원가입</button>
+		<button id="login_button" class="button_field" >로그인</button>
+		<button id="sign_button" class="button_field" onclick="location.href='member_join'">회원가입</button>
 	
 	<div class="div_line"></div>
 	<div class="search_info">

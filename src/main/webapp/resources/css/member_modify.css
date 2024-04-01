@@ -91,7 +91,8 @@ input[type=password] {
 }
 
 
-.radio_btn input[type=radio]{
+
+input[type=radio]{
 	display: none;
 }
 
@@ -105,7 +106,7 @@ input[type=password] {
 	left: 0;
 }
 
-.radio_btn input[type="radio"]:checked + .on {
+input[type=radio]:checked + .on {
 	background: #1b70a6;
 }
 
@@ -115,7 +116,7 @@ input[type=password] {
 	display: none;
 }
 
-.radio_box input[type="radio"]:checked + .on:after {
+input[type=radio]:checked + .on:after {
 	display: block;
 }
 
@@ -128,6 +129,7 @@ input[type=password] {
 	left: 5px;
 	top: 5px;
 }
+
 
 select {
 	font-family: 'Pretendard-Regular';

@@ -18,7 +18,8 @@
 	display: flex;
 	justify-content:center;
 	text-align: center;
-	margin: 0 auto;	
+	margin: 0 auto;
+	margin-bottom: 50px;
 }
 
 .form_text {
@@ -50,6 +51,7 @@
 	padding: 30px;
 	margin: 0 auto;
 	position: relative;
+	background-color: rgba(241,241,241,0.5);
 
 }
 
@@ -97,7 +99,7 @@ input[type=password] {
 }
 
 
-.radio_btn input[type=radio]{
+input[type=radio]{
 	display: none;
 }
 
@@ -105,13 +107,14 @@ input[type=password] {
 	width: 20px;
 	height: 20px;
 	background: #f1f1f1;
+	border:1px solid #1c1c1c;
 	border-radius: 50%;
 	position: absolute;
 	top: 0;
 	left: 0;
 }
 
-.radio_btn input[type="radio"]:checked + .on {
+input[type=radio]:checked + .on {
 	background: #1b70a6;
 }
 
@@ -121,7 +124,7 @@ input[type=password] {
 	display: none;
 }
 
-.radio_box input[type="radio"]:checked + .on:after {
+input[type=radio]:checked + .on:after {
 	display: block;
 }
 
@@ -131,8 +134,8 @@ input[type=password] {
 	background: #f1f1f1;
 	border-radius: 50%;
 	position: absolute;
-	left: 5px;
-	top: 5px;
+	left:4px;
+	top:4px;
 }
 
 select {

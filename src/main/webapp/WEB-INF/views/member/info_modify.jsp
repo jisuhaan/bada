@@ -136,17 +136,17 @@ $(document).ready(function() {
 		<br>
 		<div class="join_radio">
 		<div class="form_title">&nbsp;성별</div>
-		<label for="radio_male" class="radio_btn">
+		<label for="male" class="radio_btn">
 		<input type="radio" name="gender" value="male" id="male" ${info.gender.equals("male") ? "checked" : ""}>
 		<span class="on"></span>
 		남성
 		</label>
-		<label for="radio_female" class="radio_btn">
+		<label for="female" class="radio_btn">
 		<input type="radio" name="gender" value="female" id="female" ${info.gender.equals("female") ? "checked" : ""}>
 		<span class="on"></span>
 		여성
 		</label>
-		<label for="radio_other" class="radio_btn">
+		<label for="other" class="radio_btn">
 		<input type="radio" name="gender" value="other" id="other" ${info.gender.equals("other") ? "checked" : ""}>
 		<span class="on"></span>
 		기타(밝히고 싶지 않음 외)

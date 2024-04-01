@@ -6,5 +6,9 @@
 	<select id="weather_beachName" resultType="Integer">
 		select beach_code from BADA_LIST where beach like '%' || #{param1} || '%'
 	</select>
+	
+	<select id="weather_beach_defaultInfo" resultType="com.ezen.bada.weathers.Bada_list_DTO">
+		select * from BADA_LIST where beach like '%' || #{param1} || '%'
+	</select>
 
 </mapper>

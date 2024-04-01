@@ -16,6 +16,7 @@
         <button id="searchBtn">검색</button>
     </div>
     <div id="weather-info" style="margin-top: 20px;"></div>
+    <div id="weather-info2" style="margin-top: 20px;"></div>
     
     <!-- 자바 스크립트 시작. 버튼이 눌린 다음 메소드들이 기능하도록 위치는 아래로 설정. -->
     <script>
@@ -62,9 +63,12 @@
             })
             .then(data => {
                console.log('결과 : ', data);
-                displayWeatherTable(data.response.body.items.item);
-                var jsonDataString = createJSONData(data.response.body.items.item);
+               displayWeatherTable(data.response.body.items.item);
+               var jsonDataString = createJSONData(data.response.body.items.item);
                console.log(jsonDataString);
+               
+               dtosave_result(jsonDataString);
+               
             })
             .catch(error => {
                 console.error('Fetch Error', error);
@@ -92,7 +96,6 @@
         }
         
         function createJSONData(weatherData) {
-           var jsonData = [];
            var dataObject = {};
            
               // beachNum과 baseDate와 baseTime을 설정
@@ -101,20 +104,34 @@
                  var baseTime = weatherData[0].baseTime;
                  var beachNum = weatherData[0].beachNum;
                  
-                 dataObject["beachNum"] = beachNum;
+                 dataObject["beach_code"] = beachNum;
                  dataObject["baseDate"] = baseDate;
-                  dataObject["baseTime"] = baseTime;
+                 dataObject["baseTime"] = baseTime;
               }
            
             // 각 item에서 category와 fcstValue를 가져와서 JSON 객체로 구성하여 배열에 추가
             weatherData.forEach(function(item) {
                 dataObject[item.category] = item.fcstValue;
             });
-            jsonData.push(dataObject);
             
             // JSON 객체를 문자열로 변환하여 반환
-            return JSON.stringify(jsonData);
-      }
+            return JSON.stringify(dataObject);
+      	}
+        
+        function dtosave_result(jsonDataString) {
+            $.ajax({
+                type: 'POST',
+                url: 'weather_beach_DTO',
+                contentType: 'application/json',
+                data: jsonDataString,
+                success: function(data) {
+                    console.log(data); // 서버로부터 받은 응답 출력
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
     </script>
 </body>
 </html>

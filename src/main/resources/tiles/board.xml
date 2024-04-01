@@ -11,10 +11,10 @@
 	  <put-attribute name="footer" value="/WEB-INF/views/footer.jsp"/>
    </definition>
    
-	<definition name="inquire_input" extends="baseLayout">
-		<put-attribute name="title" value="바라는 바다! :: 문의글 작성"/>
-		<put-attribute name="body" value="/WEB-INF/views/inquire/inquire_input.jsp"/>
+   	<definition name="suggest_input" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다 :: 후기게시판 작성"/>
+		<put-attribute name="body" value="/WEB-INF/views/suggest_board/suggest_input.jsp"/>
 	</definition>
-
-	
+    
+   
 </tiles-definitions>

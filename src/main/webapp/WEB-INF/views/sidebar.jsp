@@ -10,6 +10,9 @@
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <link href="${pageContext.request.contextPath}/resources/css/sidebar.css" rel="stylesheet" type="text/css">
 <title>Insert title here</title>
+<style type="text/css">
+
+</style>
 </head>
 <body id="body-pd">
 <div class="l-navbar" id="navbar">
@@ -24,20 +27,20 @@
                     <ion-icon name="home-outline" class="nav__icon"></ion-icon>
                     <span class="nav_name">메인으로</span>
                 </a>
-                <a href="sea_info" class="nav__link">
+                <a href="sea_info" class="nav__link" onclick="location.href='#'">
                    <ion-icon name="map-outline" class="nav__icon"></ion-icon>
-                   <span class="nav_name">찾아봐, 바다!</span>
+                   <span class="nav_name">추천, 바다!</span>
                 </a>
 
-                <div href="#" class="nav__link collapse">
-                   <ion-icon name="heart-circle-outline" class="nav__icon"></ion-icon>
-                   <span class="nav_name">추천해, 바다!</span>
+                <div href="#" class="nav__link collapse" onclick="location.href='#'">
+                 <ion-icon name="heart-circle-outline" class="nav__icon"></ion-icon>
+                 <span class="nav_name">리뷰, 바다!</span>
 
                     <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
                     <ul class="collapse__menu">
-                        <a href="#" class="collapse__sublink">바다추천</a>
-                        <a href="#" class="collapse__sublink">추천작성</a>
+                        <a href="#" class="collapse__sublink">바다리뷰</a>
+                        <a href="#" class="collapse__sublink">리뷰작성</a>
                         <a href="#" class="collapse__sublink">한마디</a>
                     </ul>
                 </div>
@@ -47,15 +50,16 @@
                     <span class="nav_name">순위, 바바!</span>
                 </a>
 
-                <div href="#" class="nav__link collapse">
+                <div href="#" class="nav__link collapse" onclick="location.href='#'">
                     <ion-icon name="people-outline" class="nav__icon"></ion-icon>
                     <span class="nav_name">문의, 바다!</span>
 
-                    <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+                    <ion-icon name="chevron-down-outline" class="collapse__link" ></ion-icon>
 
                     <ul class="collapse__menu">
-                        <a href="inquire_input" class="collapse__sublink">문의 작성</a>
-                        <a href="inquire_listout" class="collapse__sublink">문의 목록</a>
+                    	  <a href="#" class="collapse__sublink">1:1문의</a>
+                        <a href="inquire_input" class="collapse__sublink">문의글작성</a>
+                        <a href="inquire_listout" class="collapse__sublink">문의게시판</a>
                     </ul>
                 </div>
                     

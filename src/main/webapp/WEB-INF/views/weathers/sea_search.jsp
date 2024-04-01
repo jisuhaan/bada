@@ -34,27 +34,50 @@
                 return response.json(); // json 형식으로 받아오기
             })
             .then(data => {
-               console.log("Received beach code:", data); // 받은 beach code 출력
-               api_forecast(data.beach_code); // 원하는 코드만 받아오기
+               var beachnum = data.beach_code; // 받은 beach code만 인수로 넣기
+                return api_forecast(beachnum)
+                    .then(forecastData => {
+                        return api_getTwBuoyBeach(beachnum)
+                            .then(twBuoyData => {
+                                return { forecast: forecastData, twBuoy: twBuoyData, beachnum: beachnum };
+                            });
+                    });
+            })
+            .then(results => {
+               var jsonDataString = createJSONData(result.forecast, result.twBuoy, result.beachnum);
+                // JSON 데이터 전송
+                dtosave_result(jsonDataString);
             })
             .catch(error => {
                 console.error("Error fetching weather data:", error);
             });
         }
-
+        
+        function createJSONData(forecastData, twBuoyData, beachnum) {
+            // 필요한 정보를 추출하여 JSON 객체로 구성
+            var combinedData = {
+                forecast: forecastData,
+                twBuoy: twBuoyData,
+                beachnum: beachnum
+            };
+            
+            // JSON 객체를 문자열로 변환하여 반환
+            return JSON.stringify(combinedData);
+        }
+        
         function api_forecast(beachnum) {
            // API 호출
             var url = 'http://apis.data.go.kr/1360000/BeachInfoservice/getVilageFcstBeach'; /*URL*/
             var serviceKey = 'QWzzzAb%2FUIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J%2BlicoY1Dffo51%2Fi5HTDfU00ZpDy2E4%2FASt2FgLknaA%3D%3D'; /*Service Key*/
             var queryParams = '?' + encodeURIComponent('serviceKey') + '=' + serviceKey;
-            queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('14');
+            queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('12');
             queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1');
             queryParams += '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('JSON');
             queryParams += '&' + encodeURIComponent('base_date') + '=' + encodeURIComponent(getFormattedDate());
             queryParams += '&' + encodeURIComponent('base_time') + '=' + encodeURIComponent('0500');
             queryParams += '&' + encodeURIComponent('beach_num') + '=' + beachnum;
           
-            fetch(url + queryParams)
+            return fetch(url + queryParams)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -62,18 +85,41 @@
                 return response.json();
             })
             .then(data => {
-               console.log('결과 : ', data);
                displayWeatherTable(data.response.body.items.item);
                var jsonDataString = createJSONData(data.response.body.items.item);
                console.log(jsonDataString);
-               
-               dtosave_result(jsonDataString);
-               
+               return jsonDataString;
             })
             .catch(error => {
                 console.error('Fetch Error', error);
+                throw error; // 에러를 상위로 전파
             });
         }
+        
+        function api_getTwBuoyBeach(beachnum) {
+           // API 호출
+            var url = 'https://apis.data.go.kr/1360000/BeachInfoService/getTwBuoyBeach'; /*URL*/
+            var serviceKey = 'QWzzzAb%2FUIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J%2BlicoY1Dffo51%2Fi5HTDfU00ZpDy2E4%2FASt2FgLknaA%3D%3D'; /*Service Key*/
+            var queryParams = '?' + encodeURIComponent('dataType') + '=' + encodeURIComponent('JSON');
+            queryParams += '&' + encodeURIComponent('beach_num') + '=' + beachnum;
+            queryParams += '&' + encodeURIComponent('searchTime') + '=' + encodeURIComponent(getFormattedDate()+getCurrentTime());
+            queryParams += '&' + encodeURIComponent('ServiceKey') + '=' + serviceKey;
+             
+            return fetch(url + queryParams)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            }).then(data => {
+                console.log(data.response.body.items.item);
+                return data.response.body.items.item;
+             })
+             .catch(error => {
+                 console.error('Fetch Error', error);
+                 throw error; // 에러를 상위로 전파
+             });
+      }
         
         function getFormattedDate() {
             var currentDate = new Date();
@@ -81,6 +127,15 @@
             var month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
             var day = currentDate.getDate().toString().padStart(2, '0');
             return year + month + day;
+        }
+        
+        function getCurrentTime() {
+            var currentDate = new Date();
+            currentDate.setMinutes(currentDate.getMinutes() - 2); // 현재 시간에서 2분을 빼기
+            var hours = currentDate.getHours().toString().padStart(2, '0');
+            var minutes = currentDate.getMinutes().toString().padStart(2, '0');
+            var formattedDateTime = hours + minutes;
+            return formattedDateTime;
         }
         
         function displayWeatherTable(weatherData) {
@@ -116,7 +171,7 @@
             
             // JSON 객체를 문자열로 변환하여 반환
             return JSON.stringify(dataObject);
-      	}
+         }
         
         function dtosave_result(jsonDataString) {
             $.ajax({

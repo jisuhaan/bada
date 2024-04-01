@@ -37,7 +37,7 @@
 
                     <ul class="collapse__menu">
                         <a href="#" class="collapse__sublink">바다추천</a>
-                        <a href="#" class="collapse__sublink">추천작성</a>
+                        <a href="suggest_input" class="collapse__sublink">추천작성</a>
                         <a href="#" class="collapse__sublink">한마디</a>
                     </ul>
                 </div>

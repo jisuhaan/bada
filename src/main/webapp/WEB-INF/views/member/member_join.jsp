@@ -13,6 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta charset="UTF-8">
 	<title>바라는 바다! :: 회원가입</title>
+	<link href="${pageContext.request.contextPath}/resources/css/join.css" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function () {
@@ -172,77 +173,87 @@
 <body>
 
 <c:choose>
-	<c:when test="${loginstate==false}">
+<c:when test="${loginstate==false}">
 
-    <form action="member_save" method="post" name="member_save_form">
-        <table>
-            <caption>회원가입창</caption>
+<div class="join_logo">
+<img src="./resources/image/로고4-1.png" width="200px" >
+</div>
 
-            <tr>
-                <th>아이디</th>
-                <td>
-                    <input type="text" name="id" id="id" placeholder="영어 소문자와 숫자를 포함해 6-20자" required>
-                    <input type="button" value="중복 확인" id="idcheck">
-                </td>
-            </tr>
-            <tr>
-                <th>비밀번호</th>
-                <td>
-                    <input type="password" name="pw" id="pw" placeholder="영어 소문자와 숫자를 포함해 6-20자" required>
-                </td>
-            </tr>
-            <tr>
-                <th>비밀번호 확인</th>
-                <td>
-                    <input type="password" id="pw2" placeholder="비밀번호를 한 번 더 써주세요." required>
-                </td>
-            </tr>
-            <tr>
-                <th>이름</th>
-                <td>
-                    <input type="text" id="name" placeholder="이름을 입력해주세요." required>
-                </td>
-            </tr>
-            <tr>
-                <th>이메일</th>
-                <td>
-                    <input type="email" id="email" placeholder="이메일을 ----@--.- 형식으로 입력해주세요." required>
-                    <input type="button" value="중복 확인" id="emailcheck">
-                </td>
-            </tr>
-            <tr>
-                <th>성별</th>
-                <td>
-                    <input type="radio" name="gender" value="male" required> 남성
-                    <input type="radio" name="gender" value="female" required> 여성
-                    <input type="radio" name="gender" value="other" required> 밝히고 싶지 않음(기타)
-                </td>
-            </tr>
-            <tr>
-                <th>연령대</th>
-                <td>
-                    <select id="age" required>
-                        <option value="">나이대를 선택해주세요.</option>
-                        <option value="10">10대 이하</option>
-                        <option value="20">20대</option>
-                        <option value="30">30대</option>
-                        <option value="40">40대</option>
-                        <option value="50">50대</option>
-                        <option value="60">60대 이상</option>
-                    </select>
-                </td>
-            </tr>
-            
-            <tr>
-            	<td colspan="2" align="center">
-	            	<input type="button" value="회원가입하기" id="submitBtn">
-	            	<a href="main">
-	            		<input type="button" value="회원가입 취소">
-	            	</a>
-            	</td>
-            </tr>
-        </table>
+<div class="memberform">
+	
+	<form action="member_save" method="post" name="member_save_form">
+		
+		<div class="form_text">
+		회원이 되어주세요!
+		</div>
+		<br><hr><br>
+		<div class="form_title">&nbsp;아이디</div>
+		<div class="join_input">
+		<input type="text" name="id" id="id" placeholder="영어 소문자와 숫자를 포함해 6-20자" required>
+		<input type="button" value="중복 확인" id="idcheck" class="btn_1">
+		</div>
+		<br>
+	    <div class="form_title">&nbsp;비밀번호</div>
+	    <div class="join_input">
+	    <input type="password" name="pw" id="pw" placeholder="영어 소문자와 숫자를 포함해 6-20자" required>
+	    </div>
+	    <br>
+		 <div class="form_title">&nbsp;비밀번호 확인</div>
+		<div class="join_input">
+		<input type="password" id="pw2" placeholder="비밀번호를 한 번 더 써주세요." required>
+		</div>
+		<br>
+		 <div class="form_title">&nbsp;닉네임</div>
+		<div class="join_input">
+		<input type="text" id="name" placeholder="이름을 입력해주세요." required>
+		</div>
+		<br>
+		 <div class="form_title">&nbsp;이메일</div>
+		<div class="join_input">
+		<input type="text" id="email" placeholder="이메일을 ----@--.- 형식으로 입력해주세요." required>
+		<input type="button" value="중복 확인" id="emailcheck" class="btn_1">
+		</div>
+		<br>
+		<div class="join_radio">
+		<div class="form_title">&nbsp;성별</div>
+		<label for="radio_male" class="radio_btn">
+		<input type="radio" name="gender" value="male" id="male" required>
+		<span class="on"></span>
+		남성
+		</label>
+		<label for="radio_female" class="radio_btn">
+		<input type="radio" name="gender" value="female" id="female" required>
+		<span class="on"></span>
+		여성
+		</label>
+		<label for="radio_other" class="radio_btn">
+		<input type="radio" name="gender" value="other" id="other" required>
+		<span class="on"></span>
+		기타(밝히고 싶지 않음 외)
+		</label>
+		</div>
+		<br>
+		<div class="form_title">&nbsp;연령대</div>
+		<div class="join_select">
+		<select id="age" required>
+		    <option value="">나이대를 선택해주세요.</option>
+		    <option value="10">10대 이하</option>
+		    <option value="20">20대</option>
+		    <option value="30">30대</option>
+		    <option value="40">40대</option>
+		    <option value="50">50대</option>
+		    <option value="60">60대 이상</option>
+		</select>
+		</div>
+		<br><hr><br>
+		<div class="submit_btns">
+		<button id="submitBtn" class="btn_2"><span id="btn_text">회원가입</span></button>
+		<button onclick="location.href='./'"class="btn_2 backbtn"><span id="btn_text">돌아가기</span></button>
+		</div>
+
     </form>
+    
+</div>
     
     </c:when>
     

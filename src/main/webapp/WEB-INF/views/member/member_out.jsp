@@ -10,14 +10,6 @@
 <html>
 
 <head>
-	<style>
-        table {
-            margin: 0 auto;
-        }
-        th, td {
-            text-align: center;
-        }
-    </style>
 <meta charset="UTF-8">
 <title>바라는 바다! :: 회원 기본정보 확인</title>
 </head>

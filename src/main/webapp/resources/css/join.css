@@ -1,0 +1,225 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ownglyph_meetme-Rg';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/Ownglyph_meetme-Rg.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.join_logo {
+	margin: 0 auto;	
+}
+
+.form_text {
+	
+	 font-family: 'Ownglyph_meetme-Rg';
+	 font-size: 30px;
+	 text-align: center;
+	 padding: 10px;
+}
+
+.form_title {
+	
+	font-family: 'Ownglyph_meetme-Rg';
+	font-size: 20px;
+	width: 100px;
+	height: 25px;
+	background-color: #cde4f2;
+	color:#f1f1f1;
+	text-shadow: -1px 0px black, 0px 1px black, 1px 0px black, 0px -1px black;
+	margin: 10px 0px 10px 0px;
+}
+
+.memberform {
+	
+	width: 400px;
+	height: 950px;
+	border:  1px solid gray;
+	border-radius: 20px;
+	padding: 30px;
+	margin: 0 auto;
+	position: relative;
+
+}
+
+input[type=text] {
+	
+	font-family: 'Pretendard-Regular';
+	font-size: 15px;
+	padding:10px;
+	width: 250px;
+	height: 30px;
+	background-color: #f1f1f1;
+	border: 0;
+	border-radius: 10px;
+	box-shadow: 2px 2px 2px gray;
+	
+}
+
+input[type=password] {
+	
+	font-family: 'Pretendard-Regular';
+	font-size: 15px;
+	padding:10px;
+	width: 250px;
+	height: 30px;
+	background-color: #f1f1f1;
+	border: 0;
+	border-radius: 10px;
+	box-shadow: 2px 2px 2px gray;
+	
+}
+
+.radio_btn{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	position: relative;
+	padding-left: 25px;
+	margin-right: 10px;
+	cursor: pointer;
+	font-size: 14px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none; 
+}
+
+
+.radio_btn input[type=radio]{
+	display: none;
+}
+
+.on {
+	width: 20px;
+	height: 20px;
+	background: #f1f1f1;
+	border-radius: 50%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.radio_btn input[type="radio"]:checked + .on {
+	background: #1b70a6;
+}
+
+.on:after {
+	content: "";
+	position: absolute;
+	display: none;
+}
+
+.radio_box input[type="radio"]:checked + .on:after {
+	display: block;
+}
+
+.on:after {
+	width: 10px;
+	height: 10px;
+	background: #f1f1f1;
+	border-radius: 50%;
+	position: absolute;
+	left: 5px;
+	top: 5px;
+}
+
+select {
+	font-family: 'Pretendard-Regular';
+	width: 200px;
+	height: 30px;
+	border-radius: 10px;
+}
+
+.btn_1 {
+	box-sizing:border-box;
+    background-color: #F5EBDE;
+    border-color:#1C1C1C;
+    border-width:1px;
+    box-shadow:1px black;
+    padding: 4px 8px;
+    min-height: 12px; 
+    min-width: 40px;
+    font-size: 12px;
+    font-weight:500;
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px gray;
+}
+
+.btn_1:hover {
+	 background-color: #F5CE9A;
+}
+
+.btn_1:focus {
+	 background-color: #F5CE9A;
+}
+
+.btn_1:active {
+	 background-color: #F5CE9A;
+	 box-shadow:2px black;
+}
+
+.submit_btns {
+	display:flex;
+	margin: 0 auto;
+	position: absolute;
+	text-align: center;
+	align-items: center;
+	justify-content:center;
+	left:40px;
+}
+
+.btn_2 {
+	position:relative;
+	display:inline-block;
+	width:150px;
+	height:30px;
+	background-color: #F5ce9a;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	text-align: center;
+	align-items: center;
+	justify-content:center;
+	text-decoration: none;
+	font-size: 16px;
+	margin: 4px 2px;
+	cursor: pointer;
+	border-radius: 4px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	transition: transform 0.2s;
+}
+
+.backbtn{
+	background-color: #F5ebed;
+}
+
+#btn_text{
+	font-family: 'Ownglyph_meetme-Rg';
+	font-size:20px;
+	color:#1c1c1c;
+	position:relative;
+	margin: 0 auto;
+	display:flex;
+	justify-content:center;
+	text-align: center;
+	align-items: center;
+	bottom: 5px;
+}
+
+.btn_2:hover {
+	transform: translateY(-4px);	
+}
+
+.btn_2:active {
+	transform: translateY(-1px);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}

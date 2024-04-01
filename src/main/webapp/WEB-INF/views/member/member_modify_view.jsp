@@ -8,6 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta charset="UTF-8">
 	<title>바라는 바다! :: 관리자 권한 회원 정보 수정</title>
+	<link href="${pageContext.request.contextPath}/resources/css/member_modify.css" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function () {
@@ -146,78 +147,82 @@
 <c:choose>
 	<c:when test="${loginstate==true && position=='admin'}">
 
-	<div style="text-align: center;">
-	  <form action="member_admin_check" method="post">
-		<c:forEach items="${list}" var="li">
-		  <input type="hidden" name="user_number" id="user_number" value="${li.user_number}">
-	      <table border="1" width="600" align="center">
-	        <tr>
-                <th>아이디</th>
-                <td>
-                    <input type="text" name="id" id="id" value="${li.id}" readonly>
-                </td>
-            </tr>
-            <tr>
-                <th>비밀번호</th>
-                <td>
-                    <input type="password" name="pw" value="${li.pw}" id="pw" placeholder="영어 소문자와 숫자를 포함해 6-20자" required>
-                </td>
-            </tr>
-            <tr>
-                <th>비밀번호 확인</th>
-                <td>
-                    <input type="password" id="pw2" placeholder="비밀번호를 한 번 더 써주세요." required>
-                </td>
-            </tr>
-            <tr>
-                <th>이름</th>
-                <td>
-                    <input type="text" id="name" value="${li.name}" placeholder="이름을 입력해주세요." required>
-                </td>
-            </tr>
-            <tr>
-                <th>이메일</th>
-                <td>
-                    <input type="email" id="email" value="${li.email}" placeholder="이메일을 ----@--.- 형식으로 입력해주세요." required>
-                	<input type="button" value="중복 확인" id="emailcheck">
-                </td>
-            </tr>
-            <tr>
-                <th>성별</th>
-                <td>
-                    <input type="radio" name="gender" value="male" id="male" <c:if test="${li.gender eq 'male'}">checked</c:if>> 남성
-        			<input type="radio" name="gender" value="female" id="female" <c:if test="${li.gender eq 'female'}">checked</c:if>> 여성
-        			<input type="radio" name="gender" value="other" id="other" <c:if test="${li.gender eq 'other'}">checked</c:if>> 밝히고 싶지 않음(기타)
-                </td>
-            </tr>
-			<tr>
-			    <th>연령대</th>
-			    <td>
-			        <select id="age" name="age" required>
-			            <option value="">나이대를 선택해주세요.</option>
-			            <option value="10" <c:if test="${li.age eq 10}">selected</c:if>>10대 이하</option>
-			            <option value="20" <c:if test="${li.age eq 20}">selected</c:if>>20대</option>
-			            <option value="30" <c:if test="${li.age eq 30}">selected</c:if>>30대</option>
-			            <option value="40" <c:if test="${li.age eq 40}">selected</c:if>>40대</option>
-			            <option value="50" <c:if test="${li.age eq 50}">selected</c:if>>50대</option>
-			            <option value="60" <c:if test="${li.age eq 60}">selected</c:if>>60대 이상</option>
-			        </select>
-			    </td>
-			</tr>
-
-            <tr>
-            	<td colspan="2" align="center">
-	            	<input type="button" value="수정하기" id="submitBtn">
-					<input type="reset" value="처음으로">
-            	</td>
-            </tr>	        	                     	        
-	    </table>
+<div class="memberform">
+	
+	<form action="member_admin_check" method="post">
+	<c:forEach items="${list}" var="li">
+	<input type="hidden" name="user_number" id="user_number" value="${li.user_number}">
+		
+		<div class="form_text">
+		회원정보 수정
+		</div>
+		<br><hr><br>
+		<div class="form_title">&nbsp;아이디</div>
+		<div class="join_input">
+		<input type="text" name="id" id="id" value="${li.id}" readonly>
+		</div>
+		<br>
+	    <div class="form_title">&nbsp;비밀번호</div>
+	    <div class="join_input">
+	    <input type="password" name="pw" value="${li.pw}" id="pw" placeholder="영어 소문자와 숫자를 포함해 6-20자" required>
+	    </div>
+	    <br>
+		 <div class="form_title">&nbsp;비밀번호 확인</div>
+		<div class="join_input">
+		<input type="password" id="pw2" placeholder="비밀번호를 한 번 더 써주세요." required>
+		</div>
+		<br>
+		 <div class="form_title">&nbsp;닉네임</div>
+		<div class="join_input">
+		<input type="text" id="name" value="${li.name}" placeholder="이름을 입력해주세요." required>
+		</div>
+		<br>
+		 <div class="form_title">&nbsp;이메일</div>
+		<div class="join_input">
+		<input type="text" id="email" value="${li.email}" placeholder="이메일을 ----@--.- 형식으로 입력해주세요." required>
+		<input type="button" value="중복 확인" id="emailcheck" class="btn_1">
+		</div>
+		<br>
+		<div class="join_radio">
+		<div class="form_title">&nbsp;성별</div>
+		<label for="radio_male" class="radio_btn">
+		<input type="radio" name="gender" value="male" id="male" <c:if test="${li.gender eq 'male'}">checked</c:if>>
+		<span class="on"></span>
+		남성
+		</label>
+		<label for="radio_female" class="radio_btn">
+		<input type="radio" name="gender" value="female" id="female" <c:if test="${li.gender eq 'female'}">checked</c:if>>
+		<span class="on"></span>
+		여성
+		</label>
+		<label for="radio_other" class="radio_btn">
+		<input type="radio" name="gender" value="other" id="other" <c:if test="${li.gender eq 'other'}">checked</c:if>>
+		<span class="on"></span>
+		기타(밝히고 싶지 않음 외)
+		</label>
+		</div>
+		<br>
+		<div class="form_title">&nbsp;연령대</div>
+		<div class="join_select">
+		<select id="age" required>
+		    <option value="">나이대를 선택해주세요.</option>
+		    <option value="10" <c:if test="${li.age eq 10}">selected</c:if>>10대 이하</option>
+		    <option value="20" <c:if test="${li.age eq 20}">selected</c:if>>20대</option>
+		    <option value="30" <c:if test="${li.age eq 30}">selected</c:if>>30대</option>
+		    <option value="40" <c:if test="${li.age eq 40}">selected</c:if>>40대</option>
+		    <option value="50" <c:if test="${li.age eq 50}">selected</c:if>>50대</option>
+		    <option value="60" <c:if test="${li.age eq 60}">selected</c:if>>60대 이상</option>
+		</select>
+		</div>
+		<br><hr><br>
+		<div class="submit_btns">
+		<button id="submitBtn" class="btn_2"><span id="btn_text">수정하기</span></button>
+		<button onclick="location.href='member_out'"class="btn_2 backbtn"><span id="btn_text">돌아가기</span></button>
+     	</div>                   	        
 	    </c:forEach>
 	  </form>  
 	</div>
 
-    <div style="text-align: center;"><a href="member_out">목록으로</a></div>
-    
     </c:when>
     
     <c:otherwise>

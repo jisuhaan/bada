@@ -1,0 +1,120 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ownglyph_meetme-Rg';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/Ownglyph_meetme-Rg.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.search_form {
+	width: 400px;
+	height: 300px;
+	border:  1px solid gray;
+	border-radius: 0px;
+	margin: 0 auto;
+	padding: 30px;
+	position: relative;
+	box-shadow: 1px 1px 1px gray;
+}
+
+.search_logo {
+	display: flex;
+	justify-content:center;
+	font-family: 'Ownglyph_meetme-Rg';
+	font-size: 30px;
+	text-align: center;
+}
+
+.search_select {
+	margin:5px 0px 5px 0px;
+}
+
+select {
+	font-family: 'Pretendard-Regular';
+	width: 90px;
+	height: 25px;
+}
+
+.search_title {
+	font-family: 'Ownglyph_meetme-Rg';
+	font-size: 20px;
+	width: 100px;
+	height: 25px;
+	color:#1c1c1c;
+	margin: 5px 0px 5px 0px;
+}
+
+input[type=text] {
+	
+	font-family: 'Pretendard-Regular';
+	font-size: 15px;
+	padding:10px;
+	width: 330px;
+	height: 30px;
+	background-color: #f1f1f1;
+	border: 0;
+	box-shadow: 2px 2px 2px gray;
+	margin: 5px 0px 5px 0px;
+	
+}
+
+.btn_2 {
+	position:absolute;
+	display:inline-block;
+	width:150px;
+	height:30px;
+	background-color: #F5ce9a;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	text-align: center;
+	align-items: center;
+	justify-content:center;
+	text-decoration: none;
+	font-size: 16px;
+	margin: 2px 2px;
+	cursor: pointer;
+	border-radius: 4px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	transition: transform 0.2s;
+}
+
+.backbtn{
+	background-color: #F5ebed;
+}
+
+#btn_text{
+	font-family: 'Ownglyph_meetme-Rg';
+	font-size:20px;
+	color:#1c1c1c;
+	position:relative;
+	margin: 0 auto;
+	display:flex;
+	justify-content:center;
+	text-align: center;
+	align-items: center;
+	bottom: 7px;
+}
+
+.btn_2:hover {
+	transform: translateY(-4px);	
+}
+
+.btn_2:active {
+	transform: translateY(-1px);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.buttons {
+	display: flex;
+	justify-content: center;
+	margin: 0 auto;
+}

@@ -50,24 +50,44 @@ public class WeatherController {
    @RequestMapping(value = "/weather_beach_DTO", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
    // http에서 json 깨짐 문제는 produces = "application/json; charset=UTF-8" 추가해서 해결
    public String weather_beach_DTO(@RequestBody String jsonDataString) {
+	   System.out.println("시이작!!!");
+	   String objectreturn = "";
+	   try {
+	   // JSON 문자열을 JsonNode로 파싱
+	   JsonNode jsonNode = objectMapper.readTree(jsonDataString);
+	   String beach = jsonNode.get("beachName").asText();
+	   System.out.println("beach: "+beach);
+	   String forecastNode = jsonNode.get("forecast").asText();
+	   System.out.println("forecastNode: "+forecastNode);
+	   String twBuoyNode = jsonNode.get("twBuoy").asText();
+	   System.out.println("twBuoyNode: "+twBuoyNode);
+	   Service service = sqlsession.getMapper(Service.class);
+   	   Bada_default_DTO bdto= service.weather_beach_defaultInfo(beach);
+       System.out.println("변환된 DTO 객체 1: " + bdto.toString());
+	   
 	   // JSON 데이터를 받아올 때엔 @RequestParam보다 @RequestBody를 주로 사용
-        String objectreturn = "";
+        
         System.out.println("넘어온 값: "+jsonDataString);
-        try {
+        
         // Jackson 라이브러리의 ObjectMapper를 사용하여 JSON 문자열 result를 읽어서 트리 구조로 변환하는 작업을 수행    
         // 변환된 JsonNode 객체는 JSON 데이터의 계층 구조를 유지하면서 각각의 요소에 접근할 수 있는 메서드를 제공   
         	objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        	Bada_list_DTO dto = objectMapper.readValue(jsonDataString, Bada_list_DTO.class);
-            
-        	// DTO 객체를 출력하여 변환이 제대로 이루어졌는지 확인합니다.
-            System.out.println("변환된 DTO 객체: " + dto.toString());
-
-	        dto.setSky(convertSky(dto.getSky()));
+        	
+        	Bada_list_DTO dto = objectMapper.readValue(forecastNode, Bada_list_DTO.class);
+        	
+        	dto.setSky(convertSky(dto.getSky()));
 	        dto.setPty(convertPty(dto.getPty()));
               
 	        System.out.println("변환 완료 : "+dto.getSky());
+        	System.out.println("변환된 DTO 객체 2: " + dto.toString());
+        	
+        	Bada_tw_DTO tdto = objectMapper.readValue(twBuoyNode, Bada_tw_DTO.class);
+        	
+        	bdto.setBada_list_dto(dto);
+        	bdto.setBada_tw_dto(tdto);
+
             // DTO 객체를 JSON 형태로 변환
-            objectreturn = objectMapper.writeValueAsString(dto);
+            objectreturn = objectMapper.writeValueAsString(bdto);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

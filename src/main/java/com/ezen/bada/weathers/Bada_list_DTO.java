@@ -3,15 +3,6 @@ package com.ezen.bada.weathers;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Bada_list_DTO {
-	// 해수욕장 기본 정보
-	String beach;
-	String state;
-	String address;
-	double latitude;
-	double longitude;
-	int grid_x;
-	int grid_y;
-	
 	// 해수욕장 단기 예보 결과
 	String beach_code; //해변코드
 	String baseDate; //발표일자
@@ -38,12 +29,6 @@ public class Bada_list_DTO {
 	@JsonProperty("TMP") // 1시간 기온
 	String tmp;
 
-	@JsonProperty("TMN") // 아침 최저기온
-	String tmn;
-
-	@JsonProperty("TMX") // 낮 최고기온
-	String tmx;
-
 	@JsonProperty("UUU") // 풍속(동서성분)
 	String uuu;
 
@@ -59,29 +44,12 @@ public class Bada_list_DTO {
 	@JsonProperty("WSD") // 풍속
 	String wsd;
 
-	// 수온
-	String tm; // 관측시간 년월일시분
-	String tw; // 수온
-
-	
-	//일출 일몰
-	String sunrise;
-	String sunset;
-	
 	public Bada_list_DTO() {}
 
-	public Bada_list_DTO(String beach, String state, String address, double latitude, double longitude, int grid_x,
-			int grid_y, String beach_code, String baseDate, String baseTime, String pop, String pty, String pcp,
-			String reh, String sno, String sky, String tmp, String tmn, String tmx, String uuu, String vvv, String wav,
+	public Bada_list_DTO(String beach_code, String baseDate, String baseTime, String pop, String pty, String pcp,
+			String reh, String sno, String sky, String tmp, String uuu, String vvv, String wav,
 			String vec, String wsd, String tm, String tw, String sunrise, String sunset) {
 		super();
-		this.beach = beach;
-		this.state = state;
-		this.address = address;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.grid_x = grid_x;
-		this.grid_y = grid_y;
 		this.beach_code = beach_code;
 		this.baseDate = baseDate;
 		this.baseTime = baseTime;
@@ -92,73 +60,11 @@ public class Bada_list_DTO {
 		this.sno = sno;
 		this.sky = sky;
 		this.tmp = tmp;
-		this.tmn = tmn;
-		this.tmx = tmx;
 		this.uuu = uuu;
 		this.vvv = vvv;
 		this.wav = wav;
 		this.vec = vec;
 		this.wsd = wsd;
-		this.tm = tm;
-		this.tw = tw;
-		this.sunrise = sunrise;
-		this.sunset = sunset;
-	}
-
-	public String getBeach() {
-		return beach;
-	}
-
-	public void setBeach(String beach) {
-		this.beach = beach;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public double getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
-
-	public double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
-	}
-
-	public int getGrid_x() {
-		return grid_x;
-	}
-
-	public void setGrid_x(int grid_x) {
-		this.grid_x = grid_x;
-	}
-
-	public int getGrid_y() {
-		return grid_y;
-	}
-
-	public void setGrid_y(int grid_y) {
-		this.grid_y = grid_y;
 	}
 
 	public String getBeach_code() {
@@ -241,22 +147,6 @@ public class Bada_list_DTO {
 		this.tmp = tmp;
 	}
 
-	public String getTmn() {
-		return tmn;
-	}
-
-	public void setTmn(String tmn) {
-		this.tmn = tmn;
-	}
-
-	public String getTmx() {
-		return tmx;
-	}
-
-	public void setTmx(String tmx) {
-		this.tmx = tmx;
-	}
-
 	public String getUuu() {
 		return uuu;
 	}
@@ -296,50 +186,5 @@ public class Bada_list_DTO {
 	public void setWsd(String wsd) {
 		this.wsd = wsd;
 	}
-
-	public String getTm() {
-		return tm;
-	}
-
-	public void setTm(String tm) {
-		this.tm = tm;
-	}
-
-	public String getTw() {
-		return tw;
-	}
-
-	public void setTw(String tw) {
-		this.tw = tw;
-	}
-
-	public String getSunrise() {
-		return sunrise;
-	}
-
-	public void setSunrise(String sunrise) {
-		this.sunrise = sunrise;
-	}
-
-	public String getSunset() {
-		return sunset;
-	}
-
-	public void setSunset(String sunset) {
-		this.sunset = sunset;
-	}
-
-	@Override
-	public String toString() {
-		return "Bada_list_DTO [beach=" + beach + ", state=" + state + ", address=" + address + ", latitude=" + latitude
-				+ ", longitude=" + longitude + ", grid_x=" + grid_x + ", grid_y=" + grid_y + ", beach_code="
-				+ beach_code + ", baseDate=" + baseDate + ", baseTime=" + baseTime + ", pop=" + pop + ", pty=" + pty
-				+ ", pcp=" + pcp + ", reh=" + reh + ", sno=" + sno + ", sky=" + sky + ", tmp=" + tmp + ", tmn=" + tmn
-				+ ", tmx=" + tmx + ", uuu=" + uuu + ", vvv=" + vvv + ", wav=" + wav + ", vec=" + vec + ", wsd=" + wsd
-				+ ", tm=" + tm + ", tw=" + tw + ", sunrise=" + sunrise + ", sunset=" + sunset + "]";
-	}
-	
-	
-
 }
 

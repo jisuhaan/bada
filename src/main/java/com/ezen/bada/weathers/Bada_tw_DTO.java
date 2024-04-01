@@ -1,37 +1,31 @@
 package com.ezen.bada.weathers;
 
 public class Bada_tw_DTO {
-	String beachNum;
-	String tm;
-	double tw;
+
+	String record_time;
+	double water_temp;
 	
 	public Bada_tw_DTO() {}
-	
-	public Bada_tw_DTO(String beachNum, String tm, double tw) {
+
+	public Bada_tw_DTO(String record_time, double water_temp) {
 		super();
-		this.beachNum = beachNum;
-		this.tm = tm;
-		this.tw = tw;
+		this.record_time = record_time;
+		this.water_temp = water_temp;
 	}
-	
-	public String getBeachNum() {
-		return beachNum;
+
+	public String getRecord_time() {
+		return record_time;
 	}
-	public void setBeachNum(String beachNum) {
-		this.beachNum = beachNum;
+
+	public void setRecord_time(String record_time) {
+		this.record_time = record_time;
 	}
-	public String getTm() {
-		return tm;
+
+	public double getWater_temp() {
+		return water_temp;
 	}
-	public void setTm(String tm) {
-		this.tm = tm;
+
+	public void setWater_temp(double water_temp) {
+		this.water_temp = water_temp;
 	}
-	public double getTw() {
-		return tw;
-	}
-	public void setTw(double tw) {
-		this.tw = tw;
-	}
-	
-	
 }

@@ -135,3 +135,4 @@ public class Bada_default_DTO {
 	}
 
 }
+	

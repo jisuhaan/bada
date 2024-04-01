@@ -50,17 +50,20 @@ public class WeatherController {
    @RequestMapping(value = "/weather_beach_DTO", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
    // http에서 json 깨짐 문제는 produces = "application/json; charset=UTF-8" 추가해서 해결
    public String weather_beach_DTO(@RequestBody String jsonDataString) {
+      System.out.println("시이작!!!");
       String objectreturn = "";
       try {
       // JSON 문자열을 JsonNode로 파싱
       JsonNode jsonNode = objectMapper.readTree(jsonDataString);
-      String beachnum = jsonNode.get("beachnum").asText();
+      String beach = jsonNode.get("beachName").asText();
+      System.out.println("beach: "+beach);
       String forecastNode = jsonNode.get("forecast").asText();
+      System.out.println("forecastNode: "+forecastNode);
       String twBuoyNode = jsonNode.get("twBuoy").asText();
-      
+      System.out.println("twBuoyNode: "+twBuoyNode);
       Service service = sqlsession.getMapper(Service.class);
-      Bada_default_DTO bdto= service.weather_beach_defaultInfo(beachnum);
-      System.out.println("변환된 DTO 객체 1: " + bdto.toString());
+         Bada_default_DTO bdto= service.weather_beach_defaultInfo(beach);
+       System.out.println("변환된 DTO 객체 1: " + bdto.toString());
       
       // JSON 데이터를 받아올 때엔 @RequestParam보다 @RequestBody를 주로 사용
         
@@ -78,7 +81,7 @@ public class WeatherController {
            System.out.println("변환 완료 : "+dto.getSky());
            System.out.println("변환된 DTO 객체 2: " + dto.toString());
            
-           Bada_tw_DTO tdto = objectMapper.readValue(forecastNode, Bada_tw_DTO.class);
+           Bada_tw_DTO tdto = objectMapper.readValue(twBuoyNode, Bada_tw_DTO.class);
            
            bdto.setBada_list_dto(dto);
            bdto.setBada_tw_dto(tdto);

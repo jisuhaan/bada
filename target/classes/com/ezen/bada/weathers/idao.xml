@@ -3,12 +3,13 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="com.ezen.bada.weathers.Service">
+	
 	<select id="weather_beachName" resultType="Integer">
-		select beach_code from BADA_LIST where beach like '%' || #{param1} || '%'
+	   select beach_code from BADA_LIST where beach like '%' || #{param1} || '%'
 	</select>
 	
 	<select id="weather_beach_defaultInfo" resultType="com.ezen.bada.weathers.Bada_default_DTO">
-		select * from BADA_LIST where beach_code = #{param1}
+	   select * from BADA_LIST where beach like '%' || #{param1} || '%'
 	</select>
 	
 	<!-- 선택한 지역에 해당하는 바다 리스트를 뽑아옵니다. -->
@@ -19,5 +20,5 @@
 	<select id="getbadalist2" resultType="com.ezen.bada.weathers.Bada_default_DTO">
 		select * from BADA_LIST where state = #{param1} or state = #{param2}
 	</select>
-
+	
 </mapper>

@@ -13,7 +13,7 @@ public class Bada_list_DTO {
 	int grid_y;
 	
 	// 해수욕장 단기 예보 결과
-	String beachNum; //해변코드
+	String beach_code; //해변코드
 	String baseDate; //발표일자
 	String baseTime; //발표시간
 	// 어노테이션을 붙여야 json의 key값이 아래 dto 필드명에 정확하게 찾아감
@@ -71,7 +71,7 @@ public class Bada_list_DTO {
 	public Bada_list_DTO() {}
 
 	public Bada_list_DTO(String beach, String state, String address, double latitude, double longitude, int grid_x,
-			int grid_y, String beachNum, String baseDate, String baseTime, String pop, String pty, String pcp,
+			int grid_y, String beach_code, String baseDate, String baseTime, String pop, String pty, String pcp,
 			String reh, String sno, String sky, String tmp, String tmn, String tmx, String uuu, String vvv, String wav,
 			String vec, String wsd, String tm, String tw, String sunrise, String sunset) {
 		super();
@@ -82,7 +82,7 @@ public class Bada_list_DTO {
 		this.longitude = longitude;
 		this.grid_x = grid_x;
 		this.grid_y = grid_y;
-		this.beachNum = beachNum;
+		this.beach_code = beach_code;
 		this.baseDate = baseDate;
 		this.baseTime = baseTime;
 		this.pop = pop;
@@ -161,12 +161,12 @@ public class Bada_list_DTO {
 		this.grid_y = grid_y;
 	}
 
-	public String getBeachNum() {
-		return beachNum;
+	public String getBeach_code() {
+		return beach_code;
 	}
 
-	public void setBeachNum(String beachNum) {
-		this.beachNum = beachNum;
+	public void setBeach_code(String beach_code) {
+		this.beach_code = beach_code;
 	}
 
 	public String getBaseDate() {
@@ -328,6 +328,18 @@ public class Bada_list_DTO {
 	public void setSunset(String sunset) {
 		this.sunset = sunset;
 	}
+
+	@Override
+	public String toString() {
+		return "Bada_list_DTO [beach=" + beach + ", state=" + state + ", address=" + address + ", latitude=" + latitude
+				+ ", longitude=" + longitude + ", grid_x=" + grid_x + ", grid_y=" + grid_y + ", beach_code="
+				+ beach_code + ", baseDate=" + baseDate + ", baseTime=" + baseTime + ", pop=" + pop + ", pty=" + pty
+				+ ", pcp=" + pcp + ", reh=" + reh + ", sno=" + sno + ", sky=" + sky + ", tmp=" + tmp + ", tmn=" + tmn
+				+ ", tmx=" + tmx + ", uuu=" + uuu + ", vvv=" + vvv + ", wav=" + wav + ", vec=" + vec + ", wsd=" + wsd
+				+ ", tm=" + tm + ", tw=" + tw + ", sunrise=" + sunrise + ", sunset=" + sunset + "]";
+	}
+	
+	
 
 }
 

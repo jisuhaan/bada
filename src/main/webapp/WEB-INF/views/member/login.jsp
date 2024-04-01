@@ -109,7 +109,7 @@ $(document).ready(function(){
 <div class="bodybox">
 
 <div class="login_main">
-	<div class="login_logo1"><img src="./resources/image/로고5-2.png" width="100px" height="80px"></div>
+	<div class="login_logo1"><img src="./resources/image/로고 9-2.png" width="100px" height="80px"></div>
 	<h1 class="login_logo2">로그인 해볼까요?</h1>
 	<div class="login_container">
 		<input type="text" name="id" placeholder="ID" id="id" class="input_field">

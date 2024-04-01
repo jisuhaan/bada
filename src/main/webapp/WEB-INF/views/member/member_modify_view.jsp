@@ -13,7 +13,6 @@
     <script type="text/javascript">
     $(document).ready(function () {
         
-        
 	        $("#emailcheck").click(function () {
 	            var email = $("#email").val();
 	            

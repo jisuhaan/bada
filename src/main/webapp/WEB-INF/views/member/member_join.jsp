@@ -176,7 +176,7 @@
 <c:when test="${loginstate==false}">
 
 <div class="join_logo">
-<img src="./resources/image/로고4-1.png" width="200px" >
+<img src="./resources/image/로고 9-1.png" width="200px" >
 </div>
 
 <div class="memberform">

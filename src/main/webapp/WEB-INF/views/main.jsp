@@ -19,7 +19,7 @@ if(hs.getAttribute("loginstate")==null){
 }
 %>
 <div class="mainlogos">
-<img src ="./resources/image/로고4-1.png" width="300px">
+<img src ="./resources/image/로고 9-1.png" width="300px">
 </div>
 <div class="mainsearch">
 <span id="searchtext">떠나자, </span>

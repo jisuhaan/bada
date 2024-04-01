@@ -20,9 +20,9 @@
     
     <!-- 자바 스크립트 시작. 버튼이 눌린 다음 메소드들이 기능하도록 위치는 아래로 설정. -->
     <script>
-        document.getElementById("searchBtn").addEventListener("click", function() {
-            var beachName = document.getElementById("beachName").value;
-            fetchWeather(beachName);
+       document.getElementById("searchBtn").addEventListener("click", function() {
+          var beachName = document.getElementById("beachName").value;
+          fetchWeather(beachName);
         });
 
         function fetchWeather(beachName) {
@@ -34,35 +34,22 @@
                 return response.json(); // json 형식으로 받아오기
             })
             .then(data => {
-               var beachnum = data.beach_code; // 받은 beach code만 인수로 넣기
-                return api_forecast(beachnum)
+                return api_forecast(data.beach_code)// 받은 beach code만 인수로 넣기
                     .then(forecastData => {
-                        return api_getTwBuoyBeach(beachnum)
+                        return api_getTwBuoyBeach()
                             .then(twBuoyData => {
-                                return { forecast: forecastData, twBuoy: twBuoyData, beachnum: beachnum };
+                               console.log(twBuoyData)
+                                return { forecast: forecastData, twBuoy: twBuoyData, beachName: beachName};
                             });
                     });
             })
             .then(results => {
-               var jsonDataString = createJSONData(result.forecast, result.twBuoy, result.beachnum);
-                // JSON 데이터 전송
-                dtosave_result(jsonDataString);
+            // JSON 데이터 전송
+                dtosave_result(JSON.stringify(results));
             })
             .catch(error => {
                 console.error("Error fetching weather data:", error);
             });
-        }
-        
-        function createJSONData(forecastData, twBuoyData, beachnum) {
-            // 필요한 정보를 추출하여 JSON 객체로 구성
-            var combinedData = {
-                forecast: forecastData,
-                twBuoy: twBuoyData,
-                beachnum: beachnum
-            };
-            
-            // JSON 객체를 문자열로 변환하여 반환
-            return JSON.stringify(combinedData);
         }
         
         function api_forecast(beachnum) {
@@ -96,13 +83,13 @@
             });
         }
         
-        function api_getTwBuoyBeach(beachnum) {
+        function api_getTwBuoyBeach() {
            // API 호출
-            var url = 'https://apis.data.go.kr/1360000/BeachInfoService/getTwBuoyBeach'; /*URL*/
-            var serviceKey = 'QWzzzAb%2FUIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J%2BlicoY1Dffo51%2Fi5HTDfU00ZpDy2E4%2FASt2FgLknaA%3D%3D'; /*Service Key*/
-            var queryParams = '?' + encodeURIComponent('dataType') + '=' + encodeURIComponent('JSON');
-            queryParams += '&' + encodeURIComponent('beach_num') + '=' + beachnum;
-            queryParams += '&' + encodeURIComponent('searchTime') + '=' + encodeURIComponent(getFormattedDate()+getCurrentTime());
+            var url = 'http://www.khoa.go.kr/api/oceangrid/tideObsTemp/search.do'; /*URL*/
+            var serviceKey = 'C9p5sRvJfzIgyPb5hbCaA=='; /*Service Key*/
+            var queryParams = '?' + encodeURIComponent('ResultType') + '=' + encodeURIComponent('json');
+            queryParams += '&' + encodeURIComponent('ObsCode') + '=' + encodeURIComponent('DT_0005');
+            queryParams += '&' + encodeURIComponent('Date') + '=' + encodeURIComponent(getFormattedDate());
             queryParams += '&' + encodeURIComponent('ServiceKey') + '=' + serviceKey;
              
             return fetch(url + queryParams)
@@ -111,9 +98,12 @@
                     throw new Error('Network response was not ok');
                 }
                 return response.json();
-            }).then(data => {
-                console.log(data.response.body.items.item);
-                return data.response.body.items.item;
+            }).then(response => {
+                console.log(response.result.data);
+                const data = response.result.data;
+                const lastData = JSON.stringify(data[data.length - 1]); // 가장 마지막 데이터의 수온(최신) 정보 가져오기
+                console.log(lastData);
+                return lastData;
              })
              .catch(error => {
                  console.error('Fetch Error', error);

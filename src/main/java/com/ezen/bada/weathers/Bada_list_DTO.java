@@ -186,4 +186,5 @@ public class Bada_list_DTO {
 	public void setWsd(String wsd) {
 		this.wsd = wsd;
 	}
+
 }

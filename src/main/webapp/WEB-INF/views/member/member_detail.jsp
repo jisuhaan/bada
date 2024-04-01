@@ -79,7 +79,7 @@
 	        	<td>${li.role}</td> 
 	        </tr>
 	       	<tr>
-	        	<th>이름</th>
+	        	<th>닉네임</th>
 	        	<td>${li.name}</td> 
 	        </tr>
 	       	<tr>

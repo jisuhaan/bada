@@ -81,10 +81,10 @@
 		            return false;
 		        }
 		        
-		        // 이름 확인
-		        var namePattern = /^[가-힣]{2,10}$/;
+		     	// 닉네임 확인
+		        var namePattern = /^[가-힣a-zA-Z0-9]{2,10}$/;
 		        if(!namePattern.test(name)){
-		        	alert("이름은 한글 2~10글자 이내여야 합니다.");
+		        	alert("닉네임은 한글, 영어 대소문자, 숫자만을 포함하여 2~10글자 사이여야 합니다.");
 		        	return false;
 		        }
 		
@@ -173,7 +173,7 @@
 		<br>
 		 <div class="form_title">&nbsp;닉네임</div>
 		<div class="join_input">
-		<input type="text" id="name" value="${li.name}" placeholder="이름을 입력해주세요." required>
+		<input type="text" id="name" value="${li.name}" placeholder="닉네임을 입력해주세요." required>
 		</div>
 		<br>
 		 <div class="form_title">&nbsp;이메일</div>

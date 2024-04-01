@@ -54,8 +54,8 @@
                     <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
                     <ul class="collapse__menu">
-                        <a href="#" class="collapse__sublink">문의작성</a>
-                        <a href="#" class="collapse__sublink">문의목록</a>
+                        <a href="inquire_input" class="collapse__sublink">문의 작성</a>
+                        <a href="inquire_listout" class="collapse__sublink">문의 목록</a>
                     </ul>
                 </div>
                     

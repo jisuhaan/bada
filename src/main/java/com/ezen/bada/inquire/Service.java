@@ -1,4 +1,4 @@
-package com.ezen.bada.board;
+package com.ezen.bada.inquire;
 
 public interface Service {
 

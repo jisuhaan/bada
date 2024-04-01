@@ -23,7 +23,7 @@
 	<select name="search_keyword">
 		<option value="user_number">회원 번호</option>
 		<option value="id">회원 아이디</option>
-		<option value="name">회원 성명</option>
+		<option value="name">회원 닉네임</option>
 	</select>
 	</div>
 	<input type="text" name="search_value">

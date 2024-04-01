@@ -137,7 +137,7 @@
 		<script>
 			window.onload = function() {
 			    alert("로그인한 회원만 문의를 남길 수 있습니다.");
-			    window.location.href = "${pageContext.request.contextPath}/main";
+			    window.location.href = "${pageContext.request.contextPath}/login";
 			};
 	    </script>
 	    

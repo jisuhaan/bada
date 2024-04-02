@@ -58,7 +58,7 @@ $.ajax({
 		<div class="map">
 			<ul class="map-step1"><!--링크 클릭 시 해당지역 추가-->
 				<li class="kyungin">
-					<a href="#" onclick="clickarea('gyeongin'); showarea('경인')" id="gyeongin">
+					<a href="#" onclick="clickarea('gyeongin'); showarea('경인')" id="kyungin">
 					<img src="./resources/image/경인-01.png" width="100px">
 					</a>
 				</li>

@@ -12,4 +12,10 @@ public interface Service {
 
 	List<Bada_default_DTO> getbadalist2(String area1, String area2);
 
+	Bada_info_DTO getbeachinfo(int beach_code);
+
+	double getbeachlat(int beach_code);
+
+	double getbeachlog(int beach_code);
+
 }

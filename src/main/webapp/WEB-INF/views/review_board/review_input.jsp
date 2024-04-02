@@ -6,96 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style type="text/css">
-	.hashtag-box {
-	    border: 1px solid #ccc;
-	    display: inline-block;
-	    padding: 5px 10px;
-	    margin: 5px;
-	    cursor: pointer;
-	}
-	
-	.hashtag-box.selected {
-	    background-color: #007bff;
-	    color: white;
-	    border-color: #007bff;
-	}
-	
-	.visit-box {
-	    border: 2px solid #ccc;
-	    display: inline-block;
-	    padding: 10px 20px;
-	    margin: 5px;
-	    cursor: pointer;
-	    transition: background-color 0.3s, color 0.3s;
-	}
-	
-	.visit-box.selected {
-	    background-color: #007bff;
-	    color: white;
-	    border-color: #007bff;
-	}	
-	
-	fieldset{
-	    display: inline-block;
-	    direction: rtl;
-	    border:0;
-	}
-	fieldset legend{
-	    text-align: right;
-	}
-	input[type=radio]{
-	    display: none;
-	}
-	label{
-	    font-size: 1.5em;
-	    color: transparent;
-	    text-shadow: 0 0 0 #9c9c9c;
-	}
-	label:hover,
-		#star input[type=radio]:hover ~ label,
-		#star input[type=radio]:checked ~ label{
-	    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
-	}
-	
-	
-	input[type=radio]:checked + label {
-	   text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
-	}
-	
-	#star label:hover ~ label,
-	#star input[type=radio]:checked + label ~ label {
-	    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
-	}
-
-	.insert {
-	    display: block;
-	    width: 300px;
-	    margin: 5vh auto;
-	    height: 20vh;
-	    border: 1px solid #dbdbdb;
-	    -webkit-box-sizing: border-box;
-	    -moz-box-sizing: border-box;
-	    box-sizing: border-box;
-	}
-	.insert .file-list {
-	    height: 200px;
-	    overflow: auto;
-	    border: 1px solid #989898;
-	    padding: 10px;
-	}
-	.insert .file-list .filebox p {
-	    font-size: 14px;
-	    margin-top: 10px;
-	    display: inline-block;
-	}
-	.insert .file-list .filebox .delete i{
-	    color: #ff5353;
-	    margin-left: 5px;
-	}
-</style>
+<link href="${pageContext.request.contextPath}/resources/css/review_input.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+
 	<form action="review_save" method="post" enctype="multipart/form-data">
 		<table align="center">
 		<caption>바다후기 게시글 입력</caption>
@@ -315,5 +229,6 @@ function submitForm() {
 	});
 
 </script>
+
 </body>
 </html>

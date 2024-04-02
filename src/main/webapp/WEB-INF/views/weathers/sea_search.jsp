@@ -20,6 +20,22 @@
     
     <!-- 자바 스크립트 시작. 버튼이 눌린 다음 메소드들이 기능하도록 위치는 아래로 설정. -->
     <script>
+    	// Date 함수
+    	var currentDate = new Date();
+    	// 날짜 변수
+    	var year = currentDate.getFullYear();
+        var month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // 문자열의 최종 길이를 2로 설정. 문자열의 길이가 그보다 짧으면 앞에 0을 붙이기
+        var day = currentDate.getDate().toString().padStart(2, '0');
+        var dateString = year+ month + day;
+        // 시간 변수 -> 얘네는 기본으로 2자리로 설정
+        var hours = currentDate.getHours();
+        var minutes = currentDate.getMinutes();
+
+        // 단기 예보 시간에 맞게 정시 설정
+        function getNextBaseTime(){
+
+        }
+    
        document.getElementById("searchBtn").addEventListener("click", function() {
           var beachName = document.getElementById("beachName").value;
           fetchWeather(beachName);
@@ -38,8 +54,9 @@
                     .then(forecastData => {
                         return api_getTwBuoyBeach()
                             .then(twBuoyData => {
-                               console.log(twBuoyData)
-                                return { forecast: forecastData, twBuoy: twBuoyData, beachName: beachName};
+                               console.log(twBuoyData);
+                                api_WeatherWarning();
+                                 return { forecast: forecastData, twBuoy: twBuoyData, beachName: beachName};
                             });
                     });
             })
@@ -57,13 +74,13 @@
             var url = 'http://apis.data.go.kr/1360000/BeachInfoservice/getVilageFcstBeach'; /*URL*/
             var serviceKey = 'QWzzzAb%2FUIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J%2BlicoY1Dffo51%2Fi5HTDfU00ZpDy2E4%2FASt2FgLknaA%3D%3D'; /*Service Key*/
             var queryParams = '?' + encodeURIComponent('serviceKey') + '=' + serviceKey;
-            queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('12');
+            queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('290');
             queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1');
             queryParams += '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('JSON');
-            queryParams += '&' + encodeURIComponent('base_date') + '=' + encodeURIComponent(getFormattedDate());
-            queryParams += '&' + encodeURIComponent('base_time') + '=' + encodeURIComponent('0500');
+            queryParams += '&' + encodeURIComponent('base_date') + '=' + encodeURIComponent('20240401');
+            queryParams += '&' + encodeURIComponent('base_time') + '=' + encodeURIComponent('2300');
             queryParams += '&' + encodeURIComponent('beach_num') + '=' + beachnum;
-          
+          	console.log(url + queryParams);
             return fetch(url + queryParams)
             .then(response => {
                 if (!response.ok) {
@@ -72,6 +89,7 @@
                 return response.json();
             })
             .then(data => {
+               console.log(JSON.stringify(data.response.body.items.item));
                displayWeatherTable(data.response.body.items.item);
                var jsonDataString = createJSONData(data.response.body.items.item);
                console.log(jsonDataString);
@@ -89,7 +107,7 @@
             var serviceKey = 'C9p5sRvJfzIgyPb5hbCaA=='; /*Service Key*/
             var queryParams = '?' + encodeURIComponent('ResultType') + '=' + encodeURIComponent('json');
             queryParams += '&' + encodeURIComponent('ObsCode') + '=' + encodeURIComponent('DT_0005');
-            queryParams += '&' + encodeURIComponent('Date') + '=' + encodeURIComponent(getFormattedDate());
+            queryParams += '&' + encodeURIComponent('Date') + '=' + encodeURIComponent(dateString);
             queryParams += '&' + encodeURIComponent('ServiceKey') + '=' + serviceKey;
              
             return fetch(url + queryParams)
@@ -109,24 +127,79 @@
                  console.error('Fetch Error', error);
                  throw error; // 에러를 상위로 전파
              });
-      }
-        
-        function getFormattedDate() {
-            var currentDate = new Date();
-            var year = currentDate.getFullYear();
-            var month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-            var day = currentDate.getDate().toString().padStart(2, '0');
-            return year + month + day;
         }
         
-        function getCurrentTime() {
-            var currentDate = new Date();
-            currentDate.setMinutes(currentDate.getMinutes() - 2); // 현재 시간에서 2분을 빼기
-            var hours = currentDate.getHours().toString().padStart(2, '0');
-            var minutes = currentDate.getMinutes().toString().padStart(2, '0');
-            var formattedDateTime = hours + minutes;
-            return formattedDateTime;
+        function api_WeatherWarning() {
+            // API 호출
+            var url = 'https://apis.data.go.kr/1360000/WthrWrnInfoService/getPwnCd'; /*URL*/
+            var serviceKey = 'QWzzzAb%2FUIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J%2BlicoY1Dffo51%2Fi5HTDfU00ZpDy2E4%2FASt2FgLknaA%3D%3D'; /*Service Key*/
+            var queryParams = '?' + encodeURIComponent('dataType') + '=' + encodeURIComponent('json');
+            queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10');
+            queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1');
+            queryParams += '&' + encodeURIComponent('areaCode') + '=' + encodeURIComponent('L1080100');
+            queryParams += '&' + encodeURIComponent('ServiceKey') + '=' + serviceKey;
+
+            return fetch(url + queryParams)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                	console.log(data);
+                    if (data.response.header.resultCode === "03") {
+                        // 정보가 없을 때 아무것도 출력하지 않음
+                        console.log("경보 정보가 없습니다.");
+                        return;
+                    }
+
+                    // 정보가 있을 때 데이터 처리
+                    var items = data.response.body.items.item;
+                    
+                    // item 안에 배열로 json 정보가 저장. 따라서 반복문으로 특정 순서의 배열마다의 정보를 뽑아오도록 한다.
+                    items.forEach(item => {
+                        // 경보 종류와 강도에 따라 메시지 구성
+                        var warningMessage = "";
+                        if (item.warnVar === 1) {
+                            warningMessage += "강풍 ";
+                        } else if (item.warnVar === 2) {
+                            warningMessage += "호우 ";
+                        } else if (item.warnVar === 3) {
+                            warningMessage += "한파 ";
+                        } else if (item.warnVar === 4) {
+                            warningMessage += "건조 ";
+                        } else if (item.warnVar === 5) {
+                            warningMessage += "폭풍해일 ";
+                        } else if (item.warnVar === 6) {
+                            warningMessage += "풍랑 ";
+                        } else if (item.warnVar === 7) {
+                            warningMessage += "태풍 ";
+                        } else if (item.warnVar === 8) {
+                            warningMessage += "대설 ";
+                        } else if (item.warnVar === 9) {
+                            warningMessage += "황사 ";
+                        } else if (item.warnVar === 12) {
+                            warningMessage += "폭염 ";
+                        }
+
+                        if (item.warnStress === 0) {
+                            warningMessage += "주의보";
+                        } else if (item.warnStress === 1) {
+                            warningMessage += "경보";
+                        }
+
+                        // 발표 시각 및 메시지 출력
+                        console.log("발표시각:", item.tmFc);
+                        console.log("특보종류:", warningMessage);
+                    });
+                })
+                .catch(error => {
+                    console.error('Fetch Error', error);
+                    throw error; // 에러를 상위로 전파
+             });
         }
+        
         
         function displayWeatherTable(weatherData) {
             var tableHTML = "<table border='1'><tr><th>Category</th><th>Value</th></tr>";

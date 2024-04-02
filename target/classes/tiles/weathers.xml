@@ -21,4 +21,9 @@
 		<put-attribute name="body" value="/WEB-INF/views/weathers/sea_search.jsp"/>
 	</definition>
 	
+	<definition name="sea_result" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 바다정보 :: 해수욕장 정보"/>
+		<put-attribute name="body" value="/WEB-INF/views/weathers/sea_result.jsp"/>
+	</definition>
+	
 </tiles-definitions>

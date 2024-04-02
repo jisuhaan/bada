@@ -15,6 +15,10 @@
 		<put-attribute name="title" value="바라는 바다 :: 후기게시판 작성"/>
 		<put-attribute name="body" value="/WEB-INF/views/review_board/review_input.jsp"/>
 	</definition>
-    
+
+   	<definition name="review_input2" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다 :: 후기게시판 작성"/>
+		<put-attribute name="body" value="/WEB-INF/views/review_board/review_input2.jsp"/>
+	</definition>    
    
 </tiles-definitions>

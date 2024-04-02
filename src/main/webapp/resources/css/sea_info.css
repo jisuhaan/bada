@@ -87,7 +87,6 @@ a {
 	color: black;
 }
 
-
 .kyungin {
 	top: 170px;
 	left: 180px;
@@ -140,6 +139,7 @@ a {
 	float:right;
 	width: 50%;
 	height:70%;
+	padding:30px;
 	background-color:skyblue;
 }
 

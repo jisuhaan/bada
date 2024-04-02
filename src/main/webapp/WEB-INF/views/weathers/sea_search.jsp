@@ -90,6 +90,48 @@
             })
             .then(data => {
                console.log(JSON.stringify(data.response.body.items.item));
+               
+               var originalData = data;
+               var extractedItems = data.response.body.items.item.filter(item => item.category === 'TMN' || item.category === 'TMX');
+               
+               originalData.response.body.items.item = originalData.response.body.items.item.filter(item => item.category !== 'TMN' && item.category !== 'TMX');
+               // 변경된 JSON 데이터 출력
+               console.log(originalData);
+               console.log(extractedItems);
+               
+               // 시간대별로 묶인 날씨 정보를 담을 배열
+               var hourlyData = [];
+               
+               for (var i = 0; i < 24; i++) {
+            	   // 각 시간대에 해당하는 12개의 날씨 정보를 추출하여 hourlyData에 추가
+            	   var startIndex = i * 12; // 시작 인덱스
+            	   var endIndex = (i + 1) * 12; // 끝 인덱스
+            	   var hourlyWeather = originalData.response.body.items.item.slice(startIndex, endIndex);
+            	   hourlyData.push(hourlyWeather);
+            	}
+
+            	// 24개로 분리한 array 안의 array(12) 결과 출력 
+            	console.log('24개로 분리한 array 안의 array(12) 결과 출력');
+            	console.log(hourlyData);
+               
+            	// 각 시간대별로 category와 fcstValue를 저장할 객체
+            	var hourlyCategoryValue = [];
+
+            	// 각 시간대별로 순회하면서 category와 fcstValue를 추출하여 저장
+            	hourlyData.forEach(function(hourlyWeather) {
+            	  var hourlyObject = {}; // 각 시간대의 category와 fcstValue를 저장할 객체
+            	  hourlyWeather.forEach(function(weatherInfo) {
+            	    hourlyObject[weatherInfo.category] = weatherInfo.fcstValue;
+            	  });
+            	  hourlyCategoryValue.push(hourlyObject);
+            	});
+
+            	// 결과 출력
+            	console.log('쌍이 잘 저장이 될까요');
+            	console.log(hourlyCategoryValue);
+            	 
+            	 
+               ////// 기존에 작동하던 코드 부분
                displayWeatherTable(data.response.body.items.item);
                var jsonDataString = createJSONData(data.response.body.items.item);
                console.log(jsonDataString);

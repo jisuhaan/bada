@@ -28,6 +28,12 @@ public class Bada_list_DTO {
 
 	@JsonProperty("TMP") // 1시간 기온
 	String tmp;
+	
+	@JsonProperty("TMN") // 아침 최저기온
+	String tmn;
+	
+	@JsonProperty("TMX") // 낮 최고기온
+	String tmx;
 
 	@JsonProperty("UUU") // 풍속(동서성분)
 	String uuu;
@@ -46,9 +52,11 @@ public class Bada_list_DTO {
 
 	public Bada_list_DTO() {}
 
+
+
 	public Bada_list_DTO(String beach_code, String baseDate, String baseTime, String pop, String pty, String pcp,
-			String reh, String sno, String sky, String tmp, String uuu, String vvv, String wav,
-			String vec, String wsd, String tm, String tw, String sunrise, String sunset) {
+			String reh, String sno, String sky, String tmp, String tmn, String tmx, String uuu, String vvv, String wav,
+			String vec, String wsd) {
 		super();
 		this.beach_code = beach_code;
 		this.baseDate = baseDate;
@@ -60,12 +68,16 @@ public class Bada_list_DTO {
 		this.sno = sno;
 		this.sky = sky;
 		this.tmp = tmp;
+		this.tmn = tmn;
+		this.tmx = tmx;
 		this.uuu = uuu;
 		this.vvv = vvv;
 		this.wav = wav;
 		this.vec = vec;
 		this.wsd = wsd;
 	}
+
+
 
 	public String getBeach_code() {
 		return beach_code;
@@ -185,6 +197,30 @@ public class Bada_list_DTO {
 
 	public void setWsd(String wsd) {
 		this.wsd = wsd;
+	}
+
+
+
+	public String getTmn() {
+		return tmn;
+	}
+
+
+
+	public void setTmn(String tmn) {
+		this.tmn = tmn;
+	}
+
+
+
+	public String getTmx() {
+		return tmx;
+	}
+
+
+
+	public void setTmx(String tmx) {
+		this.tmx = tmx;
 	}
 
 }

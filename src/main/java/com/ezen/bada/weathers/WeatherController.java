@@ -50,7 +50,6 @@ public class WeatherController {
    @RequestMapping(value = "/weather_beach_DTO", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
    // http에서 json 깨짐 문제는 produces = "application/json; charset=UTF-8" 추가해서 해결
    public String weather_beach_DTO(@RequestBody String jsonDataString) {
-      System.out.println("시이작!!!");
       String objectreturn = "";
       try {
       // JSON 문자열을 JsonNode로 파싱

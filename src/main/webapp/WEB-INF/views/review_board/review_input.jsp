@@ -70,19 +70,18 @@
 
 	.insert {
 	    display: block;
-	    width: 300px;
-	    margin: 5vh auto;
-	    height: 20vh;
+	    width: 600px;
+	    height: 10vh;
 	    border: 1px solid #dbdbdb;
 	    -webkit-box-sizing: border-box;
 	    -moz-box-sizing: border-box;
 	    box-sizing: border-box;
 	}
 	.insert .file-list {
-	    height: 200px;
+	    height: 50px;
 	    overflow: auto;
 	    border: 1px solid #989898;
-	    padding: 10px;
+	   
 	}
 	.insert .file-list .filebox p {
 	    font-size: 14px;
@@ -93,10 +92,20 @@
 	    color: #ff5353;
 	    margin-left: 5px;
 	}
+	
+	.file-list {
+    display: flex;
+    gap: 10px; /* 파일 목록 사이의 간격 */
+	}
+
+	.filebox .name:hover {
+	    text-decoration: underline; /* 마우스 오버 시 밑줄 */
+	}
 </style>
 </head>
 <body>
-	<form action="review_save" method="post" enctype="multipart/form-data">
+
+	<form id="review_form" action="review_save" method="post" enctype="multipart/form-data">
 		<table align="center">
 		<caption>바다후기 게시글 입력</caption>
 			<tr>
@@ -132,8 +141,8 @@
 			<tr>
 				<th>사진첨부(최대 5장)</th>
 				<td>
-					<div class="insert_file">
-      				  	<input type="file" onchange="addFile(this);" multiple />
+					<div class="insert">
+      				  	<input type="file" id="gallery" name="gallery" onchange="updateFileList(this);" multiple />
         				<div class="file-list"></div>
         			</div>
 				</td>
@@ -158,6 +167,7 @@
 			</tr>
 			<tr>
                 <th>해시태그</th>
+                <input type="hidden" name="hashtags" id="hashtags" value="">
                 <td id="hasjtagFields">
                 	<div class="hashtag-box" data-value="#사람이적어요">#사람이 적어요</div>
 			        <div class="hashtag-box" data-value="#맛집이많아요">#맛집이 많아요</div>
@@ -168,6 +178,7 @@
             </tr>
 	            <tr>
 	                <th>재방문 의사</th>
+	                <input type="hidden" name="re_visit" id="re_visit_input">
 				    <td id="re_visit">
 				        <div class="visit-box" data-value="Yes">Yes</div>
 				        <div class="visit-box" data-value="No">No</div>
@@ -184,107 +195,77 @@
 
 
 <script>
-var fileNo = 0;
-var filesArr = new Array();
 
-/* 첨부파일 추가 */
-function addFile(obj){
-    var maxFileCnt = 5;   // 첨부파일 최대 개수
-    var attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수
-    var remainFileCnt = maxFileCnt - attFileCnt;    // 추가로 첨부가능한 개수
-    var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
-
-    // 첨부파일 개수 확인
-    if (curFileCnt > remainFileCnt) {
-        alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
-    } else {
-        for (const file of obj.files) {
-            // 첨부파일 검증
-            if (validation(file)) {
-                // 파일 배열에 담기
-                var reader = new FileReader();
-                reader.onload = function () {
-                    filesArr.push(file);
-                };
-                reader.readAsDataURL(file);
-
-                // 목록 추가
-                let htmlData = '';
-                let htmlData = `<div id="file${fileNo}" class="filebox">
-                    <p class="name" onclick="deleteFile(${fileNo});" style="cursor: pointer;">${file.name}</p>
-                </div>`;
-                $('.file-list').append(htmlData);
-                fileNo++;
-            } else {
-                continue;
-            }
-        }
-    }
-    // 초기화
-    document.querySelector("input[type=file]").value = "";
-}
-
-/* 첨부파일 검증 */
-function validation(obj){
-    const fileTypes = ['application/pdf', 'image/gif', 'image/jpeg', 'image/png', 'image/bmp', 'image/tif', 'application/haansofthwp', 'application/x-hwp'];
-    if (obj.name.length > 100) {
-        alert("파일명이 100자 이상인 파일은 제외되었습니다.");
-        return false;
-    } else if (obj.size > (100 * 1024 * 1024)) {
-        alert("최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다.");
-        return false;
-    } else if (obj.name.lastIndexOf('.') == -1) {
-        alert("확장자가 없는 파일은 제외되었습니다.");
-        return false;
-    } else if (!fileTypes.includes(obj.type)) {
-        alert("첨부가 불가능한 파일은 제외되었습니다.");
-        return false;
-    } else {
-        return true;
-    }
-}
-
-/* 첨부파일 삭제 */
-function deleteFile(num) {
-    document.querySelector("#file" + num).remove();
-    filesArr[num].is_delete = true;
-}
-
-/* 폼 전송 */
-function submitForm() {
-    // 폼데이터 담기
-    var form = document.querySelector("form");
-    var formData = new FormData(form);
-    for (var i = 0; i < filesArr.length; i++) {
-        // 삭제되지 않은 파일만 폼데이터에 담기
-        if (!filesArr[i].is_delete) {
-            formData.append("attach_file", filesArr[i]);
-        }
-    }
-
-    $.ajax({
-        method: 'POST',
-        url: '/register',
-        dataType: 'json',
-        data: formData,
-        async: true,
-        timeout: 30000,
-        cache: false,
-        headers: {'cache-control': 'no-cache', 'pragma': 'no-cache'},
-        success: function () {
-            alert("파일업로드 성공");
-        },
-        error: function (xhr, desc, err) {
-            alert('에러가 발생 하였습니다.');
+document.addEventListener('DOMContentLoaded', function () {
+    var fileInput = document.getElementById('gallery');
+    var fileListContainer = document.querySelector('.file-list');
+    
+    // 파일을 추가하는 함수
+    function updateFileList() {
+        fileListContainer.innerHTML = ''; // 목록 초기화
+        var files = fileInput.files;
+        
+        // 파일 수 확인
+        if (files.length > 5) {
+            alert('최대 5개의 파일만 업로드할 수 있습니다.');
+            fileInput.value = '';
             return;
         }
-    })
-}
-
+        
+        // 파일 목록을 HTML에 추가
+        for (var i = 0; i < files.length; i++) {
+            (function (file) {
+                var fileDiv = document.createElement('div');
+                fileDiv.classList.add('filebox');
+                
+                var fileNameSpan = document.createElement('span');
+                fileNameSpan.classList.add('name');
+                fileNameSpan.textContent = file.name;
+                
+                var deleteButton = document.createElement('button');
+                deleteButton.textContent = '삭제';
+                deleteButton.type = 'button';
+                deleteButton.onclick = function () {
+                    // 파일 삭제 로직
+                    // 해당 파일을 input에서 제거하고 목록을 업데이트합니다.
+                    var newFileList = Array.from(files).filter(function (f) {
+                        return f !== file;
+                    });
+                    fileInput.files = createFileList(newFileList);
+                    updateFileList();
+                };
+                
+                fileDiv.appendChild(fileNameSpan);
+                fileDiv.appendChild(deleteButton);
+                fileListContainer.appendChild(fileDiv);
+            })(files[i]);
+        }
+    }
+    
+    // DataTransfer 객체를 사용하여 파일 목록을 생성하는 함수
+    function createFileList(files) {
+        var dataTransfer = new DataTransfer();
+        files.forEach(function (file) {
+            dataTransfer.items.add(file);
+        });
+        return dataTransfer.files;
+    }
+    
+    fileInput.addEventListener('change', updateFileList);
+});
+	
 
 	document.addEventListener("DOMContentLoaded", function() {
-	    // 해시태그 박스 선택 기능
 	    var hashtagBoxes = document.querySelectorAll('.hashtag-box');
+
+	    function Hashtag_Input() {
+	        var selectedHashtags = document.querySelectorAll('.hashtag-box.selected');
+	        var hashtagsValue = Array.from(selectedHashtags).map(function(box) {
+	            return box.getAttribute('data-value');
+	        }).join(' ');
+	        document.getElementById('hashtags').value = hashtagsValue;
+	    }
+
 	    hashtagBoxes.forEach(function(box) {
 	        box.addEventListener('click', function() {
 	            // 선택된 박스의 수 확인
@@ -293,11 +274,14 @@ function submitForm() {
 	                alert('최대 3개까지만 선택할 수 있습니다.');
 	                return;
 	            }
-	            
+
 	            // 박스의 선택 상태를 토글
 	            box.classList.toggle('selected');
+	            
+	            Hashtag_Input();
 	        });
 	    });
+	    
 
 	    // 재방문 의사 선택 기능
 	    var visitBoxes = document.querySelectorAll('.visit-box');
@@ -310,10 +294,12 @@ function submitForm() {
 	            
 	            // 현재 박스의 선택 상태를 설정
 	            box.classList.add('selected');
+	            document.getElementById('re_visit_input').value = box.getAttribute('data-value');
 	        });
 	    });
 	});
 
 </script>
+
 </body>
 </html>

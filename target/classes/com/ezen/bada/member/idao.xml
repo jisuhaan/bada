@@ -153,10 +153,6 @@ from. (정)지수 -->
    select pw from bada_user where id = #{param1}
 </select>
 
-<select id="quit_Password" resultType="String">
-   select pw from bada_user where id = #{param1}
-</select>
-
 <!-- 회원탈퇴 -->
 
 <delete id="quit_member">

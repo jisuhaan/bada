@@ -35,7 +35,7 @@ public class ReviewController {
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		
-		if (hs.getAttribute("loginid") == null) {
+		if (hs.getAttribute("loginstate") == null) {
 		    out.print("<script type='text/javascript'> alert('로그인이 필요합니다.');");
 		    out.print("window.location.href='login';");
 		    out.print("</script>");
@@ -45,11 +45,11 @@ public class ReviewController {
 		}
 		else {
 			
-			boolean loginid1 = (boolean) hs.getAttribute("loginid");
+			boolean loginstate = (boolean) hs.getAttribute("loginstate");
 			
-			if(loginid1) {
+			if(loginstate) {
 				
-				String loginid = (String)hs.getAttribute("loginid");
+				String loginid = (String) hs.getAttribute("loginid");
 				MemberDTO dto = ss.input_info(loginid);
 				List<BeachDTO> beachList = ss.getBeachList();
 				    

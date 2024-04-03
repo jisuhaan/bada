@@ -58,7 +58,8 @@
 			<tr>
 				<th>문의 작성자</th>
 				<td>
-					<input type="text" name="writer_id" id="writer_id" value="${loginid} 님" readonly="readonly">
+					<input type="text" name="name" id="name" value="${dto.name}" readonly="readonly">
+					<input type="hidden" name="id" id="id" value="${dto.id}">
 				</td>
 			</tr>
 			<tr>
@@ -90,7 +91,7 @@
 			<tr>
 				<th>문의 내용</th>
 				<td>
-					<textarea cols="50" rows="7" name="content" id="content" placeholder="문의 내용을 입력하세요."></textarea>
+					<textarea cols="50" rows="7" name="content" id="content" placeholder="문의 내용은 1500자 이하로 입력하세요." required maxlength="1500"></textarea>
 				</td>
 			</tr>
 			<tr>

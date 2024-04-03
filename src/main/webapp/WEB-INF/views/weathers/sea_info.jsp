@@ -31,13 +31,15 @@ $.ajax({
     		$("#seamainright").show();
     		
            
-    	   var badalist=0;
+    	   var badalist="<div>";
     	   
            if(response.length > 0){
         	  
         	  for(var i = 0; i < response.length; i++) {
-                  badalist = "<span id='beaches'><a href='sea_result?beach_code=" + response[i].beach_code + "'>" +response[i].beach + "</a></span><br>";
+                  badalist += "<span id='beaches'><a href='sea_result?beach_code=" + response[i].beach_code + "'>" +response[i].beach + "</a></span><br>";
               }
+        	  
+        	  badalist += "</div>"
 
               $('#badalist_container').html(badalist);
                

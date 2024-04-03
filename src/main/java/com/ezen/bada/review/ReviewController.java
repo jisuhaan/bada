@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.ezen.bada.member.MemberDTO;
 
 
+
 @Controller
 public class ReviewController {
 	
@@ -96,31 +97,41 @@ public class ReviewController {
 		String re_visit = mul.getParameter("re_visit");
 		System.out.println("확인9 : "+re_visit);
 		
-		List<MultipartFile> files = mul.getFiles("gallery");
-		System.out.println("이미지파일 확인 : "+files);
-
-		System.out.println("비어있니?  "+files.size());
-		String[] filePaths = new String[5];
+		MultipartFile tf = mul.getFile("thumb_nail");
 		
-	    for (int i = 0; i < files.size(); i++) {
-	        MultipartFile file = files.get(i);
-	        
-	        System.out.println("제발 도와줘 : "+file); //문선 님 귀엽당
-	       
-	        String file_name =  file.getOriginalFilename();
-   
-	        System.out.println("파일이름 : " + file_name);
-	        
-	        String save_path = image_path + File.separator + System.currentTimeMillis() + "_" + file_name;
-	        
-	        System.out.println("나눠지나? : " + save_path);
-	        File destFile = new File(save_path);
-	           
-	        file.transferTo(destFile);
+		String t_name;
+		if (tf != null && !tf.isEmpty()) {
+		    t_name = System.currentTimeMillis() + "_" + tf.getOriginalFilename();
+		    tf.transferTo(new File(image_path + File.separator + t_name));
+		} else {
+		    t_name = "no"; // 썸네일 파일이 없는 경우 "no" 저장
+		}
 
-	        filePaths[i] = save_path; // 실제 저장된 파일 경로 저장
-
-	    }
+		System.out.println("썸네일 명 : "+t_name);
+		
+		 String[] fileNames = new String[5];
+	        
+	        for (int i = 1; i <= 5; i++) {
+	            MultipartFile file = mul.getFile("pic" + i);
+	            if (file != null && !file.isEmpty()) {
+	                String filename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+	                file.transferTo(new File(image_path + File.separator + filename));
+	                fileNames[i - 1] = filename; // 파일 이름을 배열에 저장
+	            } else {
+	                fileNames[i - 1] = "no"; // 파일이 없는 경우 -> null 저장시 오류 발생
+	            }
+	        }
+	   
+	        
+	        System.out.println("배열확인 : "+fileNames[0]);
+	        System.out.println("배열확인 : "+fileNames[1]);
+	        System.out.println("배열확인 : "+fileNames[2]);
+	    
+	    Service ss = sqlsession.getMapper(Service.class);
+	    ss.review_save(id,name,visit_day,review_title,review_contents,fileNames,
+	    		t_name,review_score,hashtags,beach_code,re_visit);
+	        
+		
 	    
 	    return "main";
 	}
@@ -131,6 +142,60 @@ public class ReviewController {
 
 			
 		return "review_input2";
+			
+	}
+	
+	@RequestMapping(value = "bada_review")
+	public String review3() {
+			
+		return "bada_review";
+			
+	}
+	
+	@RequestMapping(value = "review_all_page")
+	public String review4(HttpServletRequest request, PageDTO dto, Model mo) {
+		
+		
+		String nowPage=request.getParameter("nowPage");
+        System.out.println("nowpage 확인 : "+nowPage);
+
+        String cntPerPage=request.getParameter("cntPerPage");
+        System.out.println("cntperpage 확인 : "+cntPerPage);
+		
+		Service ss = sqlsession.getMapper(Service.class);
+		int total=ss.total();
+		
+		System.out.println("board 전체 개수 : "+total);
+		
+        if(nowPage==null && cntPerPage == null) {
+            
+       	 nowPage="1";
+           // 현재 페이지 번호
+                                                             
+         cntPerPage="20";
+          // 한 페이지당 보여줄 게시물 수
+        
+        }
+        else if(nowPage==null) {
+           nowPage="1";
+        }
+        else if(cntPerPage==null) {
+           cntPerPage="20";
+        }
+		
+        dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+        mo.addAttribute("paging",dto);
+        mo.addAttribute("list",ss.review_list(dto));
+        
+        
+		return "review_page";
+			
+	}
+	
+	@RequestMapping(value = "review_detail")
+	public String review4() {
+			
+		return "review_detail";
 			
 	}
 		

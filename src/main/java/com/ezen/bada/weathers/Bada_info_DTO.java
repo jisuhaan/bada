@@ -11,11 +11,13 @@ public class Bada_info_DTO {
 	String picture1;
 	String picture2;
 	String picture3;
+	String accomodation;
+	String special;
 	
 	public Bada_info_DTO() {}
 	
 	public Bada_info_DTO(int beach_code, String beach_name, String state, String city, String address,
-			String infomation, String picture1, String picture2, String picture3) {
+			String infomation, String picture1, String picture2, String picture3, String accomodation, String special) {
 		super();
 		this.beach_code = beach_code;
 		this.beach_name = beach_name;
@@ -26,6 +28,8 @@ public class Bada_info_DTO {
 		this.picture1 = picture1;
 		this.picture2 = picture2;
 		this.picture3 = picture3;
+		this.accomodation = accomodation;
+		this.special = special;
 	}
 	
 	public int getBeach_code() {
@@ -81,6 +85,22 @@ public class Bada_info_DTO {
 	}
 	public void setPicture3(String picture3) {
 		this.picture3 = picture3;
+	}
+
+	public String getAccomodation() {
+		return accomodation;
+	}
+
+	public void setAccomodation(String accomodation) {
+		this.accomodation = accomodation;
+	}
+
+	public String getSpecial() {
+		return special;
+	}
+
+	public void setSpecial(String special) {
+		this.special = special;
 	}
 	
 }

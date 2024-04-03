@@ -41,9 +41,11 @@ a {
 .sea_result_left {
 	display:flex;
 	flex-direction:column;
+	box-sizing: border-box;
 	justify-content:center;
 	margin:0 auto;
-	width: 50%;
+	padding-left:50px;
+	width: 55%;
 	float:left;
 	align-items: center;
 	text-align : center;
@@ -64,6 +66,17 @@ a {
 	background-color: white;
 	padding:30px;
 	position: absolute;
+	z-index: 1;
+}
+
+.info_text {
+	font-family: 'Pretendard-Regular';
+	font-size:15px;
+	width:400px;
+	height:400px;
+	padding:10px;
+	text-align: left;
+	float: right;
 	z-index: 2;
 }
 
@@ -76,8 +89,9 @@ a {
 	width:300px;
 	height:300px;
 	border: 1px solid gray;
-	border-radius:5px;
-	z-index: 1;
+	border-radius:10px;
+	z-index: 2;
+	float: left;
 }
 
 .sea_result_left_bottom {
@@ -85,9 +99,16 @@ a {
 	height:350px;
 }
 
+.inbottom{
+	height:350px;
+	margin-top:30px;
+}
+
 #map {
-	border: 1px solid #1c1c1c;
+	border: 1px solid gray;
 	border-radius: 10px;
+	float: left;
+	z-index: 2;
 }
 
 .inmaptext{
@@ -105,11 +126,36 @@ a {
 	color:#1C1C1C;
 }
 
-.seamainright {
-	float:left;
-	width: 50%;
-	height: 800px;
-	padding:100px;
+.sea_result_right {
+	display:flex;
+	flex-direction:column;
 	box-sizing: border-box;
+	justify-content:center;
+	margin:0 auto;
+	padding-left:50px;
+	left:100px;
+	width: 45%;
+	float:left;
+	align-items: center;
+	text-align : center;
+}
+
+.weatherbox {
+	margin-top:30px;
+	margin-left:50px;
+	width:700px;
+	height:880px;
+	border: 1px solid gray;
+	border-radius:10px;
+	box-shadow: 2px 2px 2px gray;
+	background-color: white;
+	padding:30px;
+	position: absolute;
+	z-index: 1;
+}
+
+.weatherbox h3 {
+	font-family: 'Ownglyph_meetme-Rg';
+	font-size: 40px;
 }
 

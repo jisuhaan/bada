@@ -34,20 +34,20 @@
 			  <div class="slide_next_button slide_button">＞</div>
 			  <ul class="slide_pagination"></ul>
 			</div>
-			<script src="./resources/js/slide.js"></script>
 		</div>
 		
-		<span class="info_text">
+		<div class="info_text">
+		<h3>바다 소개</h3>
+		<br><hr><br>
 		${bdt.infomation}
-		</span>
+		</div>
 	
 	</div>
 	</div>
 	
 	<div class="sea_result_left_bottom">
-	
-		<div id="map" style="width:300px;height:300px;"></div>
-
+	<div class="info_box inbottom">
+		<div id="map" style="width:280px;height:280px;"></div>
 			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=513793c3569011c75762309c9b3a2138"></script>
 			<script>
 			
@@ -85,19 +85,31 @@
 			// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
 			infowindow.open(map, marker); 
 			</script>
-	
+			
+			<div class="info_text">
+			<h3>바다 안내</h3>
+			<br><hr><br>
+			주소 : ${bdt.address}<br>
+			편의시설 : ${bdt.accomodation}<br>
+			특징 : ${bdt.special}<br><br>
+			<h4>많이 달린 해시태그</h4><br>
+			</div>
+		</div>
 	</div>
 </div>
 
 <div class="sea_result_right">
 
-여기는 날씨영역!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-<img src="./resources/image/profile.png" width="500px">
-
-
+<div class="weatherbox">
+<span id="beach_name">날씨 정보 요약</span>
+<br><br><hr><br><br>
 </div>
 
 </div>
+
+</div>
+
+<script src="./resources/js/slide.js"></script>
 
 </body>
 </html>

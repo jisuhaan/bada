@@ -124,9 +124,6 @@ ul {
 }
 
 /* Add padding body*/
-.body-pd {
-    padding: 2rem 0 0 calc(var(--nav--width) + 13rem);
-}
 
 /* Active links menu */
 .active {

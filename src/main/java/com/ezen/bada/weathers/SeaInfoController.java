@@ -87,4 +87,11 @@ public class SeaInfoController {
 		return "sea_result";
 	}
 	
+	@RequestMapping(value = "/sea_weather_detail")
+	public String sea_weather_detail(HttpServletRequest request, Model mo) {
+		String beachName = request.getParameter("beachName");
+		System.out.println("beachName: "+beachName);
+		mo.addAttribute("beachName",beachName);
+		return "sea_weather_detail";
+	}
 }

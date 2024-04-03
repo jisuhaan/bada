@@ -26,4 +26,9 @@
 		<put-attribute name="body" value="/WEB-INF/views/weathers/sea_result.jsp"/>
 	</definition>
 	
+	<definition name="sea_weather_detail" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 바다정보 :: 해수욕장 날씨 상세 정보"/>
+		<put-attribute name="body" value="/WEB-INF/views/weathers/sea_weather_detail.jsp"/>
+	</definition>
+	
 </tiles-definitions>

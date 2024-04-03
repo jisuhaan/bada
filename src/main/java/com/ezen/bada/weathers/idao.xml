@@ -14,11 +14,11 @@
 	
 	<!-- 선택한 지역에 해당하는 바다 리스트를 뽑아옵니다. -->
 	<select id="getbadalist" resultType="com.ezen.bada.weathers.Bada_default_DTO">
-		select * from BADA_LIST where state = #{param1}
+		select * from BADA_LIST where state = #{param1} order by beach
 	</select>
 	
 	<select id="getbadalist2" resultType="com.ezen.bada.weathers.Bada_default_DTO">
-		select * from BADA_LIST where state = #{param1} or state = #{param2}
+		select * from BADA_LIST where state = #{param1} or state = #{param2} order by beach
 	</select>
 	
 	<!-- 선택한 해변에 대한 설명 등등을 받아옵니다. -->

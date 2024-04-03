@@ -1,7 +1,7 @@
-	// Date 함수
-	var currentDate = new Date();
-	// 날짜 변수
-	var year = currentDate.getFullYear();
+   // Date 함수
+   var currentDate = new Date();
+   // 날짜 변수
+   var year = currentDate.getFullYear();
     var month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // 문자열의 최종 길이를 2로 설정. 문자열의 길이가 그보다 짧으면 앞에 0을 붙이기
     var day = currentDate.getDate().toString().padStart(2, '0');
     var dateString = year+ month + day;
@@ -17,7 +17,7 @@
 
     }
 
-	document.addEventListener("DOMContentLoaded", function() {
+   document.addEventListener("DOMContentLoaded", function() {
       fetchWeather(beachName);
       console.log('바다이름 들어왔니? : '+beachName)
     });
@@ -43,8 +43,8 @@
         })
         .then(results => {
         // JSON 데이터 전송
-        	console.log('json 총 묶음');
-        	console.log(JSON.stringify(results));
+           console.log('json 총 묶음');
+           console.log(JSON.stringify(results));
             dtosave_result(JSON.stringify(results));
         })
         .catch(error => {
@@ -63,7 +63,7 @@
         queryParams += '&' + encodeURIComponent('base_date') + '=' + encodeURIComponent(yesterday);
         queryParams += '&' + encodeURIComponent('base_time') + '=' + encodeURIComponent('2300');
         queryParams += '&' + encodeURIComponent('beach_num') + '=' + beachnum;
-      	console.log(url + queryParams);
+         console.log(url + queryParams);
         return fetch(url + queryParams)
         .then(response => {
             if (!response.ok) {
@@ -86,39 +86,39 @@
            var hourlyData = [];
            
            for (var i = 0; i < 24; i++) {
-        	   // 각 시간대에 해당하는 12개의 날씨 정보를 추출하여 hourlyData에 추가
-        	   var startIndex = i * 12; // 시작 인덱스
-        	   var endIndex = (i + 1) * 12; // 끝 인덱스
-        	   var hourlyWeather = originalData.response.body.items.item.slice(startIndex, endIndex);
-        	   hourlyData.push(hourlyWeather);
-        	}
+              // 각 시간대에 해당하는 12개의 날씨 정보를 추출하여 hourlyData에 추가
+              var startIndex = i * 12; // 시작 인덱스
+              var endIndex = (i + 1) * 12; // 끝 인덱스
+              var hourlyWeather = originalData.response.body.items.item.slice(startIndex, endIndex);
+              hourlyData.push(hourlyWeather);
+           }
 
-        	// 24개로 분리한 array 안의 array(12) 결과 출력 
-        	console.log('24개로 분리한 array 안의 array(12) 결과 출력');
-        	console.log(hourlyData);
+           // 24개로 분리한 array 안의 array(12) 결과 출력 
+           console.log('24개로 분리한 array 안의 array(12) 결과 출력');
+           console.log(hourlyData);
            
-        	// 각 시간대별로 category와 fcstValue를 저장할 객체
-        	var hourlyCategoryValue = [];
+           // 각 시간대별로 category와 fcstValue를 저장할 객체
+           var hourlyCategoryValue = [];
 
-        	// 각 시간대별로 순회하면서 category와 fcstValue를 추출하여 저장
-        	var i = 0;
-        	hourlyData.forEach(function(hourlyWeather) {
-        	  var hourlyObject = {}; // 각 시간대의 category와 fcstValue를 저장할 객체
-        	  var hourlyTimestamps = i.toString().padStart(2, '0')+':00';
-        	  hourlyObject['hourlyTimestamps'] = hourlyTimestamps;
-        	  hourlyWeather.forEach(function(weatherInfo) {
-        	    hourlyObject[weatherInfo.category] = weatherInfo.fcstValue;
-        	  });
-        	  hourlyCategoryValue.push(hourlyObject);
-        	  i++;
-        	});
+           // 각 시간대별로 순회하면서 category와 fcstValue를 추출하여 저장
+           var i = 0;
+           hourlyData.forEach(function(hourlyWeather) {
+             var hourlyObject = {}; // 각 시간대의 category와 fcstValue를 저장할 객체
+             var hourlyTimestamps = i.toString().padStart(2, '0')+':00';
+             hourlyObject['hourlyTimestamps'] = hourlyTimestamps;
+             hourlyWeather.forEach(function(weatherInfo) {
+               hourlyObject[weatherInfo.category] = weatherInfo.fcstValue;
+             });
+             hourlyCategoryValue.push(hourlyObject);
+             i++;
+           });
 
-        	// 결과 출력
-        	console.log('쌍이 잘 저장이 될까요');
-        	console.log(JSON.stringify(hourlyCategoryValue));
-        	 
+           // 결과 출력
+           console.log('쌍이 잘 저장이 될까요');
+           console.log(JSON.stringify(hourlyCategoryValue));
+            
             displayWeatherTable(hourlyCategoryValue);
-        	return JSON.stringify(hourlyCategoryValue); 
+           return JSON.stringify(hourlyCategoryValue); 
            
         })
         .catch(error => {
@@ -173,7 +173,7 @@
                 return response.json();
             })
             .then(data => {
-            	console.log(data);
+               console.log(data);
                 if (data.response.header.resultCode === "03") {
                     // 정보가 없을 때 아무것도 출력하지 않음
                     console.log("경보 정보가 없습니다.");

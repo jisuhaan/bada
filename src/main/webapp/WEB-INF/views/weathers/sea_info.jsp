@@ -9,10 +9,15 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
 
+$(document).ready(function(){
+	$("#arrow_box").hide();
+	$("#seamainright").hide();
+});
+
 function showarea(area){
 	
 $.ajax({
-       
+	
        type:"post",
        url:"bada_listup",
        async:true,
@@ -21,17 +26,19 @@ $.ajax({
        contentType: "application/json; charset=UTF-8",
        data:{"area":area},
        success:function(response){
+
+    		$("#arrow_box").show();
+    		$("#seamainright").show();
+    		
            
+    	   var badalist=0;
+    	   
            if(response.length > 0){
-               
-        	  var badalist = "<ul>";
+        	  
         	  for(var i = 0; i < response.length; i++) {
-                  badalist += "<li><a href='sea_result?beach_code=" +response[i].beach_code +
-                		  "'>" + response[i].beach + '</a></li>';
+                  badalist = "<span id='beaches'><a href='sea_result?beach_code=" + response[i].beach_code + "'>" +response[i].beach + "</a></span><br>";
               }
-              
-              badalist += "</ul>";
-              
+
               $('#badalist_container').html(badalist);
                
            } else {
@@ -111,10 +118,19 @@ $.ajax({
 	
 </div>
 
-<div class="seamainright">
+<div class="arrow_box" id="arrow_box">
+<ion-icon name="chevron-forward-outline" style="color:#1b70a6;  font-size: 80px;"></ion-icon>
+</div>
 
-<div class="">
-<div id="badalist_container"></div>
+<div class="seamainright" id="seamainright">
+
+<div class="weather_infobox">
+<span id="result_top">검색 결과를 보여드릴게요!</span>
+<br><br><hr><br><br>
+
+<div id="badalist_container">
+</div>
+
 </div>
 
 </div>

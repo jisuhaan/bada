@@ -14,6 +14,12 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Ownglyph_meetme-Rg';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/Ownglyph_meetme-Rg.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 
 li a {
 	display: block;
@@ -26,11 +32,11 @@ a {
 .seamain {
 	width:100%;
 	height:90%;
-	position:relative;
+	display: flex;
 }
 
 .seamainleft {
-	position:absolute;
+	position: relative;
 	display:flex;
 	justify-content:center;
 	margin:0 auto;
@@ -48,16 +54,16 @@ a {
 	position:absolute;
 	margin: 0 auto;
 	z-index: 1;
-	border: 1px solid #1c1c1c;
-	border-radius: 5px;
+	border: 1px solid gray;
+	border-radius: 10px;
 	padding:10px;
 	background-color: white;
 	box-shadow: 2px 2px 2px gray;
 }
 
 #maptext {
-	font-family: 'YEONGJU';
-	font-size:40px;
+	font-family: 'Ownglyph_meetme-Rg';
+	font-size:45px;
 	color:#48b0d6;
 	width:600px;
 	height:50px;
@@ -132,14 +138,61 @@ a {
 	left:200px;
 }
 
-.seamainright {
-	position:relative;
+
+.arrow_box {
+	margin: 0 auto;
+	padding: 0;
+	width:10%;
+	height: 200px;
+	margin-right:50px;
 	display: flex;
-	justify-content:center;
-	float:right;
-	width: 50%;
-	height:70%;
-	padding:30px;
-	background-color:skyblue;
+	justify-content: center;
+    align-items: center;
+    text-align: center;
+	margin-top:350px;
+    top:400px;
 }
 
+.seamainright {
+	display:flex;
+	justify-content: center;
+    align-items: center;
+	flex-direction:column;
+	box-sizing: border-box;
+	margin:0 auto;
+	margin-left:20px;
+	width: 40%;
+	text-align : center;
+}
+
+
+.weather_infobox {
+    margin-top: 30px;
+    width: 700px;
+    height: 820px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px gray;
+    background-color: white;
+    padding: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+#result_top {
+	font-family: 'Ownglyph_meetme-Rg';
+	font-size: 40px;
+}
+
+.badalist_container {
+	width:500px;
+	height:100px;
+	display: flex;
+	justify-content: center;
+	align-items:center;
+	padding: 50px;
+}
+
+#beach_lists {
+
+}

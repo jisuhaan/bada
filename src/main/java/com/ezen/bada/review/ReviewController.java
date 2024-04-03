@@ -105,7 +105,7 @@ public class ReviewController {
 	    for (int i = 0; i < files.size(); i++) {
 	        MultipartFile file = files.get(i);
 	        
-	        System.out.println("제발 도와줘 : "+file);
+	        System.out.println("제발 도와줘 : "+file); //문선 님 귀엽당
 	       
 	        String file_name =  file.getOriginalFilename();
    

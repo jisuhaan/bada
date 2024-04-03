@@ -4,7 +4,14 @@
     
 <mapper namespace="com.ezen.bada.inquire.Service">
 	
+<select id="input_info" resultType="com.ezen.bada.member.MemberDTO">
+	select id, name from bada_user where id=#{param1}
+</select>
 
-	
+<insert id="inquire_save">
+	insert into bada_inquire (inquire_num, title, category, name, id, pic1, pic2, pic3, pic4, pic5, content, secret, secret_pw) 
+	values (inquire_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6}, #{param7}, #{param8}, 
+	 #{param9}, #{param10}, #{param11}, #{param12})
+</insert>
 	
 </mapper>

@@ -1,5 +1,7 @@
 package com.ezen.bada.weathers;
 
+import java.util.ArrayList;
+
 public class Bada_default_DTO {
 	// 해수욕장 기본 정보
 	String beach_code; //해변코드
@@ -11,7 +13,7 @@ public class Bada_default_DTO {
 	int grid_x;
 	int grid_y;
 	
-	Bada_list_DTO bada_list_dto;
+	ArrayList<Bada_list_DTO> bada_list_dto;
 	
 	Bada_tw_DTO bada_tw_dto;
 	
@@ -19,8 +21,11 @@ public class Bada_default_DTO {
 	public Bada_default_DTO() {}
 
 
+
+
+
 	public Bada_default_DTO(String beach_code, String beach, String state, String address, double latitude,
-			double longitude, int grid_x, int grid_y, Bada_list_DTO bada_list_dto, Bada_tw_DTO bada_tw_dto) {
+			double longitude, int grid_x, int grid_y, ArrayList<Bada_list_DTO> bada_list_dto, Bada_tw_DTO bada_tw_dto) {
 		super();
 		this.beach_code = beach_code;
 		this.beach = beach;
@@ -33,6 +38,9 @@ public class Bada_default_DTO {
 		this.bada_list_dto = bada_list_dto;
 		this.bada_tw_dto = bada_tw_dto;
 	}
+
+
+
 
 
 	public String getBeach_code() {
@@ -115,13 +123,13 @@ public class Bada_default_DTO {
 	}
 
 
-	public Bada_list_DTO getBada_list_dto() {
+	public ArrayList<Bada_list_DTO> getBada_list_dto() {
 		return bada_list_dto;
 	}
 
 
-	public void setBada_list_dto(Bada_list_DTO bada_list_dto) {
-		this.bada_list_dto = bada_list_dto;
+	public void setBada_list_dto(ArrayList<Bada_list_DTO> forecastList) {
+		this.bada_list_dto = forecastList;
 	}
 
 

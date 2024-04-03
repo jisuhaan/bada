@@ -7,6 +7,9 @@ public class Bada_list_DTO {
 	String beach_code; //해변코드
 	String baseDate; //발표일자
 	String baseTime; //발표시간
+	
+	String hourlyTimestamps; //시간대
+	
 	// 어노테이션을 붙여야 json의 key값이 아래 dto 필드명에 정확하게 찾아감
 	@JsonProperty("POP") // 강수확률
 	String pop;
@@ -28,12 +31,6 @@ public class Bada_list_DTO {
 
 	@JsonProperty("TMP") // 1시간 기온
 	String tmp;
-	
-	@JsonProperty("TMN") // 아침 최저기온
-	String tmn;
-	
-	@JsonProperty("TMX") // 낮 최고기온
-	String tmx;
 
 	@JsonProperty("UUU") // 풍속(동서성분)
 	String uuu;
@@ -52,15 +49,14 @@ public class Bada_list_DTO {
 
 	public Bada_list_DTO() {}
 
-
-
-	public Bada_list_DTO(String beach_code, String baseDate, String baseTime, String pop, String pty, String pcp,
-			String reh, String sno, String sky, String tmp, String tmn, String tmx, String uuu, String vvv, String wav,
+	public Bada_list_DTO(String beach_code, String baseDate, String baseTime, String hourlyTimestamps, String pop,
+			String pty, String pcp, String reh, String sno, String sky, String tmp, String uuu, String vvv, String wav,
 			String vec, String wsd) {
 		super();
 		this.beach_code = beach_code;
 		this.baseDate = baseDate;
 		this.baseTime = baseTime;
+		this.hourlyTimestamps = hourlyTimestamps;
 		this.pop = pop;
 		this.pty = pty;
 		this.pcp = pcp;
@@ -68,16 +64,12 @@ public class Bada_list_DTO {
 		this.sno = sno;
 		this.sky = sky;
 		this.tmp = tmp;
-		this.tmn = tmn;
-		this.tmx = tmx;
 		this.uuu = uuu;
 		this.vvv = vvv;
 		this.wav = wav;
 		this.vec = vec;
 		this.wsd = wsd;
 	}
-
-
 
 	public String getBeach_code() {
 		return beach_code;
@@ -101,6 +93,14 @@ public class Bada_list_DTO {
 
 	public void setBaseTime(String baseTime) {
 		this.baseTime = baseTime;
+	}
+
+	public String getHourlyTimestamps() {
+		return hourlyTimestamps;
+	}
+
+	public void setHourlyTimestamps(String hourlyTimestamps) {
+		this.hourlyTimestamps = hourlyTimestamps;
 	}
 
 	public String getPop() {
@@ -200,27 +200,5 @@ public class Bada_list_DTO {
 	}
 
 
-
-	public String getTmn() {
-		return tmn;
-	}
-
-
-
-	public void setTmn(String tmn) {
-		this.tmn = tmn;
-	}
-
-
-
-	public String getTmx() {
-		return tmx;
-	}
-
-
-
-	public void setTmx(String tmx) {
-		this.tmx = tmx;
-	}
 
 }

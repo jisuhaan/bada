@@ -27,6 +27,9 @@
         var month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // 문자열의 최종 길이를 2로 설정. 문자열의 길이가 그보다 짧으면 앞에 0을 붙이기
         var day = currentDate.getDate().toString().padStart(2, '0');
         var dateString = year+ month + day;
+        
+        var yesterday = year + month + (currentDate.getDate() - 1).toString().padStart(2, '0');
+        
         // 시간 변수 -> 얘네는 기본으로 2자리로 설정
         var hours = currentDate.getHours();
         var minutes = currentDate.getMinutes();
@@ -62,6 +65,8 @@
             })
             .then(results => {
             // JSON 데이터 전송
+            	console.log('json 총 묶음');
+            	console.log(JSON.stringify(results));
                 dtosave_result(JSON.stringify(results));
             })
             .catch(error => {
@@ -77,7 +82,7 @@
             queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('290');
             queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1');
             queryParams += '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('JSON');
-            queryParams += '&' + encodeURIComponent('base_date') + '=' + encodeURIComponent('20240401');
+            queryParams += '&' + encodeURIComponent('base_date') + '=' + encodeURIComponent(yesterday);
             queryParams += '&' + encodeURIComponent('base_time') + '=' + encodeURIComponent('2300');
             queryParams += '&' + encodeURIComponent('beach_num') + '=' + beachnum;
           	console.log(url + queryParams);
@@ -92,7 +97,7 @@
                console.log(JSON.stringify(data.response.body.items.item));
                
                var originalData = data;
-               var extractedItems = data.response.body.items.item.filter(item => item.category === 'TMN' || item.category === 'TMX');
+               var extractedItems = data.response.body.items.item.filter(item => item.category === 'TMN' || item.category === 'TMX'); // 최저기온과 최고기온만 분리
                
                originalData.response.body.items.item = originalData.response.body.items.item.filter(item => item.category !== 'TMN' && item.category !== 'TMX');
                // 변경된 JSON 데이터 출력
@@ -118,24 +123,25 @@
             	var hourlyCategoryValue = [];
 
             	// 각 시간대별로 순회하면서 category와 fcstValue를 추출하여 저장
+            	var i = 0;
             	hourlyData.forEach(function(hourlyWeather) {
             	  var hourlyObject = {}; // 각 시간대의 category와 fcstValue를 저장할 객체
+            	  var hourlyTimestamps = i.toString().padStart(2, '0')+':00';
+            	  hourlyObject['hourlyTimestamps'] = hourlyTimestamps;
             	  hourlyWeather.forEach(function(weatherInfo) {
             	    hourlyObject[weatherInfo.category] = weatherInfo.fcstValue;
             	  });
             	  hourlyCategoryValue.push(hourlyObject);
+            	  i++;
             	});
 
             	// 결과 출력
             	console.log('쌍이 잘 저장이 될까요');
-            	console.log(hourlyCategoryValue);
+            	console.log(JSON.stringify(hourlyCategoryValue));
             	 
-            	 
-               ////// 기존에 작동하던 코드 부분
-               displayWeatherTable(data.response.body.items.item);
-               var jsonDataString = createJSONData(data.response.body.items.item);
-               console.log(jsonDataString);
-               return jsonDataString;
+                displayWeatherTable(hourlyCategoryValue);
+            	return JSON.stringify(hourlyCategoryValue); 
+               
             })
             .catch(error => {
                 console.error('Fetch Error', error);
@@ -243,14 +249,23 @@
         }
         
         
-        function displayWeatherTable(weatherData) {
-            var tableHTML = "<table border='1'><tr><th>Category</th><th>Value</th></tr>";
+        function displayWeatherTable(hourlyCategoryValue) {
+            var tableHTML = "<table border='1'><tr>";
 
-            // 각 item에서 category와 fcstValue 추출하여 표에 추가
-            weatherData.forEach(function(item) {
-                tableHTML += "<tr><td>" + item.category + "</td><td>" + item.fcstValue + "</td></tr>";
+            // 헤더 행 생성 -> 키값으로 설정
+            for (var key in hourlyCategoryValue[0]) {
+                tableHTML += "<th>" + key + "</th>";
+            }
+            tableHTML += "</tr>";
+            
+            // 데이터 행 생성
+            hourlyCategoryValue.forEach(function(hourlyData) {
+                tableHTML += "<tr>";
+                for (var key in hourlyData) {
+                    tableHTML += "<td>" + hourlyData[key] + "</td>";
+                }
+                tableHTML += "</tr>";
             });
-
             tableHTML += "</table>";
             document.getElementById("weather-info").innerHTML = tableHTML;
         }

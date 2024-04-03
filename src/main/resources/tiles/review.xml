@@ -19,6 +19,21 @@
    	<definition name="review_input2" extends="baseLayout">
 		<put-attribute name="title" value="바라는 바다 :: 후기게시판 작성"/>
 		<put-attribute name="body" value="/WEB-INF/views/review_board/review_input2.jsp"/>
-	</definition>    
+	</definition> 
+	
+	<definition name="bada_review" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다 :: 바다리뷰 페이지"/>
+		<put-attribute name="body" value="/WEB-INF/views/review_board/bada_review.jsp"/>
+	</definition>
+	
+	<definition name="review_page" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다 :: 바다후기 게시판형태"/>
+		<put-attribute name="body" value="/WEB-INF/views/review_board/review_page.jsp"/>
+	</definition> 
+	
+	<definition name="review_detail" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다 :: 바다후기 보기"/>
+		<put-attribute name="body" value="/WEB-INF/views/review_board/review_detail.jsp"/>
+	</definition>        
    
 </tiles-definitions>

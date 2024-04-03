@@ -12,4 +12,28 @@
     SELECT beach_code, beach FROM bada_list
 </select>
 
+<insert id="review_save">
+   INSERT INTO bada_user_review (
+       id, name, review_num, write_day, visit_day, 
+       review_title, review_contents, photo1, photo2, photo3, photo4, photo5, 
+       thumbnail, hits, recommend, report, review_score, hashtag, reply, beach_code, re_visit,step
+   ) VALUES (
+       #{id}, #{name}, review_seq.nextval, sysdate, #{visit_day}, 
+       #{review_title}, #{review_contents},
+       #{fileNames[0]}, #{fileNames[1]}, #{fileNames[2]}, #{fileNames[3]}, #{fileNames[4]},
+       #{thumbnail}, 0, 0, 0, #{review_score}, #{hashtags}, 0, #{beach_code}, #{re_visit},0
+   )
+</insert>
+
+<select id="total" resultType="int">
+   select count(*)from bada_user_review
+</select>
+
+<select id="review_list" resultType="com.ezen.bada.review.AllBoardDTO">
+   select * from (
+   select rownum rn, A.* from(  
+   select * from bada_user_review order by step asc)A)
+   where rn between #{start} AND #{end}
+</select>
+
 </mapper>

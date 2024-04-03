@@ -39,7 +39,7 @@
                     <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
                     <ul class="collapse__menu">
-                        <a href="#" class="collapse__sublink">바다리뷰</a>
+                        <a href="bada_review" class="collapse__sublink">바다리뷰</a>
 	                    <a href="review_input" class="collapse__sublink">리뷰작성</a>
 	                    <a href="#"  class="collapse__sublink">한마디</a>       
                     </ul>

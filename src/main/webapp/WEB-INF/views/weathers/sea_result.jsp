@@ -103,6 +103,11 @@
 <div class="weatherbox">
 <span id="beach_name">날씨 정보 요약</span>
 <br><br><hr><br><br>
+<div id="weather-info">
+<script>
+  var beachName = "${bdt.beach_name}";
+</script>
+</div>
 </div>
 
 </div>
@@ -110,6 +115,7 @@
 </div>
 
 <script src="./resources/js/slide.js"></script>
+<script src="./resources/js/sea_search.js"></script>
 
 </body>
 </html>

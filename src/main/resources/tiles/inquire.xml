@@ -15,6 +15,11 @@
 		<put-attribute name="title" value="바라는 바다! :: 문의글 작성"/>
 		<put-attribute name="body" value="/WEB-INF/views/inquire/inquire_input.jsp"/>
 	</definition>
+	
+	<definition name="inquire_listout" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 문의 목록"/>
+		<put-attribute name="body" value="/WEB-INF/views/inquire/inquire_listout.jsp"/>
+	</definition>
 
 	
 </tiles-definitions>

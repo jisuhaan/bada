@@ -3,6 +3,7 @@ package com.ezen.bada.inquire;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -93,35 +94,36 @@ public class InquireController {
 		String secret_pw = mul.getParameter("secret_pw");
 		
 		MultipartFile mf1=mul.getFile("pic1");
-		if(mf1 != null) {
+		System.out.println("널이어야 하는데?"+mf1);
+		if(mf1 != null && !mf1.isEmpty()) {
 			pic1=mf1.getOriginalFilename();
 			pic1=filesave1(pic1, mf1.getBytes());
 			}
 		else {pic1="nope";}
 		
 		MultipartFile mf2=mul.getFile("pic2");
-		if(mf2 != null) {
+		if(mf2 != null && !mf2.isEmpty()) {
 			pic2=mf2.getOriginalFilename();
 			pic2=filesave2(pic2, mf2.getBytes());
 			}
 		else {pic2="nope";}
 		
 		MultipartFile mf3=mul.getFile("pic3");
-		if(mf3 != null) {
+		if(mf3 != null && !mf3.isEmpty()) {
 			pic3=mf3.getOriginalFilename();
 			pic3=filesave3(pic3, mf3.getBytes());
 			}
 		else {pic3="nope";}
 		
 		MultipartFile mf4=mul.getFile("pic4");
-		if(mf4 != null) {
+		if(mf4 != null && !mf4.isEmpty()) {
 			pic4=mf4.getOriginalFilename();
 			pic4=filesave4(pic4, mf4.getBytes());
 			}
 		else {pic4="nope";}
 		
 		MultipartFile mf5=mul.getFile("pic5");
-		if(mf5 != null) {
+		if(mf5 != null && !mf5.isEmpty()) {
 			pic5=mf5.getOriginalFilename();
 			pic5=filesave5(pic5, mf5.getBytes());
 			}
@@ -183,7 +185,16 @@ public class InquireController {
 	}
 
 
-	
+	@RequestMapping(value = "/inquire_listout")
+	public String inquire_listout(Model mo) {
+		
+		Service ss=sqlsession.getMapper(Service.class);
+		ArrayList<InquireDTO> list=ss.inquire_listout();
+		
+		mo.addAttribute("list", list);
+		
+		return "inquire_listout";
+	}
 	
 	
 	

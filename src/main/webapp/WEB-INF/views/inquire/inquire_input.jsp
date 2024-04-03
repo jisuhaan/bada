@@ -29,16 +29,26 @@
                 }
             });
         
-            // 폼 제출 시 비밀번호 유효성 검사(숫자 4자리)
             $("#inquireForm").submit(function(event) {
+            	// 폼 제출 시 비밀번호 유효성 검사(숫자 4자리)
                 var password = $("#secret_pw").val();
                 if ($("#secret_pw").is(":visible") && !(/^\d{4}$/.test(password))) {
                     alert("비밀문의 비밀번호는 숫자 4자리로 입력해주세요.");
                     event.preventDefault(); // 조건과 맞지 않으면 폼 제출 금지
                 }
+                //폼 제출 시 글자수(1500자) 제한 유효성 검사
+                var contentLength = $("#content").val().length;
+                if (contentLength > 1500) {
+                    alert("문의 내용은 최대 1500자까지 입력 가능합니다.");
+                    event.preventDefault();
+                }
             });
+            
+            
         });
     </script>
+    
+    
 </head>
 
 
@@ -91,7 +101,7 @@
 			<tr>
 				<th>문의 내용</th>
 				<td>
-					<textarea cols="50" rows="7" name="content" id="content" placeholder="문의 내용은 1500자 이하로 입력하세요." required maxlength="1500"></textarea>
+					<textarea cols="50" rows="7" name="content" id="content" placeholder="문의 내용은 1500자 이하로 입력하세요." required></textarea>
 				</td>
 			</tr>
 			<tr>

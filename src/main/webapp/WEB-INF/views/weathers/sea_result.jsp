@@ -103,9 +103,10 @@
 <div class="weatherbox">
 <span id="beach_name">날씨 정보 요약</span>
 <br><br><hr><br><br>
+<div><a href="sea_weather_detail?beachName=${bdt.beach_name}">날씨 자세히 보기</a></div>
 <div id="weather-info">
-<script>
-  var beachName = "${bdt.beach_name}";
+<script type="text/javascript">
+	var beachName = "${bdt.beach_name}";
 </script>
 </div>
 </div>
@@ -115,7 +116,90 @@
 </div>
 
 <script src="./resources/js/slide.js"></script>
-<script src="./resources/js/sea_search.js"></script>
+<script type="text/javascript">
+//Date 함수
+var currentDate = new Date();
+// 날짜 변수
+var year = currentDate.getFullYear();
+var month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // 문자열의 최종 길이를 2로 설정. 문자열의 길이가 그보다 짧으면 앞에 0을 붙이기
+var day = currentDate.getDate().toString().padStart(2, '0');
+var dateString = year+ month + day;
+
+var yesterday = year + month + (currentDate.getDate() - 1).toString().padStart(2, '0');
+
+// 시간 변수 -> 얘네는 기본으로 2자리로 설정
+var hours = currentDate.getHours();
+var minutes = currentDate.getMinutes();
+
+// 초단기 예보 basetime에 맞게 설정
+function setToThirtyMinutes(){
+	if (minutes > 30){
+		return hours + '30';
+	}
+	else{
+		return (hours - 1) + '30';
+	}
+}
+
+// 초단기 예보 fcsttime에 맞게 설정
+function setToTopOfHour(){
+	if (minutes > 30){
+		return (hours + 1) + '00';
+	}else{
+		return hours + '00'
+	}
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    fetchWeather(beachName);
+});
+
+function fetchWeather() {
+	fetch("weather_beachName?beachName=" + beachName)
+	.then(response => {
+		if (!response.ok) {
+            throw new Error("fetchWeather 실패");
+        }
+		return response.json();
+	})
+	.then(data => {
+		return getUltraSrtFcstBeach(data.beach_code)
+	})
+	.catch(error => {
+        console.error("Error fetching weather data:", error);
+    });
+}
+
+function getUltraSrtFcstBeach(beachnum) {
+	// API 호출
+    var url = 'http://apis.data.go.kr/1360000/BeachInfoservice/getUltraSrtFcstBeach'; /*URL*/
+    var serviceKey = 'QWzzzAb%2FUIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J%2BlicoY1Dffo51%2Fi5HTDfU00ZpDy2E4%2FASt2FgLknaA%3D%3D'; /*Service Key*/
+    var queryParams = '?' + encodeURIComponent('serviceKey') + '=' + serviceKey;
+    queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('54');
+    queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1');
+    queryParams += '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('JSON');
+    queryParams += '&' + encodeURIComponent('base_date') + '=' + encodeURIComponent(dateString);
+    queryParams += '&' + encodeURIComponent('base_time') + '=' + encodeURIComponent(setToThirtyMinutes());
+    queryParams += '&' + encodeURIComponent('beach_num') + '=' + beachnum;
+  	console.log(url + queryParams);
+    return fetch(url + queryParams)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+       console.log(JSON.stringify(data.response.body.items.item));
+       
+    })
+    .catch(error => {
+        console.error('Fetch Error', error);
+        throw error; // 에러를 상위로 전파
+    });
+}
+
+</script>
 
 </body>
 </html>

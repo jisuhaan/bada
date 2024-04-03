@@ -54,7 +54,7 @@
     
     function api_forecast(beachnum) {
        // API 호출
-        var url = 'http://[Log in to view URL]'; /*URL*/
+        var url = 'http://apis.data.go.kr/1360000/BeachInfoservice/getVilageFcstBeach'; /*URL*/
         var serviceKey = 'QWzzzAb%2FUIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J%2BlicoY1Dffo51%2Fi5HTDfU00ZpDy2E4%2FASt2FgLknaA%3D%3D'; /*Service Key*/
         var queryParams = '?' + encodeURIComponent('serviceKey') + '=' + serviceKey;
         queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('290');
@@ -129,7 +129,7 @@
     
     function api_getTwBuoyBeach() {
        // API 호출
-        var url = 'http://[Log in to view URL]'; /*URL*/
+        var url = 'http://www.khoa.go.kr/api/oceangrid/tideObsTemp/search.do'; /*URL*/
         var serviceKey = 'C9p5sRvJfzIgyPb5hbCaA=='; /*Service Key*/
         var queryParams = '?' + encodeURIComponent('ResultType') + '=' + encodeURIComponent('json');
         queryParams += '&' + encodeURIComponent('ObsCode') + '=' + encodeURIComponent('DT_0005');
@@ -157,7 +157,7 @@
     
     function api_WeatherWarning() {
         // API 호출
-        var url = 'https://[Log in to view URL]'; /*URL*/
+        var url = 'https://apis.data.go.kr/1360000/WthrWrnInfoService/getPwnCd'; /*URL*/
         var serviceKey = 'QWzzzAb%2FUIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J%2BlicoY1Dffo51%2Fi5HTDfU00ZpDy2E4%2FASt2FgLknaA%3D%3D'; /*Service Key*/
         var queryParams = '?' + encodeURIComponent('dataType') + '=' + encodeURIComponent('json');
         queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10');

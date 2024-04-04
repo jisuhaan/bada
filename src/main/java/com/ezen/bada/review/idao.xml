@@ -46,7 +46,27 @@
 
 <!-- 리뷰 디테일 페이지 -->
 <select id="review_detail" resultType="com.ezen.bada.review.AllBoardDTO">
-	select * from bada_user_review
+	select * from bada_user_review where review_num = #{param1}
+</select>
+
+<!-- 해변코드 -> 해변명 변환 -->
+ 
+ <select id="beach_name" resultType="String">
+ 	select bl.beach
+	from bada_user_review br join bada_list bl
+	on br.beach_code=bl.beach_code and br.review_num= #{param1}
+ </select>
+ 
+ <!-- 게시글 삭제 -->
+<delete id="review_delete">
+	delete from bada_user_review where review_num = #{param1}
+</delete>
+
+<!-- 게시글 삭제시 함께 삭제할 이미지파일 -->
+<select id="all_photo" resultType="com.ezen.bada.review.AllBoardDTO">
+    SELECT photo1, photo2, photo3, photo4, photo5, thumbnail 
+    FROM bada_user_review 
+    WHERE review_num = #{review_num}
 </select>
 
 </mapper>

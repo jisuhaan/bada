@@ -3,6 +3,7 @@ package com.ezen.bada.review;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +27,7 @@ public class ReviewController {
 	@Autowired
 	SqlSession sqlsession;
 	
-	String image_path="C:\\이젠디지탈12\\spring\\bada_web\\src\\main\\webapp\\resources\\image_user";
+	String image_path="C:\\coding\\spring\\bada_web\\src\\main\\webapp\\resources\\image_user";
 	
 	@RequestMapping(value = "review_input")
 	public String review1(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
@@ -152,6 +153,7 @@ public class ReviewController {
 			
 	}
 	
+	
 	@RequestMapping(value = "review_all_page")
 	public String review4(HttpServletRequest request, PageDTO dto, Model mo) {
 		
@@ -193,8 +195,16 @@ public class ReviewController {
 	}
 	
 	@RequestMapping(value = "review_detail")
-	public String review4() {
-			
+	public String review4(HttpServletRequest request, Model mo) {
+		
+		int review_num = Integer.parseInt(request.getParameter("review_num"));
+		Service ss = sqlsession.getMapper(Service.class);
+		ss.hit_up(review_num);
+		System.out.println("맞는데 ? : "+review_num);
+		
+		ArrayList<AllBoardDTO> list = ss.review_detail(review_num);
+		mo.addAttribute("list", list);
+
 		return "review_detail";
 			
 	}

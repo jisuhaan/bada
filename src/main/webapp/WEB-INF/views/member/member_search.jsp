@@ -6,6 +6,7 @@
 <head>
 <link href="${pageContext.request.contextPath}/resources/css/member_search.css" rel="stylesheet" type="text/css">
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
 </head>
 

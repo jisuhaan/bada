@@ -5,7 +5,7 @@ public class AllBoardDTO {
 	int review_num;
 	String id,name,write_day,visit_day,review_title,review_contents,
 			photo1,photo2,photo3,photo4,photo5,thumbnail,hashtag,re_visit;
-	int hits,recommend,report,review_score,reply,beach_code,step;
+	int hits,recommend,report,review_score,reply,beach_code;
 	
 	public AllBoardDTO() {}
 
@@ -176,16 +176,6 @@ public class AllBoardDTO {
 	public void setBeach_code(int beach_code) {
 		this.beach_code = beach_code;
 	}
-
-	public int getStep() {
-		return step;
-	}
-
-	public void setStep(int step) {
-		this.step = step;
-	}
-	
-	
 	
 	
 }

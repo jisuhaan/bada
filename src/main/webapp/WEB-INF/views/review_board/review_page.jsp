@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>바다리뷰 :: 전체보기</title>
 
 <style type="text/css">
@@ -23,6 +24,7 @@
         text-align: left; /* 제목 셀 내용을 왼쪽 정렬 */
     }
 </style>
+<title>Insert title here</title>
 </head>
 <body>
 <h2>바다리뷰 게시판</h2> <br><br>

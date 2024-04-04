@@ -33,7 +33,13 @@ public interface Service {
 
 	void hit_up(int review_num);
 
-	ArrayList<AllBoardDTO> review_detail(int review_num);
+	AllBoardDTO review_detail(int review_num);
+
+	String beach_name(int review_num);
+
+	void review_delete(int review_num);
+
+	AllBoardDTO all_photo(int review_num);
 
 	
 }

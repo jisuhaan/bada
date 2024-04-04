@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,13 +22,14 @@ import com.ezen.bada.member.MemberDTO;
 
 
 
+
 @Controller
 public class ReviewController {
 	
 	@Autowired
 	SqlSession sqlsession;
 	
-	String image_path="C:\\coding\\spring\\bada_web\\src\\main\\webapp\\resources\\image_user";
+	String image_path="C:\\이젠디지털12\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
 	
 	@RequestMapping(value = "review_input")
 	public String review1(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
@@ -202,12 +204,62 @@ public class ReviewController {
 		ss.hit_up(review_num);
 		System.out.println("맞는데 ? : "+review_num);
 		
-		ArrayList<AllBoardDTO> list = ss.review_detail(review_num);
-		mo.addAttribute("list", list);
-
-		return "review_detail";
-			
-	}
+		AllBoardDTO dto = ss.review_detail(review_num);
+		mo.addAttribute("dto", dto);
+		
+		String beach = ss.beach_name(review_num);
+		mo.addAttribute("beach", beach);
+		
+		List<String> gallery = new ArrayList<String>();
+		
+		if (!"no".equals(dto.getThumbnail()))
+		{
+				gallery.add(dto.getThumbnail());
+		}
+		for (int i = 1; i <= 5; i++) {
+		  try {
+			   String photoName = (String) AllBoardDTO .class.getMethod("getPhoto" + i).invoke(dto);
+			   if (!"no".equals(photoName)) {
+				   gallery.add(photoName);
+		            }
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		    }
+		    
+		 mo.addAttribute("gallery", gallery);
 		
 
+		return "review_detail";
+		
+	}
+	
+	@RequestMapping(value = "review_delete")
+	   public String review_delete(HttpServletRequest request) {
+
+		     int review_num = Integer.parseInt(request.getParameter("review_num"));
+		     Service ss = sqlsession.getMapper(Service.class);
+		     
+		     AllBoardDTO boardDTO = ss.all_photo(review_num);
+		     
+		     List<String> photoPaths = Arrays.asList(boardDTO.getPhoto1(), boardDTO.getPhoto2(), 
+								                     boardDTO.getPhoto3(), boardDTO.getPhoto4(), 
+								                     boardDTO.getPhoto5(), boardDTO.getThumbnail());
+			for(String photo : photoPaths) {
+				if(photo != null && !photo.equals("no")) 
+				{
+					File file = new File(image_path + photo);
+					if(file.exists()) 
+					{
+						file.delete();
+					}
+				}
+			}
+		     
+		     ss.review_delete(review_num);
+
+	      return "redirect:/bada_review";
+	   }
+	
+	
 }

@@ -185,15 +185,52 @@ public class InquireController {
 	}
 
 
-	@RequestMapping(value = "/inquire_listout")
-	public String inquire_listout(Model mo) {
+	@RequestMapping(value="/inquire_listout")
+    public String page(HttpServletRequest request, Model mo) {
+		// 맨 처음 아웃 페이지를 들어갔을 때, 
+		// 사용자 화면에 떠야 할 1) 현재 페이지 위치와 2) 페이지 당 들어가는 레코드 수 설정 -> 눌 값일 때마다 적절한 초기화 해주기
+	    String nowPage=request.getParameter("nowPage");
+	    String cntPerPage=request.getParameter("cntPerPage");
+	  /* String 클래스는 객체이기 때문에 == null을 사용 가능하지만, int같은 기본 자료형은 불가하므로,
+	   * if문에서 null 확인을 위해 위에서는 String으로 받고, 인수로 넣기 직전에 intger로 변환해줘야 한다.
+	   */ 
+	    if(nowPage==null && cntPerPage == null) {
+	       nowPage="1";
+	       cntPerPage="5";
+	    }
+	    else if(nowPage==null) {        nowPage="1";
+	    }
+	    else if(cntPerPage==null) {
+	       cntPerPage="5";
+	    }      
+	    System.out.println("현재 페이지 : "+nowPage); // 어디에 있냐에 따라 다름
+	    System.out.println("페이지 당 레코드 수 : "+cntPerPage); // 5개
+	    
+	    // 3) 전체 게시글 수 DB에서 구해오기
+	    Service ss = sqlsession.getMapper(Service.class);
+	    int total=ss.inquire_list_total();
+	    System.out.println("총 레코드의 개수 : "+total);
+	     
+	    // 생성자로 나머지 페이지 처리에 필요한 필드값들도 모두 계산
+	    // 3가지 인수 넣어주기
+	    PageDTO dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+	    mo.addAttribute("paging",dto);
+	    // 리스트 안에 특정 페이지마다 출력될 5개 묶음의 레코드 모음 저장
+	    mo.addAttribute("list",ss.page_inquire_listout(dto));
+	    return "inquire_listout";
+    }
+	
+	
+	
+	@RequestMapping(value = "/inquire_detail")
+	public String inquire_detail(HttpServletRequest request,Model mo) {
+		String inquire_num=request.getParameter("inquire_num");
 		
 		Service ss=sqlsession.getMapper(Service.class);
-		ArrayList<InquireDTO> list=ss.inquire_listout();
+		InquireDTO dto=ss.inquire_detail(inquire_num);
+		mo.addAttribute("dto", dto);
 		
-		mo.addAttribute("list", list);
-		
-		return "inquire_listout";
+		return "inquire_detail";
 	}
 	
 	

@@ -12,9 +12,10 @@ public interface Service {
 	void inquire_save(String title, String category, String name, String id, String pic1, String pic2, String pic3,
 			String pic4, String pic5, String content, String secret, String secret_pw);
 
-	ArrayList<InquireDTO> inquire_listout();
+	int inquire_list_total();
 
-	
+	ArrayList<InquireDTO> page_inquire_listout(PageDTO dto);
 
+	InquireDTO inquire_detail(String inquire_num);
 
 }

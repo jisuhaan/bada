@@ -14,9 +14,25 @@
 	 #{param9}, #{param10}, #{param11}, #{param12})
 </insert>
 
-<select id="inquire_listout" resultType="com.ezen.bada.inquire.InquireDTO">
-	select * from bada_inquire
-	order by inquire_num desc
+<!-- 페이징처리에서 전체레코드수 구하기 -->
+
+
+<select resultType="int" id="inquire_list_total">select count(*)from bada_inquire </select>
+
+<!-- 한 페이지 안에 들어갈 만큼의 리스트 목록을 잘라오기 -->
+
+
+<select resultType="com.ezen.bada.inquire.InquireDTO" id="page_inquire_listout">
+	select * from( select rownum rn, A.* from(
+		select inquire_num, title, category, name, id, i_date, 
+		pic1, pic2, pic3, pic4, pic5, content, secret, secret_pw, reply, rec, cnt 
+		from bada_inquire
+		order by inquire_num DESC) A) 
+	where rn between #{start} AND #{end}
+</select>
+
+<select resultType="com.ezen.bada.inquire.InquireDTO" id="inquire_detail">
+	select * from bada_inquire where inquire_num=#{param1}
 </select>
 	
 </mapper>

@@ -72,20 +72,16 @@ a {
   border-radius: 8px;
   padding: 10px 12px;
   font-family: Pretendard;
-  font-size: 14px;
-  
+  font-size: 14px; 
 }
 
 
-.mains {
-	
+.mains {}	
 	position: relative;
 	width:100%;
-	
 }
 
 .mainleft {
-	
 	margin:0 auto;
 	width: 40%;
 	height:700px;
@@ -93,9 +89,7 @@ a {
 	align-items: center;
 	text-align : center;
 	vertical-allign: middle;
-	
 }
-
 
 .mainright {
 	
@@ -116,114 +110,6 @@ a {
 	width:100%;
 	height:300px;
 	background-color:#e8a65c;
-}
-
-.navbar {
-	text-align: center;
-	justify-content: center;
-	padding-left:0;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px;
-	margin:0 auto;
-	font-family: 'TTHakgyoansimMonggeulmonggeulR';
-}
-
-.navbar a {
-	color: #F5CE9A;
-}
-
-.navbar__logo {
-	margin-left:10px;
-	font-size: 24px;
-	color: #1C1C1C;
-}
-
-.navbar__menu {
-	display: flex;
-	list-style: none;
-	justify-content: center;
-	font-size: 30px;
-	font-family: 'TTHakgyoansimMonggeulmonggeulR';
-	color: #F5CE9A;
-	text-shadow: -1px 0px #1C1C1C, 0px 1px #1C1C1C, 1px 0px #1C1C1C, 0px -1px #1C1C1C;
-}
-
-.navbar__menu a {
-	display: block;
-	padding: 10px 15px;
-	text-decoration: none;
-	color: #F5CE9A;
-}
-
-.navbar__menu li {
-	list-style: none;
-}
-
-.navbar__menud {
-	position: relative;
-}
-
-.navbar__dropdown {
-	margin: 0;
-	padding-left:0px;
-	display: block;
-	position: absolute;
-	z-index: 1;
-	background-color: #F5EBDE;
-	justify-content: center;
-	align-items: center;
-	border-radius: 4px;
-	top: 2.5rem;
-	right: 0rem;
-	width: 10rem;
-	border: 1px solid #1C1C1C;
-	box-shadow: 0 40px 40px rgb(28 28 28 /6%);
-	opacity: 0;
-	visibility: hidden;
-	font-size: 16px;
-	font-family: 'TTHakgyoansimMonggeulmonggeulR';
-	color: #F5CE9A;
-	text-shadow: -1px 0px #1C1C1C, 0px 1px #1C1C1C, 1px 0px #1C1C1C, 0px -1px #1C1C1C;
-}
-
-.navbar__dropdown li {
-	display: block;
-	position: relative;
-	text-align:center;
-}
-
-.navbar__dropdown a {
-	display: block;
-	color: #F5CE9A;
-	text-decoration: none;	
-}
-
-.navbar__menud:hover .navbar__dropdown {
-	opacity: 1;
-	visibility: visible;
-}
-
-.navbar__menu li:hover {
-	background: #F5CE9A;
-	border-radius: 4px;
-	list-style: none;
-	padding-left:0px;
-}
-
-.navbar__menu li a:hover {
-	color: #48B0D9;
-}
-
-.navbar__icons {
-	list-style: none;
-	display: flex;
-	padding-left: 0px;
-}
-
-.navbar__icons li {
-	padding: 8px;
 }
 
 .btn {

@@ -30,6 +30,11 @@ public interface Service {
 	int total();
 
 	ArrayList<AllBoardDTO> review_list(PageDTO dto);
+
+	void hit_up(int review_num);
+
+	ArrayList<AllBoardDTO> review_detail(int review_num);
+
 	
 }
 

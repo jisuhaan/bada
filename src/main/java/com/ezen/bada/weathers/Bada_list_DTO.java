@@ -8,6 +8,9 @@ public class Bada_list_DTO {
 	String baseDate; //발표일자
 	String baseTime; //발표시간
 	
+	String fcstDate; // 예보일자
+	String fcstTime; // 예보시간
+	
 	String hourlyTimestamps; //시간대
 	
 	// 어노테이션을 붙여야 json의 key값이 아래 dto 필드명에 정확하게 찾아감

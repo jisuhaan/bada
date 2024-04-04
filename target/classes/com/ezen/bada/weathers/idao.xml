@@ -26,14 +26,9 @@
 		select * from bada_info where beach_code = #{param1}
 	</select>
 	
-	<!-- 선택한 해변의 위도(latitude)를 받아옵니다. -->
-	<select id="getbeachlat" resultType="double">
-		select latitude from bada_list where beach_code = #{param1}
-	</select>
-
-	<!-- 선택한 해변의 경도(longitude)를 받아옵니다. -->
-	<select id="getbeachlog" resultType="double">
-		select longitude from bada_list where beach_code = #{param1}
+	<!-- 선택한 해변의 리스트 테이블 속 정보를 모두 받아오기 -->
+	<select id="get_Beach_list_data" resultType="com.ezen.bada.weathers.Bada_default_DTO">
+		select * from bada_list where beach_code = #{param1}
 	</select>
 		
 </mapper>

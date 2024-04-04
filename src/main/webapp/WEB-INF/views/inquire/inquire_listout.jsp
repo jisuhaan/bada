@@ -11,6 +11,7 @@
 <head>
 
 	<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>바라는 바다! :: 문의 목록</title>
 
 	<style>
@@ -38,11 +39,8 @@
             vertical-align: middle; /* 아이콘을 수직 가운데 정렬 */
         }
     </style>
-
+<title>바라는 바다! :: 문의 목록</title>
 </head>
-
-
-
 
 <body>
 

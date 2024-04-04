@@ -11,6 +11,7 @@
 
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>바라는 바다! :: 회원 기본정보 확인</title>
 </head>
 

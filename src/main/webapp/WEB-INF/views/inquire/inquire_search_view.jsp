@@ -4,6 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
+<%@ include file="inquire_search.jsp" %>
+
 <!DOCTYPE html>
 
 <html>
@@ -11,8 +13,7 @@
 <head>
 
 	<meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>바라는 바다! :: 문의 목록</title>
+	<title>바라는 바다! :: 검색결과</title>
 
 	<style>
         table {
@@ -39,8 +40,11 @@
             vertical-align: middle; /* 아이콘을 수직 가운데 정렬 */
         }
     </style>
-<title>바라는 바다! :: 문의 목록</title>
+
 </head>
+
+
+
 
 <body>
 
@@ -97,7 +101,7 @@
 		   <td colspan="10" style="text-align: center;">
 		   <c:if test="${paging.startPage!=1 }">
 		   	 <!-- ◀ 을 누르면 이전 페이지(-1 페이지)로 넘어갈 수 있도록  -->
-		      <a href="inquire_listout?nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}">◀</a>
+		      <a href="inquire_search_view?nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}">◀</a>
 		      
 		   </c:if>   
 		   
@@ -109,14 +113,14 @@
 		            </c:when>   
 		            <c:when test="${p != paging.nowPage }">
 		            <!-- 현재 페이지는 아니지만, 화면 내에 표시되어 있는 다른 페이지로 넘어가고 싶은 경우 -->
-		               <a href="inquire_listout?nowPage=${p}&cntPerPage=${paging.cntPerPage}">${p}</a>
+		               <a href="inquire_search_view?nowPage=${p}&cntPerPage=${paging.cntPerPage}">${p}</a>
 		            </c:when>   
 		         </c:choose>
 		      </c:forEach>
 		     
 		      <c:if test="${paging.endPage != paging.lastPage}">
 		      <!-- ▶ 을 누르면 다음 페이지(+1 페이지)로 넘어갈 수 있도록  -->
-		      <a href="inquire_listout?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}">▶</a>
+		      <a href="inquire_search_view?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}">▶</a>
 		   </c:if>
 		   
 		   </td>

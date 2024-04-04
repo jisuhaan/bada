@@ -14,26 +14,39 @@
 
 <insert id="review_save">
    INSERT INTO bada_user_review (
-       id, name, review_num, write_day, visit_day, 
+       id, name, review_num, visit_day, 
        review_title, review_contents, photo1, photo2, photo3, photo4, photo5, 
-       thumbnail, hits, recommend, report, review_score, hashtag, reply, beach_code, re_visit,step
+       thumbnail, hits, recommend, report, review_score, hashtag, reply, beach_code, re_visit
    ) VALUES (
-       #{id}, #{name}, review_seq.nextval, sysdate, #{visit_day}, 
+       #{id}, #{name}, review_seq.nextval, #{visit_day}, 
        #{review_title}, #{review_contents},
        #{fileNames[0]}, #{fileNames[1]}, #{fileNames[2]}, #{fileNames[3]}, #{fileNames[4]},
-       #{thumbnail}, 0, 0, 0, #{review_score}, #{hashtags}, 0, #{beach_code}, #{re_visit},0
+       #{thumbnail}, 0, 0, 0, #{review_score}, #{hashtags}, 0, #{beach_code}, #{re_visit}
    )
 </insert>
 
+<!-- 페이징처리 전체레코드수 -->
 <select id="total" resultType="int">
    select count(*)from bada_user_review
 </select>
 
+<!-- 한 페이지 내 리스트 목록 -->
 <select id="review_list" resultType="com.ezen.bada.review.AllBoardDTO">
    select * from (
    select rownum rn, A.* from(  
-   select * from bada_user_review order by step asc)A)
+   select id, name, review_num, TO_CHAR(write_day, 'YYYY-MM-DD')write_day, visit_day, review_title,
+   hits,recommend from bada_user_review order by review_num desc)A)
    where rn between #{start} AND #{end}
+</select>
+
+<!-- 조회수 up -->
+<update id="hit_up">
+	UPDATE bada_user_review SET hits = hits + 1 where review_num = #{param1}
+</update>
+
+<!-- 리뷰 디테일 페이지 -->
+<select id="review_detail" resultType="com.ezen.bada.review.AllBoardDTO">
+	select * from bada_user_review
 </select>
 
 </mapper>

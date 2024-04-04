@@ -1,7 +1,6 @@
 package com.ezen.bada.weathers;
 
 public class Bada_info_DTO {
-	
 	int beach_code;
 	String beach_name;
 	String state;

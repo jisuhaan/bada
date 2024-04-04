@@ -78,12 +78,14 @@ public class SeaInfoController {
 		double latitude = ss.getbeachlat(beach_code);
 		double longitude = ss.getbeachlog(beach_code);
 		mo.addAttribute("bdt",bdt);
-		mo.addAttribute("latitude",latitude);
-		mo.addAttribute("longitude",longitude);
 		System.out.println("불러와진 해변이름 : "+bdt.getBeach_name());
-		System.out.println("위도 : "+latitude);
-		System.out.println("경도 : "+longitude);
-		   
+		
+		// Bada_default_DTO -> Bada_list 테이블에서 특정 해수욕장 정보 가져오기
+		Bada_default_DTO bldt = ss.get_Beach_list_data(beach_code); 
+		mo.addAttribute("bldt",bldt);
+		System.out.println("위도 : "+bldt.getLatitude());
+		System.out.println("경도 : "+bldt.getLongitude());
+		
 		return "sea_result";
 	}
 	

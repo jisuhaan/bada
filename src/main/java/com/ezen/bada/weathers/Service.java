@@ -17,5 +17,7 @@ public interface Service {
 	double getbeachlat(int beach_code);
 
 	double getbeachlog(int beach_code);
+	
+	Bada_default_DTO get_Beach_list_data(int beach_code);
 
 }

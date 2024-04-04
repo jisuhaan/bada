@@ -30,7 +30,7 @@ public class InquireController {
 	SqlSession sqlsession;
 	   
 	
-	String imagepath="C:\\이젠디지털12\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
+	String imagepath="C:\\coding\\spring\\bada_web\\src\\main\\webapp\\resources\\image_user";
 	String origin_img;
 	
 	

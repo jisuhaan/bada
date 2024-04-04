@@ -75,8 +75,6 @@ public class SeaInfoController {
 		Bada_info_DTO bdt = ss.getbeachinfo(beach_code);
 		
 		//해변코드로 db에 마련된 위도경도를 불러옵니다.
-		double latitude = ss.getbeachlat(beach_code);
-		double longitude = ss.getbeachlog(beach_code);
 		mo.addAttribute("bdt",bdt);
 		System.out.println("불러와진 해변이름 : "+bdt.getBeach_name());
 		

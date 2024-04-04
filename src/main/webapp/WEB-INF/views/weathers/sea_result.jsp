@@ -167,8 +167,11 @@ function fetchWeather(beach_code) {
         })
         .then(vilageFcstBeachData => {
             console.log("Vilage Fcst Beach Data:", vilageFcstBeachData);
-            // 다음 처리를 계속할 수 있습니다.
-            return vilageFcstBeachData;
+            return getLCRiseSetInfo(latitude, longitude);
+        })
+        .then(LCRiseSetInfoData => {
+            console.log("LC Rise Set Info Data:", LCRiseSetInfoData);
+            saveWeatherInfoToDTO(ultraSrtFcstBeachData,vilageFcstBeachData,LCRiseSetInfoData);
         });
 };
 
@@ -245,29 +248,50 @@ function getLCRiseSetInfo(latitude, longitude) {
     queryParams += '&' + encodeURIComponent('latitude') + '=' + encodeURIComponent(latitude);
     queryParams += '&' + encodeURIComponent('locdate') + '=' + encodeURIComponent(dateString);
     queryParams += '&' + encodeURIComponent('dnYn') + '=' + encodeURIComponent('y');
-    console.log('단기예보 링크 : ' + url + queryParams);
+    console.log('일출, 일몰 링크 : ' + url + queryParams);
 
     return fetch(url + queryParams)
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        return response.json();
+        return response.text(); // 비동기 처리를 할 때엔 순서가 매우 중요!!! 
     })
-    .then(data => {
-       var originalData = data.response.body.items.item;
-       var extractedItems = originalData.filter(item => item.category === 'TMN' || item.category === 'TMX'); // 최저기온과 최고기온만 분리
-       
-       // 변경된 JSON 데이터 출력
-       console.log(extractedItems);
-       
-       return getTMNnTMX(extractedItems); 
+    .then(xmlData => {
+        return xmlToJson(xmlData); // 가져온 XML 데이터를 JSON으로 변환하여 반환합니다.
     })
     .catch(error => {
         console.error('Fetch Error', error);
         throw error; // 에러를 상위로 전파
     });
 }
+
+function xmlToJson(xml) {
+    var parser = new DOMParser();
+    var xmlDoc = parser.parseFromString(xml, "text/xml");
+    var result = {};
+
+    // XML 파싱이 실패한 경우 에러 처리
+    if (xmlDoc.getElementsByTagName('parsererror').length > 0) {
+        throw new Error('XML parsing error');
+    }
+
+    // 맨 처음 등장한 <sunrise> 태그와 <sunset> 태그의 정보를 찾아온다.
+    var sunriseNode = xmlDoc.querySelector("sunrise");
+    var sunsetNode = xmlDoc.querySelector("sunset");
+
+    // 삼항연산자로 node가 존재할 때, 값을 뽑아오도록 함
+    // trim() : 문자열의 양 끝에 있는 공백을 제거
+    var sunrise = sunriseNode ? sunriseNode.textContent.trim() : null;
+    var sunset = sunsetNode ? sunsetNode.textContent.trim() : null;
+
+    // JSON 객체에 데이터 추가
+    result["sunrise"] = sunrise;
+    result["sunset"] = sunset;
+
+    return JSON.stringify(result); // JSON 형태로 변환하여 반환합니다.
+}
+
 
 //가장 최근의 fcstTime 기준으로 데이터를 그룹화하는 함수
 function groupByLatestFcstTime(data) {
@@ -298,6 +322,37 @@ function getTMNnTMX(data) {
 	console.log('배열 처리 이후');
     console.log(dataObject); // 처리된 결과를 JSON 형태로 출력합니다.
 	return JSON.stringify(dataObject);
+}
+
+function saveWeatherInfoToDTO(ultraSrtFcstBeachData, vilageFcstBeachData, LCRiseSetInfoData) {
+	// JSON 데이터 생성
+    var jsonData = {	
+        "ultraSrtFcstBeachData": ultraSrtFcstBeachData,
+        "vilageFcstBeachData": vilageFcstBeachData,
+        "LCRiseSetInfoData": LCRiseSetInfoData
+    };
+
+    // 서버로 JSON 데이터를 전송
+    fetch('saveWeatherInfoToDTO', {
+        method: 'POST',
+        headers: { // header에는 데이터의 유형이나 형식을 지정
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(jsonData) //body에는 실제 데이터를 지정
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // 서버에서 받은 응답에 대한 처리
+        console.log('Response from server:', data);
+    })
+    .catch(error => {
+        console.error('Fetch Error', error);
+    });
 }
 
 </script>

@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,12 +32,7 @@ public class WeatherController {
     SqlSession sqlsession;
 
     ObjectMapper objectMapper = new ObjectMapper();
-   
-    @RequestMapping(value = "/sea_search")
-    public String sea_search() {
-        return "sea_search";
-    }
-
+ 
     @ResponseBody
     @RequestMapping(value = "/weather_beachName", method = RequestMethod.GET)
     public String weather_beachName(@RequestParam String beachName) {
@@ -47,18 +46,39 @@ public class WeatherController {
         return jsonResponse;
     }
     	
+
     @ResponseBody
     @RequestMapping(value = "/saveWeatherInfoToDTO", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-    public String saveWeatherInfoToDTO(@RequestBody String jsonData) {
-        String objectreturn = "";
+    public String saveWeatherInfoToDTO(@RequestBody String jsonData, HttpServletRequest request, Model mo) {
+        System.out.println("시이작!!!");
+        // 사이트가 간직하고 있는 bldt 정보 가져오기
+        HttpSession session = request.getSession();
+        Bada_default_DTO bldt = (Bada_default_DTO) session.getAttribute("bldt");
+        
+    	String objectreturn = "";
   
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         try {
+        	// 가져온 jsonData 풀어주기
 			JsonNode jsonNode = objectMapper.readTree(jsonData);
 			
-			String ultraSrtFcstBeachData = jsonNode.get("ultraSrtFcstBeachData").asText();
-			String vilageFcstBeachData = jsonNode.get("vilageFcstBeachData").asText();
-			String LCRiseSetInfoData = jsonNode.get("LCRiseSetInfoData").asText();
+			// jsonData 분리
+			String ultraSrtFcstBeachData = jsonNode.get("ultraSrtFcstBeachData").asText(); // 초단기
+			String vilageFcstBeachData = jsonNode.get("vilageFcstBeachData").asText(); // 최고, 최저
+			String LCRiseSetInfoData = jsonNode.get("LCRiseSetInfoData").asText(); // 일출, 일몰
+			
+			// dto에 저장
+			UltraSrtFcstBeach_DTO usfb = objectMapper.readValue(ultraSrtFcstBeachData, UltraSrtFcstBeach_DTO.class);
+			usfb.setSky(convertSky(usfb.getSky()));
+			usfb.setPty(convertPty(usfb.getPty()));
+			Bada_tmx_n_DTO tmxn = objectMapper.readValue(vilageFcstBeachData, Bada_tmx_n_DTO.class);
+			LC_Rise_Set_Info_DTO lcrs = objectMapper.readValue(LCRiseSetInfoData, LC_Rise_Set_Info_DTO.class);
+			
+			bldt.setUltraSrtFcstBeach_dto(usfb);
+			bldt.setBada_tmx_n_dto(tmxn);
+			bldt.setLc_rise_set_info_dto(lcrs);
+			
+			objectreturn = objectMapper.writeValueAsString(bldt);
 			
 			
 		} catch (JsonMappingException e) {
@@ -88,10 +108,10 @@ public class WeatherController {
             String beach = jsonNode.get("beachName").asText();
       
             String forecastNode = jsonNode.get("forecast").asText();
-            ArrayList<Bada_list_DTO> forecastList = new ArrayList<Bada_list_DTO>();
+            ArrayList<VilageFcstBeach_DTO> forecastList = new ArrayList<VilageFcstBeach_DTO>();
             JsonNode arrayNode = objectMapper.readTree(forecastNode);
             for(JsonNode node : arrayNode) {
-                Bada_list_DTO dto = objectMapper.readValue(node.toString(), Bada_list_DTO.class);
+            	VilageFcstBeach_DTO dto = objectMapper.readValue(node.toString(), VilageFcstBeach_DTO.class);
                 
                 dto.setSky(convertSky(dto.getSky()));
                 dto.setPty(convertPty(dto.getPty()));

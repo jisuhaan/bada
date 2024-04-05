@@ -3,6 +3,7 @@ package com.ezen.bada.weathers;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +85,8 @@ public class SeaInfoController {
 		System.out.println("위도 : "+bldt.getLatitude());
 		System.out.println("경도 : "+bldt.getLongitude());
 		
+		HttpSession session = request.getSession();
+	    session.setAttribute("bldt", bldt);
 		return "sea_result";
 	}
 	

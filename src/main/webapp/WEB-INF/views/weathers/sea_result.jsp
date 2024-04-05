@@ -104,6 +104,7 @@
 <div class="weatherbox">
 <span id="beach_name">날씨 정보 요약</span>
 <br><br><hr><br><br>
+<div>${bldt_one.beach} 의 오늘의 날씨</div>
 <div><a href="sea_weather_detail?beachName=${bdt.beach_name}">날씨 자세히 보기</a></div>
 <div id="weather-info">
 <script type="text/javascript">
@@ -160,27 +161,34 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function fetchWeather(beach_code) {
+	// .then() 메서드 내에서 계속해서 새로운 프로미스를 반환하여 프로미스 체인을 형성
+	// 각 단계에서 비동기 작업이 순차적으로 진행되며, 모든 작업이 완료되면 최종 결과가 반환
     return getUltraSrtFcstBeach(beach_code)
         .then(ultraSrtFcstBeachData => {
             console.log("Ultra Srt Fcst Beach Data:", ultraSrtFcstBeachData);
-            return getVilageFcstBeach(beach_code);
+            return getVilageFcstBeach(beach_code)
+                .then(vilageFcstBeachData => {
+                    console.log("Vilage Fcst Beach Data:", vilageFcstBeachData);
+                    return getLCRiseSetInfo(latitude, longitude)
+                        .then(LCRiseSetInfoData => {
+                            console.log("LC Rise Set Info Data:", LCRiseSetInfoData);
+                            saveWeatherInfoToDTO(ultraSrtFcstBeachData, vilageFcstBeachData, LCRiseSetInfoData);
+                        });
+                });
         })
-        .then(vilageFcstBeachData => {
-            console.log("Vilage Fcst Beach Data:", vilageFcstBeachData);
-            return getLCRiseSetInfo(latitude, longitude);
-        })
-        .then(LCRiseSetInfoData => {
-            console.log("LC Rise Set Info Data:", LCRiseSetInfoData);
-            saveWeatherInfoToDTO(ultraSrtFcstBeachData,vilageFcstBeachData,LCRiseSetInfoData);
+        .catch(error => {
+            console.error('Fetch Error', error);
+            // 오류 처리
         });
-};
+}
+
 
 function getUltraSrtFcstBeach(beach_code) {
 	// API 호출
     var url = 'http://apis.data.go.kr/1360000/BeachInfoservice/getUltraSrtFcstBeach'; /*URL*/
     var serviceKey = 'QWzzzAb%2FUIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J%2BlicoY1Dffo51%2Fi5HTDfU00ZpDy2E4%2FASt2FgLknaA%3D%3D'; /*Service Key*/
     var queryParams = '?' + encodeURIComponent('serviceKey') + '=' + serviceKey;
-    queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('54');
+    queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('60');
     queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1');
     queryParams += '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('JSON');
     queryParams += '&' + encodeURIComponent('base_date') + '=' + encodeURIComponent(dateString);
@@ -266,6 +274,7 @@ function getLCRiseSetInfo(latitude, longitude) {
     });
 }
 
+
 function xmlToJson(xml) {
     var parser = new DOMParser();
     var xmlDoc = parser.parseFromString(xml, "text/xml");
@@ -329,7 +338,7 @@ function saveWeatherInfoToDTO(ultraSrtFcstBeachData, vilageFcstBeachData, LCRise
     var jsonData = {	
         "ultraSrtFcstBeachData": ultraSrtFcstBeachData,
         "vilageFcstBeachData": vilageFcstBeachData,
-        "LCRiseSetInfoData": LCRiseSetInfoData
+        "LCRiseSetInfoData": LCRiseSetInfoData,
     };
 
     // 서버로 JSON 데이터를 전송

@@ -34,6 +34,11 @@
 	<definition name="review_detail" extends="baseLayout">
 		<put-attribute name="title" value="바라는 바다 :: 바다후기 보기"/>
 		<put-attribute name="body" value="/WEB-INF/views/review_board/review_detail.jsp"/>
+	</definition> 
+	
+	<definition name="change_view" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다 :: 후기 수정 페이지"/>
+		<put-attribute name="body" value="/WEB-INF/views/review_board/change_view.jsp"/>
 	</definition>        
    
 </tiles-definitions>

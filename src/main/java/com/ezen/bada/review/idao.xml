@@ -69,4 +69,40 @@
     WHERE review_num = #{review_num}
 </select>
 
+ <!-- 게시글 수정화면 -->
+<select id="change_view" resultType="com.ezen.bada.review.AllBoardDTO">
+	select * from bada_user_review where review_num = #{param1}
+</select>
+
+<!-- 기존 썸네일 가져오기 -->
+<select id="original_thumbnail" resultType="String">
+	select thumbnail from bada_user_review where review_num = #{param1}
+</select>
+
+<!-- 사진 수정 변경 -->
+<update id="update_photo" parameterType="map">
+    UPDATE bada_user_review
+    SET photo1 = #{change_photo[0]}, 
+        photo2 = #{change_photo[1]}, 
+        photo3 = #{change_photo[2]}, 
+        photo4 = #{change_photo[3]}, 
+        photo5 = #{change_photo[4]}
+    WHERE review_num = #{review_num}
+</update>
+
+<!-- 첨부파일 제외 나머지 수정사항 변경 -->
+<update id="review_modify">
+   UPDATE bada_user_review
+    SET visit_day = #{visit_day},
+        review_title = #{review_title}, 
+        review_contents = #{review_contents},
+        review_score = #{review_score}, 
+        hashtag = #{hashtags}, 
+        beach_code = #{beach_code}, 
+        re_visit = #{re_visit}
+    WHERE review_num = #{review_num}
+</update>
+
+
+
 </mapper>

@@ -2,6 +2,7 @@ package com.ezen.bada.review;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -40,6 +41,24 @@ public interface Service {
 	void review_delete(int review_num);
 
 	AllBoardDTO all_photo(int review_num);
+
+	AllBoardDTO change_view(int review_num);
+
+	String original_thumbnail(int review_num);
+
+	void update_photo(Map<String, Object> params);
+
+	void review_modify(
+		    @Param("review_num") Integer review_num,  
+		    @Param("visit_day") String visit_day, 
+		    @Param("review_title") String review_title, 
+		    @Param("review_contents") String review_contents,
+		    @Param("review_score") String review_score, 
+		    @Param("hashtags") String hashtags, 
+		    @Param("beach_code") String beach_code,
+		    @Param("re_visit") String re_visit);
+
+	
 
 	
 }

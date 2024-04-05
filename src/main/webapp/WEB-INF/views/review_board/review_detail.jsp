@@ -60,7 +60,7 @@
         <button type="button" onclick="#">추천</button>
         <button type="button" onclick="#">신고</button>
         <c:if test="${loginid == dto.id || 'admin' == loginid}">
-        <button type="button" onclick="#">수정</button>
+        <button type="button" onclick="location.href='review_change?review_num=${dto.review_num}'">수정</button>
         <button type="button" onclick="confirmDelete('${dto.review_num}')">삭제</button>
         </c:if>
      </div>

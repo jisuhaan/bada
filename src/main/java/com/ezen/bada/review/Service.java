@@ -41,6 +41,10 @@ public interface Service {
 
 	AllBoardDTO all_photo(int review_num);
 
+	AllBoardDTO change_view(int review_num);
+
+
+
 	
 }
 

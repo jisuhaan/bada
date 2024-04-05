@@ -69,4 +69,11 @@
     WHERE review_num = #{review_num}
 </select>
 
+ <!-- 게시글 수정화면 -->
+<select id="change_view" resultType="com.ezen.bada.review.AllBoardDTO">
+	select * from bada_user_review where review_num = #{param1}
+</select>
+
+
+
 </mapper>

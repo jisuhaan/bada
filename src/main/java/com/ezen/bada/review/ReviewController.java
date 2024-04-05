@@ -202,7 +202,6 @@ public class ReviewController {
 		int review_num = Integer.parseInt(request.getParameter("review_num"));
 		Service ss = sqlsession.getMapper(Service.class);
 		ss.hit_up(review_num);
-		System.out.println("맞는데 ? : "+review_num);
 		
 		AllBoardDTO dto = ss.review_detail(review_num);
 		mo.addAttribute("dto", dto);
@@ -246,9 +245,11 @@ public class ReviewController {
 								                     boardDTO.getPhoto3(), boardDTO.getPhoto4(), 
 								                     boardDTO.getPhoto5(), boardDTO.getThumbnail());
 			for(String photo : photoPaths) {
+				
 				if(photo != null && !photo.equals("no")) 
 				{
-					File file = new File(image_path + photo);
+					File file = new File(image_path +File.separator+photo);
+					
 					if(file.exists()) 
 					{
 						file.delete();
@@ -259,6 +260,21 @@ public class ReviewController {
 		     ss.review_delete(review_num);
 
 	      return "redirect:/bada_review";
+	   }
+	
+	@RequestMapping(value = "review_change")
+	   public String review_change(HttpServletRequest request, Model mo) {
+
+		     int review_num = Integer.parseInt(request.getParameter("review_num"));
+		     System.out.println("잘 들어옴? : "+review_num );
+		     Service ss = sqlsession.getMapper(Service.class);
+		     
+		     AllBoardDTO dto = ss.change_view(review_num);
+		     List<BeachDTO> beachList = ss.getBeachList();
+		     mo.addAttribute("beachList", beachList);
+		     mo.addAttribute("dto", dto);
+
+	      return "change_view";
 	   }
 	
 	

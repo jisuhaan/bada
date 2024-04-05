@@ -19,6 +19,7 @@
 				<td>
 					<input type="text" name="name" id="name" value="${dto.name}" readonly="readonly">
 					<input type="hidden" name="id" id="id" value="${dto.id}" >
+					<input type="hidden" name="review_num" id="review_num" value="${dto.review_num}" >
 				</td>
 			</tr>
 			
@@ -46,13 +47,13 @@
 			</tr>
 			<tr>
 				<th>썸네일</th>
-	            <td>        
-	            <input type="file" name="thumb_nail" id="thumb_nail" onchange="previewFile()">
-				<div id="thumbnail_view">
+	            <td>
+	            <div id="thumbnail_view" style="margin-bottom: 15px">
 					<c:if test="${not empty dto.thumbnail and dto.thumbnail ne 'no'}">
                 		<img src="${pageContext.request.contextPath}/resources/image_user/${dto.thumbnail}" style="width:60px; height:60px;">
             		</c:if>
-				</div>
+				</div>      
+	            <input type="file" name="thumb_nail" id="thumb_nail" onchange="previewFile()">
 	            </td>
 			</tr>
 			
@@ -60,8 +61,20 @@
 				<th>사진첨부(최대 5장)</th>
 
 	                <td id="pic_pack">
+	                <div id="existing_photos">
+	                        <c:forEach items="${photoList}" var="photo">
+				            <c:if test="${photo ne 'no'}">
+				                <div class="image-wrap" id="image-wrap-${photo}" style="display: inline-block; margin: 10px 10px;">
+				                    <img src="${pageContext.request.contextPath}/resources/image_user/${photo}" width="60px" height="60px">
+				                </div>
+				            </c:if>
+				        	</c:forEach>
+				    </div>
+				    <div id="photo_input" style="margin-top: 10px 0;"> 
+				    	<p>새로운 이미지 파일 선택시 기존의 이미지 파일은 모두 삭제됩니다.</p><br>
 	                    <input type="file" name="pic1" id="pic1">
 	                    <button type="button" onclick="addPicField()"> + </button>
+	                </div>
 	                </td>
 
 			</tr>
@@ -169,7 +182,7 @@
         visitDayInput.value = ""; // 입력 필드 초기화
     }
 	}
-	
+
 	
 	// 해시태그영역
 

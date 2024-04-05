@@ -18,4 +18,10 @@ public interface Service {
 
 	InquireDTO inquire_detail(String inquire_num);
 
+
+	int inquire_list_total_search(String search_keyword, String search_value, String category, String i_date);
+
+	ArrayList<InquireDTO> page_inquire_listout_search(String search_keyword, String search_value, String category, String i_date,
+			int start, int end);
+
 }

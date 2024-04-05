@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>바라는 바다! :: 문의</title>
+    <title>바라는 바다! :: 문의글</title>
     <style>
     
     	html, body {

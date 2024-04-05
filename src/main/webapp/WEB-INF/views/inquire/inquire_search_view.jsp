@@ -101,7 +101,9 @@
 		   <td colspan="10" style="text-align: center;">
 		   <c:if test="${paging.startPage!=1 }">
 		   	 <!-- ◀ 을 누르면 이전 페이지(-1 페이지)로 넘어갈 수 있도록  -->
-		      <a href="inquire_search_view?nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}">◀</a>
+		      <a href="inquire_search_view?nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}
+		      &search_keyword=${search_keyword}&search_value=${search_value}
+		      &category=${category}&i_date=${i_date}">◀</a>
 		      
 		   </c:if>   
 		   
@@ -113,14 +115,18 @@
 		            </c:when>   
 		            <c:when test="${p != paging.nowPage }">
 		            <!-- 현재 페이지는 아니지만, 화면 내에 표시되어 있는 다른 페이지로 넘어가고 싶은 경우 -->
-		               <a href="inquire_search_view?nowPage=${p}&cntPerPage=${paging.cntPerPage}">${p}</a>
+		               <a href="inquire_search_view?nowPage=${p}&cntPerPage=${paging.cntPerPage}
+		               &search_keyword=${search_keyword}&search_value=${search_value}
+		               &category=${category}&i_date=${i_date}">${p}</a>
 		            </c:when>   
 		         </c:choose>
 		      </c:forEach>
 		     
 		      <c:if test="${paging.endPage != paging.lastPage}">
 		      <!-- ▶ 을 누르면 다음 페이지(+1 페이지)로 넘어갈 수 있도록  -->
-		      <a href="inquire_search_view?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}">▶</a>
+		      <a href="inquire_search_view?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}
+		      &search_keyword=${search_keyword}&search_value=${search_value}
+		      &category=${category}&i_date=${i_date}">▶</a>
 		   </c:if>
 		   
 		   </td>

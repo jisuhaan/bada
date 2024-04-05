@@ -272,16 +272,25 @@
      }
     
     function dtosave_result(jsonDataString) {
-        $.ajax({
-            type: 'POST',
-            url: 'weather_beach_DTO',
-            contentType: 'application/json',
-            data: jsonDataString,
-            success: function(data) {
-                console.log(data); // 서버로부터 받은 응답 출력
-            },
-            error: function(error) {
-                console.error('Error:', error);
-            }
-        });
+    fetch('weather_beach_DTO', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: jsonDataString
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json(); // 서버로부터 JSON 형식의 응답을 받음
+    })
+    .then(data => {
+        console.log(data); // 서버로부터 받은 응답 출력
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
+
     }

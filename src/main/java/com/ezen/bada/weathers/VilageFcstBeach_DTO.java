@@ -2,11 +2,8 @@ package com.ezen.bada.weathers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Bada_list_DTO {
+public class VilageFcstBeach_DTO {
 	// 해수욕장 단기 예보 결과
-	String beach_code; //해변코드
-	String baseDate; //발표일자
-	String baseTime; //발표시간
 	
 	String fcstDate; // 예보일자
 	String fcstTime; // 예보시간
@@ -50,15 +47,14 @@ public class Bada_list_DTO {
 	@JsonProperty("WSD") // 풍속
 	String wsd;
 
-	public Bada_list_DTO() {}
+	public VilageFcstBeach_DTO() {}
 
-	public Bada_list_DTO(String beach_code, String baseDate, String baseTime, String hourlyTimestamps, String pop,
-			String pty, String pcp, String reh, String sno, String sky, String tmp, String uuu, String vvv, String wav,
-			String vec, String wsd) {
+	public VilageFcstBeach_DTO(String fcstDate, String fcstTime, String hourlyTimestamps, String pop, String pty, String pcp,
+			String reh, String sno, String sky, String tmp, String uuu, String vvv, String wav, String vec,
+			String wsd) {
 		super();
-		this.beach_code = beach_code;
-		this.baseDate = baseDate;
-		this.baseTime = baseTime;
+		this.fcstDate = fcstDate;
+		this.fcstTime = fcstTime;
 		this.hourlyTimestamps = hourlyTimestamps;
 		this.pop = pop;
 		this.pty = pty;
@@ -74,28 +70,20 @@ public class Bada_list_DTO {
 		this.wsd = wsd;
 	}
 
-	public String getBeach_code() {
-		return beach_code;
+	public String getFcstDate() {
+		return fcstDate;
 	}
 
-	public void setBeach_code(String beach_code) {
-		this.beach_code = beach_code;
+	public void setFcstDate(String fcstDate) {
+		this.fcstDate = fcstDate;
 	}
 
-	public String getBaseDate() {
-		return baseDate;
+	public String getFcstTime() {
+		return fcstTime;
 	}
 
-	public void setBaseDate(String baseDate) {
-		this.baseDate = baseDate;
-	}
-
-	public String getBaseTime() {
-		return baseTime;
-	}
-
-	public void setBaseTime(String baseTime) {
-		this.baseTime = baseTime;
+	public void setFcstTime(String fcstTime) {
+		this.fcstTime = fcstTime;
 	}
 
 	public String getHourlyTimestamps() {
@@ -201,6 +189,8 @@ public class Bada_list_DTO {
 	public void setWsd(String wsd) {
 		this.wsd = wsd;
 	}
+
+
 
 
 

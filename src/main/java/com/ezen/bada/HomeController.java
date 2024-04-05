@@ -20,7 +20,7 @@ public class HomeController {
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String home2() {
 
-		
+
 		return "main";
 	}
 	

@@ -1,0 +1,122 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'YEONGJU';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2403@1.0/YEONGJUSeonbiTTF.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TTHakgyoansimMonggeulmonggeulR';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimMonggeulmonggeulR.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/* 데스크탑 사이즈 */
+
+
+.container {
+	max-width:1200px;
+	min-width:850px;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.main_logo {
+	margin: 0 auto;
+	margin-bottom: 50px;
+	align-items: center;
+	text-align: center;
+}
+
+.main_search {
+	min-width:850px;
+	display:flex;
+	justify-content:center;
+	margin: 0 auto;
+	margin-bottom: 50px;
+	width:100%;
+	padding: 10px;
+	font-size: 36px;
+	font-family: 'YEONGJU';
+	color: #1B70A6;
+	text-shadow: -1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white;
+}
+
+.main_search input[type=text] {
+	width: 60%;
+	min-width:300px;
+	max-height:50px;
+	border: 3px solid #1B70A6;
+	border-radius: 8px;
+	padding: 10px 12px;
+	font-family: 'Pretendard-Regular';
+	font-size: 0.6em; 
+}
+
+.main_container {
+	width:1080px;
+	display: flex;
+	flex-direction: row;
+	width:100%;
+}
+
+.main_left {
+	margin:0 auto;
+	width: 50%;
+	height:70vh;
+	float:left;
+	background-color: white;
+	align-items: center;
+	text-align : center;
+}
+
+.main_right {
+	display:flex;
+	flex-direction:column;
+	width: 50%;
+	height:70vh;
+	float:right;
+	background-color:blue;
+	justify-content: center;
+	text-align: center;
+}
+
+.main_right_top{
+	width:100%;
+	height:35vh;
+	background-color:#f4d19d;
+}
+
+.main_right_bottom{
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	width:100%;
+	height:35vh;
+	background-color:#e8a65c;
+}
+
+
+/* 태블릿 이하 사이즈 */
+
+@media only screen and (max-width: 768px) {
+
+
+	
+}

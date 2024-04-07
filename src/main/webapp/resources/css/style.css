@@ -21,6 +21,8 @@
     font-style: normal;
 }
 
+/* 데스크탑, 태블릿(스마트폰) 공통 */
+
 * {
 	margin: 0;
 	padding: 0;
@@ -41,75 +43,6 @@ li a {
 
 a {
 	text-decoration: none;
-}
-
-.mainlogos	{	
-	margin: 0 auto;
-	align-items: center;
-	text-align: center;
-}
-
-.mainsearch {
-	margin: 0 auto;
-	margin-top:30px;
-	margin-bottom:30px;
-	align-items: center;
-	text-align: center;
-	font-size: 30px;
-	font-family: 'YEONGJU';
-}
-
-#searchtext {
-	font-size: 40px;
-	font-family: 'YEONGJU';
-	color: #1B70A6;
-	text-shadow: -1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white;
-}
-
-.searchbar {
-  width: 500px;
-  border: 3px solid #1B70A6;
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-family: Pretendard;
-  font-size: 14px; 
-}
-
-
-.mains {}	
-	position: relative;
-	width:100%;
-}
-
-.mainleft {
-	margin:0 auto;
-	width: 40%;
-	height:700px;
-	float:left;
-	align-items: center;
-	text-align : center;
-	vertical-allign: middle;
-}
-
-.mainright {
-	
-	width: 60%;
-	height:700px;
-	float:right;
-	background-color:blue;
-	
-}
-
-.righttop{
-	width:100%;
-	height:400px;
-	background-color:#f4d19d;
-}
-
-.rightbottom{
-	width:100%;
-	height:300px;
-	background-color:#e8a65c;
 }
 
 .btn {
@@ -138,46 +71,3 @@ a {
 	 background-color: #44c6da;
 	 box-shadow:2px #44c6da;
 }
-
-table {
-	background: #f5f5f5;
-	height: auto;
-	border-collapse: collapse;
-	border: 2px solid black;
-	margin: auto;
-	margin-top: 50px;
-	margin-bottom: 50px;
-}
-
-
-th, td {
-	border-collapse: collapse;
-	padding: 10px;
-	border: 1px solid gray;
-}
-
-th {
-	background-color:#cbcbcc;
-}
-
-table a {
-	color: black;
-}
-
-table a:hover {
-	color: #44c6da;
-}
-
-table tr:not(:first-child):not(:last-child):hover {
-    background: #b9dfd2;
-}
-
-#thumbnail {
-	transition: all 1s;
-}
-
-#thumbnail:hover{
-	transform : scale(5);
-	transition: all 1s;
-}
-

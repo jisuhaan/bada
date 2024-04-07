@@ -104,7 +104,7 @@
 <div class="weatherbox">
 <span id="beach_name">날씨 정보 요약</span>
 <br><br><hr><br><br>
-<div>${bldt_one.beach} 의 오늘의 날씨</div>
+<div>${bdt.beach_name} 의 오늘의 날씨</div>
 <div><a href="sea_weather_detail?beachName=${bdt.beach_name}">날씨 자세히 보기</a></div>
 <div id="weather-info">
 <script type="text/javascript">

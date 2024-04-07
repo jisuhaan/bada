@@ -1,7 +1,7 @@
 
 function clickarea(areaid) {
 
-	var mapsvg = document.getElementById('selectmap');
+	var mapsvg = document.getElementById('select_map');
 	var svgdoc = mapsvg.contentDocument;
 	var yessea_area = svgdoc.querySelectorAll('.yessea');
 	var select_area = null;

@@ -95,6 +95,7 @@ public class SeaInfoController {
 		String beachName = request.getParameter("beachName");
 		System.out.println("beachName: "+beachName);
 		mo.addAttribute("beachName",beachName);
+		
 		return "sea_weather_detail";
 	}
 }

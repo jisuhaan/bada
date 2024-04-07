@@ -12,7 +12,7 @@
 
 $(document).ready(function(){
 	$("#arrow_box").hide();
-	$("#seamainright").hide();
+	$("#sea_main_right").hide();
 });
 
 function showarea(area){
@@ -29,7 +29,7 @@ $.ajax({
        success:function(response){
 
     		$("#arrow_box").show();
-    		$("#seamainright").show();
+    		$("#sea_main_right").show();
     		
            
     	   var badalist="<div>";
@@ -61,12 +61,12 @@ $.ajax({
 </script>
 </head>
 <body>
-<div class="seamain">
+<div class="container">
 
-<div class="seamainleft">
-<div id="maptext">가고싶은 지역을 선택해보세요!</div>
-	<div class="seamainmaps">
-	<object type="image/svg+xml" data="./resources/svg/southKoreamap.svg" width="650px" height="800px" id="selectmap"></object>
+<div class="sea_main_left">
+<div id="map_text">가고싶은 지역을 선택해보세요!</div>
+	<div class="sea_main_maps">
+	<object type="image/svg+xml" data="./resources/svg/southKoreamap.svg" width="650px" height="800px" id="select_map"></object>
 		<div class="map">
 			<ul class="map-step1"><!--링크 클릭 시 해당지역 추가-->
 				<li class="kyungin">
@@ -125,7 +125,7 @@ $.ajax({
 <ion-icon name="chevron-forward-outline" style="color:#1b70a6;  font-size: 80px;"></ion-icon>
 </div>
 
-<div class="seamainright" id="seamainright">
+<div class="sea_main_right" id="sea_main_right">
 
 <div class="weather_infobox">
 <span id="result_top">검색 결과를 보여드릴게요!</span>

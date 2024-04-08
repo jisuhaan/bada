@@ -14,26 +14,95 @@
 
 <insert id="review_save">
    INSERT INTO bada_user_review (
-       id, name, review_num, write_day, visit_day, 
+       id, name, review_num, visit_day, 
        review_title, review_contents, photo1, photo2, photo3, photo4, photo5, 
-       thumbnail, hits, recommend, report, review_score, hashtag, reply, beach_code, re_visit,step
+       thumbnail, hits, recommend, report, review_score, hashtag, reply, beach_code, re_visit
    ) VALUES (
-       #{id}, #{name}, review_seq.nextval, sysdate, #{visit_day}, 
+       #{id}, #{name}, review_seq.nextval, #{visit_day}, 
        #{review_title}, #{review_contents},
        #{fileNames[0]}, #{fileNames[1]}, #{fileNames[2]}, #{fileNames[3]}, #{fileNames[4]},
-       #{thumbnail}, 0, 0, 0, #{review_score}, #{hashtags}, 0, #{beach_code}, #{re_visit},0
+       #{thumbnail}, 0, 0, 0, #{review_score}, #{hashtags}, 0, #{beach_code}, #{re_visit}
    )
 </insert>
 
+<!-- 페이징처리 전체레코드수 -->
 <select id="total" resultType="int">
    select count(*)from bada_user_review
 </select>
 
+<!-- 한 페이지 내 리스트 목록 -->
 <select id="review_list" resultType="com.ezen.bada.review.AllBoardDTO">
    select * from (
    select rownum rn, A.* from(  
-   select * from bada_user_review order by step asc)A)
+   select id, name, review_num, TO_CHAR(write_day, 'YYYY-MM-DD')write_day, visit_day, review_title,
+   hits,recommend from bada_user_review order by review_num desc)A)
    where rn between #{start} AND #{end}
 </select>
+
+<!-- 조회수 up -->
+<update id="hit_up">
+	UPDATE bada_user_review SET hits = hits + 1 where review_num = #{param1}
+</update>
+
+<!-- 리뷰 디테일 페이지 -->
+<select id="review_detail" resultType="com.ezen.bada.review.AllBoardDTO">
+	select * from bada_user_review where review_num = #{param1}
+</select>
+
+<!-- 해변코드 -> 해변명 변환 -->
+ 
+ <select id="beach_name" resultType="String">
+ 	select bl.beach
+	from bada_user_review br join bada_list bl
+	on br.beach_code=bl.beach_code and br.review_num= #{param1}
+ </select>
+ 
+ <!-- 게시글 삭제 -->
+<delete id="review_delete">
+	delete from bada_user_review where review_num = #{param1}
+</delete>
+
+<!-- 게시글 삭제시 함께 삭제할 이미지파일 -->
+<select id="all_photo" resultType="com.ezen.bada.review.AllBoardDTO">
+    SELECT photo1, photo2, photo3, photo4, photo5, thumbnail 
+    FROM bada_user_review 
+    WHERE review_num = #{review_num}
+</select>
+
+ <!-- 게시글 수정화면 -->
+<select id="change_view" resultType="com.ezen.bada.review.AllBoardDTO">
+	select * from bada_user_review where review_num = #{param1}
+</select>
+
+<!-- 기존 썸네일 가져오기 -->
+<select id="original_thumbnail" resultType="String">
+	select thumbnail from bada_user_review where review_num = #{param1}
+</select>
+
+<!-- 사진 수정 변경 -->
+<update id="update_photo" parameterType="map">
+    UPDATE bada_user_review
+    SET photo1 = #{change_photo[0]}, 
+        photo2 = #{change_photo[1]}, 
+        photo3 = #{change_photo[2]}, 
+        photo4 = #{change_photo[3]}, 
+        photo5 = #{change_photo[4]}
+    WHERE review_num = #{review_num}
+</update>
+
+<!-- 첨부파일 제외 나머지 수정사항 변경 -->
+<update id="review_modify">
+   UPDATE bada_user_review
+    SET visit_day = #{visit_day},
+        review_title = #{review_title}, 
+        review_contents = #{review_contents},
+        review_score = #{review_score}, 
+        hashtag = #{hashtags}, 
+        beach_code = #{beach_code}, 
+        re_visit = #{re_visit}
+    WHERE review_num = #{review_num}
+</update>
+
+
 
 </mapper>

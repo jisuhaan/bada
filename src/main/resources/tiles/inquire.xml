@@ -20,6 +20,21 @@
 		<put-attribute name="title" value="바라는 바다! :: 문의 목록"/>
 		<put-attribute name="body" value="/WEB-INF/views/inquire/inquire_listout.jsp"/>
 	</definition>
+	
+	<definition name="inquire_search" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 문의 검색창"/>
+		<put-attribute name="body" value="/WEB-INF/views/inquire/inquire_search.jsp"/>
+	</definition>
+	
+	<definition name="inquire_search_view" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 문의 검색결과"/>
+		<put-attribute name="body" value="/WEB-INF/views/inquire/inquire_search_view.jsp"/>
+	</definition>
+	
+	<definition name="inquire_detail" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 문의글"/>
+		<put-attribute name="body" value="/WEB-INF/views/inquire/inquire_detail.jsp"/>
+	</definition>
 
 	
 </tiles-definitions>

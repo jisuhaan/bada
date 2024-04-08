@@ -3,6 +3,7 @@ package com.ezen.bada.weathers;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,15 +76,17 @@ public class SeaInfoController {
 		Bada_info_DTO bdt = ss.getbeachinfo(beach_code);
 		
 		//해변코드로 db에 마련된 위도경도를 불러옵니다.
-		double latitude = ss.getbeachlat(beach_code);
-		double longitude = ss.getbeachlog(beach_code);
 		mo.addAttribute("bdt",bdt);
-		mo.addAttribute("latitude",latitude);
-		mo.addAttribute("longitude",longitude);
 		System.out.println("불러와진 해변이름 : "+bdt.getBeach_name());
-		System.out.println("위도 : "+latitude);
-		System.out.println("경도 : "+longitude);
-		   
+		
+		// Bada_default_DTO -> Bada_list 테이블에서 특정 해수욕장 정보 가져오기
+		Bada_default_DTO bldt = ss.get_Beach_list_data(beach_code); 
+		mo.addAttribute("bldt",bldt);
+		System.out.println("위도 : "+bldt.getLatitude());
+		System.out.println("경도 : "+bldt.getLongitude());
+		
+		HttpSession session = request.getSession();
+	    session.setAttribute("bldt", bldt);
 		return "sea_result";
 	}
 	
@@ -92,6 +95,7 @@ public class SeaInfoController {
 		String beachName = request.getParameter("beachName");
 		System.out.println("beachName: "+beachName);
 		mo.addAttribute("beachName",beachName);
+		
 		return "sea_weather_detail";
 	}
 }

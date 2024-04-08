@@ -10,6 +10,9 @@ public class Bada_tmx_n_DTO {
 	@JsonProperty("TMX") // 낮 최고기온
 	String tmx;
 
+	
+	public Bada_tmx_n_DTO() {}
+
 	public Bada_tmx_n_DTO(String tmn, String tmx) {
 		super();
 		this.tmn = tmn;

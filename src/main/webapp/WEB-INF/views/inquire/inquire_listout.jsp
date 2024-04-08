@@ -63,7 +63,7 @@
 			      <c:forEach items="${list}" var="l">
 			      <tr>
 			      	<td colspan="2">
-			      	<a href="inquire_detail?inquire_num=${l.inquire_num}">
+			      	<a href="inquire_secret_yn?inquire_num=${l.inquire_num}&secret=${l.secret}">
 	                    <c:choose>
 	                        <c:when test="${l.secret == 'y'}">
 	                            <img src="./resources/image/lock_icon.png" width="20px" class="lock-icon">

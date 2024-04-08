@@ -16,7 +16,7 @@
             dateInput.value = ""; // 날짜를 선택하지 않는 경우
         } else {
             var date = new Date(selectedDate);
-            var formattedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+            var formattedDate = date.getFullYear() + '\' + ('0' + (date.getMonth() + 1)).slice(-2) + '\' + ('0' + date.getDate()).slice(-2);
             dateInput.value = formattedDate; // Set formatted date (yyyy-MM-dd)
         }
     }
@@ -37,14 +37,13 @@
 	<div class="search_select">
 	<span class="search_title">검색어</span>
 	
-	<select name="search_keyword">
-		<option value="">선택 안 함</option>
+	<select name="search_keyword" required="required">
 		<option value="name">회원 닉네임</option>
 		<option value="title">문의글 제목</option>
 		<option value="content">문의 내용</option>
 	</select>
 	</div>
-	<input type="text" name="search_value">
+	<input type="text" name="search_value" required="required"ㄴ>
 	
 	<div class="search_select">
 	<span class="search_title">문의 카테고리</span>

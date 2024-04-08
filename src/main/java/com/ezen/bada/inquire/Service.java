@@ -16,12 +16,28 @@ public interface Service {
 
 	ArrayList<InquireDTO> page_inquire_listout(PageDTO dto);
 
-	InquireDTO inquire_detail(String inquire_num);
+	ArrayList<InquireDTO> inquire_search_out1(String keyword, String value);
 
+	ArrayList<InquireDTO> inquire_search_out2(String keyword, String value, String i_date);
 
-	int inquire_list_total_search(String search_keyword, String search_value, String category, String i_date);
+	ArrayList<InquireDTO> inquire_search_out3(String keyword, String value, String category);
 
-	ArrayList<InquireDTO> page_inquire_listout_search(String search_keyword, String search_value, String category, String i_date,
-			int start, int end);
+	ArrayList<InquireDTO> inquire_search_out4(String keyword, String value, String category, String i_date);
+	
+
+	InquireDTO inquire_detail(int inquire_num);
+
+	void inquire_updatecnt(int inquire_num);
+
+	int inquire_rec_id(int inquire_num, String loginid);
+	
+	void inquire_recommand(String loginid, int inquire_num);
+
+	int inquire_ban_check(String id, int ban_inquire_num, String category, String content);
+
+	void inquire_ban_save(String title, String name, String id, int ban_inquire_num, String ban_name, String ban_id,
+			String category, String content);
+	
+	
 
 }

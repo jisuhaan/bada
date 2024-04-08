@@ -31,7 +31,7 @@ public class APIController {
     	UltraSrtFcstBeach_DTO udto = apiClient.getUltraSrtFcstBeach_API(1, DateDAO.getCurrentDateString(), DateDAO.setToThirtyMinutes());
     	
     	// 단기 예보(최고 최저 온도)는 dto에 저장
-    	Bada_tmx_n_DTO vdto = apiClient.getVilageFcstBeach_API(1, DateDAO.getYesterdayDateString()); // 단기 예보
+    	Bada_tmx_n_DTO vdto = apiClient.get_bada_tmx_n(1, DateDAO.getYesterdayDateString()); // 단기 예보
         
     	// sunset과 sunrise는 dto에 저장
     	LC_Rise_Set_Info_DTO ldto = apiClient.getLCRiseSetInfo_API(129.431, 36.5988083333333, DateDAO.getCurrentDateString());

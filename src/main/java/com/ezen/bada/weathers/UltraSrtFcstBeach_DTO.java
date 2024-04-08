@@ -16,7 +16,7 @@ public class UltraSrtFcstBeach_DTO {
 	@JsonProperty("RN1") // 1시간 강수량
 	String rn1;
 
-	@JsonProperty("SKY") // 습도
+	@JsonProperty("SKY") // 하늘
 	String sky;
 
 	@JsonProperty("T1H") // 기온
@@ -34,7 +34,7 @@ public class UltraSrtFcstBeach_DTO {
 	@JsonProperty("VEC") // 풍향
 	String vec;
 	
-	@JsonProperty("WSD") // 풍향
+	@JsonProperty("WSD") // 풍속
 	String wsd;
 
 	public UltraSrtFcstBeach_DTO() {}

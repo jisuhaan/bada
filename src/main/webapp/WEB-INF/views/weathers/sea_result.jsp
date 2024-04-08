@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -105,10 +106,21 @@
 <span id="beach_name">날씨 정보 요약</span>
 <br><br><hr><br><br>
 <div id="today_weather">
-<span id="weather_title">${bdt.beach_name} 의 오늘의 날씨</span>
+<span id="weather_title">${bdt.beach_name}의 오늘의 날씨</span>
 <br><br><hr><br><br>
-어쩌고저쩌고...
+<div>
+	현재 날짜 : <fmt:parseDate value="${bldt.ultraSrtFcstBeach_dto.fcstDate}${bldt.ultraSrtFcstBeach_dto.fcstTime}" var="dateFmt" pattern="yyyyMMddHHmm"/>
+	<fmt:formatDate value="${dateFmt}" pattern="yyyy년 MM월 dd일 HH:mm"/> 
 </div>
+<div>현재 기온 : ${bldt.ultraSrtFcstBeach_dto.t1h}°</div>
+<div>최고/최저 : ${bldt.bada_tmx_n_dto.tmx}° / ${bldt.bada_tmx_n_dto.tmn}°</div>
+<div>하늘 : ${bldt.ultraSrtFcstBeach_dto.sky}</div>
+<div>수온 : ${bldt.bada_tw_dto.water_temp}</div>
+<div><c:if test="${bldt.ultraSrtFcstBeach_dto.rn1 ne '강수없음'}">1시간 강수량 : ${bldt.ultraSrtFcstBeach_dto.rn1}mm</c:if></div>
+<div><c:if test="${bldt.ultraSrtFcstBeach_dto.pty ne '없음'}">강수형태 : ${bldt.ultraSrtFcstBeach_dto.pty}</c:if></div>
+<div><c:if test="${warningString ne '없음'}">기상특보 : ${warningString}</c:if></div>
+</div>
+<br><br>
 <div><a href="sea_weather_detail?beachName=${bdt.beach_name}">날씨 자세히 보기</a></div>
 <div id="weather_info">
 <script type="text/javascript">

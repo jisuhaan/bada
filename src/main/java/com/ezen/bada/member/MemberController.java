@@ -146,9 +146,9 @@ public class MemberController {
 
    
    @RequestMapping(value = "/member_save", method = RequestMethod.POST)
-   public String membersave(HttpServletRequest request) throws IOException {
+   public String membersave(HttpServletRequest request,HttpServletResponse response) throws IOException {
       
-      String id = request.getParameter("id");
+	   	String id = request.getParameter("id");
         String pw = request.getParameter("pw");
         String name = request.getParameter("name");
         String email = request.getParameter("email");
@@ -159,13 +159,25 @@ public class MemberController {
 
         Service ss=sqlsession.getMapper(Service.class);
         ss.membersave(id, pw, name, email, gender, age);
+        
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.print("<script type='text/javascript'>");
+		out.print("var result = confirm('회원가입이 완료되었습니다! BBTI(바다성향테스트) 페이지로 이동할까요?');");
+		out.print("if(result){ window.open('member_try_bbti?id="+id+"','BBTI 테스트','width=600,height=800,resizable=no,scrollbars=no') }");	
+		out.print("else{ window.location.replace('main') }");
+		out.print("</script>");
     
-      return "main";
+		return null;
    }
    
    
    @RequestMapping(value = "/member_try_bbti")
-   public String membertrybbti() {
+   public String membertrybbti(HttpServletRequest request, Model mo) {
+	   
+	  String id = request.getParameter("id");
+	  mo.addAttribute("id", id);
       
       return "member_try_bbti";
    }

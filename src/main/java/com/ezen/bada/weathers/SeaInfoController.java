@@ -1,6 +1,7 @@
 package com.ezen.bada.weathers;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -81,32 +82,41 @@ public class SeaInfoController {
 		
 		// Bada_default_DTO -> Bada_list 테이블에서 특정 해수욕장 정보 가져오기
 		Bada_default_DTO bldt = ss.get_Beach_list_data(beach_code); 
-		mo.addAttribute("bldt",bldt);
 		System.out.println("위도 : "+bldt.getLatitude());
 		System.out.println("경도 : "+bldt.getLongitude());
 		
-		HttpSession session = request.getSession();
-	    session.setAttribute("bldt", bldt);
-	    
 	    // API 호출
     	APIClient apiClient = new APIClient();
     	
     	// 초단기 예보는 dto에 저장
-    	UltraSrtFcstBeach_DTO udto = apiClient.getUltraSrtFcstBeach_API(beach_code, DateDAO.getCurrentDateString(), DateDAO.setToThirtyMinutes());
+    	bldt.setUltraSrtFcstBeach_dto(apiClient.getUltraSrtFcstBeach_API(beach_code, DateDAO.getCurrentDateString(), DateDAO.setToThirtyMinutes()));
     	
     	// 단기 예보(최고 최저 온도)는 dto에 저장
-    	Bada_tmx_n_DTO vdto = apiClient.getVilageFcstBeach_API(beach_code, DateDAO.getYesterdayDateString()); // 단기 예보
+    	bldt.setBada_tmx_n_dto(apiClient.get_bada_tmx_n(beach_code, DateDAO.getYesterdayDateString()));
         
     	// sunset과 sunrise는 dto에 저장
-    	LC_Rise_Set_Info_DTO ldto = apiClient.getLCRiseSetInfo_API(bldt.getLongitude(), bldt.getLatitude(), DateDAO.getCurrentDateString());
+    	bldt.setLc_rise_set_info_dto(apiClient.getLCRiseSetInfo_API(bldt.getLongitude(), bldt.getLatitude(), DateDAO.getCurrentDateString()));
         
         // 현재 수온은 String으로 받음 (+°C)
         String tw = apiClient.getTwBuoyBeach_API(beach_code, (DateDAO.getCurrentDateString()+DateDAO.getCurrentTime()));
-    	
-        // 기상 특보는 Map에 저장해서 리스트화 -> 추후 수정 가능성 있음
-        apiClient.getWeatherWarning_API("108");
-        // dto에 저장된 주소랑 해당 결과의 area명을 비교 검색해서 포함되는 것만 뽑아오도록 가공하면 될 거 같아용
+        Bada_tw_DTO twdto = new Bada_tw_DTO();
+        twdto.setWater_temp(tw);
+        bldt.setBada_tw_dto(twdto);
         
+        // 기상 특보는 Map에 저장해서 리스트화 -> 추후 수정 가능성 있음
+        List<Map<String, String>> itemList = apiClient.getWeatherWarning_API("108");
+        String warningString = "없음";
+        for(Map<String, String> itemMap : itemList) {
+        	if(ss.weatherWarning_search(beach_code, itemMap.get("areaName"))!=null) {
+        		warningString = itemMap.get("warnVar")+itemMap.get("warnStress")+" "+itemMap.get("command");
+        	}
+        }
+        System.out.println("경보 확인 문구 : "+warningString);
+        
+        mo.addAttribute("warningString",warningString);
+        mo.addAttribute("bldt",bldt);
+        HttpSession session = request.getSession();
+	    session.setAttribute("bldt", bldt);
 		return "sea_result";
 	}
 	

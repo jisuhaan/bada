@@ -18,6 +18,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.json.JSONObject;
 import org.w3c.dom.NodeList;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -104,9 +106,12 @@ public class APIClient {
             JsonNode rootNode = objectMapper.readTree(text);
             JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
             
+            String fcstDate = itemNode.get(0).path("fcstDate").asText();
             String fcstTime = itemNode.get(0).path("fcstTime").asText();
             
             JSONObject jsonObject = new JSONObject();
+            jsonObject.put("fcstTime", fcstTime);
+            jsonObject.put("fcstDate", fcstDate);
             for(JsonNode item : itemNode) {
             	if(item.path("fcstTime").asText().equals(fcstTime)) {
             		// 1. 맵에 저장하기
@@ -115,7 +120,7 @@ public class APIClient {
             		jsonObject.put(item.path("category").asText(), item.path("fcstValue").asText());
             	}
             }
-            System.out.println(result);
+            System.out.println(jsonObject.toString());
             dto = objectMapper.readValue(jsonObject.toString(), UltraSrtFcstBeach_DTO.class);
             
             dto.setSky(convertSky(dto.getSky()));
@@ -126,11 +131,9 @@ public class APIClient {
         return dto;
 		
 	}
-	
-    public Bada_tmx_n_DTO getVilageFcstBeach_API(int beach_num, String getYesterday) {
-    	Bada_tmx_n_DTO dto = null;
+
+    public String getVilageFcstBeach_API(int beach_num, String getYesterday) {
     	String text = null;
-		Map<String, Object> result = new HashMap<>();
     	// API 호출
         String url = "http://apis.data.go.kr/1360000/BeachInfoservice/getVilageFcstBeach"; /*URL*/
         String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; /*Service Key*/
@@ -148,27 +151,11 @@ public class APIClient {
         // API 호출
         try {
         	text = getApi(url, params);
-        	result.put("response", text);
-            System.out.println("단기 API 호출 결과: " + result.get("response"));
             
-            JsonNode rootNode = objectMapper.readTree(text);
-            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
-            
-            JSONObject jsonObject = new JSONObject();
-            
-            for (JsonNode item : itemNode) {
-                String category = item.path("category").asText();
-                if (category.equals("TMN") || category.equals("TMX")) {
-                	jsonObject.put(item.path("category").asText(), item.path("fcstValue").asText()); 
-                }
-            }   
-            
-            dto = objectMapper.readValue(jsonObject.toString(), Bada_tmx_n_DTO.class);
-            System.out.println("jsonObject: " + jsonObject);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return dto;
+        return text;
     }
     
 	public LC_Rise_Set_Info_DTO getLCRiseSetInfo_API(double longitude, double latitude, String currentDateString) {
@@ -205,7 +192,7 @@ public class APIClient {
 	}
 	
 	public String getTwBuoyBeach_API(int beach_num, String searchTime) {
-		String tm = null;
+		String tw = null;
 		String text = null;
 		
     	// API 호출
@@ -226,21 +213,18 @@ public class APIClient {
             JsonNode rootNode = objectMapper.readTree(text);
             // tm과 tw 추출
             JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item").get(0);
-            tm = itemNode.path("tm").asText();
-            String tw = itemNode.path("tw").asText();
+            String tm = itemNode.path("tm").asText();
+            tw = itemNode.path("tw").asText();
             
             System.out.println("수온 측정 시간 tm: " + tm);
             System.out.println("수온 tw: " + tw);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return tm + "°C";
+        return tw + "°C";
 	}
 	
-	// 지점을 어떻게 검색하게 해줄지를 찾아봐야함
-	public List<Map<String, Object>> getWeatherWarning_API(String stnId) {
-		String text = null;
-		Map<String, Object> result = new HashMap<>();
+	public List<Map<String, String>> getWeatherWarning_API(String stnId) {
     	// API 호출
         String url = "https://apis.data.go.kr/1360000/WthrWrnInfoService/getPwnCd"; /*URL*/
         String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; 
@@ -254,17 +238,16 @@ public class APIClient {
         params.put("serviceKey", serviceKey);
 
         // API 호출
-        List<Map<String, Object>> itemList = new ArrayList<Map<String, Object>>();
+        List<Map<String, String>> itemList = new ArrayList<Map<String, String>>();
         try {
-        	text = getApi(url, params);
-        	result.put("response", text);
-            System.out.println("기온 특보 API 호출 결과: " + result.get("response"));
+        	String text = getApi(url, params);
+            System.out.println("기온 특보 API 호출 결과: " + text);
         
             JsonNode rootNode = objectMapper.readTree(text);
             // tm과 tw 추출
             JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
             for (JsonNode node : itemNode) {
-                Map<String, Object> itemMap = new HashMap<>();
+                Map<String, String> itemMap = new HashMap<>();
                 String areaName = node.path("areaName").asText();
                 String warnVar = convertWarnVar(node.path("warnVar").asText());
                 String warnStress = convertWarnStress(node.path("warnStress").asText());
@@ -284,6 +267,36 @@ public class APIClient {
 		
 	}
 
+	// 당일의 최저, 최고 기온을 구하는 메소드 
+	public Bada_tmx_n_DTO get_bada_tmx_n(int beach_num, String getYesterday) {
+		String text = getVilageFcstBeach_API(beach_num, DateDAO.getYesterdayDateString());
+		Bada_tmx_n_DTO dto = null;
+		JsonNode rootNode;
+		try {
+			rootNode = objectMapper.readTree(text);
+			JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
+	        
+	        JSONObject jsonObject = new JSONObject();
+	        
+	        for (JsonNode item : itemNode) {
+	            String category = item.path("category").asText();
+	            if (category.equals("TMN") || category.equals("TMX")) {
+	            	jsonObject.put(item.path("category").asText(), item.path("fcstValue").asText()); 
+	            }
+	        }   
+	        dto = objectMapper.readValue(jsonObject.toString(), Bada_tmx_n_DTO.class);
+	        System.out.println("jsonObject: " + jsonObject);
+	        
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dto;
+	}
+	
 	// xml을 파싱하는 메소드
 	public String parseXml(String xmlString, String keyword) {
 		try {

@@ -15,14 +15,15 @@
 </head>
 <body>
 
-<div class="sea_result_main">
+<div class="result_container">
 
 <div class="sea_result_left">
 	<div class="sea_result_left_top">
 	<div class="info_box">
+	<br>
 	<span id="beach_name">${bdt.beach_name}</span>
-	<br><br><hr><br><br>
-		
+	<br>
+	<div class="info_detail">	
 		<div class="info_slider" width="300px" height="300px">
 			<div class="slide slide_wrap">
 			  <div class="slide_item item1">
@@ -36,9 +37,8 @@
 			  <ul class="slide_pagination"></ul>
 			</div>
 		</div>
-		
+	</div>	
 		<div class="info_text">
-		<h3>바다 소개</h3>
 		<br><hr><br>
 		${bdt.infomation}
 		</div>
@@ -47,8 +47,8 @@
 	</div>
 	
 	<div class="sea_result_left_bottom">
-	<div class="info_box inbottom">
-		<div id="map" style="width:280px;height:280px;"></div>
+	<div class="info_box in_bottom">
+		<div id="map"></div>
 			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=513793c3569011c75762309c9b3a2138"></script>
 			<script>
 			
@@ -74,7 +74,7 @@
 			// 마커가 지도 위에 표시되도록 설정합니다
 			marker.setMap(map);
 			
-			var iwContent = '<div class="inmaptext">${bdt.beach_name}<br><br><a href="https://map.kakao.com/link/map/${bdt.beach_name},${bldt.latitude},${bldt.longitude}" style="color:blue" target="_blank">자세히보기</a> <a href="https://map.kakao.com/link/to/${bdt.beach_name},${bldt.latitude},${bldt.longitude}" style="color:blue" target="_blank">길찾기</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+			var iwContent = '<div class="in_map_text">${bdt.beach_name}<br><br><a href="https://map.kakao.com/link/map/${bdt.beach_name},${bldt.latitude},${bldt.longitude}" style="color:blue" target="_blank">자세히보기</a> <a href="https://map.kakao.com/link/to/${bdt.beach_name},${bldt.latitude},${bldt.longitude}" style="color:blue" target="_blank">길찾기</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 			    iwPosition = new kakao.maps.LatLng(latitude, longitude); //인포윈도우 표시 위치입니다
 			
 			// 인포윈도우를 생성합니다
@@ -87,13 +87,13 @@
 			infowindow.open(map, marker); 
 			</script>
 			
-			<div class="info_text">
-			<h3>바다 안내</h3>
-			<br><hr><br>
-			주소 : ${bdt.address}<br>
-			편의시설 : ${bdt.accomodation}<br>
-			특징 : ${bdt.special}<br><br>
-			<h4>많이 달린 해시태그</h4><br>
+			<div class="info_text2">
+				<h3>바다 안내</h3>
+				<br><hr><br>
+				주소 : ${bdt.address}<br>
+				편의시설 : ${bdt.accomodation}<br>
+				특징 : ${bdt.special}<br><br>
+				<h4>많이 달린 해시태그</h4><br>
 			</div>
 		</div>
 	</div>
@@ -106,7 +106,7 @@
 <br><br><hr><br><br>
 <div>${bdt.beach_name} 의 오늘의 날씨</div>
 <div><a href="sea_weather_detail?beachName=${bdt.beach_name}">날씨 자세히 보기</a></div>
-<div id="weather-info">
+<div id="weather_info">
 <script type="text/javascript">
 	var beachName = "${bdt.beach_name}";
 	var beach_code = "${bdt.beach_code}";

@@ -67,6 +67,40 @@
     </div>
 </div>
 
+	<!-- 댓글 영역 전체를 감싸는 상자 -->
+	<div class="comments-container">
+	
+	  <!-- 댓글 목록 섹션 -->
+	  <div class="comments-list-section">
+	    <div class="comments-list">
+	      <c:forEach items="${reply}" var="re">
+	        <div class="comment">
+	          <strong>${re.id}</strong><span class="comment-date"> (${fn:substring(re.reply_day, 0, 16)})</span>
+	          <p>${re.reply_contents}</p>
+	        </div>
+	      </c:forEach>
+	    </div>
+	  </div>
+	
+	  <!-- 댓글 작성 섹션 -->
+	  <div class="comments-writing-section">
+	    <c:choose>
+	      <c:when test="${not empty loginid}">
+	        <form id="commentForm" class="comment-form">
+	          <input type="hidden" id="review_num" name="review_num" value="${dto.review_num}" />
+	          <span id="loginid" class="user-id"> ${loginid} </span>
+	          <textarea id="reply" name="reply" placeholder="댓글을 입력하세요"></textarea>
+	          <button id="replybtn" type="submit">댓글쓰기</button>
+	        </form>
+	      </c:when>
+	      <c:otherwise>
+	        <p>댓글을 작성하려면 로그인해주세요.</p>
+	      </c:otherwise>
+	    </c:choose>
+	  </div>
+	  
+	</div>
+
 <script type="text/javascript">
 
 function confirmDelete(review_num) {
@@ -75,6 +109,47 @@ function confirmDelete(review_num) {
     }
 }
 
+
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#commentForm').submit(function(e) {
+        e.preventDefault();
+
+        var review_num = $('#review_num').val();
+        var reply = $('#reply').val().trim();
+        var loginid = $('#loginid').text();
+
+        if (reply) {
+            $.ajax({
+                url: 'reply_save',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'review_num': review_num,
+                    'reply': reply,
+                    'loginid': loginid
+                },
+                success: function(data) {
+                    if(data.success) {
+                        // 서버로부터 반환된 댓글 데이터를 목록에 추가
+                        $('.comments-list').append('<div class="comment"><p>' + data.loginid + ': ' + data.reply + '</p></div>');
+                        $('#reply').val(''); // 입력창을 비웁니다.
+                    } else {
+                        alert('댓글을 등록하지 못했습니다.');
+                    }
+                },
+                error: function() {
+                    alert('댓글 등록에 실패했습니다.');
+                }
+            });
+        } else {
+            alert('댓글을 입력해주세요.');
+        }
+    });
+});
 </script>
 </body>
 </html>

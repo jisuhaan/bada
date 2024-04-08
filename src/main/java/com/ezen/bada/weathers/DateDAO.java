@@ -26,8 +26,13 @@ public class DateDAO {
     public static String setToThirtyMinutes() {
         LocalTime currentTime = LocalTime.now();
         int minutes = currentTime.getMinute();
-        int newMinutes = (minutes > 30) ? 30 : 0;
-        currentTime =  currentTime.withMinute(newMinutes);
+        if(minutes > 30)
+        {
+        	currentTime =  currentTime.withMinute(30);
+        }
+        else {
+        	currentTime =  currentTime.minusHours(1).withMinute(30);
+        }
         return currentTime.format(DateTimeFormatter.ofPattern("HHmm"));
     }
 

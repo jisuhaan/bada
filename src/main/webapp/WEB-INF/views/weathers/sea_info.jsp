@@ -12,7 +12,7 @@
 
 $(document).ready(function(){
 	$("#arrow_box").hide();
-	$("#sea_main_right").hide();
+	$("#weather_infobox").hide();
 });
 
 function showarea(area){
@@ -29,15 +29,15 @@ $.ajax({
        success:function(response){
 
     		$("#arrow_box").show();
-    		$("#sea_main_right").show();
+    		$("#weather_infobox").show();
     		
            
-    	   var badalist="<div>";
+    	   var badalist="<div class='beach_list'>";
     	   
            if(response.length > 0){
         	  
         	  for(var i = 0; i < response.length; i++) {
-                  badalist += "<span id='beaches'><a href='sea_result?beach_code=" + response[i].beach_code + "'>" +response[i].beach + "</a></span><br>";
+                  badalist += "<div id='beaches'><a href='sea_result?beach_code=" + response[i].beach_code + "'>" +response[i].beach + "</a></div><br>";
               }
         	  
         	  badalist += "</div>"
@@ -46,7 +46,7 @@ $.ajax({
                
            } else {
         	   
-        	  $('#badalist_container').html('<p>해당 지역의 해수욕장 데이터는 아직 준비되지 않았어요 ㅠ.ㅠ</p>');
+        	  $('#badalist_container').html('<p id="no_beach">이 지역의 해수욕장 데이터는<br>아직 준비되지 않았어요 ㅠ.ㅠ</p><br><br><p id="inquire_link"><a href="./inquire_input">☞ 해수욕장 추천하기 ☜</a></p>');
 
            }
        },
@@ -121,13 +121,9 @@ $.ajax({
 	
 </div>
 
-<div class="arrow_box" id="arrow_box">
-<ion-icon name="chevron-forward-outline" style="color:#1b70a6;  font-size: 80px;"></ion-icon>
-</div>
-
 <div class="sea_main_right" id="sea_main_right">
 
-<div class="weather_infobox">
+<div class="weather_infobox" id="weather_infobox">
 <span id="result_top">검색 결과를 보여드릴게요!</span>
 <br><br><hr><br><br>
 

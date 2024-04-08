@@ -11,7 +11,7 @@
 <body>
 	
 <div class="bbti_body">
-	<img src="./resources/image/bbti_main.png" width="600px" height="800px">
+	<img src="./resources/image/bbti_body" width="600px" height="800px">
 </div>
 	
 </body>

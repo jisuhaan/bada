@@ -88,15 +88,16 @@
 
 
 <!-- 문의글 신고 중복 체크 -->
-<select id="inquire_ban_check" resultType="int">
-	select count(*)from bada_i_banned 
-	where id=#{param1) and ban_inquire_num=#{param2} and category=#{param3} and content=#{param3}
+<select id="inquire_ban_check" resultType="java.lang.String">
+	select title 
+	from bada_i_banned 
+	where id=#{param1} and BAN_INQUIRE_NUM=#{param2} and category=#{param3} and content=#{param4}
 </select>
 
 <!-- 문의글 신고 저장 -->
 <insert id="inquire_ban_save">
-	insert into bada_i_banned (i_banned_num, title, name, id, ban_inqure_num, ban_name, ban_id, category, content) 
-	values (i_banned_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6}, #{param7}, #{param8}
+	insert into bada_i_banned (i_banned_num, title, name, id, ban_inquire_num, ban_name, ban_id, category, content) 
+	values (i_banned_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6}, #{param7}, #{param8})
 </insert>
 
 </mapper>

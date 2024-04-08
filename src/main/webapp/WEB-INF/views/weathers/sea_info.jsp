@@ -46,7 +46,7 @@ $.ajax({
                
            } else {
         	   
-        	  $('#badalist_container').html('<p>해당 지역의 해수욕장 데이터는 아직 준비되지 않았어요 ㅠ.ㅠ</p>');
+        	  $('#badalist_container').html('<p id="no_beach">해당 지역의 해수욕장 데이터는 아직 준비되지 않았어요 ㅠ.ㅠ</p>');
 
            }
        },

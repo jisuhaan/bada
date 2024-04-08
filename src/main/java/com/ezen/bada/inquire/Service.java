@@ -33,8 +33,9 @@ public interface Service {
 	
 	void inquire_recommand(String loginid, int inquire_num);
 
-	int inquire_ban_check(String id, int ban_inquire_num, String category, String content);
 
+	String inquire_ban_check(String id, int ban_inquire_num, String category, String content);
+	
 	void inquire_ban_save(String title, String name, String id, int ban_inquire_num, String ban_name, String ban_id,
 			String category, String content);
 	

@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -322,7 +323,9 @@ public class InquireController {
 		return "inquire_report_view";
 	}
 	
-	  @RequestMapping(value = "/inquire_ban_check")
+
+	  @ResponseBody
+	  @RequestMapping(value = "/inquire_ban_check", method = RequestMethod.POST)
 	   public String inquire_ban_check(HttpServletRequest request) throws IOException {
 	      
 	        String id = request.getParameter("id");
@@ -336,14 +339,14 @@ public class InquireController {
 	        System.out.println("체크 4: "+content);
 	
 	        Service ss=sqlsession.getMapper(Service.class);
-	        
-	        int inquire_check=ss.inquire_ban_check(id, ban_inquire_num, category, content); //동일한 사람이 동일한 글을 동일한 사유로 여러번 신고할 수 없도록 중복 방지
+	        String inquire_check="";
 	        String result="";
-	        if (inquire_check==0) {
-	        	result="ok";
-	        }
+	        inquire_check=ss.inquire_ban_check(id, ban_inquire_num, category, content); //동일한 사람이 동일한 글을 동일한 사유로 여러번 신고할 수 없도록 중복 방지
+	        System.out.println("가져온 신고글 제목: "+inquire_check);
+	        if (inquire_check==null) {result="ok";}
 	        else {result="nope";}
-	    
+	        System.out.println("결과 "+result);
+	        
 	      return result;
 	   }
 	  
@@ -354,7 +357,7 @@ public class InquireController {
 	        String name = request.getParameter("name");
 	        String id = request.getParameter("id");
 	        int ban_inquire_num=Integer.parseInt(request.getParameter("ban_inquire_num"));
-	        String ban_name = request.getParameter("bqn_name");
+	        String ban_name = request.getParameter("ban_name");
 	        String ban_id = request.getParameter("ban_id");
 	        String category = request.getParameter("category");
 	        String content = request.getParameter("content");

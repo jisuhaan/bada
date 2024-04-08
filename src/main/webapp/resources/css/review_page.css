@@ -130,9 +130,7 @@ section.notice {
 	word-break: break-all;
 	vertical-align: middle;
 }
-.board-table a:hover {
-	text-decoration: underline;
-}
+
 .board-table th {
 	text-align: center;
 	color: #1c1c1c;

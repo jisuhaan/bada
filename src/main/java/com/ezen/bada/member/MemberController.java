@@ -144,16 +144,17 @@ public class MemberController {
 
 	} //emailcheck 종료
 
-   
    @RequestMapping(value = "/member_save", method = RequestMethod.POST)
    public String membersave(HttpServletRequest request) throws IOException {
       
-      String id = request.getParameter("id");
-        String pw = request.getParameter("pw");
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        String gender = request.getParameter("gender");
-        int age=Integer.parseInt(request.getParameter("age"));
+		String id = request.getParameter("id");
+		String pw = request.getParameter("pw");
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		String gender = request.getParameter("gender");
+		int age=Integer.parseInt(request.getParameter("age"));
+		
+		System.out.println("아이디 : "+id+" 비번 : "+pw+" 이름 : "+name+" 메일 : "+email+" 성별 : "+gender+" 나이 : "+age);
 
         Service ss=sqlsession.getMapper(Service.class);
         ss.membersave(id, pw, name, email, gender, age);

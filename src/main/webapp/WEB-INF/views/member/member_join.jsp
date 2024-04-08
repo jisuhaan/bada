@@ -139,19 +139,19 @@
 		            type: "post",
 		            url: "member_save",
 		            data: {
-		                id: id,
-		                pw: pw,
-		                name: name,
-		                email: email,
-		                gender: gender,
-		                age: age
+		                "id": id,
+		                "pw": pw,
+		                "name": name,
+		                "email": email,
+		                "gender": gender,
+		                "age": age
 		            },
 		            success: function (response) {
 		                // 저장이 성공적으로 이루어졌을 때 알럿창을 띄움
 		            	alert("회원가입이 완료되었습니다.");
-		            	var result = confirm('바다성향테스트(BBTI) 페이지로 이동합니다!');
+		            	var result = confirm('바다성향테스트(BBTI) 페이지를 보여드릴게요!');
 		            	if(result){
-		            		window.location.href='member_try_bbti';
+		            		window.open('member_try_bbti','바라는바다 :: BBTI 테스트','target="_self", width=600, height=800, resizable=no, scrollbars=no');
 		            	}
 		            	else{
 		            		alert('메인 화면으로 이동합니다.');
@@ -235,7 +235,7 @@
 		<br>
 		<div class="form_title">&nbsp;연령대</div>
 		<div class="join_select">
-		<select id="age" required>
+		<select name="age" id="age" required>
 		    <option value="">나이대를 선택해주세요.</option>
 		    <option value="10">10대 이하</option>
 		    <option value="20">20대</option>

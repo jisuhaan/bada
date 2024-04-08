@@ -87,6 +87,26 @@ public class SeaInfoController {
 		
 		HttpSession session = request.getSession();
 	    session.setAttribute("bldt", bldt);
+	    
+	    // API 호출
+    	APIClient apiClient = new APIClient();
+    	
+    	// 초단기 예보는 dto에 저장
+    	UltraSrtFcstBeach_DTO udto = apiClient.getUltraSrtFcstBeach_API(beach_code, DateDAO.getCurrentDateString(), DateDAO.setToThirtyMinutes());
+    	
+    	// 단기 예보(최고 최저 온도)는 dto에 저장
+    	Bada_tmx_n_DTO vdto = apiClient.getVilageFcstBeach_API(beach_code, DateDAO.getYesterdayDateString()); // 단기 예보
+        
+    	// sunset과 sunrise는 dto에 저장
+    	LC_Rise_Set_Info_DTO ldto = apiClient.getLCRiseSetInfo_API(bldt.getLongitude(), bldt.getLatitude(), DateDAO.getCurrentDateString());
+        
+        // 현재 수온은 String으로 받음 (+°C)
+        String tw = apiClient.getTwBuoyBeach_API(beach_code, (DateDAO.getCurrentDateString()+DateDAO.getCurrentTime()));
+    	
+        // 기상 특보는 Map에 저장해서 리스트화 -> 추후 수정 가능성 있음
+        apiClient.getWeatherWarning_API("108");
+        // dto에 저장된 주소랑 해당 결과의 area명을 비교 검색해서 포함되는 것만 뽑아오도록 가공하면 될 거 같아용
+        
 		return "sea_result";
 	}
 	

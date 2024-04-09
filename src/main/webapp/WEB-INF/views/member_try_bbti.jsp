@@ -28,6 +28,19 @@
 	bottom: 20px; /* 원하는 여백 조정 */
 }
 
+.bbti_body .result {
+	position: relative;
+	height: 800px; /* 필요에 따라 높이 조정 */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.bbti_btn2 {
+	position: absolute;
+	bottom: 20px; /* 원하는 여백 조정 */
+}
+
 .bbti_yes,
 .bbti_choose,
 .bbti_no {
@@ -184,19 +197,47 @@ $(document).ready(function(){
 		$(".q10").show();		
 	});
 	
-	$(".bbti_q10").click(function(){
-		$(".q10").hide();		
+	$(".bbti_q10").click(function(){		
 		
 		if(countE>countI){
 			if(countA>countP){
 				if(countF>countN){
-					resultcode = EAF;
+					resultcode = "EAF";
 				}
 				else{
-					resultcode = EAF;
+					resultcode = "EAN";
+				}
+			}
+			else{
+				if(countF>countN){
+					resultcode = "EPF";
+				}
+				else{
+					resultcode = "EPN";
 				}
 			}
 		}
+		else{
+			if(countA>countP){
+				if(countF>countN){
+					resultcode = "IAF";
+				}
+				else{
+					resultcode = "IAN";
+				}
+			}
+			else{
+				if(countF>countN){
+					resultcode = "IPF";
+				}
+				else{
+					resultcode = "IPN";
+				}
+			}
+		}
+		
+		$(".q10").hide();
+		$("."+resultcode).show();
 		
 	});
 	
@@ -301,9 +342,9 @@ $(document).ready(function(){
 <div class="bbti_body result EAF">
 	<img src="./resources/image_bbti/bbti_result_EAF.png" width="600px" height="800px">
 	<div class="bbti_btn2">
-		<div class="bbti_selected"><img src="./resources/image_bbti/bbti_selected" width="400px"></div>
-		<div class="bbti_inputself"><img src="./resources/image_bbti/bbti_inputself" width="400px"></div>
-		<div class="bbti_restart"><img src="./resources/image_bbti/bbti_restart" width="400px"></div>
+		<div class="bbti_selected"><img src="./resources/image_bbti/bbti_selected.png" width="200px"></div>
+		<div class="bbti_inputself"><img src="./resources/image_bbti/bbti_inputself.png" width="200px"></div>
+		<div class="bbti_restart"><img src="./resources/image_bbti/bbti_restart.png" width="200px"></div>
 	</div>
 </div>
 	

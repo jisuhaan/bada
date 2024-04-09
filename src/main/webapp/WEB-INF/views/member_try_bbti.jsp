@@ -63,6 +63,7 @@ $(document).ready(function(){
 	let countP = 0;
 	let countF = 0;
 	let countN = 0;
+	let resultcode;
 	
 	$(".bbti_yes").click(function(){
 		$(".start").hide();
@@ -184,8 +185,19 @@ $(document).ready(function(){
 	});
 	
 	$(".bbti_q10").click(function(){
-		$(".q10").hide();
-		$(".end").show();		
+		$(".q10").hide();		
+		
+		if(countE>countI){
+			if(countA>countP){
+				if(countF>countN){
+					resultcode = EAF;
+				}
+				else{
+					resultcode = EAF;
+				}
+			}
+		}
+		
 	});
 	
 	
@@ -233,8 +245,8 @@ $(document).ready(function(){
 <div class="bbti_body question q4">
 	<img src="./resources/image_bbti/bbti_q4.png" width="600px" height="800px">
 	<div class="bbti_btn">
-		<div class="bbti_q4 selectA"><img src="./resources/image_bbti/bbti_q4_A.png" width="400px"></div>
 		<div class="bbti_q4 selectP"><img src="./resources/image_bbti/bbti_q4_P.png" width="400px"></div>
+		<div class="bbti_q4 selectA"><img src="./resources/image_bbti/bbti_q4_A.png" width="400px"></div>
 	</div>
 </div>
 
@@ -273,16 +285,25 @@ $(document).ready(function(){
 <div class="bbti_body question q9">
 	<img src="./resources/image_bbti/bbti_q9.png" width="600px" height="800px">
 	<div class="bbti_btn">
-		<div class="bbti_q9 selectF"><img src="./resources/image_bbti/bbti_q9_F.png" width="400px"></div>
 		<div class="bbti_q9 selectN"><img src="./resources/image_bbti/bbti_q9_N.png" width="400px"></div>
+		<div class="bbti_q9 selectF"><img src="./resources/image_bbti/bbti_q9_F.png" width="400px"></div>
 	</div>
 </div>
 
-<div class="bbti_body result">
-	<img src="./resources/image_bbti/bbti_result.png" width="600px" height="800px">
+<div class="bbti_body question q10">
+	<img src="./resources/image_bbti/bbti_q10.png" width="600px" height="800px">
 	<div class="bbti_btn">
-		<div class="bbti_selected"><img src="./resources/image_bbti/bbti_q5_A.png" width="400px"></div>
-		<div class="bbti_inputself"><img src="./resources/image_bbti/bbti_q5_P.png" width="400px"></div>
+		<div class="bbti_q10 weather"><img src="./resources/image_bbti/bbti_q10_weather.png" width="400px"></div>
+		<div class="bbti_q10 review"><img src="./resources/image_bbti/bbti_q10_review.png" width="400px"></div>
+	</div>
+</div>
+
+<div class="bbti_body result EAF">
+	<img src="./resources/image_bbti/bbti_result_EAF.png" width="600px" height="800px">
+	<div class="bbti_btn2">
+		<div class="bbti_selected"><img src="./resources/image_bbti/bbti_selected" width="400px"></div>
+		<div class="bbti_inputself"><img src="./resources/image_bbti/bbti_inputself" width="400px"></div>
+		<div class="bbti_restart"><img src="./resources/image_bbti/bbti_restart" width="400px"></div>
 	</div>
 </div>
 	

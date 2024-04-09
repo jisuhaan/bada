@@ -134,10 +134,11 @@
             	</th>
                 <td>
                 	<br><br><br><br><br>
-                	<textarea cols="90" rows="5" name="reply_comment" id="reply_comment" placeholder="문의에 대한 답은 1500자 이하로 입력하세요." required></textarea>
+                	<textarea cols="90" rows="5" name="content" id="content" placeholder="문의에 대한 답은 1500자 이하로 입력하세요." required></textarea>
                 	<br>
                 	<span style="float: right;">
-                		<a href="inquire_reply_save?inquire_num=${dto.inquire_num}&loginid=${loginid}"><input type="button" value="댓글 쓰기"></a>
+                		<input type="hidden" name="inquire_num" value="${dto.inquire_num}">
+                		<input type="submit" value="답 작성하기">
                 	</span>
                 </td>
             </tr>
@@ -148,6 +149,20 @@
             </c:otherwise>
             </c:choose>
             
+            <c:forEach items="${list}" var="l">
+            <tr>
+            	<td colspan="2" style="text-align: left;">관리자
+                	<span style="float: right;">${fn:substring(l.inquire_reply_date, 0, 19)}</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border: 2px solid #000; padding: 8px; height: 80%; padding-left: 50px;">
+    				<div style="width: 90%; height: 90%;">
+    				${l.content}
+				    </div>
+				</td>
+            </tr>
+            </c:forEach>
         </table>
     </form>
 			        	

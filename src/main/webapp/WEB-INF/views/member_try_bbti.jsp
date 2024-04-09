@@ -28,17 +28,26 @@
 	bottom: 20px; /* 원하는 여백 조정 */
 }
 
-.bbti_body .result {
-	position: relative;
-	height: 800px; /* 필요에 따라 높이 조정 */
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.result {
+    position: relative;
+    height: 800px; /* 필요에 따라 높이 조정 */
+    display: flex;
+    flex-direction: row; /* 수평으로 나열 */
+    text-align: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .bbti_btn2 {
 	position: absolute;
 	bottom: 20px; /* 원하는 여백 조정 */
+}
+
+.bbti_selected,
+.bbti_inputself,
+.bbti_restart {
+	display: block;
+	margin-right: 10px;
 }
 
 .bbti_yes,
@@ -345,6 +354,15 @@ $(document).ready(function(){
 		<div class="bbti_selected"><img src="./resources/image_bbti/bbti_selected.png" width="200px"></div>
 		<div class="bbti_inputself"><img src="./resources/image_bbti/bbti_inputself.png" width="200px"></div>
 		<div class="bbti_restart"><img src="./resources/image_bbti/bbti_restart.png" width="200px"></div>
+	</div>
+</div>
+
+<div class="bbti_body result EAN">
+	<img src="./resources/image_bbti/bbti_result_EAN.png" width="600px" height="800px">
+	<div class="bbti_btn2">
+		<div class="bbti_selected"><img src="./resources/image_bbti/bbti_selected.png" width="170px"></div>
+		<div class="bbti_inputself"><img src="./resources/image_bbti/bbti_inputself.png" width="170px"></div>
+		<div class="bbti_restart"><img src="./resources/image_bbti/bbti_restart.png" width="170px"></div>
 	</div>
 </div>
 	

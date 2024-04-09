@@ -46,6 +46,8 @@
 
 <body>
 
+
+
 	<br> <br> <br>
 	
 		<table border="1">
@@ -60,6 +62,83 @@
 			         <th>조회수</th>
 			      </tr>
 			         
+			         
+			         
+<c:choose>
+
+<c:when test="${loginstate==true && position=='admin'}">
+
+<c:forEach items="${list}" var="l">
+			      <tr>
+			      	<td colspan="2">
+			      	<a href="to_inquire_detail?inquire_num=${l.inquire_num}">
+	                    <c:choose>
+	                        <c:when test="${l.secret == 'y'}">
+	                            <img src="./resources/image/lock_icon.png" width="20px" class="lock-icon">
+	                            ${l.title}
+	                        </c:when>
+	                        <c:otherwise>
+	                            ${l.title}
+	                        </c:otherwise>
+	                    </c:choose>
+	                </a>
+	                </td>
+			      	<td>${l.category}</td>
+			      	<td>
+			      	${l.name}(${fn:substring(l.id, 0, 4)}****) 님
+			      	</td>
+			      	<td>
+				      	${fn:substring(l.i_date, 0, 19)}
+			      	</td>
+			      	<td>
+			      		<c:choose>
+						    <c:when test="${l.reply == 0}">미응답</c:when>
+						    <c:otherwise>완료</c:otherwise>
+						</c:choose>
+			      	</td>
+			      	<td>${l.rec}</td>
+			      	<td>${l.cnt}</td>
+			      </tr>
+			      </c:forEach>
+            
+ 	<!--  페이징 처리 6단계 -->
+		<!-- 페이징처리 -->
+		<tr style="border-left: none; border-right: none; border-bottom: none;">
+		   <td colspan="10" style="text-align: center;">
+		   <c:if test="${paging.startPage!=1 }">
+		   	 <!-- ◀ 을 누르면 이전 페이지(-1 페이지)로 넘어갈 수 있도록  -->
+		      <a href="inquire_listout?nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}">◀</a>
+		      
+		   </c:if>   
+		   
+		      <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="p"> 
+		         <c:choose>
+		            <c:when test="${p == paging.nowPage }">
+		            <!-- 현재 보고 있는 페이지는 빨간색으로 표시 -->
+		               <b><span style="color: red;">${p}</span></b>
+		            </c:when>   
+		            <c:when test="${p != paging.nowPage }">
+		            <!-- 현재 페이지는 아니지만, 화면 내에 표시되어 있는 다른 페이지로 넘어가고 싶은 경우 -->
+		               <a href="inquire_listout?nowPage=${p}&cntPerPage=${paging.cntPerPage}">${p}</a>
+		            </c:when>   
+		         </c:choose>
+		      </c:forEach>
+		     
+		      <c:if test="${paging.endPage != paging.lastPage}">
+		      <!-- ▶ 을 누르면 다음 페이지(+1 페이지)로 넘어갈 수 있도록  -->
+		      <a href="inquire_listout?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}">▶</a>
+		   </c:if>
+		   
+		   </td>
+		</tr>
+		<!-- 페이징처리 -->
+	<!-- 페이징 처리 6단계 끝 -->
+</c:when>
+
+
+
+<c:otherwise>
+
 			      <c:forEach items="${list}" var="l">
 			      <tr>
 			      	<td colspan="2">
@@ -125,7 +204,8 @@
 		</tr>
 		<!-- 페이징처리 -->
 	<!-- 페이징 처리 6단계 끝 -->       
-	    
+	    </c:otherwise>
+	    </c:choose>
 	        
 	    </table>
 	    

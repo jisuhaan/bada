@@ -98,6 +98,26 @@
             </tr>
             
             <c:choose>
+            	<c:when test="${loginid eq dto.id || position=='admin'}">
+            	<tr>
+                <td colspan="2" style="text-align: center;">
+                	<span style="float: left;">
+                		<a href="#" onclick="confirmDelete('${dto.inquire_num}')">
+    						<img src="./resources/image/delete_icon.png" width="20px" class="report_icon"></a>
+		        		<br> 삭제하기
+		        	</span>
+			        <a href="inquire_listout"><input type="button" value="목록으로 돌아가기"></a>
+			        <span style="float: right;">
+			        	<a href="inquire_modify?inquire_num=${dto.inquire_num}"> <img src="./resources/image/modify_icon.png" width="20px" class="like_icon"> </a>
+			        	<br>수정하기
+			        </span>
+			    </td>
+            </tr>
+            	</c:when>
+            	
+            	<c:otherwise>
+            
+            <c:choose>
 				<c:when test="${loginstate==true}">
             <tr>
                 <td colspan="2" style="text-align: center;">
@@ -126,6 +146,10 @@
             </c:otherwise>
             </c:choose>
             
+            </c:otherwise>
+            
+            </c:choose>
+            
             
             <c:choose>
 				<c:when test="${loginstate==true && position=='admin'}">
@@ -142,14 +166,38 @@
                 	</span>
                 </td>
             </tr>
+            
+             <c:forEach items="${list}" var="l">
+            <tr>
+            	<td colspan="2" style="text-align: left;">관리자
+                	<span style="float: right;">${fn:substring(l.inquire_reply_date, 0, 19)}</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border: 2px solid #000; padding: 8px; height: 80%; padding-left: 50px;">
+    				<div style="width: 90%; height: 90%;">
+    				${l.content}
+				    </div>
+				</td>
+            </tr>
+            <tr>
+            	<td colspan="2"> <span style="float: right;">
+            	&nbsp;
+            	<a href="#" onclick="confirm_reply_Delete('${l.inquire_reply_num}')">
+  						<img src="./resources/image/delete_icon.png" width="15px"></a>
+        		&nbsp; &nbsp; &nbsp;
+        		<a href="inquire_reply_modify?inquire_reply_num=${l.inquire_reply_num}"> <img src="./resources/image/modify_icon.png" width="15px"> </a>
+            	<br> 삭제 &nbsp; &nbsp; 수정
+            	</span>
+            	
+                </td>
+            </tr>
+            </c:forEach>
+            
             </c:when>
             
             <c:otherwise>
-            
-            </c:otherwise>
-            </c:choose>
-            
-            <c:forEach items="${list}" var="l">
+             <c:forEach items="${list}" var="l">
             <tr>
             	<td colspan="2" style="text-align: left;">관리자
                 	<span style="float: right;">${fn:substring(l.inquire_reply_date, 0, 19)}</span>
@@ -163,8 +211,27 @@
 				</td>
             </tr>
             </c:forEach>
+            </c:otherwise>
+            </c:choose>
+            
         </table>
     </form>
+    
+    
+    
+<script type="text/javascript">
+function confirmDelete(inquire_num) {
+    if(confirm('문의글을 정말 삭제하시겠습니까?')) {
+        location.href = 'inquire_delete?inquire_num=' + inquire_num;
+    }
+}
+
+function confirm_reply_Delete(inquire_reply_num) {
+    if(confirm('답변을 정말 삭제하시겠습니까?')) {
+        location.href = 'inquire_reply_delete?inquire_reply_num=' + inquire_reply_num; + '&inquire_num='
+    }
+}
+</script>
 			        	
 </body>
 </html>

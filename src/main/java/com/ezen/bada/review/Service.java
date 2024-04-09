@@ -67,6 +67,23 @@ public interface Service {
 
 	ArrayList<ReplyDTO> reply_show(int review_num);
 
+	int review_rec_id(int review_num, String loginid);
+
+	void review_recommand(String loginid, int review_num);
+
+	String review_ban_check(String id, int ban_review_num, String category, String content);
+
+	void review_ban_save(String title, String name, String id, int ban_review_num, String ban_name, String ban_id,
+			String category, String content);
+
+	void reply_update(int review_num);
+
+	void report_up(int ban_review_num);
+
+	void reply_delete(int reply_num);
+
+	void reply_minus(int review_num);
+
 }
 
 

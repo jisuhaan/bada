@@ -35,7 +35,7 @@
    select * from (
    select rownum rn, A.* from(  
    select id, name, review_num, TO_CHAR(write_day, 'YYYY-MM-DD')write_day, visit_day, review_title,
-   hits,recommend from bada_user_review order by review_num desc)A)
+   hits,recommend, reply from bada_user_review order by review_num desc)A)
    where rn between #{start} AND #{end}
 </select>
 
@@ -114,9 +114,56 @@
 	VALUES (#{review_num},review_reply_seq.nextval, #{loginid}, #{reply})
 </insert>
 
+<!-- 댓글수 up -->
+<update id="reply_update">
+	UPDATE bada_user_review SET reply = reply + 1 where review_num = #{param1}
+</update>
+
+
 <!-- 댓글불러오기 -->
 <select id="reply_show" resultType="com.ezen.bada.review.ReplyDTO">
 	select * from bada_review_comment where review_num = #{param1}
 </select>
+
+<!-- 중복 추천 확인 -->
+<select resultType="int" id="review_rec_id">
+	select count (rec_id) from bada_user_review
+	where review_num=#{param1} and rec_id like '%' || #{param2} || '%'
+</select>
+
+<!-- 게시글 추천 ID 저장 -->
+<update id="review_recommand">
+	update bada_user_review set recommend = recommend + 1, rec_id = rec_id || ' ' || #{param1}
+	where review_num = #{param2}
+</update>
+
+<!-- 게시글 중복신고 체크 -->
+<select id="review_ban_check" resultType="String">
+	select title 
+	from bada_review_report 
+	where id=#{param1} and ban_review_num=#{param2} and category=#{param3} and content=#{param4}
+</select>
+
+<!-- 게시글 신고 저장 -->
+<insert id="review_ban_save">
+	insert into bada_review_report (review_report_num, title, name, id, ban_review_num, ban_name, ban_id, category, content) 
+	values (review_report_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6}, #{param7}, #{param8})
+</insert>
+
+<!-- bada_user_review 신고 count up -->
+<update id="report_up">
+	UPDATE bada_user_review SET report = report + 1 where review_num = #{param1}
+</update>
+
+<!-- 댓글 삭제 -->
+<delete id="reply_delete">
+	delete from bada_review_comment where reply_num = #{param1}
+</delete>
+
+<!-- 댓글수 down -->
+<update id="reply_minus">
+	UPDATE bada_user_review SET reply = reply - 1 where review_num = #{param1}
+</update>
+
 
 </mapper>

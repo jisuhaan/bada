@@ -62,7 +62,7 @@ $(document).ready(function(){
                         } else {
                             window.location = "login";
                         }
-                    } else if(errstack = 5){
+                    } else if(errstack === 5){
                         var banUntil = new Date().getTime() + 1*60000; // 1분 추가
                         localStorage.setItem("banTime", banUntil.toString());
                         alert("5회 이상 로그인 실패, 1분 동안 로그인이 금지됩니다.");

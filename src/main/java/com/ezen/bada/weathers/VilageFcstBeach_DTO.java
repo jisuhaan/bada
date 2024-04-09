@@ -18,7 +18,7 @@ public class VilageFcstBeach_DTO {
 	String pty;
 
 	@JsonProperty("PCP") // 1시간 강수량
-	String pcp;
+	String rn1;
 
 	@JsonProperty("REH") // 습도
 	String reh;
@@ -49,8 +49,8 @@ public class VilageFcstBeach_DTO {
 
 	public VilageFcstBeach_DTO() {}
 
-	public VilageFcstBeach_DTO(String fcstDate, String fcstTime, String hourlyTimestamps, String pop, String pty, String pcp,
-			String reh, String sno, String sky, String tmp, String uuu, String vvv, String wav, String vec,
+	public VilageFcstBeach_DTO(String fcstDate, String fcstTime, String hourlyTimestamps, String pop, String pty,
+			String rn1, String reh, String sno, String sky, String tmp, String uuu, String vvv, String wav, String vec,
 			String wsd) {
 		super();
 		this.fcstDate = fcstDate;
@@ -58,7 +58,7 @@ public class VilageFcstBeach_DTO {
 		this.hourlyTimestamps = hourlyTimestamps;
 		this.pop = pop;
 		this.pty = pty;
-		this.pcp = pcp;
+		this.rn1 = rn1;
 		this.reh = reh;
 		this.sno = sno;
 		this.sky = sky;
@@ -110,12 +110,12 @@ public class VilageFcstBeach_DTO {
 		this.pty = pty;
 	}
 
-	public String getPcp() {
-		return pcp;
+	public String getRn1() {
+		return rn1;
 	}
 
-	public void setPcp(String pcp) {
-		this.pcp = pcp;
+	public void setRn1(String rn1) {
+		this.rn1 = rn1;
 	}
 
 	public String getReh() {
@@ -189,9 +189,4 @@ public class VilageFcstBeach_DTO {
 	public void setWsd(String wsd) {
 		this.wsd = wsd;
 	}
-
-
-
-
-
 }

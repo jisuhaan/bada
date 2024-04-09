@@ -32,7 +32,11 @@ if(hs.getAttribute("loginstate")==null){
 	<div class="main_container">
 		<div class="main_left">바다추천 영역</div>
 		<div class="main_right">
-			<div class="main_right_top">배너 영역</div>
+			<div class="main_right_top">
+			배너 영역
+			<a href="#" onclick="window.open('member_try_bbti?id=${loginid}','BBTI 테스트','width=610,height=810,resizable=no,scrollbars=no,menubar=no')">BBTI 테스트</a>
+			
+			</div>
 			<div class="main_right_bottom">베스트 추천 영역</div>
 		</div>
 	</div>

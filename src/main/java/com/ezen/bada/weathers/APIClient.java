@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -55,28 +56,42 @@ public class APIClient {
         }
 
         // URL 객체로 URL을 호출함
-        System.out.println(urlBuilder.toString());
+        System.out.println(urlBuilder.toString()); // Url이 잘 만들었는지 확인차
+        
         URL url = new URL(urlBuilder.toString());
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("GET");
-
-        // 서버로부터 응답을 받아오기 위해 BufferedReader를 사용
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
-        // 한 줄씩 읽어서 StringBuffer에 추가
-        String line;
-        StringBuffer sb = new StringBuffer();
-        while ((line = in.readLine()) != null) {
-            sb.append(line);
+    
+        try {
+	        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+	        con.setRequestMethod("GET");
+	
+	        // Socket Timeout Exception 오류 방지 위하여 Timeout 설정 (20초로 설정)
+	        con.setConnectTimeout(20000); // 연결 시간 초과 설정 (20초)
+	        con.setReadTimeout(20000); // 읽기 시간 초과 설정 (20초)
+	        
+	        // 서버로부터 응답을 받아오기 위해 BufferedReader를 사용
+	        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
+	        // 한 줄씩 읽어서 StringBuffer에 추가
+	        String line;
+	        StringBuffer sb = new StringBuffer();
+	        while ((line = in.readLine()) != null) {
+	            sb.append(line);
+	        }
+	        in.close(); // 입력 스트림 끝. BufferedReader는 명시적으로 닫아주어야 한다.
+	
+	        // StringBuffer에 저장된 내용을 String으로 변환
+	        String text = sb.toString();
+	
+	        // 예시로 그대로 text를 반환하도록 함
+	        Map<String, Object> result = new HashMap<>();
+	        result.put("response", text);
+	        return text;
+        }catch (SocketTimeoutException e) {
+            System.out.println("SocketTimeoutException 발생");
+            return null; 
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
-        in.close(); // 입력 스트림 끝
-
-        // StringBuffer에 저장된 내용을 String으로 변환
-        String text = sb.toString();
-
-        // 예시로 그대로 text를 반환하도록 함
-        Map<String, Object> result = new HashMap<>();
-        result.put("response", text);
-        return text;
     }
 
 
@@ -122,9 +137,7 @@ public class APIClient {
             }
             System.out.println(jsonObject.toString());
             dto = objectMapper.readValue(jsonObject.toString(), UltraSrtFcstBeach_DTO.class);
-            
-            dto.setSky(convertSky(dto.getSky()));
-            dto.setPty(convertPty(dto.getPty()));
+ 
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -232,7 +245,7 @@ public class APIClient {
         // 파라미터 맵 구성
         Map<String, Object> params = new HashMap<>();
         params.put("dataType", "JSON");
-        params.put("numOfRows", 10);
+        params.put("numOfRows", 100);
         params.put("pageNo", 1);
         params.put("stnId", stnId); // 지점은 String
         params.put("serviceKey", serviceKey);
@@ -325,7 +338,7 @@ public class APIClient {
         }
 		return null;
     }
-
+    
     private String convertWarnVar(String warnVar) {
         switch (warnVar) {
             case "1":
@@ -337,7 +350,7 @@ public class APIClient {
             case "4":
                 return "건조";
             case "5":
-                return "폭풍해일";
+                return "폭풍·해일";
             case "6":
                 return "풍랑";
             case "7":
@@ -353,44 +366,6 @@ public class APIClient {
         }
     }
 
-    private String convertPty(String pty) {
-        System.out.println("pty의 값: "+pty);
-        switch (pty) {
-            case "0":
-                return "없음";
-            case "1":
-                return "비";
-            case "2":
-                return "비/눈";
-            case "3":
-                return "눈";
-            case "4":
-                return "소나기";
-            case "5":
-                return "빗방울";
-            case "6":
-                return "빗방울눈날림";
-            case "7":
-                return "눈날림";
-            default:
-                return "정보 미정";
-        }
-    }
-
-    private String convertSky(String sky) {
-        System.out.println("sky의 값: "+sky);
-        switch (sky) {
-            case "1":
-                return "맑음";
-            case "3":
-                return "구름많음";
-            case "4":
-                return "흐림";
-            default:
-                return "정보 미정";
-        }
-    }
-    
     private String convertWarnStress(String warnStress) {
         switch (warnStress) {
             case "0":

@@ -3,6 +3,8 @@ package com.ezen.bada.review;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -187,8 +190,7 @@ public class ReviewController {
         dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
         mo.addAttribute("paging",dto);
         mo.addAttribute("list",ss.review_list(dto));
-        
-        
+
 		return "review_page";
 			
 	}
@@ -409,6 +411,33 @@ public class ReviewController {
 	 
 	}
 	
+	
+	@RequestMapping(value = "review_recommend")
+	   public String recommend(HttpServletRequest request, Model mo) {
+
+		int review_num=Integer.parseInt(request.getParameter("review_num"));
+		String loginid=request.getParameter("loginid");
+		
+		Service ss=sqlsession.getMapper(Service.class);
+		// 추천 중복체크 확인
+		int rec_id=ss.review_rec_id(review_num, loginid);
+		
+		if(rec_id==0) {
+		ss.review_recommand(loginid, review_num);
+		AllBoardDTO dto=ss.review_detail(review_num);
+		mo.addAttribute("dto", dto);
+		}
+		
+		else {
+			AllBoardDTO dto=ss.review_detail(review_num);
+			mo.addAttribute("dto", dto);
+		}
+
+	      return "redirect:/review_detail?review_num="+review_num;
+	   }
+
+	
+	
 	// 리뷰 댓글 처리 영역
 	@ResponseBody
 	@RequestMapping(value = "reply_save", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
@@ -420,16 +449,116 @@ public class ReviewController {
         
         Service ss = sqlsession.getMapper(Service.class);
         ss.reply_save(review_num,loginid,reply);
+        ss.reply_update(review_num);
 
-        String reply_response = "{\"success\": true, \"loginid\": \"" + loginid + "\","
-        		+ " \"reply\": \"" + reply + "\"}";
+        JSONObject obj = new JSONObject();
+        obj.put("success", true);
+        obj.put("loginid", loginid);
+        obj.put("reply", reply);
 
-        System.out.println("대체 뭐라고 들어가는거야?ㅠㅠ : "+reply_response);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String replyDate = sdf.format(new Date());
+        obj.put("reply_day", replyDate);
         
-
-	      return reply_response;
+        System.out.println("JSON 응답 : " + obj.toString());
+        return obj.toString();
 	   }
 	
+	
+	// 신고기능
+	@RequestMapping(value = "review_report_view")
+	   public String report(HttpServletRequest request, Model mo) {
+
+		int review_num=Integer.parseInt(request.getParameter("review_num"));
+		String loginid=request.getParameter("loginid");
+		
+		Service ss=sqlsession.getMapper(Service.class);
+		MemberDTO mdto = ss.input_info(loginid);
+		mo.addAttribute("mdto", mdto);
+		
+		AllBoardDTO adto = ss.review_detail(review_num);
+		mo.addAttribute("adto", adto);
+
+	      return "review_report_view";
+	   }
+	
+	  @ResponseBody
+	  @RequestMapping(value = "review_ban_check", method = RequestMethod.POST)
+	   public String inquire_ban_check(HttpServletRequest request) throws IOException {
+	      
+	        String id = request.getParameter("id");
+	        int ban_review_num=Integer.parseInt(request.getParameter("ban_review_num"));
+	        String category = request.getParameter("category");
+	        String content = request.getParameter("content");
+	        
+	        System.out.println("체크 1: "+id);
+	        System.out.println("체크 2: "+ban_review_num);
+	        System.out.println("체크 3: "+category);
+	        System.out.println("체크 4: "+content);
+	        
+	
+	        Service ss=sqlsession.getMapper(Service.class);
+	        String inquire_check="";
+	        String result="";
+	        inquire_check=ss.review_ban_check(id, ban_review_num, category, content); //동일한 사람이 동일한 글을 동일한 사유로 여러번 신고할 수 없도록 중복 방지
+	        System.out.println("가져온 신고글 제목: "+inquire_check);
+	        
+	        if (inquire_check==null) {
+	        	result="ok";
+	        }
+	        else {
+	        	result="nope";
+	        	}
+	        System.out.println("결과 "+result);
+	        
+	      return result;
+	   }
+	
+	  @RequestMapping(value = "review_ban_save", method = RequestMethod.POST)
+	   public String inquire_ban_save(HttpServletRequest request, Model mo) throws IOException {
+	      
+	      	String title = request.getParameter("title");
+	        String name = request.getParameter("name");
+	        String id = request.getParameter("id");
+	        int ban_review_num=Integer.parseInt(request.getParameter("ban_review_num"));
+	        System.out.println("이동할 게시글 번호 : "+ban_review_num);
+	        String ban_name = request.getParameter("ban_name");
+	        String ban_id = request.getParameter("ban_id");
+	        String category = request.getParameter("category");
+	        String content = request.getParameter("content");
+	
+	        Service ss=sqlsession.getMapper(Service.class);
+	        ss.review_ban_save(title, name, id, ban_review_num, ban_name, ban_id, category, content);
+	        ss.report_up(ban_review_num);
+
+	      return "redirect:/review_detail?review_num="+ban_review_num;
+	   }
+	  
+	  // 댓글삭제
+	  
+	  @ResponseBody
+	  @RequestMapping(value = "delete_reply")
+	   public String reply_delete(HttpServletRequest request) throws IOException {
+	      
+		  	JSONObject obj = new JSONObject();
+		  
+		    try {
+		        int reply_num = Integer.parseInt(request.getParameter("reply_num"));
+		        int review_num = Integer.parseInt(request.getParameter("review_num"));
+
+		        Service ss = sqlsession.getMapper(Service.class);
+		        ss.reply_delete(reply_num); // 댓글테이블 댓글 삭제
+		        ss.reply_minus(review_num); // user_review 테이블 reply count -
+
+		        obj.put("success", true);
+		        
+		    } catch (Exception e) {
+		    	obj.put("success", false);
+		        e.printStackTrace();
+		    }
+
+	      return obj.toString();
+	   }
 	
 	
 	

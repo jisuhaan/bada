@@ -12,6 +12,102 @@
 <title></title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function() {
+	var fcstDate = ${bldt.ultraSrtFcstBeach_dto.fcstDate};
+    var fcstTime = ${bldt.ultraSrtFcstBeach_dto.fcstTime};
+    var hour = parseInt(fcstTime.toString().substring(0, 2));  // 시간 부분만 떼오기
+    var month = parseInt(fcstDate.toString().substring(4, 6));
+    var sky = parseInt(${bldt.ultraSrtFcstBeach_dto.sky});
+    var pty = parseInt(${bldt.ultraSrtFcstBeach_dto.pty});
+    
+    console.log(weatherEmoticon(sky, pty, hour, month));
+    document.getElementById("weatherIcon").innerHTML = weatherEmoticon(sky, pty, hour, 50, 50);
+  });
+  
+function weatherEmoticon(sky, pty, hour, month, w, h) {
+    let imgSrc, title;
+    const width = w; // 기본 너비
+    const height = h; // 기본 높이
+
+    if (pty === 0 && 6 <= hour && hour <= 18) {
+        switch (sky) {
+            case 1:
+            	if(3 <= month <= 5){
+            		imgSrc = "./resources/image/날씨_맑음_봄.gif";
+            	}else{
+            		imgSrc = "./resources/image/날씨_맑음_기본.gif";
+            	}
+                title = "날씨 맑음";
+                break;
+            case 3:
+                imgSrc = "./resources/image/날씨_구름_낮.gif";
+                title = "구름 많음";
+                break;
+            case 4:
+                imgSrc = "./resources/image/날씨_흐림.gif";
+                title = "날씨 흐림";
+                break;
+            default:
+                alert('날씨 값이 들어오지 않았습니다.');
+                break;
+        }
+    } else if (pty !== 0) {
+        switch (pty) {
+            case 1:
+                imgSrc = "./resources/image/날씨_비.gif";
+                title = "날씨 비";
+                break;
+            case 2:
+                imgSrc = "./resources/image/날씨_비와눈.png";
+                title = "날씨 비와 눈";
+                break;
+            case 3:
+                imgSrc = "./resources/image/날씨_눈.gif";
+                title = "날씨 눈";
+                break;
+            case 4:
+                imgSrc = "./resources/image/날씨_소나기.gif";
+                title = "날씨 소나기";
+                break;
+            case 5:
+                imgSrc = "./resources/image/날씨_빗방울.gif";
+                title = "날씨 빗방울";
+                break;
+            case 6:
+                imgSrc = "./resources/image/날씨_빗방울눈날림.png";
+                title = "날씨 빗방울눈날림";
+                break;
+            case 7:
+                imgSrc = "./resources/image/날씨_눈날림.png";
+                title = "날씨 눈날림";
+                break;
+            default:
+                break;
+        }
+    } else if (pty === 0) {
+        switch (sky) {
+            case 1:
+                imgSrc = "./resources/image/날씨_맑음_밤.gif";
+                title = "밤 날씨 맑음";
+                break;
+            case 3:
+                imgSrc = "./resources/image/날씨_구름_밤.gif";
+                title = "밤 구름 많음";
+                break;
+            case 4:
+                imgSrc = "./resources/image/날씨_흐림.gif";
+                title = "밤 흐림";
+                break;
+            default:
+                alert('날씨 값이 들어오지 않았습니다.');
+                break;
+        }
+    }
+
+    console.log('타이틀: ' + title);
+    return '<img src="' + imgSrc + '" alt="' + title + '"title="' + title + '" width="' + width + '" height="'+ height + '"/>'
+}
+
 </script>
 </head>
 <body>
@@ -114,10 +210,12 @@
 </div>
 <div>현재 기온 : ${bldt.ultraSrtFcstBeach_dto.t1h}°</div>
 <div>최고/최저 : ${bldt.bada_tmx_n_dto.tmx}° / ${bldt.bada_tmx_n_dto.tmn}°</div>
-<div>하늘 : ${bldt.ultraSrtFcstBeach_dto.sky}</div>
+<div id="weatherIcon"></div>
 <div>수온 : ${bldt.bada_tw_dto.water_temp}</div>
+<div>일출 : ${bldt.lc_rise_set_info_dto.sunrise}</div>
+<div>일몰 : ${bldt.lc_rise_set_info_dto.sunset}</div>
 <div><c:if test="${bldt.ultraSrtFcstBeach_dto.rn1 ne '강수없음'}">1시간 강수량 : ${bldt.ultraSrtFcstBeach_dto.rn1}mm</c:if></div>
-<div><c:if test="${bldt.ultraSrtFcstBeach_dto.pty ne '없음'}">강수형태 : ${bldt.ultraSrtFcstBeach_dto.pty}</c:if></div>
+<div><c:if test="${bldt.ultraSrtFcstBeach_dto.pty ne 0}">강수형태 : ${bldt.ultraSrtFcstBeach_dto.pty}</c:if></div>
 <div><c:if test="${warningString ne '없음'}">기상특보 : ${warningString}</c:if></div>
 </div>
 <br><br>

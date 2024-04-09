@@ -33,7 +33,7 @@
 	
 	<!-- 경보 위치 검색 -->
 	<select id="weatherWarning_search" resultType="java.lang.String">
-		select address from bada_list where beach_code = #{param1} and address like '%' || #{param2} || '%'
+		select address from bada_info where beach_code = #{param1} and address like '%' || #{param2} || '%'
 	</select>
 		
 </mapper>

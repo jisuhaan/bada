@@ -31,10 +31,25 @@
 		<put-attribute name="body" value="/WEB-INF/views/inquire/inquire_search_view.jsp"/>
 	</definition>
 	
+
+	<definition name="inquire_secret_yn" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 비밀글"/>
+		<put-attribute name="body" value="/WEB-INF/views/inquire/inquire_secret_yn.jsp"/>
+	</definition>
+	
+	
 	<definition name="inquire_detail" extends="baseLayout">
 		<put-attribute name="title" value="바라는 바다! :: 문의글"/>
 		<put-attribute name="body" value="/WEB-INF/views/inquire/inquire_detail.jsp"/>
 	</definition>
-
 	
-</tiles-definitions>
+	
+	<definition name="inquire_report_view" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 신고창"/>
+		<put-attribute name="body" value="/WEB-INF/views/inquire/inquire_report_view.jsp"/>
+	</definition>
+	
+	
+	
+	
+	</tiles-definitions>

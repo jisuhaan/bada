@@ -26,11 +26,21 @@ public class APIController {
     	
         // API 호출
     	APIClient apiClient = new APIClient();
-    	apiClient.getUltraSrtFcstBeach_API(1, DateDAO.getCurrentDateString(), DateDAO.setToThirtyMinutes());
-    	apiClient.getVilageFcstBeach_API(1, DateDAO.getYesterdayDateString()); // 단기 예보
-        apiClient.getLCRiseSetInfo_API(129.431, 36.5988083333333, DateDAO.getCurrentTime());
-        apiClient.getTwBuoyBeach_API(1, (DateDAO.getCurrentDateString()+DateDAO.getCurrentTime()));
-    	apiClient.getWeatherWarning_API("108");
+    	
+    	// 초단기 예보는 dto에 저장
+    	UltraSrtFcstBeach_DTO udto = apiClient.getUltraSrtFcstBeach_API(1, DateDAO.getCurrentDateString(), DateDAO.setToThirtyMinutes());
+    	
+    	// 단기 예보(최고 최저 온도)는 dto에 저장
+    	Bada_tmx_n_DTO vdto = apiClient.get_bada_tmx_n(1, DateDAO.getYesterdayDateString()); // 단기 예보
+        
+    	// sunset과 sunrise는 dto에 저장
+    	LC_Rise_Set_Info_DTO ldto = apiClient.getLCRiseSetInfo_API(129.431, 36.5988083333333, DateDAO.getCurrentDateString());
+        
+        // 현재 수온은 String으로 받음 (+°C)
+        String tw = apiClient.getTwBuoyBeach_API(1, (DateDAO.getCurrentDateString()+DateDAO.getCurrentTime()));
+    	
+        // 기상 특보는 Map에 저장해서 리스트화 -> 추후 수정 가능성 있음
+        apiClient.getWeatherWarning_API("108");
     	return "sea_search";
     }
 

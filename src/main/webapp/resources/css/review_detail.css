@@ -110,3 +110,39 @@
    	margin-top: 10px;
     text-align: right; /* 내용을 오른쪽으로 정렬 */
 }
+
+	.comments-container {
+	 	 border: 1px solid #ddd; /* 경계선 설정 */
+        padding: 20px; /* 내부 여백 설정 */
+        margin: 20px 0; /* 외부 여백 설정 */
+        border-radius: 15px; /* 모서리 둥글게 설정 */
+        background-color: #f9f9f9; /* 배경색 설정 */
+	}
+	
+	.comments-list-section, .comments-writing-section {
+	  border: 1px solid #ddd;
+	  margin-bottom: 10px;
+	  padding: 10px;
+	}
+	
+	.comment-date {
+	  font-size: 0.8em;
+	  color: #777;
+	}
+	
+	.comment-form {
+	  display: flex;
+	  align-items: center;
+	  gap: 10px; /* 간격을 설정합니다 */
+	}
+	
+	.user-id {
+	  white-space: nowrap; /* 아이디를 줄바꿈 없이 한 줄로 표시 */
+	}
+	
+	#reply {
+	  flex-grow: 1; /* 텍스트 영역을 가로로 넓게 채움 */
+	  height: 50px; /* 세로 크기를 높임 */
+	  margin-right: 10px;
+	}
+

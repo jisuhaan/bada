@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
 <link href="${pageContext.request.contextPath}/resources/css/review_input.css" rel="stylesheet" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 
@@ -85,11 +86,13 @@
                 <th>해시태그</th>
                 <input type="hidden" name="hashtags" id="hashtags" value="">
                 <td id="hasjtagFields">
-                	<div class="hashtag-box" data-value="#사람이적어요">#사람이 적어요</div>
-			        <div class="hashtag-box" data-value="#맛집이많아요">#맛집이 많아요</div>
-			        <div class="hashtag-box" data-value="#깨끗해요">#깨끗해요</div>
-			        <div class="hashtag-box" data-value="#바다색이예뻐요">#바다 색이 예뻐요</div>
-			        <div class="hashtag-box" data-value="#모래가고와요">#모래가 고와요</div>
+                	<div class="hashtag-categories">
+			            <div class="category" data-category="가족">가족</div>
+			            <div class="category" data-category="편의시설">편의시설</div>
+			            <div class="category" data-category="액티비티/취미">액티비티/취미</div>
+			            <div class="category" data-category="풍경/바다">풍경/바다</div>
+        			</div>
+      			    <div class="hashtag-dropdown" style="display: none;"></div>
                 </td>
             </tr>
 	            <tr>
@@ -169,36 +172,72 @@
 	}
 	
 	
+
+	
 	// 해시태그영역
+	
+	var choice_tags = [];
 
-	document.addEventListener("DOMContentLoaded", function() {
-	    var hashtagBoxes = document.querySelectorAll('.hashtag-box');
+	$(document).ready(function() {
+    $('.category').click(function() {
+        var category = $(this).data('category');
+        show_hashtags(category);
+    });
 
-	    function Hashtag_Input() {
-	        var selectedHashtags = document.querySelectorAll('.hashtag-box.selected');
-	        var hashtagsValue = Array.from(selectedHashtags).map(function(box) {
-	            return box.getAttribute('data-value');
-	        }).join(' ');
-	        document.getElementById('hashtags').value = hashtagsValue;
-	    }
+    $(document).on('click', '.hashtag', function() {
+        var hashtag = $(this).text();
+        if ($(this).hasClass('selected')) {
+            // 해시태그를 선택 해제할 때
+            $(this).removeClass('selected');
+            choice_tags = choice_tags.filter(function(value) {
+                return value !== hashtag;
+            });
+        } else {
+            // 새 해시태그를 선택할 때
+            if (choice_tags.length < 6) {
+                $(this).addClass('selected');
+                choice_tags.push(hashtag);
+            } else {
+                alert('해시태그는 최대 6개까지 선택가능합니다.');
+            }
+        }
+        update_Hashtag();
+    });
 
-	    hashtagBoxes.forEach(function(box) {
-	        box.addEventListener('click', function() {
-	            // 선택된 박스의 수 확인
-	            var selectedBoxes = document.querySelectorAll('.hashtag-box.selected');
-	            if (!box.classList.contains('selected') && selectedBoxes.length >= 3) {
-	                alert('최대 3개까지만 선택할 수 있습니다.');
-	                return;
-	            }
+    function show_hashtags(category) {
+        var hashtags = get_tag(category);
+        var dropdown = $('.hashtag-dropdown').empty().show();
+        $.each(hashtags, function(index, hashtag) {
+            $('<div/>', {
+                text: hashtag,
+                class: 'hashtag'
+            }).appendTo(dropdown);
+            
+            if (choice_tags.indexOf(hashtag) !== -1) {
+                div.addClass('selected');
+            }
+            
+        });
+    }
 
-	            // 박스의 선택 상태를 토글
-	            box.classList.toggle('selected');
-	            
-	            Hashtag_Input();
-	        });
-	    });
+    function get_tag(category) {
+        
+        var hashtags = {
+            "가족": ["#가족", "#연인", "#혼자", "#친구", "#반려동물"],
+            "편의시설": ["#대중교통", "#자차필요", "#번화가"],
+            "액티비티/취미": ["#스쿠버다이빙", "#갯벌", "#서핑", "#물놀이", "#바다낚시", "#캠핑"],
+            "풍경/바다": ["#핫플", "#감성", "#사람이 적어요", "#이국적", "#인생샷", "#일출맛집", "#전망대", "#항구"]
+        };
+        return hashtags[category];
+    }
+
+    function update_Hashtag() {
+        
+        $('#hashtags').val(choice_tags.join(' '));
+    }
+    
+    
 	    
-
 	    // 재방문 의사 선택 기능
 	    var visitBoxes = document.querySelectorAll('.visit-box');
 	    visitBoxes.forEach(function(box) {

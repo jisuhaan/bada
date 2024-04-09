@@ -107,7 +107,7 @@
 	                  <td>${list.review_num}</td> 
 	                  <td class="text_title">
 	                  <a href="review_detail?review_num=${list.review_num}">
-	                   ${list.review_title}
+	                   ${list.review_title} <span class="reply_check">[${list.reply}]</span>
 	                  </a>
 	                  </td>
 	                  <td>${list.name}(${fn:substring(list.id, 0, 4)}****)님</td>

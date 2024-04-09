@@ -263,3 +263,8 @@ tr:not(:last-child):hover {
   width: 1px;
   height: 1px;
 }
+
+.reply_check {
+    font-size: 0.8em;
+    color: red;
+}

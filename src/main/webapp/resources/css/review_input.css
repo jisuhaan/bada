@@ -1,17 +1,32 @@
 @charset "UTF-8";
 
-.hashtag-box {
+.category {
     border: 1px solid #ccc;
-    display: inline-block;
-    padding: 5px 10px;
+    padding: 10px;
     margin: 5px;
+    display: inline-block;
     cursor: pointer;
 }
 
-.hashtag-box.selected {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
+.hashtag-dropdown {
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: white;
+}
+
+.hashtag {
+    display: inline-block;
+    margin: 5px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.hashtag.selected {
+    background-color: #add8e6;
 }
 
 .visit-box {

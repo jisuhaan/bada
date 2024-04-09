@@ -55,17 +55,31 @@
        </c:forEach>
     </div>
     
-    <div class="user_click">
+	<c:if test="${not empty loginid}">
+	  <div class="interaction-buttons">
+	    <div class="button-container">
+	      <a href="review_report_view?review_num=${dto.review_num}&loginid=${loginid}" class="report-button">
+	        <img src="./resources/image/report_icon.png" width="20px" class="report_icon">
+	        <span>신고</span>
+	      </a>
+	    </div>
+	    <div class="button-container">
+	      <a href="review_recommand?review_num=${dto.review_num}&loginid=${loginid}" class="like-button">
+	        <img src="./resources/image/like_icon.png" width="20px" class="like_icon">
+	        <span>추천 ${dto.recommend}</span>
+	      </a>
+	    </div>
+	  </div>
+	</c:if>
      <div class="all-buttons">
-        <button type="button" onclick="#">추천</button>
-        <button type="button" onclick="#">신고</button>
         <c:if test="${loginid == dto.id || 'admin' == loginid}">
         <button type="button" onclick="location.href='review_change?review_num=${dto.review_num}'">수정</button>
         <button type="button" onclick="confirmDelete('${dto.review_num}')">삭제</button>
         </c:if>
      </div>
     </div>
-</div>
+    
+
 
 	<!-- 댓글 영역 전체를 감싸는 상자 -->
 	<div class="comments-container">
@@ -134,12 +148,15 @@ $(document).ready(function() {
                 },
                 success: function(data) {
                     if(data.success) {
-                        // 서버로부터 반환된 댓글 데이터를 목록에 추가
-                        $('.comments-list').append('<div class="comment"><p>' + data.loginid + ': ' + data.reply + '</p></div>');
-                        $('#reply').val(''); // 입력창을 비웁니다.
-                    } else {
-                        alert('댓글을 등록하지 못했습니다.');
-                    }
+                    	var newCommentHtml = '<div class="comment">' +
+                        '<strong>' + data.loginid + '</strong><span class="comment-date"> (' + data.reply_day + ')</span>' +
+                        '<p>' + data.reply + '</p>' +
+                        '</div>';
+                    $('.comments-list').append(newCommentHtml);
+                    $('#reply').val(''); 
+                } else {
+                    alert('댓글을 등록하지 못했습니다.');
+                	}
                 },
                 error: function() {
                     alert('댓글 등록에 실패했습니다.');

@@ -119,4 +119,16 @@
 	select * from bada_review_comment where review_num = #{param1}
 </select>
 
+<!-- 중복 추천 확인 -->
+<select resultType="int" id="review_rec_id">
+	select count (rec_id) from bada_user_review
+	where review_num=#{param1} and rec_id like '%' || #{param2} || '%'
+</select>
+
+<!-- 게시글 추천 ID 저장 -->
+<update id="review_recommand">
+	update bada_user_review set recommend = recommend + 1, rec_id = rec_id || ' ' || #{param1}
+	where review_num = #{param2}
+</update>
+
 </mapper>

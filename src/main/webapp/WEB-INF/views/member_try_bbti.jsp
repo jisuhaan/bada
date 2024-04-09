@@ -41,7 +41,7 @@
 
 $(document).ready(function(){
 	
-	document.querySelectorAll(".question").hide();
+	$(".question").hide();
 
 	const id = $("#id").val(); 
 	
@@ -51,6 +51,11 @@ $(document).ready(function(){
 	const countP = 0;
 	const countF = 0;
 	const countN = 0;
+	
+	$(".bbti_yes").click(function(){
+		$(".start").hide();
+		$(".q1").show();
+	});
 	
 	
 });
@@ -73,9 +78,8 @@ $(document).ready(function(){
 <div class="bbti_body question q1">
 	<img src="./resources/image/bbti_main.png" width="600px" height="800px">
 	<div class="bbti_btn">
-		<div class="bbti_yes"><a href=""><img src="./resources/image/bbti_yes.png" width="300px"></a></div>
-		<div class="bbti_choose"><img src="./resources/image/bbti_choose.png" width="300px"></div>
-		<div class="bbti_no"><img src="./resources/image/bbti_no.png" width="300px"></div>
+		<div class="bbti_no"><a href=""><img src="./resources/image/bbti_choose.png" width="300px"></a></div>
+		<div class="bbti_choose"><img src="./resources/image/bbti_no.png" width="300px"></div>
 	</div>
 </div>
 

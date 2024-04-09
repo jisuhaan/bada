@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -23,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ezen.bada.member.MemberDTO;
+import com.ezen.bada.review.AllBoardDTO;
 
 @Controller
 public class InquireController {
@@ -409,6 +414,149 @@ public class InquireController {
 	   }
 	   
 	
+	  
+	  @RequestMapping(value = "inquire_delete")
+	   public String inquire_delete(HttpServletRequest request) {
+
+		     int inquire_num = Integer.parseInt(request.getParameter("inquire_num"));
+		     Service ss = sqlsession.getMapper(Service.class);
+		     InquireDTO idto = ss.all_photo(inquire_num);
+		     
+		     List<String> photoPaths = Arrays.asList(idto.getPic1(), idto.getPic2(), 
+										    		 idto.getPic3(), idto.getPic4(), 
+										    		 idto.getPic5());
+			for(String pics : photoPaths) {
+				
+				if(pics != null && !pics.equals("nope")) 
+				{File file = new File(imagepath+"\\"+pics);
+					
+					if(file.exists()) {file.delete();}
+				}
+			}
+		     ss.inquire_delete(inquire_num);
+
+	      return "redirect:/inquire_listout";
+	   }
+	
+	  
+	  
+	  @RequestMapping(value = "inquire_modify")
+	   public String inquire_modify(HttpServletRequest request, Model mo) {
+
+		     int inquire_num = Integer.parseInt(request.getParameter("inquire_num"));
+		     System.out.println("문의 수정 확인 : "+inquire_num);
+		     Service ss = sqlsession.getMapper(Service.class);
+		     
+		     InquireDTO dto = ss.inquire_modify_view(inquire_num);
+		     List<String> photoList = Arrays.asList(dto.getPic1(), dto.getPic2(), dto.getPic3(), dto.getPic4(), dto.getPic5());
+		     mo.addAttribute("dto", dto);
+		     mo.addAttribute("photoList", photoList);
+
+	      return "inquire_modify_view";
+	   }
+	  
+	  
+	  
+	  
+	  
+	  @RequestMapping(value = "inquire_modify_save", method = RequestMethod.POST)
+	   public String inquire_modify_save(MultipartHttpServletRequest mul, Model mo) throws IllegalStateException, IOException {
+		  
+		Service ss = sqlsession.getMapper(Service.class);
+		  
+		int inquire_num = Integer.parseInt(mul.getParameter("inquire_num"));
+		String title=mul.getParameter("title");
+		String category = mul.getParameter("category");
+		String content = mul.getParameter("content");
+		String secret = mul.getParameter("secret");
+		String secret_pw = mul.getParameter("secret_pw");
+		
+		boolean new_photos = false;
+	    for (int i = 1; i <= 5; i++) {
+	        MultipartFile file = mul.getFile("pic" + i);
+	        if (file != null && !file.isEmpty()) {
+	        	new_photos = true;
+	            break; // 새로운 파일이 하나라도 있으면 반복 종료
+	        }
+	    }
+	    if (new_photos) {
+	    	
+	    	InquireDTO idto = ss.all_photo(inquire_num);
+		    List<String> photoPaths = Arrays.asList(idto.getPic1(), idto.getPic2(), 
+										    		 idto.getPic3(), idto.getPic4(), 
+										    		 idto.getPic5());
+			for(String pics : photoPaths) {
+				
+				if(pics != null && !pics.equals("nope"))
+				{File file = new File(imagepath+"\\"+pics);
+					
+					if(file.exists()) {file.delete();}
+				}
+			}
+	    
+	        modi_photos(mul, inquire_num, ss);
+	    }
+		ss.inquire_modify_save(title, category, content, secret, secret_pw, inquire_num);
+		
+		//디테일에 가져가는 정보
+				ss.inquire_updatecnt(inquire_num);
+				InquireDTO dto=ss.inquire_detail(inquire_num);
+				mo.addAttribute("dto", dto);
+				
+				return "inquire_detail";
+}
+
+	private void modi_photos(MultipartHttpServletRequest mul, int inquire_num, Service ss) throws IllegalStateException, IOException {
+		
+		String[] change_photo = new String[5];
+	    for (int i = 1; i <= 5; i++) {
+	        MultipartFile file = mul.getFile("pic" + i);
+	        if (file != null && !file.isEmpty()) {
+	            UUID ud = UUID.randomUUID();
+	            String fileName = ud.toString() + "_" + file.getOriginalFilename();
+	            File newFile = new File(imagepath + "\\" + fileName);
+	            file.transferTo(newFile);
+	            change_photo[i - 1] = fileName; 
+	        } else {
+	        	change_photo[i - 1] = "nope";
+	        }
+	    }
+	    
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("inquire_num", inquire_num);
+	    params.put("change_photo", change_photo);
+	    ss.update_photo(params);
+		
+	}
+	
+	
+	  @RequestMapping(value = "inquire_reply_delete")
+	   public String inquire_reply_delete(HttpServletRequest request, Model mo) {
+
+			int inquire_reply_num = Integer.parseInt(request.getParameter("inquire_reply_num"));
+			int inquire_num = Integer.parseInt(request.getParameter("inquire_num"));
+			 
+			Service ss = sqlsession.getMapper(Service.class);
+			 
+			ss.inquire_reply_delete(inquire_reply_num);
+			 
+			ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
+			mo.addAttribute("list", list);
+			System.out.println("디티오 확인"+list);
+		     
+		   //해당 글에 답 여부(댓글 갯수) 수정
+			int reply_count=0;
+			reply_count= ss.inquire_reply_count(inquire_num);
+			if(reply_count==0) {System.out.println("답이 없네");} //답 갯수가 0인 경우
+			else {ss.inquire_reply_check(inquire_num);} //
+				
+			//디테일에 가져가는 정보
+			ss.inquire_updatecnt(inquire_num);
+			InquireDTO dto=ss.inquire_detail(inquire_num);
+			mo.addAttribute("dto", dto);
+			
+			return "inquire_detail";
+	   }
 	
 	
 	

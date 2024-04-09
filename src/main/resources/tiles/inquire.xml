@@ -50,6 +50,10 @@
 	</definition>
 	
 	
+	<definition name="inquire_modify_view" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 문의 수정"/>
+		<put-attribute name="body" value="/WEB-INF/views/inquire/inquire_modify_view.jsp"/>
+	</definition>
 	
 	
 	</tiles-definitions>

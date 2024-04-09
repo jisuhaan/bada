@@ -2,6 +2,7 @@ package com.ezen.bada.inquire;
 
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.ezen.bada.member.MemberDTO;
 
@@ -46,6 +47,19 @@ public interface Service {
 	int inquire_reply_count(int inquire_num);
 
 	void inquire_reply_check(int inquire_num);
+
+	InquireDTO all_photo(int inquire_num);
+
+	void inquire_delete(int inquire_num);
+
+	InquireDTO inquire_modify_view(int inquire_num);
+
+	void update_photo(Map<String, Object> params);
+
+	void inquire_modify_save(String title, String category, String content, String secret, String secret_pw,
+			int inquire_num);
+
+	void inquire_reply_delete(int inquire_reply_num);
 
 	
 	

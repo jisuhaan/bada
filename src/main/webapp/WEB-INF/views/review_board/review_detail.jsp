@@ -56,31 +56,34 @@
     </div>
     
 	<c:if test="${not empty loginid}">
-	  <div class="interaction-buttons">
-	    <div class="button-container">
-	      <a href="review_report_view?review_num=${dto.review_num}&loginid=${loginid}" class="report-button">
-	        <img src="./resources/image/report_icon.png" width="20px" class="report_icon">
-	        <span>신고</span>
-	      </a>
+	   <div class="interaction-buttons">
+	       <c:if test="${loginid != dto.id}">
+	        <div class="button-container">
+	            <a href="review_report_view?review_num=${dto.review_num}&loginid=${loginid}" class="report-button">
+	                <img src="./resources/image/report_icon.png" width="20px" class="report_icon">
+	                <span>신고</span>
+	            </a>
+	        </div>
+	        </c:if>
+	        <div class="button-container">
+	            <a href="review_recommend?review_num=${dto.review_num}&loginid=${loginid}" class="like-button">
+	                <img src="./resources/image/like_icon.png" width="20px" class="like_icon">
+	                <span>추천 ${dto.recommend}</span>
+	            </a>
+	        </div>
+	        <c:if test="${loginid == dto.id || 'admin' == loginid}">
+	            <div class="button-container">
+	                <button type="button" class="rounded-button" onclick="location.href='review_change?review_num=${dto.review_num}'">수정</button>
+	            </div>
+	            <div class="button-container">
+	                <button type="button" class="rounded-button" onclick="confirmDelete('${dto.review_num}')">삭제</button>
+	            </div>
+	        </c:if>
 	    </div>
-	    <div class="button-container">
-	      <a href="review_recommand?review_num=${dto.review_num}&loginid=${loginid}" class="like-button">
-	        <img src="./resources/image/like_icon.png" width="20px" class="like_icon">
-	        <span>추천 ${dto.recommend}</span>
-	      </a>
-	    </div>
-	  </div>
 	</c:if>
-     <div class="all-buttons">
-        <c:if test="${loginid == dto.id || 'admin' == loginid}">
-        <button type="button" onclick="location.href='review_change?review_num=${dto.review_num}'">수정</button>
-        <button type="button" onclick="confirmDelete('${dto.review_num}')">삭제</button>
-        </c:if>
      </div>
-    </div>
-    
 
-
+  
 	<!-- 댓글 영역 전체를 감싸는 상자 -->
 	<div class="comments-container">
 	
@@ -91,6 +94,9 @@
 	        <div class="comment">
 	          <strong>${re.id}</strong><span class="comment-date"> (${fn:substring(re.reply_day, 0, 16)})</span>
 	          <p>${re.reply_contents}</p>
+	           	<c:if test="${fn:trim(loginid) == fn:trim(re.id) || 'admin' == loginid}">
+          			<button type="button" class="reply_delete" data-reply_num="${re.reply_num}">삭제</button>
+        		</c:if> 
 	        </div>
 	      </c:forEach>
 	    </div>
@@ -151,6 +157,7 @@ $(document).ready(function() {
                     	var newCommentHtml = '<div class="comment">' +
                         '<strong>' + data.loginid + '</strong><span class="comment-date"> (' + data.reply_day + ')</span>' +
                         '<p>' + data.reply + '</p>' +
+                        '<button type="button" class="reply_delete" data-reply_num="' + data.reply_num + '">삭제</button>' +
                         '</div>';
                     $('.comments-list').append(newCommentHtml);
                     $('#reply').val(''); 
@@ -166,6 +173,35 @@ $(document).ready(function() {
             alert('댓글을 입력해주세요.');
         }
     });
+    
+   	$('.comments-container').on('click', '.reply_delete', function() {
+        var reply_num = $(this).data('reply_num');
+        var review_num = $('#review_num').val();
+
+        if(confirm('댓글을 삭제하시겠습니까?')) {
+            $.ajax({
+                url: 'delete_reply',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'reply_num': reply_num,
+                    'review_num': review_num
+                },
+                success: function(data) {
+                    if(data.success) {
+                        $('button[data-reply_num="' + reply_num + '"]').closest('.comment').remove();
+                    } else {
+                        alert('댓글 삭제 실패');
+                    }
+                },
+                error: function() {
+                    alert('댓글 삭제 오류 발생');
+                }
+            });
+        }
+    });
+
+    
 });
 </script>
 </body>

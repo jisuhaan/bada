@@ -3,6 +3,8 @@ package com.ezen.bada.review;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -409,6 +412,37 @@ public class ReviewController {
 	 
 	}
 	
+	
+	@RequestMapping(value = "review_recommend")
+	   public String recommend(HttpServletRequest request, Model mo) {
+
+		int review_num=Integer.parseInt(request.getParameter("review_num"));
+		String loginid=request.getParameter("loginid");
+		
+		Service ss=sqlsession.getMapper(Service.class);
+		// 추천 중복체크 확인
+		int rec_id=ss.review_rec_id(review_num, loginid);
+		
+		if(rec_id==0) {
+		ss.review_recommand(loginid, review_num);
+		AllBoardDTO dto=ss.review_detail(review_num);
+		mo.addAttribute("dto", dto);
+		}
+		
+		else {
+			AllBoardDTO dto=ss.review_detail(review_num);
+			mo.addAttribute("dto", dto);
+		}
+
+	      return "review_detail";
+	   }
+	
+	
+	
+
+	
+	
+	
 	// 리뷰 댓글 처리 영역
 	@ResponseBody
 	@RequestMapping(value = "reply_save", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
@@ -421,13 +455,17 @@ public class ReviewController {
         Service ss = sqlsession.getMapper(Service.class);
         ss.reply_save(review_num,loginid,reply);
 
-        String reply_response = "{\"success\": true, \"loginid\": \"" + loginid + "\","
-        		+ " \"reply\": \"" + reply + "\"}";
+        JSONObject obj = new JSONObject();
+        obj.put("success", true);
+        obj.put("loginid", loginid);
+        obj.put("reply", reply);
 
-        System.out.println("대체 뭐라고 들어가는거야?ㅠㅠ : "+reply_response);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String replyDate = sdf.format(new Date());
+        obj.put("reply_day", replyDate);
         
-
-	      return reply_response;
+        System.out.println("JSON 응답 : " + obj.toString());
+        return obj.toString();
 	   }
 	
 	

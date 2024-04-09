@@ -67,6 +67,10 @@ public interface Service {
 
 	ArrayList<ReplyDTO> reply_show(int review_num);
 
+	int review_rec_id(int review_num, String loginid);
+
+	void review_recommand(String loginid, int review_num);
+
 }
 
 

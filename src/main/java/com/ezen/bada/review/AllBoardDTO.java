@@ -4,7 +4,7 @@ public class AllBoardDTO {
 
 	int review_num;
 	String id,name,write_day,visit_day,review_title,review_contents,
-			photo1,photo2,photo3,photo4,photo5,thumbnail,hashtag,re_visit;
+			photo1,photo2,photo3,photo4,photo5,thumbnail,hashtag,re_visit,rec_id;
 	int hits,recommend,report,review_score,reply,beach_code;
 	
 	public AllBoardDTO() {}
@@ -175,6 +175,14 @@ public class AllBoardDTO {
 
 	public void setBeach_code(int beach_code) {
 		this.beach_code = beach_code;
+	}
+
+	public String getRec_id() {
+		return rec_id;
+	}
+
+	public void setRec_id(String rec_id) {
+		this.rec_id = rec_id;
 	}
 	
 	

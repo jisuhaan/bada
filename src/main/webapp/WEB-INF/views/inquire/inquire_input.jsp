@@ -105,7 +105,7 @@
 				</td>
 			</tr>
 			<tr>
-                <th>사진 첨부</th>
+                <th>사진 첨부(최대 5장)</th>
                 <td id="pic_pack">
                     <input type="file" name="pic1" id="pic1">
                     <button type="button" onclick="addPicField()"> + </button>

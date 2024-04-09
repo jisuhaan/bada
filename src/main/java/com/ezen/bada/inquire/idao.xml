@@ -122,4 +122,52 @@
 	update bada_inquire set reply = 1 where inquire_num = #{param1}
 </update>
 
+
+<!-- 문의글 삭제 시 함께 삭제할 이미지 파일 -->
+<select id="all_photo" resultType="com.ezen.bada.inquire.InquireDTO">
+    select pic1, pic2, pic3, pic4, pic5
+    from bada_inquire
+    where inquire_num = #{param1}
+</select>
+
+ <!-- 문의글 삭제 -->
+<delete id="inquire_delete">
+	delete from bada_inquire where inquire_num = #{param1}
+</delete>
+
+ <!-- 문의글 수정 화면 -->
+<select id="inquire_modify_view" resultType="com.ezen.bada.inquire.InquireDTO">
+	select * from bada_inquire where inquire_num = #{param1}
+</select>
+
+<!-- 문의글 수정사항 정보 저장 -->
+<update id="inquire_modify_save">
+	update bada_inquire set
+		title=#{param1},
+		category=#{param2},
+		content=#{param3},
+		secret=#{param4},
+		secret_pw=#{param5}
+	where inquire_num=#{param6}
+</update>
+
+<!-- 문의글 수정사항 이미지 파일 저장 -->
+<update id="update_photo" parameterType="map">
+    update bada_inquire set
+    	pic1 = #{change_photo[0]}, 
+        pic2 = #{change_photo[1]}, 
+        pic3 = #{change_photo[2]}, 
+        pic4 = #{change_photo[3]}, 
+        pic5 = #{change_photo[4]}
+    where inquire_num = #{inquire_num}
+</update>
+
+
+ <!-- 문의글 답변 삭제 -->
+<delete id="inquire_reply_delete">
+	delete from bada_inquire_reply where inquire_reply_num = #{param1}
+</delete>
+
+
+
 </mapper>

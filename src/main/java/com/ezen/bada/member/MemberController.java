@@ -120,50 +120,64 @@ public class MemberController {
 
    } //idcheck 종료
    
-	@ResponseBody
-	@RequestMapping(value = "/emailcheck")
-	public String emailcheck(HttpServletRequest request) {
-		
-		String email = request.getParameter("email");
-		Service ss=sqlsession.getMapper(Service.class);
+   @ResponseBody
+   @RequestMapping(value = "/emailcheck")
+   public String emailcheck(HttpServletRequest request) {
+      
+      String email = request.getParameter("email");
+      Service ss=sqlsession.getMapper(Service.class);
 
-		String result=""; //originemail로 얻어온 결과로 if문 실행
-		String originemail="";
-		
-		System.out.println("받아온 email : "+email);
+      String result=""; //originemail로 얻어온 결과로 if문 실행
+      String originemail="";
+      
+      System.out.println("받아온 email : "+email);
 
-		originemail=ss.emailcheck(email); //originemail: table에서 email로 select where 해서 나온 값
-		if(originemail==null) {result="ok";} // 결과가 null이면 ok반환
-		else {result="nope";} //select 결과가 있으면 nope 반환
+      originemail=ss.emailcheck(email); //originemail: table에서 email로 select where 해서 나온 값
+      if(originemail==null) {result="ok";} // 결과가 null이면 ok반환
+      else {result="nope";} //select 결과가 있으면 nope 반환
 
-		System.out.println("sql결과 : "+originemail);
-		System.out.println("최종결과 : "+result);
-		
+      System.out.println("sql결과 : "+originemail);
+      System.out.println("최종결과 : "+result);
+      
 
-		return result;
+      return result;
 
-	} //emailcheck 종료
+   } //emailcheck 종료
 
    
    @RequestMapping(value = "/member_save", method = RequestMethod.POST)
-   public String membersave(HttpServletRequest request) throws IOException {
+   public String membersave(HttpServletRequest request,HttpServletResponse response) throws IOException {
       
-      String id = request.getParameter("id");
+	   	String id = request.getParameter("id");
         String pw = request.getParameter("pw");
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String gender = request.getParameter("gender");
         int age=Integer.parseInt(request.getParameter("age"));
+        
+        System.out.println("id : "+id+" pw : "+pw+" name : "+name+" email : "+email+" gender : "+gender+" age : "+age);
 
         Service ss=sqlsession.getMapper(Service.class);
         ss.membersave(id, pw, name, email, gender, age);
+        
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.print("<script type='text/javascript'>");
+		out.print("var result = confirm('회원가입이 완료되었습니다! BBTI(바다성향테스트) 페이지로 이동할까요?');");
+		out.print("if(result){ window.open('member_try_bbti?id="+id+"','BBTI 테스트','width=610,height=810,resizable=no,scrollbars=no,menubar=no') }");	
+		out.print("else{ window.location.replace('main') }");
+		out.print("</script>");
     
-      return "main";
+		return null;
    }
    
    
    @RequestMapping(value = "/member_try_bbti")
-   public String membertrybbti() {
+   public String membertrybbti(HttpServletRequest request, Model mo) {
+	   
+	  String id = request.getParameter("id");
+	  mo.addAttribute("id", id);
       
       return "member_try_bbti";
    }
@@ -323,33 +337,33 @@ public class MemberController {
           return returnObj.toString();
       }
 
-	@RequestMapping(value = "/member_detail") //회원 정보 출력 창
-	public String member_detail(HttpServletRequest request, Model mo) {
-		int user_number = Integer.parseInt(request.getParameter("user_number"));
-		
-		Service ss=sqlsession.getMapper(Service.class);
-		ArrayList<MemberDTO> list=ss.member_detail_out(user_number);
-		mo.addAttribute("list", list);
-		
-		return "member_detail";
-	}
-	
-	@RequestMapping(value = "/member_modify_view") //관리자 권한의 수정창
-	public String member_modify_view(HttpServletRequest request, Model mo) {
-		int user_number = Integer.parseInt(request.getParameter("user_number"));
-		
-		Service ss=sqlsession.getMapper(Service.class);
-		ArrayList<MemberDTO> list=ss.member_detail_out(user_number);
-		mo.addAttribute("list", list);
-		
-		return "member_modify_view";
-	}
-	
-	
-	@RequestMapping(value = "/member_admin_check", method = RequestMethod.POST) //관리자 권한의 수정 (만들다 보니 이름이 좀 직관적이지 못하게 돼버렸어요ㅠㅠ 죄송합니다)
-	public void memberadmincheck(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		
-		String id = request.getParameter("id");
+   @RequestMapping(value = "/member_detail") //회원 정보 출력 창
+   public String member_detail(HttpServletRequest request, Model mo) {
+      int user_number = Integer.parseInt(request.getParameter("user_number"));
+      
+      Service ss=sqlsession.getMapper(Service.class);
+      ArrayList<MemberDTO> list=ss.member_detail_out(user_number);
+      mo.addAttribute("list", list);
+      
+      return "member_detail";
+   }
+   
+   @RequestMapping(value = "/member_modify_view") //관리자 권한의 수정창
+   public String member_modify_view(HttpServletRequest request, Model mo) {
+      int user_number = Integer.parseInt(request.getParameter("user_number"));
+      
+      Service ss=sqlsession.getMapper(Service.class);
+      ArrayList<MemberDTO> list=ss.member_detail_out(user_number);
+      mo.addAttribute("list", list);
+      
+      return "member_modify_view";
+   }
+   
+   
+   @RequestMapping(value = "/member_admin_check", method = RequestMethod.POST) //관리자 권한의 수정 (만들다 보니 이름이 좀 직관적이지 못하게 돼버렸어요ㅠㅠ 죄송합니다)
+   public void memberadmincheck(HttpServletRequest request, HttpServletResponse response) throws IOException {
+      
+      String id = request.getParameter("id");
         String pw = request.getParameter("pw");
         String name = request.getParameter("name");
         String email = request.getParameter("email");
@@ -373,12 +387,12 @@ public class MemberController {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsonResponse.toString());
-	}
-	
-	@RequestMapping(value = "/member_delete", method = RequestMethod.POST) //관리자 권한의 삭제
-	public void memberdelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		
-		String id = request.getParameter("id");
+   }
+   
+   @RequestMapping(value = "/member_delete", method = RequestMethod.POST) //관리자 권한의 삭제
+   public void memberdelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+      
+      String id = request.getParameter("id");
         String admin_pw=request.getParameter("admin_pw");
         
         Service ss=sqlsession.getMapper(Service.class);
@@ -397,20 +411,20 @@ public class MemberController {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsonResponse.toString());
-	}
+   }
    
-	
-	
-	
+   
+   
+   
    /////* 마이페이지
    
    
    @RequestMapping(value = "/mypage")
    public String mypage(HttpServletRequest request, Model mo) {
        
-	   
-	  String loginid = (String) request.getSession().getAttribute("loginid");
-	
+      
+     String loginid = (String) request.getSession().getAttribute("loginid");
+   
       Service ss = sqlsession.getMapper(Service.class);
       MemberDTO result = ss.myinfo_main(loginid);
       mo.addAttribute("info", result);
@@ -423,16 +437,16 @@ public class MemberController {
    @RequestMapping(value = "/info_modify")
    public String mypage_modi1(HttpServletRequest request, Model mo) {
       
-	  String loginid = (String) request.getSession().getAttribute("loginid");
+     String loginid = (String) request.getSession().getAttribute("loginid");
       Service ss = sqlsession.getMapper(Service.class);
        MemberDTO myinfo = ss.myinfo_modify(loginid);
        mo.addAttribute("info", myinfo);
 
-		return "info_modify";
-	}
+      return "info_modify";
+   }
    
    // 회원정보 수정완료
-   @RequestMapping(value = "infomodi_save" , method = RequestMethod.POST)
+   @RequestMapping(value = "/infomodi_save" , method = RequestMethod.POST)
    public String mypage_modi2(HttpServletRequest request) {
       
        String id = request.getParameter("id");
@@ -460,7 +474,7 @@ public class MemberController {
    
    // 비밀번호 검증
    @ResponseBody
-   @RequestMapping(value = "checkPassword", method = RequestMethod.POST)
+   @RequestMapping(value = "/checkPassword", method = RequestMethod.POST)
    public String checkPassword(HttpServletRequest request) {
        String password = request.getParameter("password");
        String loginid = (String) request.getSession().getAttribute("loginid");
@@ -471,9 +485,9 @@ public class MemberController {
        if(real_pw.equals(password)) { 
            result = "yes";
            System.out.println("확인 : "+result);
-       	return result; 
+          return result; 
        } else {
-       	result = "no";
+          result = "no";
            return result; 
        } 
    }
@@ -481,18 +495,18 @@ public class MemberController {
    //탈퇴하기
    
    
-   @RequestMapping(value = "quit")
+   @RequestMapping(value = "/quit")
    public String my3(HttpServletRequest request) {
-	      HttpSession hs=request.getSession();
-	      String loginid = (String) request.getSession().getAttribute("loginid");
-	      Service service = sqlsession.getMapper(Service.class);
-	      service.quit_member(loginid);
-	      
-	      hs.removeAttribute("loginstate");
-	      hs.setAttribute("loginstate", false);
-	      hs.removeAttribute("loginid");
-	      hs.removeAttribute("pw");
-	      hs.removeAttribute("position");
+         HttpSession hs=request.getSession();
+         String loginid = (String) request.getSession().getAttribute("loginid");
+         Service service = sqlsession.getMapper(Service.class);
+         service.quit_member(loginid);
+         
+         hs.removeAttribute("loginstate");
+         hs.setAttribute("loginstate", false);
+         hs.removeAttribute("loginid");
+         hs.removeAttribute("pw");
+         hs.removeAttribute("position");
 
       return "main";
    }

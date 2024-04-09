@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -31,7 +32,7 @@ public class InquireController {
 	SqlSession sqlsession;
 	   
 	
-	String imagepath="C:\\coding\\spring\\bada_web\\src\\main\\webapp\\resources\\image_user";
+	String imagepath="C:\\이젠디지탈12\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
 	String origin_img;
 	
 	
@@ -279,6 +280,11 @@ public class InquireController {
 		InquireDTO dto=ss.inquire_detail(inquire_num);
 		mo.addAttribute("dto", dto);
 		
+		//댓글 출력
+		ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
+		mo.addAttribute("list", list);
+		System.out.println("디티오 확인"+list);
+		
 		return "inquire_detail";
 	}
 	
@@ -322,7 +328,9 @@ public class InquireController {
 		return "inquire_report_view";
 	}
 	
-	  @RequestMapping(value = "/inquire_ban_check")
+
+	  @ResponseBody
+	  @RequestMapping(value = "/inquire_ban_check", method = RequestMethod.POST)
 	   public String inquire_ban_check(HttpServletRequest request) throws IOException {
 	      
 	        String id = request.getParameter("id");
@@ -336,14 +344,14 @@ public class InquireController {
 	        System.out.println("체크 4: "+content);
 	
 	        Service ss=sqlsession.getMapper(Service.class);
-	        
-	        int inquire_check=ss.inquire_ban_check(id, ban_inquire_num, category, content); //동일한 사람이 동일한 글을 동일한 사유로 여러번 신고할 수 없도록 중복 방지
+	        String inquire_check="";
 	        String result="";
-	        if (inquire_check==0) {
-	        	result="ok";
-	        }
+	        inquire_check=ss.inquire_ban_check(id, ban_inquire_num, category, content); //동일한 사람이 동일한 글을 동일한 사유로 여러번 신고할 수 없도록 중복 방지
+	        System.out.println("가져온 신고글 제목: "+inquire_check);
+	        if (inquire_check==null) {result="ok";}
 	        else {result="nope";}
-	    
+	        System.out.println("결과 "+result);
+	        
 	      return result;
 	   }
 	  
@@ -354,7 +362,7 @@ public class InquireController {
 	        String name = request.getParameter("name");
 	        String id = request.getParameter("id");
 	        int ban_inquire_num=Integer.parseInt(request.getParameter("ban_inquire_num"));
-	        String ban_name = request.getParameter("bqn_name");
+	        String ban_name = request.getParameter("ban_name");
 	        String ban_id = request.getParameter("ban_id");
 	        String category = request.getParameter("category");
 	        String content = request.getParameter("content");
@@ -366,6 +374,38 @@ public class InquireController {
 			mo.addAttribute("dto", dto);
 	    
 	      return "inquire_detail";
+	   }
+	  
+	  
+	  @RequestMapping(value = "/inquire_reply_save", method = RequestMethod.POST)
+	   public String inquire_reply_save(HttpServletRequest request, Model mo) throws IOException {
+	      
+		int inquire_num=Integer.parseInt(request.getParameter("inquire_num"));
+		String content=request.getParameter("content");
+		Service ss=sqlsession.getMapper(Service.class);
+		
+		System.out.println("확인용: "+inquire_num+content);
+		  
+		//댓글 저장
+		ss.inquire_reply_save(inquire_num, content, inquire_num);
+			
+		//댓글 출력
+		ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
+		mo.addAttribute("list", list);
+		System.out.println("디티오 확인"+list);
+		
+		//해당 글에 답 여부(댓글 갯수) 수정
+		int reply_count=0;
+		reply_count= ss.inquire_reply_count(inquire_num);
+		if(reply_count==0) {System.out.println("답이 없네");} //답 갯수가 0인 경우
+		else {ss.inquire_reply_check(inquire_num);} //
+			
+		//디테일에 가져가는 정보
+		ss.inquire_updatecnt(inquire_num);
+		InquireDTO dto=ss.inquire_detail(inquire_num);
+		mo.addAttribute("dto", dto);
+		
+		return "inquire_detail";
 	   }
 	   
 	

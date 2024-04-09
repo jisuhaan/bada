@@ -55,17 +55,65 @@
        </c:forEach>
     </div>
     
-    <div class="user_click">
+	<c:if test="${not empty loginid}">
+	  <div class="interaction-buttons">
+	    <div class="button-container">
+	      <a href="review_report_view?review_num=${dto.review_num}&loginid=${loginid}" class="report-button">
+	        <img src="./resources/image/report_icon.png" width="20px" class="report_icon">
+	        <span>신고</span>
+	      </a>
+	    </div>
+	    <div class="button-container">
+	      <a href="review_recommand?review_num=${dto.review_num}&loginid=${loginid}" class="like-button">
+	        <img src="./resources/image/like_icon.png" width="20px" class="like_icon">
+	        <span>추천 ${dto.recommend}</span>
+	      </a>
+	    </div>
+	  </div>
+	</c:if>
      <div class="all-buttons">
-        <button type="button" onclick="#">추천</button>
-        <button type="button" onclick="#">신고</button>
         <c:if test="${loginid == dto.id || 'admin' == loginid}">
         <button type="button" onclick="location.href='review_change?review_num=${dto.review_num}'">수정</button>
         <button type="button" onclick="confirmDelete('${dto.review_num}')">삭제</button>
         </c:if>
      </div>
     </div>
-</div>
+    
+
+
+	<!-- 댓글 영역 전체를 감싸는 상자 -->
+	<div class="comments-container">
+	
+	  <!-- 댓글 목록 섹션 -->
+	  <div class="comments-list-section">
+	    <div class="comments-list">
+	      <c:forEach items="${reply}" var="re">
+	        <div class="comment">
+	          <strong>${re.id}</strong><span class="comment-date"> (${fn:substring(re.reply_day, 0, 16)})</span>
+	          <p>${re.reply_contents}</p>
+	        </div>
+	      </c:forEach>
+	    </div>
+	  </div>
+	
+	  <!-- 댓글 작성 섹션 -->
+	  <div class="comments-writing-section">
+	    <c:choose>
+	      <c:when test="${not empty loginid}">
+	        <form id="commentForm" class="comment-form">
+	          <input type="hidden" id="review_num" name="review_num" value="${dto.review_num}" />
+	          <span id="loginid" class="user-id"> ${loginid} </span>
+	          <textarea id="reply" name="reply" placeholder="댓글을 입력하세요"></textarea>
+	          <button id="replybtn" type="submit">댓글쓰기</button>
+	        </form>
+	      </c:when>
+	      <c:otherwise>
+	        <p>댓글을 작성하려면 로그인해주세요.</p>
+	      </c:otherwise>
+	    </c:choose>
+	  </div>
+	  
+	</div>
 
 <script type="text/javascript">
 
@@ -75,6 +123,50 @@ function confirmDelete(review_num) {
     }
 }
 
+
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#commentForm').submit(function(e) {
+        e.preventDefault();
+
+        var review_num = $('#review_num').val();
+        var reply = $('#reply').val().trim();
+        var loginid = $('#loginid').text();
+
+        if (reply) {
+            $.ajax({
+                url: 'reply_save',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'review_num': review_num,
+                    'reply': reply,
+                    'loginid': loginid
+                },
+                success: function(data) {
+                    if(data.success) {
+                    	var newCommentHtml = '<div class="comment">' +
+                        '<strong>' + data.loginid + '</strong><span class="comment-date"> (' + data.reply_day + ')</span>' +
+                        '<p>' + data.reply + '</p>' +
+                        '</div>';
+                    $('.comments-list').append(newCommentHtml);
+                    $('#reply').val(''); 
+                } else {
+                    alert('댓글을 등록하지 못했습니다.');
+                	}
+                },
+                error: function() {
+                    alert('댓글 등록에 실패했습니다.');
+                }
+            });
+        } else {
+            alert('댓글을 입력해주세요.');
+        }
+    });
+});
 </script>
 </body>
 </html>

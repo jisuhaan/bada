@@ -88,15 +88,38 @@
 
 
 <!-- 문의글 신고 중복 체크 -->
-<select id="inquire_ban_check" resultType="int">
-	select count(*)from bada_i_banned 
-	where id=#{param1) and ban_inquire_num=#{param2} and category=#{param3} and content=#{param3}
+<select id="inquire_ban_check" resultType="java.lang.String">
+	select title 
+	from bada_i_banned 
+	where id=#{param1} and BAN_INQUIRE_NUM=#{param2} and category=#{param3} and content=#{param4}
 </select>
 
 <!-- 문의글 신고 저장 -->
 <insert id="inquire_ban_save">
-	insert into bada_i_banned (i_banned_num, title, name, id, ban_inqure_num, ban_name, ban_id, category, content) 
-	values (i_banned_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6}, #{param7}, #{param8}
+	insert into bada_i_banned (i_banned_num, title, name, id, ban_inquire_num, ban_name, ban_id, category, content) 
+	values (i_banned_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6}, #{param7}, #{param8})
 </insert>
+
+
+<!-- 답변 저장 -->
+<insert id="inquire_reply_save">
+	insert into bada_inquire_reply (inquire_reply_num, content, inquire_num) 
+	values (#{param1}||i_r_seq.nextval, #{param2}, #{param3})
+</insert>
+
+<!-- 게시글에 맞는 답변 출력 -->
+<select resultType="com.ezen.bada.inquire.Inquire_reply_DTO" id="inquire_reply_out">
+	select * from bada_inquire_reply where inquire_num=#{param1}
+</select>
+
+<!-- 답변 갯수가 몇 개인지 세어 봄 -->
+<select id="inquire_reply_count" resultType="int">
+	select count(*) from bada_inquire_reply where inquire_num=#{param1}
+</select>
+
+<!-- 답변이 1개 이상일 시 '미응답'이 '응답'으로 바뀌도록 함 -->
+<update id="inquire_reply_check">
+	update bada_inquire set reply = 1 where inquire_num = #{param1}
+</update>
 
 </mapper>

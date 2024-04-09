@@ -58,9 +58,19 @@ public interface Service {
 		    @Param("beach_code") String beach_code,
 		    @Param("re_visit") String re_visit);
 
-	
+	void thumbnail_upload(int review_num, String t_name);
 
-	
+	void reply_save(
+			@Param("review_num") Integer review_num, 
+            @Param("loginid") String loginid, 
+            @Param("reply") String reply);
+
+	ArrayList<ReplyDTO> reply_show(int review_num);
+
+	int review_rec_id(int review_num, String loginid);
+
+	void review_recommand(String loginid, int review_num);
+
 }
 
 

@@ -30,12 +30,6 @@
 		<put-attribute name="title" value="바라는 바다! :: 회원 정보 검색창"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/member_search.jsp"/>
 	</definition>
-	
-	<definition name="member_try_bbti" extends="baseLayout">
-		<put-attribute name="title" value="바라는 바다! :: 바비티아이, 해보실래요?"/>
-		<put-attribute name="body" value="/WEB-INF/views/member/member_try_bbti.jsp"/>
-	</definition>
-
 
 	<definition name="info_search" extends="baseLayout">
 		<put-attribute name="title" value="바라는 바다! :: 아이디찾기"/>

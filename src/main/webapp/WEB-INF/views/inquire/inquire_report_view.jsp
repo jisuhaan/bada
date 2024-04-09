@@ -18,7 +18,7 @@
     $(document).ready(function () {
         $("#inquire_ban_check").click(function () {
             var id = $("#id").val();
-            var ban_inquire_num = $("#ban_inquire_num").val();
+            var ban_inquire_num = parseInt($("#ban_inquire_num").val());
             var category = $("#category").val();
             var content = $("#content").val();
 
@@ -30,12 +30,12 @@
                 data: {"id": id, "ban_inquire_num": ban_inquire_num, "category": category, "content": content},
                 
                 success: function (result) {
-                    if (result == "nope") { // 중복 신고인 경우
-                        alert("동일한 사유, 동일한 내용의 중복 신고는 불가합니다.");
-                    } else if (result == "ok") { // 중복 신고가 아닌 경우
-                        // 중복이 아니면 신고 저장을 위해 폼 제출
-                        $("form").submit();
-                        alert("신고가 접수되었습니다.");
+                    console.log(result); // 응답 값 확인
+                    if (result === "ok") {
+                    	alert("신고가 접수되었습니다.");
+                    	$("#inquire_ban_save").submit();
+                    } else if (result === "nope") {
+                    	alert("동일한 사유, 동일한 내용의 중복 신고는 불가합니다.");
                     }
                 },
                 error: function () {
@@ -56,7 +56,7 @@
 	<c:choose>
 	<c:when test="${loginstate==true}">
 	
-	<form action="inquire_ban_save" method="post">
+	<form action="inquire_ban_save" method="post" id="inquire_ban_save">
 		<table align="center">
 		
 		<caption>신고창</caption>

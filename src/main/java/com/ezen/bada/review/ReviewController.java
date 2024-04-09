@@ -3,6 +3,8 @@ package com.ezen.bada.review;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,11 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -34,7 +38,7 @@ public class ReviewController {
 	@Autowired
 	SqlSession sqlsession;
 	
-	String image_path="C:\\coding\\spring\\bada_web\\src\\main\\webapp\\resources\\image_user";
+	String image_path="C:\\이젠디지탈12\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
 	
 	@RequestMapping(value = "review_input")
 	public String review1(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
@@ -223,6 +227,14 @@ public class ReviewController {
 		    }
 		    
 		 mo.addAttribute("gallery", gallery);
+		 
+		 // 댓글에 id 불러오기 //
+		 HttpSession hs = request.getSession();
+		 String loginid = (String) hs.getAttribute("loginid");
+		 mo.addAttribute("loginid", loginid);
+		 
+		 ArrayList<ReplyDTO> reply = ss.reply_show(review_num);
+		 mo.addAttribute("reply", reply);
 		
 
 		return "review_detail";
@@ -303,8 +315,42 @@ public class ReviewController {
 	    
 	    modi_thumbnail(mul, review_num, ss);    
 	    
-	    //// 사진선택 하나라도 있으면 실행되게 하기
-	    modi_photos(mul, review_num, ss);
+	    
+	    boolean new_photos = false;
+	    
+	    for (int i = 1; i <= 5; i++) {
+	        MultipartFile file = mul.getFile("pic" + i);
+	        if (file != null && !file.isEmpty()) {
+	        	new_photos = true;
+	            break; // 새로운 파일이 하나라도 있으면 반복 종료
+	        }
+	    }
+	    
+	    
+	    if (new_photos) {
+	    	
+	    	AllBoardDTO boardDTO = ss.all_photo(review_num);
+		     
+		     List<String> photoPaths = Arrays.asList(boardDTO.getPhoto1(), boardDTO.getPhoto2(), 
+								                     boardDTO.getPhoto3(), boardDTO.getPhoto4(), 
+								                     boardDTO.getPhoto5());
+			for(String photo : photoPaths) {
+				
+				if(photo != null && !photo.equals("no")) 
+				{
+					File file = new File(image_path +File.separator+photo);
+					
+					if(file.exists()) 
+					{
+						file.delete();
+					}
+				}
+			}
+	    	
+	        modi_photos(mul, review_num, ss);
+	    }
+	    
+	    
 	    
 	    ss.review_modify(review_num,visit_day,review_title,review_contents,
 	    		review_score,hashtags,beach_code,re_visit);
@@ -341,31 +387,89 @@ public class ReviewController {
 
 
 	private void modi_thumbnail(MultipartHttpServletRequest mul, int review_num, Service ss) throws IllegalStateException, IOException {
-		
-		MultipartFile tf = mul.getFile("thumb_nail");
-		String t_name;
-		
-		 if (tf != null && !tf.isEmpty()) {
-		        // 기존 썸네일 파일 이름을 DB에서 가져오기
-		        String original = ss.original_thumbnail(review_num);
-		        
-		        // 기존 파일 삭제
-		        if (original != null && !original.equals("no")) {
-		            File file = new File(image_path + File.separator + original);
-		            if (file.exists()) {
-		                file.delete();
-		            }
-		        }
-		        
-		        // 새 파일 저장
-				UUID ud=UUID.randomUUID();
-				t_name =ud.toString()+"_"+tf.getOriginalFilename();;
-		          
-		        File newFile = new File(image_path + File.separator + t_name);
-		        tf.transferTo(newFile);
-		        
-		    } 
+	    MultipartFile tf = mul.getFile("thumb_nail");
+
+	    if (tf != null && !tf.isEmpty()) {
+
+	        String original = ss.original_thumbnail(review_num);
+
+	        if (original != null && !original.equals("no")) {
+	            File file = new File(image_path + File.separator + original);
+	            if (file.exists()) {
+	                file.delete(); 
+	            }
+	        }
+
+	        UUID ud = UUID.randomUUID();
+	        String t_name = ud.toString() + "_" + tf.getOriginalFilename();
+	        File newFile = new File(image_path + File.separator + t_name);
+	        tf.transferTo(newFile);
+
+	       
+	        ss.thumbnail_upload(review_num, t_name);
+	    }
+	    
+	 
 	}
+	
+	
+	@RequestMapping(value = "review_recommend")
+	   public String recommend(HttpServletRequest request, Model mo) {
+
+		int review_num=Integer.parseInt(request.getParameter("review_num"));
+		String loginid=request.getParameter("loginid");
+		
+		Service ss=sqlsession.getMapper(Service.class);
+		// 추천 중복체크 확인
+		int rec_id=ss.review_rec_id(review_num, loginid);
+		
+		if(rec_id==0) {
+		ss.review_recommand(loginid, review_num);
+		AllBoardDTO dto=ss.review_detail(review_num);
+		mo.addAttribute("dto", dto);
+		}
+		
+		else {
+			AllBoardDTO dto=ss.review_detail(review_num);
+			mo.addAttribute("dto", dto);
+		}
+
+	      return "review_detail";
+	   }
+	
+	
+	
+
+	
+	
+	
+	// 리뷰 댓글 처리 영역
+	@ResponseBody
+	@RequestMapping(value = "reply_save", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+	   public String review_comment(HttpServletRequest request) {
+		
+        int review_num = Integer.parseInt(request.getParameter("review_num"));
+        String loginid = request.getParameter("loginid");
+        String reply = request.getParameter("reply");
+        
+        Service ss = sqlsession.getMapper(Service.class);
+        ss.reply_save(review_num,loginid,reply);
+
+        JSONObject obj = new JSONObject();
+        obj.put("success", true);
+        obj.put("loginid", loginid);
+        obj.put("reply", reply);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String replyDate = sdf.format(new Date());
+        obj.put("reply_day", replyDate);
+        
+        System.out.println("JSON 응답 : " + obj.toString());
+        return obj.toString();
+	   }
+	
+	
+	
 	
 	
 }

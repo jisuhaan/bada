@@ -40,6 +40,8 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
+	
+	document.querySelectorAll(".question").hide();
 
 	const id = $("#id").val(); 
 	
@@ -68,7 +70,16 @@ $(document).ready(function(){
 	</div>
 </div>
 
-<div class="bbti_body q1">
+<div class="bbti_body question q1">
+	<img src="./resources/image/bbti_main.png" width="600px" height="800px">
+	<div class="bbti_btn">
+		<div class="bbti_yes"><a href=""><img src="./resources/image/bbti_yes.png" width="300px"></a></div>
+		<div class="bbti_choose"><img src="./resources/image/bbti_choose.png" width="300px"></div>
+		<div class="bbti_no"><img src="./resources/image/bbti_no.png" width="300px"></div>
+	</div>
+</div>
+
+<div class="bbti_body question q2">
 	<img src="./resources/image/bbti_main.png" width="600px" height="800px">
 	<div class="bbti_btn">
 		<div class="bbti_yes"><a href=""><img src="./resources/image/bbti_yes.png" width="300px"></a></div>

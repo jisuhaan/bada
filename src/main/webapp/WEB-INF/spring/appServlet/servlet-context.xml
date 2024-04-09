@@ -19,6 +19,8 @@
 	<resources mapping="/js/**" location="/js/" />
 	<resources mapping="/svg/**" location="/svg/" />
 	<resources mapping="/image_user/**" location="/image_user/" />
+	<resources mapping="/image_bbti/**" location="/image_bbti/" />
+	<resources mapping="/bgm/**" location="/bgm/" />
 
 	<!-- 마이바티스 설치시작 -->
 	  <beans:bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">

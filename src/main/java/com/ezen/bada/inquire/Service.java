@@ -38,6 +38,15 @@ public interface Service {
 	
 	void inquire_ban_save(String title, String name, String id, int ban_inquire_num, String ban_name, String ban_id,
 			String category, String content);
+
+	void inquire_reply_save(int inquire_num, String content, int inquire_num2);
+
+	ArrayList<Inquire_reply_DTO> inquire_reply_out(int inquire_num);
+
+	int inquire_reply_count(int inquire_num);
+
+	void inquire_reply_check(int inquire_num);
+
 	
 	
 

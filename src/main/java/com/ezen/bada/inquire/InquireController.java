@@ -280,6 +280,11 @@ public class InquireController {
 		InquireDTO dto=ss.inquire_detail(inquire_num);
 		mo.addAttribute("dto", dto);
 		
+		//댓글 출력
+		ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
+		mo.addAttribute("list", list);
+		System.out.println("디티오 확인"+list);
+		
 		return "inquire_detail";
 	}
 	
@@ -369,6 +374,38 @@ public class InquireController {
 			mo.addAttribute("dto", dto);
 	    
 	      return "inquire_detail";
+	   }
+	  
+	  
+	  @RequestMapping(value = "/inquire_reply_save", method = RequestMethod.POST)
+	   public String inquire_reply_save(HttpServletRequest request, Model mo) throws IOException {
+	      
+		int inquire_num=Integer.parseInt(request.getParameter("inquire_num"));
+		String content=request.getParameter("content");
+		Service ss=sqlsession.getMapper(Service.class);
+		
+		System.out.println("확인용: "+inquire_num+content);
+		  
+		//댓글 저장
+		ss.inquire_reply_save(inquire_num, content, inquire_num);
+			
+		//댓글 출력
+		ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
+		mo.addAttribute("list", list);
+		System.out.println("디티오 확인"+list);
+		
+		//해당 글에 답 여부(댓글 갯수) 수정
+		int reply_count=0;
+		reply_count= ss.inquire_reply_count(inquire_num);
+		if(reply_count==0) {System.out.println("답이 없네");} //답 갯수가 0인 경우
+		else {ss.inquire_reply_check(inquire_num);} //
+			
+		//디테일에 가져가는 정보
+		ss.inquire_updatecnt(inquire_num);
+		InquireDTO dto=ss.inquire_detail(inquire_num);
+		mo.addAttribute("dto", dto);
+		
+		return "inquire_detail";
 	   }
 	   
 	

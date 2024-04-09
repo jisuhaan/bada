@@ -16,4 +16,6 @@ public interface Service {
 	
 	Bada_default_DTO get_Beach_list_data(int beach_code);
 
+	String weatherWarning_search(int beach_code, Object object);
+
 }

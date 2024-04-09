@@ -92,7 +92,7 @@
 					    <input type="radio" name="review_score" value="4" id="rate2" ${dto.review_score == 4 ? 'checked' : ''} ><label for="rate2">★</label>
 					    <input type="radio" name="review_score" value="3" id="rate3" ${dto.review_score == 3 ? 'checked' : ''} ><label for="rate3">★</label>
 					    <input type="radio" name="review_score" value="2" id="rate4" ${dto.review_score == 2 ? 'checked' : ''} ><label for="rate4">★</label>
-					    <input type="radio" name="review_score" value="1" id="rate5" ${dto.review_score == 5 ? 'checked' : ''} ><label for="rate5">★</label>
+					    <input type="radio" name="review_score" value="1" id="rate5" ${dto.review_score == 1 ? 'checked' : ''} ><label for="rate5">★</label>
 					</fieldset>
 			    </td>
 			</tr>

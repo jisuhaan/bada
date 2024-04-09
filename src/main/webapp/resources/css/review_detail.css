@@ -29,24 +29,6 @@
         color: #555; /* 폰트 색상 설정 */
     }
     
-	.user_click .all-buttons {
-	    text-align: right; 
-	}
-
-    .user_click button {
-	 	background-color: #4CAF50; /* 버튼 배경색 설정 */
-	    color: white; /* 버튼 폰트 색상 설정 */
-	    padding: 10px 20px; /* 버튼 내부 여백 설정 */
-	    border: none; /* 버튼 경계선 제거 */
-	    border-radius: 5px; /* 버튼 모서리 둥글게 설정 */
-	    cursor: pointer; /* 마우스 오버 시 커서 변경 */
-	    margin-left: 5px; /* 버튼 간격 설정 */
-    }
-
-    .user_click button:hover {
-        background-color: #45a049; /* 버튼 호버 효과 */
-    }
-    
     .review-images img {
         width: 200px;
         height: 200px;
@@ -110,3 +92,63 @@
    	margin-top: 10px;
     text-align: right; /* 내용을 오른쪽으로 정렬 */
 }
+
+	.comments-container {
+	 	 border: 1px solid #ddd; /* 경계선 설정 */
+        padding: 20px; /* 내부 여백 설정 */
+        margin: 20px 0; /* 외부 여백 설정 */
+        border-radius: 15px; /* 모서리 둥글게 설정 */
+        background-color: #f9f9f9; /* 배경색 설정 */
+	}
+	
+	.comments-list-section, .comments-writing-section {
+	  border: 1px solid #ddd;
+	  margin-bottom: 10px;
+	  padding: 10px;
+	}
+	
+	.comment-date {
+	  font-size: 0.8em;
+	  color: #777;
+	}
+	
+	.comment-form {
+	  display: flex;
+	  align-items: center;
+	  gap: 10px; /* 간격을 설정합니다 */
+	}
+	
+	.user-id {
+	  white-space: nowrap; /* 아이디를 줄바꿈 없이 한 줄로 표시 */
+	}
+	
+	#reply {
+	  flex-grow: 1; /* 텍스트 영역을 가로로 넓게 채움 */
+	  height: 50px; /* 세로 크기를 높임 */
+	  margin-right: 10px;
+	}
+
+	.interaction-buttons {
+	  display: flex; /* 가로 정렬을 위한 flex 설정 */
+	  justify-content: flex-end; /* 오른쪽으로 정렬 */
+	  align-items: center; /* 세로 가운데 정렬 */
+	  gap: 10px; /* 아이콘 간 간격 설정 */
+	}
+	
+	.button-container {
+	  display: flex; /* 가로 정렬을 위한 flex 설정 */
+	  flex-direction: column; /* 아이템들을 세로로 쌓음 */
+	  align-items: center; /* 가운데 정렬 */
+	}
+	
+	.report-button, .like-button {
+	  display: flex; /* 내부 아이템들을 가로로 나열 */
+	  flex-direction: column; /* 아이템들을 세로로 쌓음 */
+	  align-items: center; /* 가운데 정렬 */
+	  text-decoration: none; /* 링크 밑줄 제거 */
+	  color: #555; /* 글자 색상 설정 */
+	}
+	
+	.report-button span, .like-button span {
+	  margin-top: 5px; /* 이미지와 텍스트 사이의 간격 설정 */
+	}

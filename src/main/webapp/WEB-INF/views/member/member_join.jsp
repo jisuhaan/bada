@@ -135,34 +135,8 @@
               }
       
               // 모든 조건 통과 시 폼 제출
-              $.ajax({
-                  type: "post",
-                  url: "member_save",
-                  data: {
-                      "id": id,
-                      "pw": pw,
-                      "name": name,
-                      "email": email,
-                      "gender": gender,
-                      "age": age
-                  },
-                  success: function (response) {
-                      // 저장이 성공적으로 이루어졌을 때 알럿창을 띄움
-                     alert("회원가입이 완료되었습니다.");
-                     var result = confirm('바다성향테스트(BBTI) 페이지로 이동합니다!');
-                     if(result){
-                        window.location.href='member_try_bbti';
-                     }
-                     else{
-                        alert('메인 화면으로 이동합니다.');
-                        window.location.href = 'main';
-                     }
-                  },
-                  error: function () {
-                      alert("오류가 발생했습니다.");
-                  }
-              });
-      
+				document.forms['member_save_form'].submit();
+				
           });
       });
     </script>
@@ -205,12 +179,12 @@
       <br>
        <div class="form_title">&nbsp;닉네임</div>
       <div class="join_input">
-      <input type="text" id="name" placeholder="닉네임을 입력해주세요." required>
+      <input type="text" id="name" name="name" placeholder="닉네임을 입력해주세요." required>
       </div>
       <br>
        <div class="form_title">&nbsp;이메일</div>
       <div class="join_input">
-      <input type="text" id="email" placeholder="이메일을 ----@--.- 형식으로 입력해주세요." required>
+      <input type="text" id="email" name="email" placeholder="이메일을 ----@--.- 형식으로 입력해주세요." required>
       <input type="button" value="중복 확인" id="emailcheck" class="btn_1">
       </div>
       <br>
@@ -235,7 +209,7 @@
       <br>
       <div class="form_title">&nbsp;연령대</div>
       <div class="join_select">
-      <select id="age" required>
+      <select id="age" name="age" required>
           <option value="">나이대를 선택해주세요.</option>
           <option value="10">10대 이하</option>
           <option value="20">20대</option>

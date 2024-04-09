@@ -165,7 +165,7 @@ public class MemberController {
 		PrintWriter out = response.getWriter();
 		out.print("<script type='text/javascript'>");
 		out.print("var result = confirm('회원가입이 완료되었습니다! BBTI(바다성향테스트) 페이지로 이동할까요?');");
-		out.print("if(result){ window.open('member_try_bbti?id="+id+"','BBTI 테스트','width=610,height=810,resizable=no,scrollbars=no') }");	
+		out.print("if(result){ window.open('member_try_bbti?id="+id+"','BBTI 테스트','width=610,height=810,resizable=no,scrollbars=no,menubar=no') }");	
 		out.print("else{ window.location.replace('main') }");
 		out.print("</script>");
     

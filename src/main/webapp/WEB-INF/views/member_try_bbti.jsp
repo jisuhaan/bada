@@ -14,40 +14,67 @@
 	padding:0;
 }
 
-body {
-	margin:0;
-	padding:0;
-	width:600px;
-	height:800px;
-}
-
 .bbti_body {
-	position:relative;
-	display:flex;
+	position: relative;
+	height: 800px; /* 필요에 따라 높이 조정 */
+	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	z-index:1;
 }
 
 .bbti_btn {
-	position:relative;
-	margin-top:50px;
-	margin-bottom:50px;
-	text-align: center;
-	z-index:2;
+	position: absolute;
+	bottom: 20px; /* 원하는 여백 조정 */
+}
+
+.bbti_yes,
+.bbti_choose,
+.bbti_no {
+	display: block;
+	margin-bottom: 10px; /* 각 버튼 사이의 여백 조정 */
 }
 
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+	const id = $("#id").val(); 
+	
+	const countE = 0;
+	const countI = 0;
+	const countA = 0;
+	const countP = 0;
+	const countF = 0;
+	const countN = 0;
+	
+	
+});
+
+
+</script>
 </head>
 <body>
 	
-<div class="bbti_body">
+<div class="bbti_body start">
 	<input type="hidden" name="id" id="id" value="${id}">
 	<img src="./resources/image/bbti_main.png" width="600px" height="800px">
-	<div class="bbti_btn bbti_yes"><img src="./resources/image/bbti_yes.png" width="300px"></div>
-	<div class="bbti_btn bbti_choose"><img src="./resources/image/bbti_choose.png" width="300px"></div>
-	<div class="bbti_btn bbti_no"><img src="./resources/image/bbti_no.png" width="300px"></div>
+	<div class="bbti_btn">
+		<div class="bbti_yes"><a href=""><img src="./resources/image/bbti_yes.png" width="300px"></a></div>
+		<div class="bbti_choose"><img src="./resources/image/bbti_choose.png" width="300px"></div>
+		<div class="bbti_no"><img src="./resources/image/bbti_no.png" width="300px"></div>
+	</div>
+</div>
+
+<div class="bbti_body q1">
+	<img src="./resources/image/bbti_main.png" width="600px" height="800px">
+	<div class="bbti_btn">
+		<div class="bbti_yes"><a href=""><img src="./resources/image/bbti_yes.png" width="300px"></a></div>
+		<div class="bbti_choose"><img src="./resources/image/bbti_choose.png" width="300px"></div>
+		<div class="bbti_no"><img src="./resources/image/bbti_no.png" width="300px"></div>
+	</div>
 </div>
 	
 </body>

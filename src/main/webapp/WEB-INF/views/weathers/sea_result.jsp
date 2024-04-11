@@ -212,7 +212,7 @@ function weatherEmoticon(sky, pty, hour, month, w, h) {
 		</div>
 		<div class="weather tempt">
 			<span id="today_text">현재 기온은...</span><br>
-			<div class="temperature_text"><span id="nowTemperature">20</span><img src="./resources/image/forecast_celsius.gif" width="100px"></div>
+			<div class="temperature_text"><span id="nowTemperature">20</span><img src="./resources/image/forecast_celsius.gif" width="50px"></div>
 		</div>
 	</div>
 </div>

@@ -134,6 +134,10 @@
 <delete id="inquire_delete">
 	delete from bada_inquire where inquire_num = #{param1}
 </delete>
+<!-- 문의글을 삭제했을 때 거기에 달린 답도 함께 삭제되도록 함 -->
+<delete id="inquire_reply_delete_when_inquire_delete">
+	delete from bada_inquire_reply where inquire_num = #{param1}
+</delete>
 
  <!-- 문의글 수정 화면 -->
 <select id="inquire_modify_view" resultType="com.ezen.bada.inquire.InquireDTO">
@@ -169,5 +173,10 @@
 </delete>
 
 
+<update id="inquire_reply_modify">
+	update bada_inquire_reply set
+		content=#{param1}
+	where inquire_reply_num=#{param2}
+</update>
 
 </mapper>

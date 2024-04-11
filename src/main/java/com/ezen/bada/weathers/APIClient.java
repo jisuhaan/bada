@@ -145,7 +145,7 @@ public class APIClient {
 		
 	}
 
-    public String getVilageFcstBeach_API(int beach_num, String getYesterday) {
+    public String getVilageFcstBeach_API(int beach_num, String getYesterday, String basetime) {
     	String text = null;
     	// API 호출
         String url = "http://apis.data.go.kr/1360000/BeachInfoservice/getVilageFcstBeach"; /*URL*/
@@ -158,7 +158,7 @@ public class APIClient {
         params.put("pageNo", "1");
         params.put("dataType", "JSON");
         params.put("base_date", getYesterday);
-        params.put("base_time", "2300");
+        params.put("base_time", basetime);
         params.put("beach_num", beach_num);
 
         // API 호출
@@ -276,13 +276,45 @@ public class APIClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
         return itemList;
+		
+	}
+	
+	// 기상 특보 일주일 현황인데, 가져오려면 기존과 형식이 달라져서 생각을 좀 해봐야할듯
+	public List<Map<String, String>> getPwnStatus_API() {
+    	// API 호출
+        String url = "http://apis.data.go.kr/1360000/WthrWrnInfoService/getPwnStatus"; /*URL*/
+        String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; 
+
+        // 파라미터 맵 구성
+        Map<String, Object> params = new HashMap<>();
+        params.put("dataType", "JSON");
+        params.put("numOfRows", 10);
+        params.put("pageNo", 1);
+        params.put("serviceKey", serviceKey);
+
+        // API 호출
+        List<Map<String, String>> itemList = new ArrayList<Map<String, String>>();
+        try {
+        	String text = getApi(url, params);
+            System.out.println("기온 특보 API 호출 결과: " + text);
+        
+            JsonNode rootNode = objectMapper.readTree(text);
+            // tm과 tw 추출
+            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
+            System.out.println(itemNode);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        return null;
 		
 	}
 
 	// 당일의 최저, 최고 기온을 구하는 메소드 
-	public Bada_tmx_n_DTO get_bada_tmx_n(int beach_num, String getYesterday) {
-		String text = getVilageFcstBeach_API(beach_num, DateDAO.getYesterdayDateString());
+	public Bada_tmx_n_DTO get_bada_tmx_n(int beach_num, String getYesterday, String basetime) {
+		String text = getVilageFcstBeach_API(beach_num, DateDAO.getYesterdayDateString(), basetime);
 		Bada_tmx_n_DTO dto = null;
 		JsonNode rootNode;
 		try {
@@ -308,6 +340,36 @@ public class APIClient {
 			e.printStackTrace();
 		}
 		return dto;
+	}
+	
+	// 현재 시간부터 모레의 날씨 정보까지 가져와서 리스트화하기
+	public String getWeatherForecast(int beach_num, String getCurrentDateString, String basetime) {
+		String text = getVilageFcstBeach_API(beach_num, getCurrentDateString, basetime);
+		VilageFcstBeach_DTO dto = null;
+		JsonNode rootNode;
+		try {
+			rootNode = objectMapper.readTree(text);
+			JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
+	        System.out.println(itemNode);
+	        JSONObject jsonObject = new JSONObject();
+	        
+	        for (JsonNode item : itemNode) {
+	            String category = item.path("category").asText();
+//	            if (category.equals("TMN") || category.equals("TMX")) {
+//	            	jsonObject.put(item.path("category").asText(), item.path("fcstValue").asText()); 
+//	            }
+	        }   
+	        dto = objectMapper.readValue(jsonObject.toString(), VilageFcstBeach_DTO.class);
+	        System.out.println("jsonObject: " + jsonObject);
+	        
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return text;
 	}
 	
 	// xml을 파싱하는 메소드

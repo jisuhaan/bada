@@ -84,6 +84,10 @@ public interface Service {
 
 	void reply_minus(int review_num);
 
+	void reply_modify(int reply_num, String modi_reply);
+
+	ReplyDTO reply_info(int reply_num);
+
 }
 
 

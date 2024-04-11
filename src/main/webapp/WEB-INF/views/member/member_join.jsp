@@ -219,6 +219,7 @@
           <option value="60">60대 이상</option>
       </select>
       </div>
+      <input type="hidden" name="bbti" value="${bbti}">
       <br><hr><br>
       <div class="submit_btns">
       <button id="submitBtn" class="btn_2"><span id="btn_text">회원가입</span></button>

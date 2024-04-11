@@ -38,7 +38,7 @@ public class ReviewController {
 	@Autowired
 	SqlSession sqlsession;
 	
-	String image_path="C:\\이젠디지털12\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
+	String image_path="C:\\이젠디지탈12\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
 	
 	@RequestMapping(value = "review_input")
 	public String review1(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
@@ -559,8 +559,35 @@ public class ReviewController {
 
 	      return obj.toString();
 	   }
+	  
+	  // 댓글 수정
 	
-	
+	  @ResponseBody
+	  @RequestMapping(value = "modify_reply")
+	   public String reply_modify(HttpServletRequest request) throws IOException {
+	      
+		  	JSONObject obj = new JSONObject();
+		  
+		    try {
+		        int reply_num = Integer.parseInt(request.getParameter("reply_num"));
+		        int review_num = Integer.parseInt(request.getParameter("review_num"));
+		        String modi_reply = request.getParameter("reply");
+
+		        Service ss = sqlsession.getMapper(Service.class);
+		        ss.reply_modify(reply_num,modi_reply);
+		        ReplyDTO dto = ss.reply_info(reply_num);
+		        
+		        obj.put("id",dto.getId());
+		        obj.put("reply_day", dto.getReply_day().substring(0, 16));
+		        obj.put("success", true);
+		        
+		    } catch (Exception e) {
+		    	obj.put("success", false);
+		        e.printStackTrace();
+		    }
+
+	      return obj.toString();
+	   }
 	
 	
 }

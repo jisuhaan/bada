@@ -74,4 +74,10 @@ public interface Service {
 	
 	void quit_member(String loginid);
 
+	void insertbbti(String bbti, String id);
+
+	Integer bbticheck(String id);
+
+	void membersavebbti(String id, String pw, String name, String email, String gender, int age, String bbti);
+
 }

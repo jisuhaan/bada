@@ -92,7 +92,7 @@ public class SeaInfoController {
     	bldt.setUltraSrtFcstBeach_dto(apiClient.getUltraSrtFcstBeach_API(beach_code, DateDAO.getCurrentDateString(), DateDAO.setToThirtyMinutes()));
     	
     	// 단기 예보(최고 최저 온도)는 dto에 저장
-    	bldt.setBada_tmx_n_dto(apiClient.get_bada_tmx_n(beach_code, DateDAO.getYesterdayDateString()));
+    	bldt.setBada_tmx_n_dto(apiClient.get_bada_tmx_n(beach_code, DateDAO.getYesterdayDateString(), "2300"));
         
     	// sunset과 sunrise는 dto에 저장
     	bldt.setLc_rise_set_info_dto(apiClient.getLCRiseSetInfo_API(bldt.getLongitude(), bldt.getLatitude(), DateDAO.getCurrentDateString()));
@@ -119,6 +119,8 @@ public class SeaInfoController {
 	    session.setAttribute("bldt", bldt);
 		return "sea_result";
 	}
+	
+	
 	
 	@RequestMapping(value = "/sea_weather_detail")
 	public String sea_weather_detail(HttpServletRequest request, Model mo) {

@@ -61,6 +61,11 @@ public interface Service {
 
 	void inquire_reply_delete(int inquire_reply_num);
 
+	void inquire_reply_modify(String newcontent, int inquire_reply_num);
+
+	void inquire_reply_delete_when_inquire_delete(int inquire_num);
+
+
 	
 	
 

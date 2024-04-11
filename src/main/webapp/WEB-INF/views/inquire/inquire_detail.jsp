@@ -183,10 +183,12 @@
             <tr>
             	<td colspan="2"> <span style="float: right;">
             	&nbsp;
-            	<a href="#" onclick="confirm_reply_Delete('${l.inquire_reply_num}')">
+            	<a href="#" onclick="confirm_reply_Delete('${l.inquire_reply_num}' , '${dto.inquire_num}')">
   						<img src="./resources/image/delete_icon.png" width="15px"></a>
         		&nbsp; &nbsp; &nbsp;
-        		<a href="inquire_reply_modify?inquire_reply_num=${l.inquire_reply_num}"> <img src="./resources/image/modify_icon.png" width="15px"> </a>
+        		 <a href="#" onclick="createEditForm('${l.inquire_reply_num}', '${dto.inquire_num}', '${l.content}')">
+    				<img src="./resources/image/modify_icon.png" width="15px">
+				</a>
             	<br> 삭제 &nbsp; &nbsp; 수정
             	</span>
             	
@@ -220,18 +222,62 @@
     
     
 <script type="text/javascript">
-function confirmDelete(inquire_num) {
-    if(confirm('문의글을 정말 삭제하시겠습니까?')) {
-        location.href = 'inquire_delete?inquire_num=' + inquire_num;
+
+function confirm_reply_Delete(inquire_reply_num, inquire_num) {
+    if(confirm('답변을 정말 삭제하시겠습니까?')) {
+        location.href = 'inquire_reply_delete?inquire_reply_num=' + inquire_reply_num + '&inquire_num=' + inquire_num;
     }
 }
 
-function confirm_reply_Delete(inquire_reply_num) {
-    if(confirm('답변을 정말 삭제하시겠습니까?')) {
-        location.href = 'inquire_reply_delete?inquire_reply_num=' + inquire_reply_num; + '&inquire_num='
-    }
+</script>
+
+<script type="text/javascript">
+
+function createEditForm(inquire_reply_num, inquire_num, content) {
+    // 수정 폼 HTML 생성
+    var formHtml = '<form id="editForm_' + inquire_reply_num + '">' +
+                       '<textarea id="content_' + inquire_reply_num + '" name="newcontent">' + content + '</textarea><br>' +
+                       '<input type="submit" value="답변 수정">' +
+                       '<input type="hidden" name="inquire_reply_num" value="' + inquire_reply_num +'">' +
+                       '<input type="hidden" name="inquire_num" value="' + inquire_num +'">' +
+                   '</form>';
+    
+    // 수정 폼을 해당 답변 영역에 추가
+    var targetElement = document.getElementById('reply_' + inquire_reply_num);
+    targetElement.innerHTML = formHtml;
+    
+    // 폼 서밋 이벤트 핸들러 등록
+    document.getElementById('editForm_' + inquire_reply_num).onsubmit = function(e) {
+        e.preventDefault(); // 폼 서밋 기본 동작 막기
+        
+        // 수정된 내용 가져오기
+        var newcontent = document.getElementById('content_' + inquire_reply_num).value;
+        
+        // 수정된 내용을 서버에 전송
+        submitEditedReply(inquire_reply_num, inquire_num, newcontent);
+    };
+}
+
+function submitEditedReply(inquire_reply_num, inquire_num, newcontent) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                window.location.reload(); // 답변 수정 후 페이지 새로고침
+            } else {
+                alert('답변을 저장하는데 실패했습니다.');
+            }
+        }
+    };
+    xhr.open('POST', 'inquire_reply_modify');
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send('inquire_reply_num=' + inquire_reply_num + '&inquire_num=' + inquire_num + '&newcontent=' + encodeURIComponent(newcontent));
 }
 </script>
-			        	
+
+
+
+
+
 </body>
 </html>

@@ -88,6 +88,18 @@ public interface Service {
 
 	ReplyDTO reply_info(int reply_num);
 
+	void reply_report_save(@Param("review_num") int review_num, 
+			@Param("reply_num") int reply_num, 
+            @Param("id") String id, 
+            @Param("ban_id") String ban_id, 
+            @Param("reply_contents") String reply_contents,
+            @Param("reason") String reason, 
+            @Param("detail") String detail);
+
+	String report_check(int reply_num, String id, String reason, String reply_contents);
+
+	
+
 }
 
 

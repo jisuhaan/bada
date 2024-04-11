@@ -588,6 +588,36 @@ public class ReviewController {
 
 	      return obj.toString();
 	   }
-	
+	  
+	  // 댓글신고
+	  
+	  @ResponseBody
+	  @RequestMapping(value = "report_reply" , method = RequestMethod.POST)
+	   public String report_reply(HttpServletRequest request) throws IOException {
+  
+		  int reply_num = Integer.parseInt(request.getParameter("reply_num"));
+		  int review_num = Integer.parseInt(request.getParameter("review_num"));
+		  String id = request.getParameter("reporter_id");
+		  String ban_id = request.getParameter("reply_id");
+		  String reply_contents = request.getParameter("reply_content");
+		  String reason = request.getParameter("reason");
+		  String detail = request.getParameter("detail");
+		  String result="";
+				  
+		  Service ss = sqlsession.getMapper(Service.class);
+		  String ban_check = ss.report_check(reply_num,id,reason,reply_contents);
+		  
+		  if (ban_check==null) {
+			  ss.reply_report_save(review_num, reply_num, id, ban_id, reply_contents, reason, detail);
+			  result="ok";
+	        } else {
+	        	result="no";
+	        }
+
+		  
+	      return result;
+	   }
+	  
+
 	
 }

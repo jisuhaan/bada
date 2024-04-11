@@ -609,5 +609,15 @@ public class MemberController {
 	return "member_join";
 	   
    }  
+   
+   @RequestMapping(value = "/my_post")
+   public String mypage_post(HttpServletRequest request, Model mo) {
+	   
+
+	   
+	return "my_post";
+	   
+   }
+   
 
 }

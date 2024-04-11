@@ -93,6 +93,7 @@
 			            <div class="category" data-category="풍경/바다">풍경/바다</div>
         			</div>
       			    <div class="hashtag-dropdown" style="display: none;"></div>
+      			    <br> <div id="selected-tags"></div> <br>
                 </td>
             </tr>
 	            <tr>
@@ -171,9 +172,7 @@
     }
 	}
 	
-	
 
-	
 	// 해시태그영역
 	
 	var choice_tags = [];
@@ -187,13 +186,13 @@
     $(document).on('click', '.hashtag', function() {
         var hashtag = $(this).text();
         if ($(this).hasClass('selected')) {
-            // 해시태그를 선택 해제할 때
+            // 해시태그를 선택 해제
             $(this).removeClass('selected');
             choice_tags = choice_tags.filter(function(value) {
                 return value !== hashtag;
             });
         } else {
-            // 새 해시태그를 선택할 때
+            // 새 해시태그 선택
             if (choice_tags.length < 6) {
                 $(this).addClass('selected');
                 choice_tags.push(hashtag);
@@ -208,7 +207,7 @@
         var hashtags = get_tag(category);
         var dropdown = $('.hashtag-dropdown').empty().show();
         $.each(hashtags, function(index, hashtag) {
-            $('<div/>', {
+            var div = $('<div/>', { 
                 text: hashtag,
                 class: 'hashtag'
             }).appendTo(dropdown);
@@ -216,7 +215,6 @@
             if (choice_tags.indexOf(hashtag) !== -1) {
                 div.addClass('selected');
             }
-            
         });
     }
 
@@ -226,7 +224,7 @@
             "가족": ["#가족", "#연인", "#혼자", "#친구", "#반려동물"],
             "편의시설": ["#대중교통", "#자차필요", "#번화가"],
             "액티비티/취미": ["#스쿠버다이빙", "#갯벌", "#서핑", "#물놀이", "#바다낚시", "#캠핑"],
-            "풍경/바다": ["#핫플", "#감성", "#사람이 적어요", "#이국적", "#인생샷", "#일출맛집", "#전망대", "#항구"]
+            "풍경/바다": ["#핫플", "#감성", "#사람이적어요", "#이국적", "#인생샷", "#일출맛집", "#전망대", "#항구"]
         };
         return hashtags[category];
     }
@@ -234,10 +232,21 @@
     function update_Hashtag() {
         
         $('#hashtags').val(choice_tags.join(' '));
+        display_tags();
+    }
+    
+    function display_tags() {
+        var tags_Area = $('#selected-tags');
+        tags_Area.empty(); // 이전 표시 내용 초기화
+        choice_tags.forEach(function(tag) {
+            $('<span/>', {
+                text: tag,
+                class: 'selected-tag'
+            }).appendTo(tags_Area);
+        });
     }
     
     
-	    
 	    // 재방문 의사 선택 기능
 	    var visitBoxes = document.querySelectorAll('.visit-box');
 	    visitBoxes.forEach(function(box) {

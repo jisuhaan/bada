@@ -95,8 +95,12 @@
 	          <strong>${re.id}</strong><span class="comment-date"> (${fn:substring(re.reply_day, 0, 16)})</span>
 	          <p>${re.reply_contents}</p>
 	           	<c:if test="${fn:trim(loginid) == fn:trim(re.id) || 'admin' == loginid}">
+          			<button type="button" class="reply_modify" data-reply_num="${re.reply_num}">수정</button>
           			<button type="button" class="reply_delete" data-reply_num="${re.reply_num}">삭제</button>
-        		</c:if> 
+        		</c:if>
+        		<c:if test="${fn:trim(loginid) != fn:trim(re.id) && not empty loginid}">
+          			<button type="button" class="reply_report" data-reply_num="${re.reply_num}">신고</button>
+        		</c:if>
 	        </div>
 	      </c:forEach>
 	    </div>
@@ -154,12 +158,13 @@ $(document).ready(function() {
                 },
                 success: function(data) {
                     if(data.success) {
-                    	var newCommentHtml = '<div class="comment">' +
+                    	var new_html = '<div class="comment">' +
                         '<strong>' + data.loginid + '</strong><span class="comment-date"> (' + data.reply_day + ')</span>' +
                         '<p>' + data.reply + '</p>' +
+                        '<button type="button" class="reply_modify" data-reply_num="' + data.reply_num + '">수정</button> ' +
                         '<button type="button" class="reply_delete" data-reply_num="' + data.reply_num + '">삭제</button>' +
                         '</div>';
-                    $('.comments-list').append(newCommentHtml);
+                    $('.comments-list').append(new_html);
                     $('#reply').val(''); 
                 } else {
                     alert('댓글을 등록하지 못했습니다.');
@@ -200,6 +205,61 @@ $(document).ready(function() {
             });
         }
     });
+   	
+   	// 댓글 수정
+   	
+   	$('.comments-container').on('click', '.reply_modify', function() {
+   	    var reply_num = $(this).data('reply_num');
+   	    var original_reply = $(this).closest('.comment').find('p').text().trim();
+   	    
+   	 	$(this).siblings('button').hide();
+   	    
+   	    var edit_monitor = '<br> <textarea class="reply-edit">' + original_reply + '</textarea>' +
+   	                   '<button type="button" class="reply-save" data-reply_num="' + reply_num + '">저장</button>';
+   	    
+   	    $(this).closest('.comment').find('p').replaceWith(edit_monitor);
+   		$(this).hide();
+   		
+   	});
+   	
+   	$('.comments-container').on('click', '.reply-save', function() {
+   	    var reply_num = $(this).data('reply_num');
+   	    var update_reply = $(this).prev('.reply-edit').val().trim();
+   	    var review_num = $('#review_num').val();
+
+   	    if(update_reply) {
+   	        $.ajax({
+   	            url: 'modify_reply', 
+   	            type: 'POST',
+   	            dataType: 'json',
+   	            data: {
+   	                'reply_num': reply_num,
+   	                'reply': update_reply,
+   	                'review_num': review_num
+   	            },
+   	            success: function(data) {
+   	                if(data.success) {
+   	                    
+   	                    var update_html = '<div class="comment">' +
+                        	'<strong>' + data.id + '</strong><span class="comment-date"> (' + data.reply_day + ')</span>' +
+                       		'<p>' + update_reply + '</p>' +
+							'<button type="button" class="reply_modify" data-reply_num="' + reply_num + '">수정</button>' +
+                        	'<button type="button" class="reply_delete" data-reply_num="' + data.reply_num + '">삭제</button>' +
+                        	'</div>';
+   	                    
+   	                        $('button[data-reply_num="' + reply_num + '"]').closest('.comment').html(update_html);
+   	                } else {
+   	                    alert('댓글 수정 실패');
+   	                }
+   	            },
+   	            error: function() {
+   	                alert('댓글 수정 오류 발생');
+   	            }
+   	        });
+   	    } else {
+   	        alert('댓글 내용을 입력해주세요.');
+   	    }
+   	});
 
     
 });

@@ -165,5 +165,16 @@
 	UPDATE bada_user_review SET reply = reply - 1 where review_num = #{param1}
 </update>
 
+<!-- 댓글수정 -->
+<update id="reply_modify">
+	UPDATE bada_review_comment SET reply_contents = #{param2} where reply_num = #{param1}
+</update>
+
+<!-- 댓글 실시간 반영 정보 추출 -->
+
+<select id="reply_info" resultType="com.ezen.bada.review.ReplyDTO">
+	select id, reply_day from bada_review_comment 
+	where reply_num =#{param1}
+</select>
 
 </mapper>

@@ -6,7 +6,7 @@
 
 <!-- 문의글 입력하기 전 사전정보 -->
 <select id="input_info" resultType="com.ezen.bada.member.MemberDTO">
-	select id, name from bada_user where id=#{param1}
+	select user_number, id, name from bada_user where id=#{param1}
 </select>
 
 <!-- 문의글 저장 -->
@@ -35,8 +35,8 @@
 <!-- 문의 글 검색 -->
 <select resultType="com.ezen.bada.inquire.InquireDTO" id="inquire_search_out1">
 	select inquire_num, title, category, name, id, i_date, secret, secret_pw, reply, rec, cnt 
-	from bada_inquire where 
-	${param1} like '%' || #{param2} || '%' 
+	from bada_inquire 
+	where ${param1} like '%' || #{param2} || '%' 
 	order by inquire_num DESC
 </select>
 
@@ -87,6 +87,11 @@
 </update>
 
 
+<!-- 문의 신고당하는 사람의 유저 넘버 가져오기 -->
+<select id="ban_user_number" resultType="int">
+	select user_number from bada_user where id=#{param1}
+</select>
+
 <!-- 문의글 신고 중복 체크 -->
 <select id="inquire_ban_check" resultType="java.lang.String">
 	select title 
@@ -96,8 +101,8 @@
 
 <!-- 문의글 신고 저장 -->
 <insert id="inquire_ban_save">
-	insert into bada_i_banned (i_banned_num, title, name, id, ban_inquire_num, ban_name, ban_id, category, content) 
-	values (i_banned_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6}, #{param7}, #{param8})
+	insert into bada_i_banned (i_banned_num, title, name, id, ban_inquire_num, ban_name, ban_id, category, content, ban_user_number) 
+	values (i_banned_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6}, #{param7}, #{param8}, #{param9})
 </insert>
 
 
@@ -109,7 +114,8 @@
 
 <!-- 게시글에 맞는 답변 출력 -->
 <select resultType="com.ezen.bada.inquire.Inquire_reply_DTO" id="inquire_reply_out">
-	select * from bada_inquire_reply where inquire_num=#{param1}
+	select * from bada_inquire_reply where inquire_num=#{param1} 
+	order by inquire_reply_num DESC 
 </select>
 
 <!-- 답변 갯수가 몇 개인지 세어 봄 -->
@@ -134,10 +140,12 @@
 <delete id="inquire_delete">
 	delete from bada_inquire where inquire_num = #{param1}
 </delete>
+
 <!-- 문의글을 삭제했을 때 거기에 달린 답도 함께 삭제되도록 함 -->
 <delete id="inquire_reply_delete_when_inquire_delete">
 	delete from bada_inquire_reply where inquire_num = #{param1}
 </delete>
+
 
  <!-- 문의글 수정 화면 -->
 <select id="inquire_modify_view" resultType="com.ezen.bada.inquire.InquireDTO">
@@ -172,11 +180,26 @@
 	delete from bada_inquire_reply where inquire_reply_num = #{param1}
 </delete>
 
-
+<!-- 문의글 답변 수정 -->
 <update id="inquire_reply_modify">
 	update bada_inquire_reply set
 		content=#{param1}
 	where inquire_reply_num=#{param2}
 </update>
+
+
+<!-- 문의 신고 내역 출력: 페이징처리에서 전체레코드수 구하기 -->
+<select id="inquire_ban_list_total" resultType="int">
+	select count(*)from bada_i_banned
+</select>
+
+<!-- 문의 신고 내역 출력: 한 페이지 안에 들어갈 만큼의 리스트 목록을 잘라오기 -->
+<select id="page_inquire_ban_listout" resultType="com.ezen.bada.inquire.Inquire_ban_DTO">
+	select * from( select rownum rn, A.* from(
+		select i_banned_num, title, name, id, ban_inquire_num, ban_name, ban_id, category, content, ban_date, ban_user_number 
+		from bada_i_banned 
+		order by ban_id DESC) A) 
+	where rn between #{start} AND #{end}
+</select>
 
 </mapper>

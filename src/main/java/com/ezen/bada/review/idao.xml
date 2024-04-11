@@ -177,4 +177,21 @@
 	where reply_num =#{param1}
 </select>
 
+<!-- 댓글 신고 저장 -->
+
+<insert id="reply_report_save">
+   INSERT INTO bada_review_reply_report 
+   (review_reply_ban_num, review_num, reply_num, id, ban_id, reply_contents, reason, detail)
+   VALUES 
+   (review_reply_ban_seq.nextval, #{review_num}, #{reply_num}, #{id}, #{ban_id}, #{reply_contents}, #{reason}, #{detail})
+</insert>
+
+
+<!-- 댓글 중복신고 체크 -->
+<select id="report_check" resultType="String">
+	select detail 
+	from bada_review_reply_report
+	where reply_num=#{param1} and id=#{param2} and reason=#{param3} and reply_contents=#{param4}
+</select>
+
 </mapper>

@@ -39,7 +39,7 @@
         			<option value="충북" id="충북">충북</option>
         		</select>
         	</div>
-                <form action="">
+                <form action="review_search">
                     <div class="search-wrap">
                     	<select name="search_category">
                     		<option value="title">제목</option>
@@ -49,7 +49,7 @@
                     		<option value="wdate">작성일자</option>
                     	</select>
                         <label for="search" class="blind">검색</label>
-                        <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="">
+                        <input id="search" type="search" name="search" placeholder="검색어를 입력해주세요." value="">
                         <button type="submit" class="btn btn-dark">검색</button>
                     </div>
                 </form>

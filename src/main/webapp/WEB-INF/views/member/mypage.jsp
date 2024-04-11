@@ -96,7 +96,7 @@ function confirm_quit() {
   <div class="profile-action">
   <button type="button" onclick="location.href='info_modify?id=${info.id}'">나의정보수정</button>
   <button type="button" onclick="location.href='#'">북마크바다</button>
-  <button type="button" onclick="location.href='#'">나의게시글</button>
+  <button type="button" onclick="location.href='my_post?id=${info.id}'">나의게시글</button>
   <button type="button" onclick="confirm_quit()">회원탈퇴</button>
   </div>
 </div>

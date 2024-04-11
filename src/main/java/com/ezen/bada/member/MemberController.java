@@ -643,5 +643,15 @@ public class MemberController {
 	return null;
 	   
    }  
+   
+   @RequestMapping(value = "/my_post")
+   public String mypage_post(HttpServletRequest request, Model mo) {
+	   
+
+	   
+	return "my_post";
+	   
+   }
+   
 
 }

@@ -63,8 +63,6 @@ public class DateDAO {
     	
     	datemap.put("date", setDate);
     	datemap.put("time", cf.format(getCurrentTime));
-    	System.out.println(datemap.get("date"));
-    	System.out.println(datemap.get("time"));
 		return datemap;
     }
 }

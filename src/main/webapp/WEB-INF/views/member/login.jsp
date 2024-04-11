@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,6 +35,7 @@ $(document).ready(function(){
         
         var id = $("#id").val();
         var pw = $("#pw").val();
+        var bbti = $("#bbti").val();
         
         
         if(id=="" || pw=="") {
@@ -47,7 +49,7 @@ $(document).ready(function(){
             url:"login_save",
             async:true,
             dataType:"text",
-            data:{"id":id,"pw":pw},
+            data:{"id":id,"pw":pw,"bbti":bbti},
             success:function(result){
                 
                 if(result=="no"){
@@ -94,6 +96,22 @@ $(document).ready(function(){
         
         
     });
+    
+
+    $("#sign_button").click(function(){
+    	
+    	var bbti = $("#bbti").val();
+    	
+    	console.log("bbti값 있나? : "+bbti);
+    	
+    	if(bbti.trim()===""||bbti==null){
+    		window.location.href="member_join";
+    	}
+    	else{
+    		window.location.href="join_with?bbti="+bbti;
+    	}
+    	
+    });
 
 });
 
@@ -115,13 +133,14 @@ $(document).ready(function(){
 	<div class="login_container">
 		<input type="text" name="id" placeholder="ID" id="id" class="input_field">
 		<input type="password" name="pw" placeholder="Password" id="pw" class="input_field">
+		<input type="hidden" name="bbti" id="bbti" value="${bbti}">
 		<div class="remember_id" style="margin-bottom: 20px;">
 			<input type="checkbox" id="remember" name="remember">
 			<label for="remember">아이디 저장하기</label>
 		</div>
 	           
 		<button id="login_button" class="button_field" >로그인</button>
-		<button id="sign_button" class="button_field" onclick="location.href='member_join'">회원가입</button>
+		<button id="sign_button" class="button_field">회원가입</button>
 	
 	<div class="div_line"></div>
 	<div class="search_info">

@@ -159,4 +159,22 @@ from. (정)지수 -->
 	delete from bada_user where id = #{param1}
 </delete>
 
+
+<!-- 기존 회원 정보에 bbti 넣기 -->
+<update id="insertbbti">
+	update bada_user set bbti = #{param1} where id = #{param2}
+</update>
+
+<!-- bbti 값이 이미 있는지 체크 -->
+<select id="bbticheck" resultType="Integer">
+	select count(bbti) from bada_user where id = #{param1}
+</select>
+
+<!-- bbti 테스트값을 가지고 회원가입 -->
+<insert id="membersavebbti">
+   insert into bada_user(user_number,id,pw,name,email,gender,age,bbti)
+   values (user_seq.nextval, #{param1}, #{param2}, #{param3},
+   #{param4}, #{param5}, #{param6}, #{param7})
+</insert>
+
 </mapper>

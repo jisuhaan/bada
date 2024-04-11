@@ -585,8 +585,9 @@ public class MemberController {
 		out.print("window.opener.location.href='./';");
 		out.print("self.close();");
 		out.print("</script>");
+		out.flush();
 	   
-	   return null;
+	   return "main";
    }
    
    
@@ -607,6 +608,40 @@ public class MemberController {
 	   mo.addAttribute("bbti",bbti);
 	   
 	return "member_join";
+	   
+   }
+   
+   @RequestMapping(value = "/bbti_list")
+   public String bbti4(HttpServletRequest request, Model mo) {
+	   
+	   String id = request.getParameter("id");
+	   mo.addAttribute("id",id);
+	   
+	return "bbti_list";
+	   
+   }
+   
+   @RequestMapping(value = "/bbti_list_save")
+   public String bbti5(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	   
+	   String id = request.getParameter("id");
+	   String bbti = request.getParameter("bbti");
+	   Service ss = sqlsession.getMapper(Service.class);
+	   
+	   System.out.println("id : "+id+" / 덮어쓸bbti : "+bbti);
+	   
+	   response.setCharacterEncoding("UTF-8");
+	   response.setContentType("text/html; charset=UTF-8");
+	   PrintWriter out = response.getWriter();
+	   
+		ss.insertbbti(bbti,id);
+		out.print("<script type='text/javascript'>");	
+		out.print("alert('bbti가 성공적으로 저장되었어요!');");
+		out.print("window.location.href='./';");
+		out.print("</script>");
+		out.flush();
+	   
+	return null;
 	   
    }  
 

@@ -199,25 +199,24 @@ function weatherEmoticon(sky, pty, hour, month, w, h) {
 <div class="sea_result_right">
 
 <div class="weatherbox">
-<span id="beach_name">날씨 정보 요약</span>
-<br><br><hr><br><br>
-<div id="today_weather">
-<span id="weather_title">${bdt.beach_name}의 오늘의 날씨</span>
-<br><br><hr><br><br>
-<div>
-	현재 날짜 : <fmt:parseDate value="${bldt.ultraSrtFcstBeach_dto.fcstDate}${bldt.ultraSrtFcstBeach_dto.fcstTime}" var="dateFmt" pattern="yyyyMMddHHmm"/>
-	<fmt:formatDate value="${dateFmt}" pattern="yyyy년 MM월 dd일 HH:mm"/> 
+<div id="beach_name">날씨 정보 요약</div>
+<br>
+
+<div class="today_container">
+	<div class="clock_by_hour"></div>
+	<div class="name_beach"></div>
+	<div class="todays now">
+		<div class="weather nowing">
+			<span id="today_text">현재 날씨는...</span><br>
+			<div id="weatherIcon"></div>
+		</div>
+		<div class="weather tempt">
+			<span id="today_text">현재 기온은...</span><br>
+			<div class="temperature_text"><span id="nowTemperature">20</span><img src="./resources/image/forecast_celsius.gif" width="100px"></div>
+		</div>
+	</div>
 </div>
-<div>현재 기온 : ${bldt.ultraSrtFcstBeach_dto.t1h}°</div>
-<div>최고/최저 : ${bldt.bada_tmx_n_dto.tmx}° / ${bldt.bada_tmx_n_dto.tmn}°</div>
-<div id="weatherIcon"></div>
-<div>수온 : ${bldt.bada_tw_dto.water_temp}</div>
-<div>일출 : ${bldt.lc_rise_set_info_dto.sunrise}</div>
-<div>일몰 : ${bldt.lc_rise_set_info_dto.sunset}</div>
-<div><c:if test="${bldt.ultraSrtFcstBeach_dto.rn1 ne '강수없음'}">1시간 강수량 : ${bldt.ultraSrtFcstBeach_dto.rn1}mm</c:if></div>
-<div><c:if test="${bldt.ultraSrtFcstBeach_dto.pty ne 0}">강수형태 : ${bldt.ultraSrtFcstBeach_dto.pty}</c:if></div>
-<div><c:if test="${warningString ne '없음'}">기상특보 : ${warningString}</c:if></div>
-</div>
+
 <br><br>
 <div><a href="sea_weather_detail?beachName=${bdt.beach_name}">날씨 자세히 보기</a></div>
 <div id="weather_info">

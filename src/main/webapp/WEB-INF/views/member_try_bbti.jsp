@@ -51,11 +51,23 @@
 	margin-right: 10px;
 }
 
+.bbti_selected,
+.bbti_inputself,
+.bbti_restart:hover{
+	cursor:pointer;
+}
+
 .bbti_yes,
 .bbti_choose,
 .bbti_no {
 	display: block;
 	margin-bottom: 10px; /* 각 버튼 사이의 여백 조정 */
+}
+
+.bbti_yes,
+.bbti_choose,
+.bbti_no:hover {
+	cursor:pointer;
 }
 
 .selectE,
@@ -67,6 +79,15 @@
 	display: block;
 	margin-bottom: 10px; /* 각 버튼 사이의 여백 조정 */
 	bottom: 30px;
+}
+
+.selectE,
+.selectI,
+.selectA,
+.selectP,
+.selectF,
+.selectN:hover{
+	cursor:pointer;
 }
 
 </style>
@@ -87,6 +108,23 @@ $(document).ready(function(){
 	let countF = 0;
 	let countN = 0;
 	let resultcode;
+	
+	$(".bbti_no").click(function(){
+		alert("아쉬워요... 다음엔 해주실거죠?");
+		window.location.href='main';
+	});
+	
+	$(".bbti_choose").click(function(){
+		
+		console.log("userid : "+id);
+		
+		var conf = confirm("큰 화면에서 bbti 전체 목록을 보여드릴게요! 이동할까요?")
+		if(conf){
+			window.opener.location.href="bbti_list?id="+id;
+			self.close();
+		}
+		
+	});
 	
 	$(".bbti_yes").click(function(){
 		$(".start").hide();

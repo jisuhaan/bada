@@ -69,6 +69,7 @@ public class MemberController {
       
       String id = request.getParameter("id");
       String pw = request.getParameter("pw");
+      
       String bbti = request.getParameter("bbti").trim();
       
       System.out.println("id : "+id+" pw : "+pw+" bbti : "+bbti);

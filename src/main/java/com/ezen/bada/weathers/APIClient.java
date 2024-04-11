@@ -10,12 +10,14 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.NodeList;
 
@@ -145,7 +147,8 @@ public class APIClient {
 		
 	}
 
-    public String getVilageFcstBeach_API(int beach_num, String getYesterday, String basetime) {
+    public String getVilageFcstBeach_API(int beach_num, String getday, String basetime, int day) {
+    	int nor = 290*day;
     	String text = null;
     	// API 호출
         String url = "http://apis.data.go.kr/1360000/BeachInfoservice/getVilageFcstBeach"; /*URL*/
@@ -154,10 +157,10 @@ public class APIClient {
         // 파라미터 맵 구성
         Map<String, Object> params = new HashMap<>();
         params.put("serviceKey", serviceKey);
-        params.put("numOfRows", "290");
+        params.put("numOfRows", Integer.toString(nor));
         params.put("pageNo", "1");
         params.put("dataType", "JSON");
-        params.put("base_date", getYesterday);
+        params.put("base_date", getday);
         params.put("base_time", basetime);
         params.put("beach_num", beach_num);
 
@@ -314,7 +317,7 @@ public class APIClient {
 
 	// 당일의 최저, 최고 기온을 구하는 메소드 
 	public Bada_tmx_n_DTO get_bada_tmx_n(int beach_num, String getYesterday, String basetime) {
-		String text = getVilageFcstBeach_API(beach_num, DateDAO.getYesterdayDateString(), basetime);
+		String text = getVilageFcstBeach_API(beach_num, DateDAO.getYesterdayDateString(), basetime, 1);
 		Bada_tmx_n_DTO dto = null;
 		JsonNode rootNode;
 		try {
@@ -342,26 +345,56 @@ public class APIClient {
 		return dto;
 	}
 	
-	// 현재 시간부터 모레의 날씨 정보까지 가져와서 리스트화하기
-	public String getWeatherForecast(int beach_num, String getCurrentDateString, String basetime) {
-		String text = getVilageFcstBeach_API(beach_num, getCurrentDateString, basetime);
-		VilageFcstBeach_DTO dto = null;
-		JsonNode rootNode;
+	// 현재 시간부터 모레의 날씨 정보까지 가져와서 리스트화하기 -> 자세히 보기
+	public Map<String, Map<String, JSONObject>> getWeatherForecast(int beach_num, String getCurrentDateString, String basetime) {
+		
+		// 최종!! 날짜와 시간 별로 구분된 데이터를 그룹화하는 맵 + LinkedHashMap으로 순서 유지
+        Map<String, Map<String, JSONObject>> groupedData = new LinkedHashMap<>();
+        
 		try {
-			rootNode = objectMapper.readTree(text);
+			// 요청 api의 String 결과
+			String text = getVilageFcstBeach_API(beach_num, getCurrentDateString, basetime, 3);
+			JsonNode rootNode = objectMapper.readTree(text);
 			JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
-	        System.out.println(itemNode);
-	        JSONObject jsonObject = new JSONObject();
-	        
-	        for (JsonNode item : itemNode) {
-	            String category = item.path("category").asText();
-//	            if (category.equals("TMN") || category.equals("TMX")) {
-//	            	jsonObject.put(item.path("category").asText(), item.path("fcstValue").asText()); 
-//	            }
-	        }   
-	        dto = objectMapper.readValue(jsonObject.toString(), VilageFcstBeach_DTO.class);
-	        System.out.println("jsonObject: " + jsonObject);
-	        
+
+			// 날짜를 기준으로 데이터를 그룹화하는 맵 + LinkedHashMap으로 순서 유지
+            Map<String, List<JsonNode>> dateGroupedData = new LinkedHashMap<>();
+			// 날자 기준 데이터를 그룹화
+            for (JsonNode item : itemNode) {
+                String fcstDate = item.get("fcstDate").asText();
+                dateGroupedData.putIfAbsent(fcstDate, new ArrayList<>()); // groupedData에 해당 키가 존재하지 않으면 새로운 리스트를 만들고, 아니라면 null을 반환
+                dateGroupedData.get(fcstDate).add(item);
+            }
+            for(String key : dateGroupedData.keySet()) { // dateGroupedData의 키 값(날짜 정보들) 세트로 반복
+            	List<JsonNode> itemList = dateGroupedData.get(key); // 키의 밸류값을 가져옴(날짜 별로 저장된 jsonnode 모음)
+            	// 시간을 기준으로 노드를 한 번 더 그룹화하는 맵 + 순서 유지
+            	Map<String, List<JsonNode>> timeGroupedData = new LinkedHashMap<>();
+            	// 시간 별로 node 묶어주기
+            	for (JsonNode node : itemList) {
+                    String fcstTime = node.get("fcstTime").asText();
+                    timeGroupedData.putIfAbsent(fcstTime, new ArrayList<>());
+                    timeGroupedData.get(fcstTime).add(node);
+                }
+                
+            	// 시간 별 쌍을 저장할 map 만들어주기
+            	Map<String, JSONObject> timeObjectData = new LinkedHashMap<>();
+            	// 시간 별로 category랑 value 쌍 만들어주기
+                for(String time : timeGroupedData.keySet()) {
+                	
+                	JSONObject jsonObject = new JSONObject();
+                	jsonObject.put("fcstTime", time);
+                    jsonObject.put("fcstDate", key);
+                    
+                	for(JsonNode item : timeGroupedData.get(time)) {
+                    	jsonObject.put(item.path("category").asText(), item.path("fcstValue").asText());
+                    }
+                	timeObjectData.put(time, jsonObject);
+                }
+                
+                groupedData.put(key, timeObjectData);
+//                System.out.println(key+"일의 groupedData: "+groupedData.get(key));
+            }
+            
 		} catch (JsonMappingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -369,7 +402,8 @@ public class APIClient {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return text;
+		
+		return groupedData;
 	}
 	
 	// xml을 파싱하는 메소드

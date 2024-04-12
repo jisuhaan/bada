@@ -45,7 +45,7 @@ public class APIController {
         // 기상 특보는 Map에 저장해서 리스트화 -> 추후 수정 가능성 있음
 //        apiClient.getWeatherWarning_API("108");
     	
-        Map<String, Map<String, JSONObject>> getWeatherForecastMap = apiClient.getWeatherForecast(1, DateDAO.setForecastDate().get("date"), DateDAO.setForecastDate().get("time"));
+        Map<String, Map<String, VilageFcstBeach_DTO>> getWeatherForecastMap = apiClient.getWeatherForecast(1, DateDAO.setForecastDate().get("date"), DateDAO.setForecastDate().get("time"));
         System.out.println(getWeatherForecastMap.keySet());
         return "sea_search";
     }

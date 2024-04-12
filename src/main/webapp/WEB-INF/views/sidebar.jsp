@@ -41,7 +41,10 @@
                     <ul class="collapse__menu">
                         <a href="bada_review" class="collapse__sublink">바다리뷰</a>
 	                    <a href="review_input" class="collapse__sublink">리뷰작성</a>
-	                    <a href="#"  class="collapse__sublink">한마디</a>       
+	                    <a href="#"  class="collapse__sublink">한마디</a>
+	                    <c:if test="${position=='admin'}">
+                        <a href="review_ban_listout" class="collapse__sublink">게시물/댓글 신고 내역</a>
+                        </c:if>       
                     </ul>
                
                 </div>

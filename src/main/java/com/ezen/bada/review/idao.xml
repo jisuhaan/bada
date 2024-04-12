@@ -213,14 +213,23 @@
             <when test="param1 == 'name'">
                 name LIKE '%' || #{param2}  || '%'
             </when>
-            <!-- 방문시기 검색 -->
-            <when test="param1 == 'vdate'">
-                visit_day LIKE '%' || #{param2} || '%'
+           
+ 			<!-- 방문시기 검색 -->
+            <when test="param1 == 'vdate' and param2 != '2020'">
+                visit_day LIKE #{param2} || '%'
             </when>
-            <!-- 작성일자 검색 -->
-            <when test="param1 == 'wdate'">
-                TO_CHAR(write_day, 'YYYY-MM-DD') LIKE '%' || #{param2} || '%'
-            </when>
+            <when test="param1 == 'vdate' and param2 == '2020'">
+       			<![CDATA[EXTRACT(YEAR FROM TO_DATE(visit_day, 'YYYY-MM-DD')) <= #{param2}]]>
+    		</when>
+            
+            <!-- 작성일 검색 -->
+            <when test="param1 == 'wdate' and param2 != '2020'">
+  			  TO_CHAR(write_day, 'YYYY-MM-DD') LIKE #{param2} || '%'
+			</when>
+			<when test="param1 == 'wdate' and param2 == '2020'">
+			   <![CDATA[EXTRACT(YEAR FROM write_day) <= #{param2}]]>
+			</when>
+       
         </choose>
     </where>
 </select>
@@ -229,5 +238,15 @@
 <select id="ban_user_num" resultType="Integer">
 	select user_number from bada_user where ID = #{param1}
 </select>
+
+<!-- 리뷰게시판 지역선택별 게시글 -->
+<select id="search_area_result" resultType="com.ezen.bada.review.AllBoardDTO">
+	SELECT bur.* 
+	FROM bada_user_review bur
+	JOIN bada_list bl ON bur.beach_code = bl.beach_code
+	WHERE (#{param1} = '경인' AND bl.state IN ('경기', '인천')) OR (bl.state = #{param1})
+</select>
+
+
 
 </mapper>

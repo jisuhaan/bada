@@ -14,6 +14,25 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
+	
+	 $('#area').change(function() {
+	        var selecte_area = $(this).val(); // 선택된 지역값
+	        $.ajax({
+	            type: "POST",
+	            url: "review_area_search",
+	            data: {'area' : selecte_area}, 
+	            dataType: "html",
+	            success: function(data) {
+	                $('#board-list').html(data); 
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("Error: " + error);
+	                alert("지역 게시글을 불러오는데 실패했습니다.");
+	            }
+	        });
+	    });
+	
+
     $('#search-form').submit(function(event) {
         event.preventDefault(); 
         var form_data = $(this).serialize();
@@ -33,10 +52,27 @@ $(document).ready(function() {
     $('select[name="search_category"]').change(function() {
         var choice = $(this).val();
         var search = $('#search');
+        var year = $('#year');
+        var month = $('#month');
+        
         if (choice === 'vdate' || choice === 'wdate') {
-        	search.attr('placeholder', '숫자 or YYYY-MM-DD 형태로 입력!');
+        	search.hide();
+            year.show();
+            month.show();
         } else {
-        	search.attr('placeholder', '검색어를 입력해주세요.');
+        	search.show();
+            year.hide();
+            month.hide();
+        }
+    });
+    
+    $('#year').change(function() {
+        var select_year = $(this).val();
+        if (select_year === "2020") {
+            $('#month').val(""); 
+            $('#month').hide();   
+        } else {
+            $('#month').show();   
         }
     });
     
@@ -47,6 +83,12 @@ $(document).ready(function() {
 </head>
 <body>
 
+
+<%
+    java.util.Calendar cal = java.util.Calendar.getInstance();
+    int currentYear = cal.get(java.util.Calendar.YEAR);
+    pageContext.setAttribute("currentYear", currentYear);
+%>
 
 <section class="notice">
   <div class="page-title">
@@ -66,6 +108,8 @@ $(document).ready(function() {
         			<option value="경남" id="경남">경남</option>
         			<option value="경북" id="경북">경북</option>
         			<option value="경인" id="경인">경인</option>
+        			<option value="부산" id="부산">부산</option>
+        			<option value="울산" id="울산">울산</option>
         			<option value="전남" id="전남">전남</option>
         			<option value="전북" id="전북">전북</option>
         			<option value="제주" id="제주">제주</option>
@@ -84,6 +128,22 @@ $(document).ready(function() {
                     	</select>
                         <label for="search" class="blind">검색</label>
                         <input id="search" type="search" name="search" placeholder="검색어를 입력해주세요." value="">
+                        
+                        <select id="year" name="year" style="display:none;">
+						    <option value="" selected>연도 선택!</option>
+						    <option value="2020">2021년 이전</option>
+							    <c:forEach begin="2021" end="${currentYear}" var="year">
+							        <option value="${year}">${year}년</option>
+							    </c:forEach>
+						</select>
+						
+						<select id="month" name="month" style="display:none;">
+						    <option value="">월 선택</option>
+							    <c:forEach begin="1" end="12" var="month">
+							        <option value="${month}">${month}월</option>
+							    </c:forEach>
+						</select>
+ 
                         <button type="submit" class="btn btn-dark">검색</button>
                     </div>
                 </form>

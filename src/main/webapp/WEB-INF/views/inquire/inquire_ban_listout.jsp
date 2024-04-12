@@ -12,7 +12,7 @@
 
 	<meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>바라는 바다! :: 문의 목록</title>
+	<title>바라는 바다! :: 문의 신고 내역</title>
 
 	<style>
         table {
@@ -39,7 +39,6 @@
             vertical-align: middle; /* 아이콘을 수직 가운데 정렬 */
         }
     </style>
-<title>바라는 바다! :: 문의 신고 내역</title>
 </head>
 
 <body>
@@ -68,7 +67,7 @@
 <c:forEach items="${list}" var="l">
 			      <tr>
 			      	<td>
-			      	<a href="inquire_ban_detail?i_banned_num=${l.i_banned_num}">
+			      	<a href="inquire_ban_detail?i_banned_num=${l.i_banned_num}&ban_id=${l.ban_id}">
 			      	${l.title}
 			      	</a>
 			      	</td>
@@ -77,7 +76,7 @@
 			      	<a href="to_inquire_detail?inquire_num=${l.ban_inquire_num}">신고된 원본글로 이동</a>
 			      	</td>
 			      	<td> <a href="member_detail?user_number=${l.ban_user_number}">
-			      	${l.ban_name}(${fn:substring(l.ban_id, 0, 4)}****) 님 </a> </td>
+			      	${l.ban_name}(${fn:substring(l.ban_id, 0, 4)}****) </a>님 </td>
 			      	<td>${l.category}</td>
 			      	<td>${fn:substring(l.ban_date, 0, 19)}</td>
 			      </tr>

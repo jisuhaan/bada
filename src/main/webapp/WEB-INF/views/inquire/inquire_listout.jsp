@@ -5,6 +5,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <%@ include file="inquire_search.jsp" %>
+<%@ include file="inquire_notice_list.jsp" %>
+<%@ include file="inquire_best3.jsp" %>
 
 <!DOCTYPE html>
 
@@ -46,10 +48,6 @@
 
 <body>
 
-
-
-	<br> <br> <br>
-	
 		<table border="1">
 	
 			      <tr>
@@ -209,8 +207,9 @@
 	        
 	    </table>
 	    
-	<br> <br> <br> <br> <br>
+	<br> <br> 
 	
+	<a href="inquire_best3">근데 이렇게 inquire_best3.jsp를 링크로 따로 걸면 돼요 아놔...</a> <br> <br> <br>
 	
 </body>
 </html>

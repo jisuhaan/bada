@@ -23,13 +23,22 @@
 	select count(*)from bada_inquire
 </select>
 
-<!-- 문의 글 출력: 한 페이지 안에 들어갈 만큼의 리스트 목록을 잘라오기 -->
-<select id="page_inquire_listout" resultType="com.ezen.bada.inquire.InquireDTO">
+<!-- 문의 글 출력: 한 페이지 안에 들어갈 만큼의 리스트 목록을 잘라오기 (최신순)-->
+<select id="page_inquire_listout_latest" resultType="com.ezen.bada.inquire.InquireDTO">
 	select * from( select rownum rn, A.* from(
 		select inquire_num, title, category, name, id, i_date, 
 		pic1, pic2, pic3, pic4, pic5, content, secret, secret_pw, reply, rec, cnt 
 		from bada_inquire
-		order by inquire_num DESC) A) 
+		order by i_date DESC) A) 
+	where rn between #{start} AND #{end}
+</select>
+<!-- 문의 글 출력: 한 페이지 안에 들어갈 만큼의 리스트 목록을 잘라오기 (추천순) -->
+<select id="page_inquire_listout_popular" resultType="com.ezen.bada.inquire.InquireDTO">
+	select * from( select rownum rn, A.* from(
+		select inquire_num, title, category, name, id, i_date, 
+		pic1, pic2, pic3, pic4, pic5, content, secret, secret_pw, reply, rec, cnt 
+		from bada_inquire
+		order by rec DESC) A) 
 	where rn between #{start} AND #{end}
 </select>
 

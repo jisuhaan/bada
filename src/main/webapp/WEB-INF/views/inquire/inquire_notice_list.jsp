@@ -11,23 +11,11 @@
 <head>
 
 	<meta charset="UTF-8">
+	<link href="${pageContext.request.contextPath}/resources/css/review_page.css" rel="stylesheet" type="text/css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>바라는 바다! :: 문의 공지</title>
 
 	<style>
-        table {
-            margin: 0 auto;
-            width: 95%;
-            border-collapse: collapse;
-        }
-        td {
-            text-align: center;
-            font-size: 13px; /* 텍스트 크기를 작게 설정 */
-            padding: 4px; /* 셀 안의 여백 설정 */
-        }
-        th:nth-child(1) {
-            width: 45%; /* 첫 번째 열의 너비를 70%로 설정 */
-        }
         .wide-cell {
         	padding: 10px;
             cursor: pointer; /* 커서를 포인터로 변경하여 사용자에게 클릭 가능한 요소임을 나타냄 */
@@ -42,13 +30,18 @@
 <body>
 <br> <br> <br>
 
-		<table border="1">
-	
+    
+		<div id="board-list">
+        <div class="container">
+            <table class="board-table">
+                <thead>
 			      <tr>
 			         <th>공지 사항</th>
 			      </tr>
-
-			      <tr>
+				</thead>
+                <tbody>
+                
+			      <tr class="notice_line">
 			      	<td class="wide-cell" onclick="toggleContent(1)"> <바라는 바다!> 이용 방법 매뉴얼 <span id="toggleIcon1">▼</span> </td>
 			      </tr>
 			      
@@ -108,7 +101,7 @@
 			      	</td>
 			      </tr>
 			      
-			      <tr>
+			      <tr class="notice_line">
 			      	<td class="wide-cell" onclick="toggleContent(2)"> 정보통신망법에 따른 공지 <span id="toggleIcon2">▼</span> </td>
 			      </tr>
 			      
@@ -134,7 +127,7 @@
 			      	</td>
 			      </tr>
 			      
-			      <tr>
+			      <tr class="notice_line">
 			      	<td class="wide-cell" onclick="toggleContent(3)"> 자주 하는 질문(QnA) <span id="toggleIcon3">▼</span> </td>
 			      </tr>
 			      
@@ -161,6 +154,7 @@
 					A. <바라는 바다!> 팀은 다른 사용자를 보호하기 위해 각종 게시글과 문의는 로그인한 회원만 작성할 수 있도록 조치를 취해두었습니다. <br>
 					그러나 만일 예상치 못한 문제로 로그인이 되지 않아 문의를 작성할 수 없다면, 1:1 문의를 통해 로그인 과정에서의 도움을 받을 수 있습니다. <br>
 					해당 문의는 1:1로 부탁드립니다. <br>
+					 <br>
 					Q. 한반도 지도에 독도가 없어요. <br>
 					A. 그럴리가요! 독도는 <바라는 바다!> 홈페이지 내 한반도 지도에 확실하게 존재하지만, 실제 면적이 크지 않은 관계로 아주 작게 표시되었습니다. <br>
 					혹시 한반도 지도를 4배 확대, 즉 400% 크기로 살펴본 적이 있으신가요? <br>
@@ -179,7 +173,11 @@
 			      	</td>
 			      </tr>
             
-	    </table>
+	   </tbody>
+            </table>
+        </div>
+    </div>
+
 
 <script>
 function toggleContent(id) {

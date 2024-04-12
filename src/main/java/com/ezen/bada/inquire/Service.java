@@ -19,7 +19,8 @@ public interface Service {
 	//문의 출력 시 페이징 처리를 위한 총 레코드 갯수 세기
 	int inquire_list_total();
 	//문의 출력 시 페이징 처리와 리스트 아웃
-	ArrayList<InquireDTO> page_inquire_listout(PageDTO dto);
+	ArrayList<InquireDTO> page_inquire_listout_latest(PageDTO dto);
+	ArrayList<InquireDTO> page_inquire_listout_popular(PageDTO dto);
 	
 	//문의 디테일 출력
 	InquireDTO inquire_detail(int inquire_num);

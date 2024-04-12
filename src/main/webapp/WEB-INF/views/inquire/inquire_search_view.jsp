@@ -5,6 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <%@ include file="inquire_search.jsp" %>
+<%@ include file="inquire_notice_list.jsp" %>
 
 <!DOCTYPE html>
 
@@ -13,6 +14,8 @@
 <head>
 
 	<meta charset="UTF-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="${pageContext.request.contextPath}/resources/css/review_page.css" rel="stylesheet" type="text/css">
 	<title>바라는 바다! :: 검색결과</title>
 
 	<style>
@@ -48,10 +51,10 @@
 
 <body>
 
-	<br> <br> <br>
-	
-		<table border="1">
-	
+	<div id="board-list">
+        <div class="container">
+            <table class="board-table">
+                <thead>
 			      <tr>
 			      	 <th colspan="2">문의글 제목</th>
 			         <th>문의 카테고리</th>
@@ -62,10 +65,51 @@
 			         <th>조회수</th>
 			      </tr>
 			         
-			      <c:forEach items="${list}" var="l">
+			         </thead>
+			         
+<tbody>
+			         <c:choose>
+
+<c:when test="${loginstate==true && position=='admin'}">
+<c:forEach items="${list}" var="l">
 			      <tr>
 			      	<td colspan="2">
 			      	<a href="to_inquire_detail?inquire_num=${l.inquire_num}">
+	                    <c:choose>
+	                        <c:when test="${l.secret == 'y'}">
+	                            <img src="./resources/image/lock_icon.png" width="20px" class="lock-icon">
+	                            ${l.title}
+	                        </c:when>
+	                        <c:otherwise>
+	                            ${l.title}
+	                        </c:otherwise>
+	                    </c:choose>
+	                </a>
+	                </td>
+			      	<td>${l.category}</td>
+			      	<td>
+			      	${l.name}(${fn:substring(l.id, 0, 4)}****) 님
+			      	</td>
+			      	<td>
+				      	${fn:substring(l.i_date, 0, 19)}
+			      	</td>
+			      	<td>
+			      		<c:choose>
+						    <c:when test="${l.reply == 0}">미응답</c:when>
+						    <c:otherwise>완료</c:otherwise>
+						</c:choose>
+			      	</td>
+			      	<td>${l.rec}</td>
+			      	<td>${l.cnt}</td>
+			      </tr>
+			      </c:forEach> 
+</c:when>
+
+<c:otherwise>
+			      <c:forEach items="${list}" var="l">
+			      <tr>
+			      	<td colspan="2">
+			      	<a href="inquire_secret_yn?inquire_num=${l.inquire_num}&secret=${l.secret}">
 	                    <c:choose>
 	                        <c:when test="${l.secret == 'y'}">
 	                            <img src="./resources/image/lock_icon.png" width="20px" class="lock-icon">
@@ -95,8 +139,13 @@
 			      </tr>
 			      </c:forEach> 
 	    
+	        </c:otherwise>
+	        </c:choose>
 	        
-	    </table>
+	    </tbody>
+            </table>
+        </div>
+    </div>
 	    
 	<br> <br> <br> <br> <br>
 	

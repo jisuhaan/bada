@@ -10,6 +10,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="${pageContext.request.contextPath}/resources/css/review_page.css" rel="stylesheet" type="text/css">
 <title>바다리뷰 :: 전체보기</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+    $('#search-form').submit(function(event) {
+        event.preventDefault(); 
+        var form_data = $(this).serialize();
+        $.ajax({
+            type: "POST",
+            url: "review_search",
+            data: form_data,
+            dataType: "html",
+            success: function(data) {
+                $('#board-list').html(data);
+            }
+        });
+    });
+    
+    // 검색 카테고리에 따른 placeholder 변경
+    
+    $('select[name="search_category"]').change(function() {
+        var choice = $(this).val();
+        var search = $('#search');
+        if (choice === 'vdate' || choice === 'wdate') {
+        	search.attr('placeholder', '숫자 or YYYY-MM-DD 형태로 입력!');
+        } else {
+        	search.attr('placeholder', '검색어를 입력해주세요.');
+        }
+    });
+    
+    
+});
+
+</script>
 </head>
 <body>
 
@@ -39,7 +73,7 @@
         			<option value="충북" id="충북">충북</option>
         		</select>
         	</div>
-                <form action="review_search">
+                <form id="search-form">
                     <div class="search-wrap">
                     	<select name="search_category">
                     		<option value="title">제목</option>

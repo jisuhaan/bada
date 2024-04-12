@@ -155,6 +155,7 @@ public class SeaInfoController {
 	
 	@RequestMapping(value = "/sea_weather_detail")
 	public String sea_weather_detail(HttpServletRequest request, Model mo) {
+		
 		int beach_code = Integer.parseInt(request.getParameter("beach_code"));
 		mo.addAttribute("beach_code",beach_code);
 		

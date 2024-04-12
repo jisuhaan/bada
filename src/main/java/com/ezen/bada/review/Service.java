@@ -74,7 +74,7 @@ public interface Service {
 	String review_ban_check(String id, int ban_review_num, String category, String content);
 
 	void review_ban_save(String title, String name, String id, int ban_review_num, String ban_name, String ban_id,
-			String category, String content);
+			String category, String content, int user_num);
 
 	void reply_update(int review_num);
 
@@ -94,9 +94,14 @@ public interface Service {
             @Param("ban_id") String ban_id, 
             @Param("reply_contents") String reply_contents,
             @Param("reason") String reason, 
-            @Param("detail") String detail);
+            @Param("detail") String detail, 
+            @Param("user_num") int user_num);
 
 	String report_check(int reply_num, String id, String reason, String reply_contents);
+
+	ArrayList<AllBoardDTO> search_result(String category, String search);
+
+	int ban_user_num(String ban_id);
 
 	
 

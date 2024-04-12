@@ -37,7 +37,7 @@ function weatherEmoticon(sky, pty, hour, month, w, h) {
             	}else{
             		imgSrc = "./resources/image/날씨_맑음_기본.gif";
             	}
-                title = "날씨 맑음";
+                title = "맑음";
                 break;
             case 3:
                 imgSrc = "./resources/image/날씨_구름_낮.gif";
@@ -45,7 +45,7 @@ function weatherEmoticon(sky, pty, hour, month, w, h) {
                 break;
             case 4:
                 imgSrc = "./resources/image/날씨_흐림.gif";
-                title = "날씨 흐림";
+                title = "흐림";
                 break;
             default:
                 alert('날씨 값이 들어오지 않았습니다.');
@@ -55,31 +55,31 @@ function weatherEmoticon(sky, pty, hour, month, w, h) {
         switch (pty) {
             case 1:
                 imgSrc = "./resources/image/날씨_비.gif";
-                title = "날씨 비";
+                title = "비";
                 break;
             case 2:
                 imgSrc = "./resources/image/날씨_비와눈.png";
-                title = "날씨 비와 눈";
+                title = "비와 눈";
                 break;
             case 3:
                 imgSrc = "./resources/image/날씨_눈.gif";
-                title = "날씨 눈";
+                title = "눈";
                 break;
             case 4:
                 imgSrc = "./resources/image/날씨_소나기.gif";
-                title = "날씨 소나기";
+                title = "소나기";
                 break;
             case 5:
                 imgSrc = "./resources/image/날씨_빗방울.gif";
-                title = "날씨 빗방울";
+                title = "빗방울";
                 break;
             case 6:
                 imgSrc = "./resources/image/날씨_빗방울눈날림.png";
-                title = "날씨 빗방울눈날림";
+                title = "빗방울 눈날림";
                 break;
             case 7:
                 imgSrc = "./resources/image/날씨_눈날림.png";
-                title = "날씨 눈날림";
+                title = "눈날림";
                 break;
             default:
                 break;
@@ -88,7 +88,7 @@ function weatherEmoticon(sky, pty, hour, month, w, h) {
         switch (sky) {
             case 1:
                 imgSrc = "./resources/image/날씨_맑음_밤.gif";
-                title = "밤 날씨 맑음";
+                title = "밤 맑음";
                 break;
             case 3:
                 imgSrc = "./resources/image/날씨_구름_밤.gif";
@@ -104,8 +104,11 @@ function weatherEmoticon(sky, pty, hour, month, w, h) {
         }
     }
 
-    console.log('타이틀: ' + title);
-    return '<img src="' + imgSrc + '" alt="' + title + '"title="' + title + '" width="' + width + '" height="'+ height + '"/>'
+    // 이미지 HTML 생성
+    let imgHTML = '<img src="' + imgSrc + '" alt="' + title + '" title="' + title + '" width="' + width + '" height="' + height + '"/>';
+
+    // 타이틀과 함께 이미지 HTML 반환
+    return imgHTML + '<span id="weather_title">' + title + '</span>';
 }
 
 </script>
@@ -203,18 +206,60 @@ function weatherEmoticon(sky, pty, hour, month, w, h) {
 <br>
 
 <div class="today_container">
-	<div class="clock_by_hour"></div>
-	<div class="name_beach"></div>
+	<div id="clock_by_hour"></div>
+	<div class="name_beach">${bdt.beach_name}의</div>
 	<div class="todays now">
 		<div class="weather nowing">
-			<span id="today_text">현재 날씨는...</span><br>
+			<span id="today_text">현재 날씨는</span><br>
 			<div id="weatherIcon"></div>
 		</div>
 		<div class="weather tempt">
-			<span id="today_text">현재 기온은...</span><br>
+			<span id="today_text">현재 기온은</span><br>
 			<div class="temperature_text"><span id="nowTemperature">20</span><img src="./resources/image/forecast_celsius.gif" width="50px"></div>
 		</div>
 	</div>
+	<div class="todays now">
+		<div class="weather tempt">
+			<span id="today_text">최고 기온은</span><br>
+			<div class="temperature_text"><img src="./resources/image/forecast_hot.gif" width="50px"><span id="highTemperature">${bldt.bada_tmx_n_dto.tmx}</span></div>
+		</div>
+		<div class="weather tempt">
+			<span id="today_text">최저 기온은</span><br>
+			<div class="temperature_text"><img src="./resources/image/forecast_cold.gif" width="50px"><span id="lowTemperature">${bldt.bada_tmx_n_dto.tmn}</span></div>
+		</div>
+		<div class="weather tempt">
+			<span id="today_text">바다 수온은</span><br>
+			<div class="temperature_text"><img src="./resources/image/forecast_wave.gif" width="50px"><span id="lowTemperature">${bldt.bada_tw_dto.water_temp}</span></div>
+		</div>
+	</div>
+	<div class="todays now">
+		<div class="weather nowing">
+			<span id="today_text">일출 시각은</span><br>
+			<div class="sun_text"><img src="./resources/image/forecast_sunrise.gif" width="50px"><span id="sunrise"></span></div>
+		</div>
+		<div class="weather tempt">
+			<span id="today_text">일몰 시각은</span><br>
+			<div class="sun_text"><img src="./resources/image/forecast_sunset.gif" width="50px"><span id="sunset"></span></div>
+		</div>
+	</div>
+<script type="text/javascript">
+function formatTime(rawTime) {
+    // 입력된 문자열에서 시와 분을 추출
+    let hour = rawTime.substring(0, 2);
+    let minute = rawTime.substring(2);
+
+    // 시와 분을 ":"로 연결하여 반환
+    return hour + ":" + minute;
+}
+
+// 예시: "1854"를 "18:54"로 변환하여 반환
+
+let formattedSunriseTime = formatTime("${bldt.lc_rise_set_info_dto.sunrise}");
+let formattedSunsetTime = formatTime("${bldt.lc_rise_set_info_dto.sunset}");
+document.getElementById("sunrise").innerText = formattedSunriseTime;
+document.getElementById("sunset").innerText = formattedSunsetTime;
+</script>
+
 </div>
 
 <br><br>
@@ -234,6 +279,7 @@ function weatherEmoticon(sky, pty, hour, month, w, h) {
 </div>
 
 <script src="./resources/js/slide.js"></script>
+<script src="./resources/js/clockmain.js"></script>
 
 </body>
 </html>

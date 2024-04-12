@@ -21,6 +21,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'DOSGothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/DOSGothic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 
 
 li a {
@@ -201,40 +208,59 @@ body {
 }
 
 .today_container {
-	width:500px;
+	width:480px;
 	height:800px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
+	margin: 0 auto;
 }
 
-.clock_by_hour{
+#clock_by_hour{
 	display: block;
+	text-align: center;
+	font-family: 'DOSGothic';
+	font-size: 32px;
+	color: #1B70A6;
+	margin-bottom: 50px;
 }
 
 .name_beach{
 	display: block;
+	text-align: center;
+	font-size: 32px;
+	color: #1B70A6;
+	font-family: 'DOSGothic';
+	margin-bottom: 50px;
 }
 
 .todays {
+	width:480px;
 	display: flex;
-	justify-content:space-around;
+	justify-content:center;
 	align-items: center;
 	text-align: center;
+	margin: 0 auto;
 	margin-bottom: 30px;
 }
 
 .weather{
+	width:170px;
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	text-align: center;
+}
+
+.temperature_text,
+.sun_text,
+#weatherIcon {
+	display: flex;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
-	margin-right: 50px;
 }
 
-.temperature_text {
-	display: flex;
-}

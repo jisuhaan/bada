@@ -22,6 +22,17 @@ document.addEventListener("DOMContentLoaded", function() {
     
     console.log(weatherEmoticon(sky, pty, hour, month));
     document.getElementById("weatherIcon").innerHTML = weatherEmoticon(sky, pty, hour, 50, 50);
+    
+   
+    const elements = document.querySelectorAll('.todays');
+    elements.forEach((element, index) => {
+        setTimeout(() => {
+            element.classList.remove('hidden');
+            element.style.opacity = '1'; // 투명도를 1로 설정하여 페이드 인 효과 적용
+        }, index * 500); // 각 요소가 0.5초 간격으로 나타나도록 설정
+    });
+
+    
   });
   
 function weatherEmoticon(sky, pty, hour, month, w, h) {
@@ -108,7 +119,7 @@ function weatherEmoticon(sky, pty, hour, month, w, h) {
     let imgHTML = '<img src="' + imgSrc + '" alt="' + title + '" title="' + title + '" width="' + width + '" height="' + height + '"/>';
 
     // 타이틀과 함께 이미지 HTML 반환
-    return imgHTML + '<span id="weather_title">' + title + '</span>';
+    return imgHTML + '&nbsp;<span id="weather_title">' + title + '</span>';
 }
 
 </script>
@@ -190,9 +201,9 @@ function weatherEmoticon(sky, pty, hour, month, w, h) {
 			<div class="info_text2">
 				<h3>바다 안내</h3>
 				<br><hr><br>
-				주소 : ${bdt.address}<br>
-				편의시설 : ${bdt.accomodation}<br>
-				특징 : ${bdt.special}<br><br>
+				<b>주소</b> : ${bdt.address}<br>
+				<b>편의시설</b> : ${bdt.accomodation}<br>
+				<b>주변특징</b> : ${bdt.special}<br><br>
 				<h4>많이 달린 해시태그</h4><br>
 			</div>
 		</div>
@@ -203,45 +214,64 @@ function weatherEmoticon(sky, pty, hour, month, w, h) {
 
 <div class="weatherbox">
 <div id="beach_name">날씨 정보 요약</div>
-<br>
 
 <div class="today_container">
 	<div id="clock_by_hour"></div>
 	<div class="name_beach">${bdt.beach_name}의</div>
-	<div class="todays now">
+	<div class="todays now1 hidden">
 		<div class="weather nowing">
 			<span id="today_text">현재 날씨는</span><br>
 			<div id="weatherIcon"></div>
 		</div>
 		<div class="weather tempt">
 			<span id="today_text">현재 기온은</span><br>
-			<div class="temperature_text"><span id="nowTemperature">20</span><img src="./resources/image/forecast_celsius.gif" width="50px"></div>
+			<div class="temperature_text"><span id="nowTemperature">${bldt.ultraSrtFcstBeach_dto.t1h}</span>&nbsp;<img src="./resources/image/forecast_celsius.gif" width="50px"></div>
 		</div>
 	</div>
-	<div class="todays now">
+	<div class="todays now2 hidden">
 		<div class="weather tempt">
 			<span id="today_text">최고 기온은</span><br>
-			<div class="temperature_text"><img src="./resources/image/forecast_hot.gif" width="50px"><span id="highTemperature">${bldt.bada_tmx_n_dto.tmx}</span></div>
+			<div class="temperature_text"><img src="./resources/image/forecast_hot.gif" width="50px">&nbsp;<span id="highTemperature">${bldt.bada_tmx_n_dto.tmx}</span></div>
 		</div>
 		<div class="weather tempt">
 			<span id="today_text">최저 기온은</span><br>
-			<div class="temperature_text"><img src="./resources/image/forecast_cold.gif" width="50px"><span id="lowTemperature">${bldt.bada_tmx_n_dto.tmn}</span></div>
+			<div class="temperature_text"><img src="./resources/image/forecast_cold.gif" width="50px">&nbsp;<span id="lowTemperature">${bldt.bada_tmx_n_dto.tmn}</span></div>
 		</div>
 		<div class="weather tempt">
 			<span id="today_text">바다 수온은</span><br>
-			<div class="temperature_text"><img src="./resources/image/forecast_wave.gif" width="50px"><span id="lowTemperature">${bldt.bada_tw_dto.water_temp}</span></div>
+			<div class="temperature_text"><img src="./resources/image/forecast_wave.gif" width="50px">&nbsp;<span id="lowTemperature">${bldt.bada_tw_dto.water_temp}</span></div>
 		</div>
 	</div>
-	<div class="todays now">
+	<div class="todays now3 hidden">
 		<div class="weather nowing">
 			<span id="today_text">일출 시각은</span><br>
-			<div class="sun_text"><img src="./resources/image/forecast_sunrise.gif" width="50px"><span id="sunrise"></span></div>
+			<div class="sun_text"><img src="./resources/image/forecast_sunrise.gif" width="50px">&nbsp;<span id="sunrise"></span></div>
 		</div>
 		<div class="weather tempt">
 			<span id="today_text">일몰 시각은</span><br>
-			<div class="sun_text"><img src="./resources/image/forecast_sunset.gif" width="50px"><span id="sunset"></span></div>
+			<div class="sun_text"><img src="./resources/image/forecast_sunset.gif" width="50px">&nbsp;<span id="sunset"></span></div>
 		</div>
 	</div>
+<div class="todays now4 hidden">
+	<c:if test="${bldt.ultraSrtFcstBeach_dto.rn1 ne '강수없음'}">
+		<div class="weather nowing">
+			<span id="today_text">시간당 강수량</span><br>
+			<div class="etc_text"><img src="./resources/image/forecast_umbrella.gif" width="50px">&nbsp;<span id="hour_rain">${bldt.ultraSrtFcstBeach_dto.rn1} mm</span></div>
+		</div>
+	</c:if>
+	<c:if test="${bldt.ultraSrtFcstBeach_dto.pty ne 0}">
+		<div class="weather nowing">
+			<span id="today_text">강수 형태</span><br>
+			<div class="etc_text"><img src="./resources/image/forecast_drop.gif" width="50px">&nbsp;<span id="texture_rain">${bldt.ultraSrtFcstBeach_dto.pty}</span></div>
+		</div>
+	</c:if>
+	<c:if test="${warningString ne '없음'}">
+		<div class="weather nowing">
+			<span id="today_text">기상특보</span><br>
+			<div class="etc_text"><img src="./resources/image/forecast_umbrella.gif" width="50px">&nbsp;<span id="warning">${warningString}</span></div>
+		</div>
+	</c:if>
+</div>
 <script type="text/javascript">
 function formatTime(rawTime) {
     // 입력된 문자열에서 시와 분을 추출
@@ -260,23 +290,25 @@ document.getElementById("sunrise").innerText = formattedSunriseTime;
 document.getElementById("sunset").innerText = formattedSunsetTime;
 </script>
 
+
 </div>
 
 <br><br>
-<div><a href="sea_weather_detail?beachName=${bdt.beach_name}">날씨 자세히 보기</a></div>
-<div id="weather_info">
-<script type="text/javascript">
-	var beachName = "${bdt.beach_name}";
-	var beach_code = "${bdt.beach_code}";
-	var nx = "${bldt.grid_x}";
-	var ny = "${bldt.grid_y}";
-</script>
+<div class="sea_detail" onclick="window.location.href='sea_weather_detail?beachName=${bdt.beach_name}'">
+	<img alt="" src="./resources/image/forecast_detail.png" width="40px">
+	<span id="detail_text">자세히 보기 →</span>
+</div>
+	<div id="weather_info">
+	<script type="text/javascript">
+		var beachName = "${bdt.beach_name}";
+		var beach_code = "${bdt.beach_code}";
+		var nx = "${bldt.grid_x}";
+		var ny = "${bldt.grid_y}";
+	</script>
+</div>
 </div>
 </div>
 
-</div>
-
-</div>
 
 <script src="./resources/js/slide.js"></script>
 <script src="./resources/js/clockmain.js"></script>

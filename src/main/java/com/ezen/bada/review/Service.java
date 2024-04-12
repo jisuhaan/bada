@@ -103,6 +103,8 @@ public interface Service {
 
 	int ban_user_num(String ban_id);
 
+	ArrayList<AllBoardDTO> search_area_result(String area);
+
 	
 
 }

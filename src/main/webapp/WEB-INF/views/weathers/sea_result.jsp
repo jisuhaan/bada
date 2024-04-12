@@ -11,19 +11,20 @@
 <link href="${pageContext.request.contextPath}/resources/css/slide.css" rel="stylesheet" type="text/css">
 <title></title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="./resources/js/sea_weatherEmoticon.js"></script>
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function() {
 	var fcstDate = ${bldt.ultraSrtFcstBeach_dto.fcstDate};
     var fcstTime = ${bldt.ultraSrtFcstBeach_dto.fcstTime};
-    var hour = parseInt(fcstTime.toString().substring(0, 2));  // 시간 부분만 떼오기
+    console.log(fcstTime);
+    var hour = parseInt(fcstTime.toString().slice(0, -2));  // 00 삭제하여 시간 부분만 남기기
     var month = parseInt(fcstDate.toString().substring(4, 6));
     var sky = parseInt(${bldt.ultraSrtFcstBeach_dto.sky});
     var pty = parseInt(${bldt.ultraSrtFcstBeach_dto.pty});
-    
     console.log(weatherEmoticon(sky, pty, hour, month));
-    document.getElementById("weatherIcon").innerHTML = weatherEmoticon(sky, pty, hour, 50, 50);
-    
-   
+    document.getElementById("weatherIcon").innerHTML = weatherEmoticon(sky, pty, hour, month, 50, 50);
+  
     const elements = document.querySelectorAll('.todays');
     elements.forEach((element, index) => {
         setTimeout(() => {
@@ -32,9 +33,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }, index * 500); // 각 요소가 0.5초 간격으로 나타나도록 설정
     });
 
-    
-  });
-  
+ });
+
 function weatherEmoticon(sky, pty, hour, month, w, h) {
     let imgSrc, title;
     const width = w; // 기본 너비
@@ -272,25 +272,25 @@ function weatherEmoticon(sky, pty, hour, month, w, h) {
 		</div>
 	</c:if>
 </div>
-<script type="text/javascript">
-function formatTime(rawTime) {
-    // 입력된 문자열에서 시와 분을 추출
-    let hour = rawTime.substring(0, 2);
-    let minute = rawTime.substring(2);
 
-    // 시와 분을 ":"로 연결하여 반환
-    return hour + ":" + minute;
+<script type="text/javascript">
+  function formatTime(rawTime) {
+      // 입력된 문자열에서 시와 분을 추출
+      let hour = rawTime.substring(0, 2);
+      let minute = rawTime.substring(2);
+
+      // 시와 분을 ":"로 연결하여 반환
+      return hour + ":" + minute;
 }
 
 // 예시: "1854"를 "18:54"로 변환하여 반환
 
-let formattedSunriseTime = formatTime("${bldt.lc_rise_set_info_dto.sunrise}");
-let formattedSunsetTime = formatTime("${bldt.lc_rise_set_info_dto.sunset}");
-document.getElementById("sunrise").innerText = formattedSunriseTime;
-document.getElementById("sunset").innerText = formattedSunsetTime;
-</script>
-
-
+  let formattedSunriseTime = formatTime("${bldt.lc_rise_set_info_dto.sunrise}");
+  let formattedSunsetTime = formatTime("${bldt.lc_rise_set_info_dto.sunset}");
+  document.getElementById("sunrise").innerText = formattedSunriseTime;
+  document.getElementById("sunset").innerText = formattedSunsetTime;
+  </script>
+  
 </div>
 
 <br><br>

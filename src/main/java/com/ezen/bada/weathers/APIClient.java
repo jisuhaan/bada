@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import org.w3c.dom.NodeList;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,6 +40,7 @@ import java.io.StringReader;
 //디코딩된 서비스 키를 사용하고, 이를 메소드에서 인코딩 해주는 게 오류 해결의 핵심!!
 public class APIClient {
 	ObjectMapper objectMapper = new ObjectMapper();
+	
 	
     public String getApi(String stringURL, Map<String, Object> params) throws IOException {
         // 파라미터를 URL에 추가하고 시작
@@ -126,6 +128,7 @@ public class APIClient {
             String fcstDate = itemNode.get(0).path("fcstDate").asText();
             String fcstTime = itemNode.get(0).path("fcstTime").asText();
             
+            
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("fcstTime", fcstTime);
             jsonObject.put("fcstDate", fcstDate);
@@ -139,7 +142,7 @@ public class APIClient {
             }
             System.out.println(jsonObject.toString());
             dto = objectMapper.readValue(jsonObject.toString(), UltraSrtFcstBeach_DTO.class);
- 
+            System.out.println("초단기 최근 시간 dto : "+dto.getFcstTime());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -242,7 +245,7 @@ public class APIClient {
 	
 	public List<Map<String, String>> getWeatherWarning_API(String stnId) {
     	// API 호출
-        String url = "https://apis.data.go.kr/1360000/WthrWrnInfoService/getPwnCd"; /*URL*/
+        String url = "http://apis.data.go.kr/1360000/WthrWrnInfoService/getPwnCd"; /*URL*/
         String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; 
 
         // 파라미터 맵 구성
@@ -346,10 +349,11 @@ public class APIClient {
 	}
 	
 	// 현재 시간부터 모레의 날씨 정보까지 가져와서 리스트화하기 -> 자세히 보기
-	public Map<String, Map<String, JSONObject>> getWeatherForecast(int beach_num, String getCurrentDateString, String basetime) {
+	public Map<String, Map<String, VilageFcstBeach_DTO>> getWeatherForecast(int beach_num, String getCurrentDateString, String basetime) {
 		
 		// 최종!! 날짜와 시간 별로 구분된 데이터를 그룹화하는 맵 + LinkedHashMap으로 순서 유지
-        Map<String, Map<String, JSONObject>> groupedData = new LinkedHashMap<>();
+        Map<String, Map<String, VilageFcstBeach_DTO>> groupedData = new LinkedHashMap<>();
+        VilageFcstBeach_DTO dto = null;
         
 		try {
 			// 요청 api의 String 결과
@@ -377,7 +381,7 @@ public class APIClient {
                 }
                 
             	// 시간 별 쌍을 저장할 map 만들어주기
-            	Map<String, JSONObject> timeObjectData = new LinkedHashMap<>();
+            	Map<String, VilageFcstBeach_DTO> timeObjectData = new LinkedHashMap<>();
             	// 시간 별로 category랑 value 쌍 만들어주기
                 for(String time : timeGroupedData.keySet()) {
                 	
@@ -388,7 +392,11 @@ public class APIClient {
                 	for(JsonNode item : timeGroupedData.get(time)) {
                     	jsonObject.put(item.path("category").asText(), item.path("fcstValue").asText());
                     }
-                	timeObjectData.put(time, jsonObject);
+                	// 오류 방지 차원
+                	objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                	dto = objectMapper.readValue(jsonObject.toString(), VilageFcstBeach_DTO.class);
+        	        System.out.println("jsonObject: " + jsonObject);
+        	        timeObjectData.put(time, dto);
                 }
                 
                 groupedData.put(key, timeObjectData);

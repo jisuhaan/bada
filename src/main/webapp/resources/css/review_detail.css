@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
    .review-box {
+   		width:1200px;
         border: 1px solid #ddd; /* 경계선 설정 */
         padding: 20px; /* 내부 여백 설정 */
         margin: 20px 0; /* 외부 여백 설정 */

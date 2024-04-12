@@ -7,6 +7,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -37,7 +39,9 @@ if(hs.getAttribute("loginstate")==null){
 			<a href="#" onclick="window.open('member_try_bbti?id=${loginid}','BBTI 테스트','width=610,height=810,resizable=no,scrollbars=no,menubar=no')">BBTI 테스트</a>
 			
 			</div>
-			<div class="main_right_bottom">베스트 추천 영역</div>
+			<div class="main_right_bottom">
+			<jsp:include page="main_recommand_view.jsp" />
+			</div>
 		</div>
 	</div>
 </div>

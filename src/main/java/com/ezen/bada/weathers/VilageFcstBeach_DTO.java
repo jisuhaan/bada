@@ -44,11 +44,20 @@ public class VilageFcstBeach_DTO {
 
 	@JsonProperty("WSD") // 풍속
 	String wsd;
+	
+	@JsonProperty("TMN") // 아침 최저기온
+	String tmn;
+	
+	@JsonProperty("TMX") // 낮 최고기온
+	String tmx;
 
 	public VilageFcstBeach_DTO() {}
 
+
+
 	public VilageFcstBeach_DTO(String fcstDate, String fcstTime, String pop, String pty, String rn1, String reh,
-			String sno, String sky, String tmp, String uuu, String vvv, String wav, String vec, String wsd) {
+			String sno, String sky, String tmp, String uuu, String vvv, String wav, String vec, String wsd, String tmn,
+			String tmx) {
 		super();
 		this.fcstDate = fcstDate;
 		this.fcstTime = fcstTime;
@@ -64,7 +73,11 @@ public class VilageFcstBeach_DTO {
 		this.wav = wav;
 		this.vec = vec;
 		this.wsd = wsd;
+		this.tmn = tmn;
+		this.tmx = tmx;
 	}
+
+
 
 	public String getFcstDate() {
 		return fcstDate;
@@ -176,6 +189,30 @@ public class VilageFcstBeach_DTO {
 
 	public void setWsd(String wsd) {
 		this.wsd = wsd;
+	}
+
+
+
+	public String getTmn() {
+		return tmn;
+	}
+
+
+
+	public void setTmn(String tmn) {
+		this.tmn = tmn;
+	}
+
+
+
+	public String getTmx() {
+		return tmx;
+	}
+
+
+
+	public void setTmx(String tmx) {
+		this.tmx = tmx;
 	}
 
 

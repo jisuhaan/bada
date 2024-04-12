@@ -26,7 +26,7 @@ if(hs.getAttribute("loginstate")==null){
 	</div>
 	<div class="main_search">
 		떠나자, &nbsp;
-		<input type="text" name="area" id="area" placeholder="지역명을 입력하세요! ex)강원">&nbsp;
+		<input type="text" name="area" id="area" placeholder="지역명을 입력하세요! ex)강원, 강릉">&nbsp;
 		<a href="#"><i class="fa-solid fa-magnifying-glass fa-beat fa-xl" style="color: #1B70A6;"></i></a>&nbsp;
 		바다로! 
 	</div>

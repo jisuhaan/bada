@@ -38,6 +38,7 @@
             <th>기온</th>
             <th>습도</th>
             <th>풍속</th>
+            <th>파고</th>
         </tr>
         <c:forEach var="timeEntry" items="${dateEntry.value}">
         <!-- 숨김으로 가져올 항목들 -->
@@ -53,6 +54,7 @@
                 <td>${timeEntry.value.tmp}</td>
                 <td>${timeEntry.value.reh}</td>
                 <td>${timeEntry.value.wsd}</td>
+                <td>${timeEntry.value.wav}</td>
             </tr>
             <c:set var="timeLoop" value="${timeLoop + 1}"/> <!-- timeLoop 업데이트 -->
         </c:forEach>
@@ -75,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	    var sky = parseInt(document.getElementById("sky_"+ i).innerText);
 	    var pty = parseInt(document.getElementById("pty_"+ i).innerText);
 	    console.log(sky, pty, hour, month);
-	    document.getElementById("weatherIcon_"+ i).innerHTML = weatherEmoticon(sky, pty, hour, month, 30, 30);
+	    document.getElementById("weatherIcon_"+ i).innerHTML = weatherEmoticon(sky, pty, hour, month, 40, 40);
 	}  
 });
 </script>

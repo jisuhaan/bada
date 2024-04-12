@@ -2,6 +2,7 @@ package com.ezen.bada.weathers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
@@ -442,7 +443,40 @@ public class APIClient {
         }
 		return null;
     }
-    
+	
+	public void getstnIdXml() {
+	  try {
+            // XML 데이터를 가져올 URL
+            URL url = new URL("https://apihub.kma.go.kr/api/typ01/url/stn_inf.php?inf=SFC&help=1&authKey=r3dQ86BKQbi3UPOgSnG4iw");
+            InputStream inputStream = url.openStream();
+
+            // XML 파서 설정
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            
+            // XML 파서를 이용하여 InputStream으로부터 Document 객체 생성
+            Document document = builder.parse(inputStream);
+
+            // XML에서 STN_KO와 STN_EN 추출
+            NodeList nodeList = document.getElementsByTagName("item");
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) node;
+                    String stnKo = element.getElementsByTagName("stn_ko").item(0).getTextContent();
+                    String stnEn = element.getElementsByTagName("stn_en").item(0).getTextContent();
+                    
+                    // 추출한 데이터 출력
+                    System.out.println("STN_KO: " + stnKo);
+                    System.out.println("STN_EN: " + stnEn);
+                    System.out.println("----------------------");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+	
     private String convertWarnVar(String warnVar) {
         switch (warnVar) {
             case "1":

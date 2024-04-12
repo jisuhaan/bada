@@ -528,7 +528,10 @@ public class ReviewController {
 	        String content = request.getParameter("content");
 	
 	        Service ss=sqlsession.getMapper(Service.class);
-	        ss.review_ban_save(title, name, id, ban_review_num, ban_name, ban_id, category, content);
+	        int user_num=ss.ban_user_num(ban_id);
+	        
+	        
+	        ss.review_ban_save(title, name, id, ban_review_num, ban_name, ban_id, category, content,user_num);
 	        ss.report_up(ban_review_num);
 
 	      return "redirect:/review_detail?review_num="+ban_review_num;
@@ -604,10 +607,14 @@ public class ReviewController {
 		  String result="";
 				  
 		  Service ss = sqlsession.getMapper(Service.class);
+		  
+		  int user_num=ss.ban_user_num(ban_id);
+		  System.out.println("너 왜그래?"+user_num);
+		  
 		  String ban_check = ss.report_check(reply_num,id,reason,reply_contents);
 		  
 		  if (ban_check==null) {
-			  ss.reply_report_save(review_num, reply_num, id, ban_id, reply_contents, reason, detail);
+			  ss.reply_report_save(review_num, reply_num, id, ban_id, reply_contents, reason, detail,user_num);
 			  result="ok";
 	        } else {
 	        	result="no";
@@ -616,6 +623,44 @@ public class ReviewController {
 		  
 	      return result;
 	   }
+	  
+	   @ResponseBody
+	   @RequestMapping(value = "/review_search", produces = "text/html; charset=UTF-8")
+	   public String search1(HttpServletRequest request) {
+		    
+	      String category = request.getParameter("search_category");
+	      String search = request.getParameter("search");
+	      
+	      Service ss = sqlsession.getMapper(Service.class);
+	      
+	      ArrayList<AllBoardDTO> list = ss.search_result(category,search);
+	      
+	      System.out.println("검색 출력 확인 : "+list.toString());
+	      
+	      StringBuilder sb = new StringBuilder();
+	        sb.append("<table class='board-table'>");
+	        sb.append("<thead><tr><th>번호</th><th>제목</th><th>작성자</th><th>방문일</th><th>작성일</th><th>추천수</th><th>조회수</th></tr></thead>");
+	        sb.append("<tbody>");
+	        for (AllBoardDTO review : list) {
+	            sb.append("<tr>");
+	            sb.append("<td>").append(review.getReview_num()).append("</td>");
+	            sb.append("<td><a href='review_detail?review_num=").append(review.getReview_num()).append("'>")
+	            .append(review.getReview_title()).append(" <span class='reply_check'>[").append(review.getReply()).append("]</span></a></td>");
+	            String show_id = review.getId().substring(0,4)+"****";
+	            sb.append("<td>").append(review.getName()).append("(").append(show_id).append(")님").append("</td>");
+	            sb.append("<td>").append(review.getVisit_day()).append("</td>");
+	            String write_day = review.getWrite_day().substring(0, 10);
+	            sb.append("<td>").append(write_day).append("</td>");
+	            sb.append("<td>").append(review.getRecommend()).append("</td>");
+	            sb.append("<td>").append(review.getHits()).append("</td>");
+	            sb.append("</tr>");
+	        }
+	        sb.append("</tbody></table>");
+		  
+		   
+	      return sb.toString();
+	   }
+	   
 	  
 
 	

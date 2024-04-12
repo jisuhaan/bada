@@ -85,58 +85,58 @@
 
 function bbti_select(bbti) {
 		
-		var id = $("#id").val();
-		console.log("아이디 : "+id);
+	var id = $("#id").val();
+	console.log("아이디 : "+id);
+	
+	if(!id || id.trim() === ''){
 		
-		if(!id || id.trim() === ''){
-			
-			var bbti_join = confirm("아직 로그인을 안 하셨네요! 로그인하시겠어요? (로그인하면 bbti 정보가 자동으로 저장된답니다! 해당 페이지에서 회원가입을 하셔도 저장됩니다!)");
-			
-			if(bbti_join){
-				window.location.href="login_with?bbti="+bbti;
-			}
-			else{
-				var bbti_quit = confirm("로그인하지 않으면 bbti 테스트 정보를 잃게 돼요. 로그인하지 않고 메인으로 이동할까요?")
-				if(bbti_quit){
-	                window.location.href = './';
-				}
-			}
+		var bbti_join = confirm("아직 로그인을 안 하셨네요! 로그인하시겠어요? (로그인하면 bbti 정보가 자동으로 저장된답니다! 해당 페이지에서 회원가입을 하셔도 저장됩니다!)");
+		
+		if(bbti_join){
+			window.location.href="login_with?bbti="+bbti;
 		}
-		
 		else{
-		
-			$.ajax({
-				type:"POST",
-	            url:"bbti_save",
-	            async:true,
-	            dataType:"text",
-	            data:{"id":id,"bbti":bbti},
-	            success:function(result){
-	            	
-	            	if(result=='ok'){
-		                alert("bbti가 성공적으로 저장되었어요. 메인으로 이동할게요!");
-		                window.location.href = './';
-	            	}
-	            	
-	            	else{
-	            		var conf2 = confirm("이미 테스트하신적이 있네요! bbti 정보를 현재 결과로 덮어쓸까요?");
-	            		if(conf2){
-	            			window.location.href="bbti_list_save?id="+id+"&bbti="+bbti;
-	            		}
-	            		else{
-	            			alert("기존 정보를 유지합니다! 메인으로 돌아갈게요.");
-			                window.location.href = './';
-	            		}
-	            	}
-	            	
-	            },
-	            error: function(){
-	                alert("데이터 전송 과정에 에러가 발생했습니다!");
-	            }
-		            				
-			});
-		
+			var bbti_quit = confirm("로그인하지 않으면 bbti 테스트 정보를 잃게 돼요. 로그인하지 않고 메인으로 이동할까요?")
+			if(bbti_quit){
+                window.location.href = './';
+			}
 		}
+	}
+	
+	else{
+	
+		$.ajax({
+			type:"POST",
+            url:"bbti_save",
+            async:true,
+            dataType:"text",
+            data:{"id":id,"bbti":bbti},
+            success:function(result){
+            	
+            	if(result=='ok'){
+	                alert("bbti가 성공적으로 저장되었어요. 메인으로 이동할게요!");
+	                window.location.href = './';
+            	}
+            	
+            	else{
+            		var conf2 = confirm("이미 테스트하신적이 있네요! bbti 정보를 현재 결과로 덮어쓸까요?");
+            		if(conf2){
+            			window.location.href="bbti_list_save?id="+id+"&bbti="+bbti;
+            		}
+            		else{
+            			alert("기존 정보를 유지합니다! 메인으로 돌아갈게요.");
+		                window.location.href = './';
+            		}
+            	}
+            	
+            },
+            error: function(){
+                alert("데이터 전송 과정에 에러가 발생했습니다!");
+            }
+	            				
+		});
+	
+	}
 }
 
 </script>

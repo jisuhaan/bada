@@ -21,6 +21,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'DOSGothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/DOSGothic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 
 
 li a {
@@ -143,6 +150,7 @@ body {
 
 .in_map_text{
 	padding:5px;
+	padding-left:5px;
 	font-family: 'Pretendard-Regular';
 	font-size: 14px;
 	text-align: center;
@@ -162,7 +170,7 @@ body {
 	font-size:14px;
 	margin-left:10px;
 	line-height:20px;
-	width:280px;
+	width:300px;
 	height:300px;
 	padding:10px;
 	text-align: left;
@@ -172,7 +180,6 @@ body {
 
 .sea_result_right {
 	display:flex;
-	flex-direction:column;
 	box-sizing: border-box;
 	justify-content:center;
 	margin:0 auto;
@@ -184,7 +191,7 @@ body {
 
 .weatherbox {
 	margin:0 auto;
-	top:0.2em;
+	margin-bottom:45px;
 	margin-left:30px;
 	width:540px;
 	height:980px;
@@ -201,40 +208,128 @@ body {
 }
 
 .today_container {
-	width:500px;
-	height:800px;
+	width:480px;
+	height:90%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
+	margin: 0 auto;
 }
 
-.clock_by_hour{
+#clock_by_hour{
 	display: block;
+	text-align: center;
+	font-family: 'DOSGothic';
+	font-size: 32px;
+	color: #1B70A6;
+	margin-bottom: 30px;
 }
 
 .name_beach{
 	display: block;
+	text-align: center;
+	font-size: 32px;
+	font-family: 'DOSGothic';
+	margin-bottom: 30px;
 }
 
 .todays {
+	opacity: 0; /* 초기 투명도 설정 */
+    transition: opacity 0.5s ease; /* 부드럽게 나타나도록 트랜지션 설정 */
+	width:480px;
 	display: flex;
-	justify-content:space-around;
+	justify-content:center;
 	align-items: center;
 	text-align: center;
+	margin: 0 auto;
 	margin-bottom: 30px;
 }
 
 .weather{
+	width:150px;
+	height:120px;
+	padding:10px;
+	border: 1px dashed #F1F1F1;
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	text-align: center;
+}
+
+.cast{
+	width:300px;
+	height:120px;
+	padding:10px;
+	border: 1px dashed #F1F1F1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	text-align: center;
+	
+}
+
+.temperature_text,
+.sun_text,
+#weatherIcon,
+.etc_text {
+	display: flex;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
-	margin-right: 50px;
 }
 
-.temperature_text {
+#today_text {
+	font-family: 'DOSGothic';
+	font-size: 20px;
+	text-align: center;
+}
+
+.temperature_text,
+.sun_text,
+#weather_title {
+	font-family: 'DOSGothic';
+	font-size: 24px;
+	text-align: center;
+}
+
+.etc_text {
+	font-family: 'DOSGothic';
+	font-size: 20px;
+	text-align: center;
+}
+
+.hidden{
+	opacity: 0; /* 숨겨진 상태 */
+    transition: opacity 0.5s ease; /* 부드럽게 나타나도록 트랜지션 설정 */
+}
+
+.sea_detail{
+	margin:0 auto;
+	padding:5px;
+	width:230px;
+	height:60px;
+	background-color:#F1F1F1;
+	border-radius:5px;
 	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.sea_detail:hover{
+	cursor: pointer;
+}
+
+.sea_detail img {
+	margin-right: 10px;
+}
+
+#detail_text {
+	font-family: 'DOSGothic';
+	font-size: 20px;
+	text-align: center;
 }

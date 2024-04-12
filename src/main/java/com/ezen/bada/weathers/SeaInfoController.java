@@ -88,32 +88,63 @@ public class SeaInfoController {
 	    // API 호출
     	APIClient apiClient = new APIClient();
     	
-    	// 초단기 예보는 dto에 저장
-    	bldt.setUltraSrtFcstBeach_dto(apiClient.getUltraSrtFcstBeach_API(beach_code, DateDAO.getCurrentDateString(), DateDAO.setToThirtyMinutes()));
-    	
-    	// 단기 예보(최고 최저 온도)는 dto에 저장
-    	bldt.setBada_tmx_n_dto(apiClient.get_bada_tmx_n(beach_code, DateDAO.getYesterdayDateString(), "2300"));
-        
-    	// sunset과 sunrise는 dto에 저장
-    	bldt.setLc_rise_set_info_dto(apiClient.getLCRiseSetInfo_API(bldt.getLongitude(), bldt.getLatitude(), DateDAO.getCurrentDateString()));
-        
-        // 현재 수온은 String으로 받음 (+°C)
-        String tw = apiClient.getTwBuoyBeach_API(beach_code, (DateDAO.getCurrentDateString()+DateDAO.getCurrentTime()));
-        Bada_tw_DTO twdto = new Bada_tw_DTO();
-        twdto.setWater_temp(tw);
-        bldt.setBada_tw_dto(twdto);
-        
-        // 기상 특보는 Map에 저장해서 리스트화 -> 추후 수정 가능성 있음
-        List<Map<String, String>> itemList = apiClient.getWeatherWarning_API("108");
-        String warningString = "없음";
-        for(Map<String, String> itemMap : itemList) {
-        	if(ss.weatherWarning_search(beach_code, itemMap.get("areaName"))!=null) {
-        		warningString = itemMap.get("warnVar")+itemMap.get("warnStress")+" "+itemMap.get("command");
-        	}
-        }
-        System.out.println("경보 확인 문구 : "+warningString);
-        
-        mo.addAttribute("warningString",warningString);
+    	try {
+    	    // 초단기 예보는 dto에 저장
+    	    bldt.setUltraSrtFcstBeach_dto(apiClient.getUltraSrtFcstBeach_API(beach_code, DateDAO.getCurrentDateString(), DateDAO.setToThirtyMinutes()));
+    	} catch (Exception e) {
+    	    System.err.println("초단기 예보를 가져오는 도중 오류가 발생했습니다: " + e.getMessage());
+    	    e.printStackTrace();
+    	    bldt.setUltraSrtFcstBeach_dto(new UltraSrtFcstBeach_DTO());
+    	}
+
+    	try {
+    	    // 단기 예보(최고 최저 온도)는 dto에 저장
+    	    bldt.setBada_tmx_n_dto(apiClient.get_bada_tmx_n(beach_code, DateDAO.getYesterdayDateString(), "2300"));
+    	} catch (Exception e) {
+    	    System.err.println("단기 예보를 가져오는 도중 오류가 발생했습니다: " + e.getMessage());
+    	    e.printStackTrace();
+    	    bldt.setBada_tmx_n_dto(new Bada_tmx_n_DTO());
+    	}
+
+    	try {
+    	    // sunset과 sunrise는 dto에 저장
+    	    bldt.setLc_rise_set_info_dto(apiClient.getLCRiseSetInfo_API(bldt.getLongitude(), bldt.getLatitude(), DateDAO.getCurrentDateString()));
+    	} catch (Exception e) {
+    	    System.err.println("sunset과 sunrise를 가져오는 도중 오류가 발생했습니다: " + e.getMessage());
+    	    e.printStackTrace();
+    	    bldt.setLc_rise_set_info_dto(new LC_Rise_Set_Info_DTO());
+    	}
+
+    	try {
+    	    // 현재 수온은 String으로 받음 (+°C)
+    	    String tw = apiClient.getTwBuoyBeach_API(beach_code, (DateDAO.getCurrentDateString() + DateDAO.getCurrentTime()));
+    	    Bada_tw_DTO twdto = new Bada_tw_DTO();
+    	    twdto.setWater_temp(tw);
+    	    bldt.setBada_tw_dto(twdto);
+    	} catch (Exception e) {
+    	    System.err.println("현재 수온을 가져오는 도중 오류가 발생했습니다: " + e.getMessage());
+    	    e.printStackTrace();
+    	    bldt.setBada_tw_dto(new Bada_tw_DTO());
+    	}
+
+    	try {
+    	    // 기상 특보는 Map에 저장해서 리스트화 -> 추후 수정 가능성 있음
+    	    List<Map<String, String>> itemList = apiClient.getWeatherWarning_API("108");
+    	    String warningString = "없음";
+    	    for (Map<String, String> itemMap : itemList) {
+    	        if (ss.weatherWarning_search(beach_code, itemMap.get("areaName")) != null) {
+    	            warningString = itemMap.get("warnVar") + itemMap.get("warnStress") + " " + itemMap.get("command");
+    	        }
+    	    }
+    	    System.out.println("경보 확인 문구 : " + warningString);
+    	    mo.addAttribute("warningString", warningString);
+    	} catch (Exception e) {
+    	    System.err.println("기상 특보를 가져오는 도중 오류가 발생했습니다: " + e.getMessage());
+    	    e.printStackTrace();
+    	    mo.addAttribute("warningString", "없음");
+    	}
+
+
         mo.addAttribute("bldt",bldt);
         HttpSession session = request.getSession();
 	    session.setAttribute("bldt", bldt);
@@ -124,9 +155,13 @@ public class SeaInfoController {
 	
 	@RequestMapping(value = "/sea_weather_detail")
 	public String sea_weather_detail(HttpServletRequest request, Model mo) {
-		String beachName = request.getParameter("beachName");
-		System.out.println("beachName: "+beachName);
-		mo.addAttribute("beachName",beachName);
+		
+		int beach_code = Integer.parseInt(request.getParameter("beach_code"));
+		mo.addAttribute("beach_code",beach_code);
+		
+		APIClient apiClient = new APIClient();
+		Map<String, Map<String, VilageFcstBeach_DTO>> getWeatherForecastMap = apiClient.getWeatherForecast(beach_code, DateDAO.setForecastDate().get("date"), DateDAO.setForecastDate().get("time"));
+		mo.addAttribute("groupedData",getWeatherForecastMap);
 		
 		return "sea_weather_detail";
 	}

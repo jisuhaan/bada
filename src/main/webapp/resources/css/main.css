@@ -26,6 +26,7 @@
 
 
 .container {
+	background-color:white;
 	max-width:1200px;
 	min-width:1080px;
 	margin: auto;

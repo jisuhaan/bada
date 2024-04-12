@@ -6,7 +6,6 @@ public class LC_Rise_Set_Info_DTO {
 	
 	public LC_Rise_Set_Info_DTO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	public LC_Rise_Set_Info_DTO(String sunrise, String sunset) {

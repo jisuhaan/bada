@@ -220,19 +220,24 @@
     </form>
     
     
-    
-<script type="text/javascript">
 
+<script type="text/javascript">
+function confirmDelete(inquire_num) {
+    if(confirm('문의를 정말 삭제하시겠습니까?')) {
+        location.href = 'inquire_delete?inquire_num=' + inquire_num;
+    }
+}
+</script>
+
+<script type="text/javascript">
 function confirm_reply_Delete(inquire_reply_num, inquire_num) {
     if(confirm('답변을 정말 삭제하시겠습니까?')) {
         location.href = 'inquire_reply_delete?inquire_reply_num=' + inquire_reply_num + '&inquire_num=' + inquire_num;
     }
 }
-
 </script>
 
 <script type="text/javascript">
-
 function createEditForm(inquire_reply_num, inquire_num, content) {
     console.log('inquire_reply_num:', inquire_reply_num);
     console.log('inquire_num:', inquire_num);
@@ -282,7 +287,6 @@ function submitEditedReply(inquire_reply_num, inquire_num) {
     xhr.open('POST', 'inquire_reply_modify');
     xhr.send(formData);
 }
-
 </script>
 
 

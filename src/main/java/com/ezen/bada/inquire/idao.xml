@@ -4,6 +4,8 @@
     
 <mapper namespace="com.ezen.bada.inquire.Service">
 
+
+
 <!-- 문의글 입력하기 전 사전정보 -->
 <select id="input_info" resultType="com.ezen.bada.member.MemberDTO">
 	select user_number, id, name from bada_user where id=#{param1}
@@ -30,6 +32,17 @@
 		order by inquire_num DESC) A) 
 	where rn between #{start} AND #{end}
 </select>
+
+<!-- 문의글 디테일 -->
+<select resultType="com.ezen.bada.inquire.InquireDTO" id="inquire_detail">
+	select * from bada_inquire where inquire_num=#{param1}
+</select>
+
+<!-- 문의글 조회수 증가 -->
+<update id="inquire_updatecnt">
+	update bada_inquire set cnt=cnt+1 where inquire_num=#{param1}
+</update>
+
 
 
 <!-- 문의 글 검색 -->
@@ -64,70 +77,6 @@
 <!-- 문의글 검색 끝 -->
 
 
-<!-- 문의글 디테일 -->
-<select resultType="com.ezen.bada.inquire.InquireDTO" id="inquire_detail">
-	select * from bada_inquire where inquire_num=#{param1}
-</select>
-
-<!-- 문의글 조회수 증가 -->
-<update id="inquire_updatecnt">
-	update bada_inquire set cnt=cnt+1 where inquire_num=#{param1}
-</update>
-
-<!-- 문의글 추천 중복 체크 -->
-<select resultType="int" id="inquire_rec_id">
-	select count (rec_id) from bada_inquire
-	where inquire_num=#{param1} and rec_id like '%' || #{param2} || '%'
-</select>
-
-<!-- 문의글 추천 기능 -->
-<update id="inquire_recommand">
-	update bada_inquire set rec = rec + 1, rec_id = rec_id || ',' || #{param1}
-	where inquire_num = #{param2}
-</update>
-
-
-<!-- 문의 신고당하는 사람의 유저 넘버 가져오기 -->
-<select id="ban_user_number" resultType="int">
-	select user_number from bada_user where id=#{param1}
-</select>
-
-<!-- 문의글 신고 중복 체크 -->
-<select id="inquire_ban_check" resultType="java.lang.String">
-	select title 
-	from bada_i_banned 
-	where id=#{param1} and BAN_INQUIRE_NUM=#{param2} and category=#{param3} and content=#{param4}
-</select>
-
-<!-- 문의글 신고 저장 -->
-<insert id="inquire_ban_save">
-	insert into bada_i_banned (i_banned_num, title, name, id, ban_inquire_num, ban_name, ban_id, category, content, ban_user_number) 
-	values (i_banned_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6}, #{param7}, #{param8}, #{param9})
-</insert>
-
-
-<!-- 답변 저장 -->
-<insert id="inquire_reply_save">
-	insert into bada_inquire_reply (inquire_reply_num, content, inquire_num) 
-	values (#{param1}||i_r_seq.nextval, #{param2}, #{param3})
-</insert>
-
-<!-- 게시글에 맞는 답변 출력 -->
-<select resultType="com.ezen.bada.inquire.Inquire_reply_DTO" id="inquire_reply_out">
-	select * from bada_inquire_reply where inquire_num=#{param1} 
-	order by inquire_reply_num DESC 
-</select>
-
-<!-- 답변 갯수가 몇 개인지 세어 봄 -->
-<select id="inquire_reply_count" resultType="int">
-	select count(*) from bada_inquire_reply where inquire_num=#{param1}
-</select>
-
-<!-- 답변이 1개 이상일 시 '미응답'이 '응답'으로 바뀌도록 함 -->
-<update id="inquire_reply_check">
-	update bada_inquire set reply = 1 where inquire_num = #{param1}
-</update>
-
 
 <!-- 문의글 삭제 시 함께 삭제할 이미지 파일 -->
 <select id="all_photo" resultType="com.ezen.bada.inquire.InquireDTO">
@@ -145,6 +94,7 @@
 <delete id="inquire_reply_delete_when_inquire_delete">
 	delete from bada_inquire_reply where inquire_num = #{param1}
 </delete>
+
 
 
  <!-- 문의글 수정 화면 -->
@@ -175,10 +125,37 @@
 </update>
 
 
+
+<!-- 답변 저장 -->
+<insert id="inquire_reply_save">
+	insert into bada_inquire_reply (inquire_reply_num, content, inquire_num) 
+	values (#{param1}||i_r_seq.nextval, #{param2}, #{param3})
+</insert>
+
+<!-- 게시글에 맞는 답변 출력 -->
+<select resultType="com.ezen.bada.inquire.Inquire_reply_DTO" id="inquire_reply_out">
+	select * from bada_inquire_reply where inquire_num=#{param1} 
+	order by inquire_reply_num DESC 
+</select>
+
+<!-- 답변 갯수가 몇 개인지 세어 봄 -->
+<select id="inquire_reply_count" resultType="int">
+	select count(*) from bada_inquire_reply where inquire_num=#{param1}
+</select>
+
+<!-- 답변이 1개 이상일 시 '미응답'이 '응답'으로 바뀌도록 함 -->
+<update id="inquire_reply_check">
+	update bada_inquire set reply = 1 where inquire_num = #{param1}
+</update>
+
+
+
  <!-- 문의글 답변 삭제 -->
 <delete id="inquire_reply_delete">
 	delete from bada_inquire_reply where inquire_reply_num = #{param1}
 </delete>
+
+
 
 <!-- 문의글 답변 수정 -->
 <update id="inquire_reply_modify">
@@ -187,6 +164,39 @@
 	where inquire_reply_num=#{param2}
 </update>
 
+
+
+<!-- 문의글 추천 중복 체크 -->
+<select resultType="int" id="inquire_rec_id">
+	select count (rec_id) from bada_inquire
+	where inquire_num=#{param1} and rec_id like '%' || #{param2} || '%'
+</select>
+
+<!-- 문의글 추천 기능 -->
+<update id="inquire_recommand">
+	update bada_inquire set rec = rec + 1, rec_id = rec_id || ',' || #{param1}
+	where inquire_num = #{param2}
+</update>
+
+
+
+<!-- 문의 신고당하는 사람의 유저 넘버 가져오기 -->
+<select id="ban_user_number" resultType="int">
+	select user_number from bada_user where id=#{param1}
+</select>
+
+<!-- 문의글 신고 중복 체크 -->
+<select id="inquire_ban_check" resultType="java.lang.String">
+	select title 
+	from bada_i_banned 
+	where id=#{param1} and BAN_INQUIRE_NUM=#{param2} and category=#{param3} and content=#{param4}
+</select>
+
+<!-- 문의글 신고 저장 -->
+<insert id="inquire_ban_save">
+	insert into bada_i_banned (i_banned_num, title, name, id, ban_inquire_num, ban_name, ban_id, category, content, ban_user_number) 
+	values (i_banned_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6}, #{param7}, #{param8}, #{param9})
+</insert>
 
 <!-- 문의 신고 내역 출력: 페이징처리에서 전체레코드수 구하기 -->
 <select id="inquire_ban_list_total" resultType="int">
@@ -200,6 +210,41 @@
 		from bada_i_banned 
 		order by ban_id DESC) A) 
 	where rn between #{start} AND #{end}
+</select>
+
+<!-- 문의 신고 상세 내역 -->
+<select id="inquire_ban_detail" resultType="com.ezen.bada.inquire.Inquire_ban_DTO">
+	select * from bada_i_banned where i_banned_num = #{param1}
+</select>
+
+<!-- 문의 신고 상세 내역에서 동일한 아이디 정보를 가진 신고 사례 갯수-->
+<select id="inquire_ban_count" resultType="int">
+	select count(*)from bada_i_banned where ban_id=#{param1}
+</select>
+
+<!-- 문의 신고 상세 내역에서 동일한 아이디 정보를 가진 신고 사례-->
+<select id="inquire_dan_list2" resultType="com.ezen.bada.inquire.Inquire_ban_DTO2">
+	select i_banned_num, title, name, id, ban_inquire_num, ban_name, ban_id, category, content, ban_date, ban_user_number 
+		from bada_i_banned 
+		where ban_id=#{param1} 
+		order by ban_date DESC
+</select>
+
+
+
+ <!-- 문의 신고 내역 삭제 -->
+<delete id="inquire_ban_delete">
+	delete from bada_i_banned where i_banned_num = #{param1}
+</delete>
+
+
+<select id="inquire_best3" resultType="com.ezen.bada.inquire.InquireDTO2">
+	<![CDATA[
+    select * from (
+        select * from bada_inquire 
+        order by rec desc
+    ) where rownum <= 3
+    ]]>
 </select>
 
 </mapper>

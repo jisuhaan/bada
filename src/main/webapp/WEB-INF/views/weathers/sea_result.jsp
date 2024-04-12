@@ -167,20 +167,14 @@ document.addEventListener("DOMContentLoaded", function() {
 		<div class="todays now4 hidden">
 			<c:if test="${bldt.ultraSrtFcstBeach_dto.rn1 ne '강수없음'}">
 				<div class="weather nowing">
-					<span id="today_text">시간당 강수량</span><br>
-					<div class="etc_text"><img src="./resources/image/forecast_umbrella.gif" width="50px">&nbsp;<span id="hour_rain">${bldt.ultraSrtFcstBeach_dto.rn1} mm</span></div>
-				</div>
-			</c:if>
-			<c:if test="${bldt.ultraSrtFcstBeach_dto.pty ne 0}">
-				<div class="weather nowing">
-					<span id="today_text">강수 형태</span><br>
-					<div class="etc_text"><img src="./resources/image/forecast_drop.gif" width="50px">&nbsp;<span id="texture_rain">${bldt.ultraSrtFcstBeach_dto.pty}</span></div>
+					<span id="today_text">시간당 강수</span><br>
+					<div class="etc_text"><img src="./resources/image/forecast_umbrella.gif" width="50px">&nbsp;<span id="hour_rain">${bldt.ultraSrtFcstBeach_dto.rn1}</span>mm</div>
 				</div>
 			</c:if>
 			<c:if test="${warningString ne '없음'}">
-				<div class="weather nowing">
-					<span id="today_text">기상특보</span><br>
-					<div class="etc_text"><img src="./resources/image/forecast_umbrella.gif" width="50px">&nbsp;<span id="warning">${warningString}</span></div>
+				<div class="weather nowing cast">
+					<span id="today_text">기상 특보</span><br>
+					<div class="etc_text"><img src="./resources/image/forecast_radio.gif" width="50px">&nbsp;<span id="warning">${warningString}</span></div>
 				</div>
 			</c:if>
 		</div>

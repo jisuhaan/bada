@@ -180,7 +180,6 @@ body {
 
 .sea_result_right {
 	display:flex;
-	flex-direction:column;
 	box-sizing: border-box;
 	justify-content:center;
 	margin:0 auto;
@@ -192,7 +191,7 @@ body {
 
 .weatherbox {
 	margin:0 auto;
-	top:0.2em;
+	margin-bottom:45px;
 	margin-left:30px;
 	width:540px;
 	height:980px;
@@ -260,6 +259,19 @@ body {
 	text-align: center;
 }
 
+.cast{
+	width:300px;
+	height:120px;
+	padding:10px;
+	border: 1px dashed #F1F1F1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	text-align: center;
+	
+}
+
 .temperature_text,
 .sun_text,
 #weatherIcon,
@@ -281,6 +293,12 @@ body {
 #weather_title {
 	font-family: 'DOSGothic';
 	font-size: 24px;
+	text-align: center;
+}
+
+.etc_text {
+	font-family: 'DOSGothic';
+	font-size: 20px;
 	text-align: center;
 }
 

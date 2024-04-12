@@ -26,6 +26,12 @@
 
 <body>
 
+  <div class="page-title">
+        <div class="container">
+            <h3>문의 게시판</h3>
+        </div>
+    </div>
+
 <!-- 아마 div나 span 이름이 내용이랑 안 맞을 텐데 나중에 css 적용하실 때 편하시라고 이전의 member_search 그대로 가져다 썼어요 -->
 	
 <div class="search_form">
@@ -36,14 +42,19 @@
 	<div class="search_contents">
 	<div class="search_select">
 	<span class="search_title">검색어</span>
+	</div>
 	
+	<form id="search-form">
+                    <div class="search-wrap">
 	<select name="search_keyword" required="required">
 		<option value="name">회원 닉네임</option>
 		<option value="title">문의글 제목</option>
 		<option value="content">문의 내용</option>
 	</select>
 	</div>
-	<input type="text" name="search_value" required="required"ㄴ>
+	</form>
+	
+	<input id="search" type="search" name="search_value" required="required" placeholder="검색어를 입력해주세요.">
 	
 	<div class="search_select">
 	<span class="search_title">문의 카테고리</span>
@@ -70,7 +81,6 @@
 	<br>
 	<div class="buttons">
 	<button class="btn_2" onclick="document.forms['searchform'].submit();">
-	
 	<span id="btn_text">검색하기</span>
 	</button>
 	</div>

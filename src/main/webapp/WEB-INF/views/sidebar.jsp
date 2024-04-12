@@ -60,7 +60,7 @@
                     <ul class="collapse__menu">
                     	<a href="#" class="collapse__sublink">1:1문의</a>
                         <a href="inquire_input" class="collapse__sublink">문의글작성</a>
-                        <a href="inquire_listout" class="collapse__sublink">문의게시판</a>
+                        <a href="inquire_listout?sort=latest" class="collapse__sublink">문의게시판</a>
                         <c:if test="${position=='admin'}">
                         <a href="inquire_ban_listout" class="collapse__sublink">문의 신고 내역</a>
                         </c:if>

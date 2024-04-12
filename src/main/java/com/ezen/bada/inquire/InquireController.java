@@ -196,6 +196,9 @@ public class InquireController {
 	//저장된 문의 사항을 목록화 해서 출력
 	@RequestMapping(value="/inquire_listout")
     public String page(HttpServletRequest request, Model mo) {
+		
+		String sort=request.getParameter("sort");
+		
 		// 맨 처음 아웃 페이지를 들어갔을 때, 
 		// 사용자 화면에 떠야 할 1) 현재 페이지 위치와 2) 페이지 당 들어가는 레코드 수 설정 -> 눌 값일 때마다 적절한 초기화 해주기
 	    String nowPage=request.getParameter("nowPage");
@@ -225,7 +228,20 @@ public class InquireController {
 	    PageDTO dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
 	    mo.addAttribute("paging",dto);
 	    // 리스트 안에 특정 페이지마다 출력될 5개 묶음의 레코드 모음 저장
-	    mo.addAttribute("list",ss.page_inquire_listout(dto));
+	    
+	    if(sort.equals("latest")) {
+	    	mo.addAttribute("list",ss.page_inquire_listout_latest(dto));
+	    	mo.addAttribute("sort", sort);
+	    }
+	    else {
+	    	mo.addAttribute("list",ss.page_inquire_listout_popular(dto));
+	    	mo.addAttribute("sort", sort);
+	    }
+	    
+	    ArrayList<InquireDTO2> list2=ss.inquire_best3();
+		mo.addAttribute("list2", list2);
+		System.out.println("베스트글 확인용: "+list2);
+		
 	    return "inquire_listout";
     }
 	
@@ -324,7 +340,7 @@ public class InquireController {
 		     ss.inquire_delete(inquire_num); //문의글 삭제
 		     ss.inquire_reply_delete_when_inquire_delete(inquire_num); //문의글 삭제 시 거기에 달린 답변도 함께 삭제
 
-	      return "redirect:/inquire_listout";
+	      return "redirect:/inquire_listout?sort=latest";
 	   }
 	
 	  
@@ -606,7 +622,7 @@ public class InquireController {
 		        InquireDTO dto=ss.inquire_detail(ban_inquire_num);
 				mo.addAttribute("dto", dto);
 		    
-		      return "redirect:/inquire_listout";
+		      return "redirect:/inquire_listout?sort=latest";
 		   }
 		  
 		  
@@ -685,21 +701,7 @@ public class InquireController {
 			
 			return "redirect:/inquire_ban_listout";
 	    }
-		
-		
-		//베스트그 3개 정렬
-		@RequestMapping(value="/inquire_best3")
-	    public String inquire_best3(HttpServletRequest request, Model mo) {
-			
-		    Service ss = sqlsession.getMapper(Service.class);
-		    
-		    ArrayList<InquireDTO2> list2=ss.inquire_best3();
-			mo.addAttribute("list2", list2);
-			
-			System.out.println("베스트글 확인용: "+list2);
-		    
-		    return "inquire_best3";
-	    }
+
 		
 		
 }

@@ -288,8 +288,7 @@ body {
 }
 
 .temperature_text,
-.sun_text,
-#weather_title {
+.sun_text {
 	font-family: 'DOSGothic';
 	font-size: 24px;
 	text-align: center;
@@ -298,6 +297,12 @@ body {
 .etc_text {
 	font-family: 'DOSGothic';
 	font-size: 20px;
+	text-align: center;
+}
+
+#weather_title {
+	font-family: 'DOSGothic';
+	font-size: 16px;
 	text-align: center;
 }
 

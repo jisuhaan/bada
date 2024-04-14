@@ -214,6 +214,10 @@ a {
 	margin-bottom: 10px;
 }
 
+#beaches:hover {
+	cursor: pointer;
+}
+
 #beaches a {
 	text-decoration: none;
 	color: inherit;

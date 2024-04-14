@@ -36,12 +36,9 @@ public class InquireController {
 	@Autowired
 	SqlSession sqlsession;
 	   
-	
 	String imagepath="C:\\coding\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
-	String origin_img;
 	
-	
-	
+	//문의글 입력창을 띄우기 위해 정보를 가져옴
 	@RequestMapping(value = "/inquire_input")
 	public String inquireinput(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
 	      
@@ -70,23 +67,19 @@ public class InquireController {
 				mo.addAttribute("dto", dto);
 				
 				return "inquire_input";
-				
 			}
-			
 			else {
-			
 				out.println("<script>alert('로그인한 회원만 이용 가능합니다.'); location.href='login';</script>");
 			    out.flush();
 			    
 			    return null;
-				
 			}
-	     
-	    }
-
+		}
 	}
 	
 	
+	
+	//입력한 문의글을 저장
 	@RequestMapping(value = "/inquire_save", method = RequestMethod.POST)
 	public String inquiresave(MultipartHttpServletRequest mul) throws IOException {
 	    
@@ -150,6 +143,7 @@ public class InquireController {
 
 	    return "main";
 	}
+	//문의글에 넣은 사진들에 별개의 랜덤 문자를 넣음(동일한 이름의 파일이 들어간 경우 구분을 위해)
 	private String filesave5(String pic5, byte[] bytes) throws IOException {
 		UUID ud=UUID.randomUUID();
 		String what5=ud.toString()+"_"+pic5;
@@ -192,8 +186,13 @@ public class InquireController {
 	}
 
 
+	
+	//저장된 문의 사항을 목록화 해서 출력
 	@RequestMapping(value="/inquire_listout")
     public String page(HttpServletRequest request, Model mo) {
+		
+		String sort=request.getParameter("sort");
+		
 		// 맨 처음 아웃 페이지를 들어갔을 때, 
 		// 사용자 화면에 떠야 할 1) 현재 페이지 위치와 2) 페이지 당 들어가는 레코드 수 설정 -> 눌 값일 때마다 적절한 초기화 해주기
 	    String nowPage=request.getParameter("nowPage");
@@ -223,12 +222,63 @@ public class InquireController {
 	    PageDTO dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
 	    mo.addAttribute("paging",dto);
 	    // 리스트 안에 특정 페이지마다 출력될 5개 묶음의 레코드 모음 저장
-	    mo.addAttribute("list",ss.page_inquire_listout(dto));
+	    
+	    if(sort.equals("latest")) {
+	    	mo.addAttribute("list",ss.page_inquire_listout_latest(dto));
+	    	mo.addAttribute("sort", sort);
+	    }
+	    else {
+	    	mo.addAttribute("list",ss.page_inquire_listout_popular(dto));
+	    	mo.addAttribute("sort", sort);
+	    }
+	    
+	    ArrayList<InquireDTO2> list2=ss.inquire_best3();
+		mo.addAttribute("list2", list2);
+		System.out.println("베스트글 확인용: "+list2);
+		
 	    return "inquire_listout";
     }
 	
 	
 	
+	//문의글을 클릭 시, 비밀글인지 아닌지를 판별하고 비밀글일 시 비밀번호부터 입력하도록 함
+	@RequestMapping(value = "/inquire_secret_yn")
+	public String inquire_secret_yn(HttpServletRequest request, Model mo) {
+		int inquire_num=Integer.parseInt(request.getParameter("inquire_num"));
+		String secret=request.getParameter("secret");
+		
+		Service ss=sqlsession.getMapper(Service.class);
+		InquireDTO dto=ss.inquire_detail(inquire_num);
+		mo.addAttribute("dto", dto);
+		
+		if(secret.equals("y")) {return "inquire_secret_yn";}
+		else {return "redirect:/to_inquire_detail?inquire_num=" + inquire_num;}
+		
+	}
+	
+	
+	
+	//문의글 디테일 화면(전체 내용 출력 화면)
+	@RequestMapping(value = "/to_inquire_detail")
+	public String inquire_detail(HttpServletRequest request,Model mo) {
+		int inquire_num=Integer.parseInt(request.getParameter("inquire_num"));
+		
+		Service ss=sqlsession.getMapper(Service.class);
+		ss.inquire_updatecnt(inquire_num);
+		InquireDTO dto=ss.inquire_detail(inquire_num);
+		mo.addAttribute("dto", dto);
+		
+		//댓글 출력
+		ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
+		mo.addAttribute("list", list);
+		System.out.println("디티오 확인"+list);
+		
+		return "inquire_detail";
+	}
+	
+	
+	
+	//문의글을 검색
 	@RequestMapping(value="/inquire_search")
     public String inquire_search(HttpServletRequest request, Model mo) {
 		
@@ -261,160 +311,8 @@ public class InquireController {
     }
 	
 	
-	@RequestMapping(value = "/inquire_secret_yn")
-	public String inquire_secret_yn(HttpServletRequest request, Model mo) {
-		int inquire_num=Integer.parseInt(request.getParameter("inquire_num"));
-		String secret=request.getParameter("secret");
-		
-		Service ss=sqlsession.getMapper(Service.class);
-		InquireDTO dto=ss.inquire_detail(inquire_num);
-		mo.addAttribute("dto", dto);
-		
-		if(secret.equals("y")) {return "inquire_secret_yn";}
-		else {return "redirect:/to_inquire_detail?inquire_num=" + inquire_num;}
-		
-	}
 	
-	
-	@RequestMapping(value = "/to_inquire_detail")
-	public String inquire_detail(HttpServletRequest request,Model mo) {
-		int inquire_num=Integer.parseInt(request.getParameter("inquire_num"));
-		
-		Service ss=sqlsession.getMapper(Service.class);
-		ss.inquire_updatecnt(inquire_num);
-		InquireDTO dto=ss.inquire_detail(inquire_num);
-		mo.addAttribute("dto", dto);
-		
-		//댓글 출력
-		ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
-		mo.addAttribute("list", list);
-		System.out.println("디티오 확인"+list);
-		
-		return "inquire_detail";
-	}
-	
-	
-	@RequestMapping(value = "/inquire_recommand")
-	public String inquire_recommand(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException, ServletException {
-		int inquire_num=Integer.parseInt(request.getParameter("inquire_num"));
-		String loginid=request.getParameter("loginid");
-		
-		Service ss=sqlsession.getMapper(Service.class);
-		int rec_id_co=ss.inquire_rec_id(inquire_num, loginid);
-		
-		if(rec_id_co==0) {
-		ss.inquire_recommand(loginid, inquire_num);
-		InquireDTO dto=ss.inquire_detail(inquire_num);
-		mo.addAttribute("dto", dto);
-		}
-		
-		else {
-	        InquireDTO dto=ss.inquire_detail(inquire_num);
-			mo.addAttribute("dto", dto);
-		}
-		
-		return "inquire_detail";
-		}
-		
-	
-	@RequestMapping(value = "/inquire_report_view")
-	public String inquire_report_view(HttpServletRequest request,Model mo) {
-		int inquire_num=Integer.parseInt(request.getParameter("inquire_num"));
-		String loginid=request.getParameter("loginid");
-		
-		Service ss=sqlsession.getMapper(Service.class);
-		
-		MemberDTO mdto = ss.input_info(loginid);
-		mo.addAttribute("mdto", mdto);
-		
-		InquireDTO idto=ss.inquire_detail(inquire_num);
-		mo.addAttribute("idto", idto);
-		
-		return "inquire_report_view";
-	}
-	
-
-	  @ResponseBody
-	  @RequestMapping(value = "/inquire_ban_check", method = RequestMethod.POST)
-	   public String inquire_ban_check(HttpServletRequest request) throws IOException {
-	      
-	        String id = request.getParameter("id");
-	        int ban_inquire_num=Integer.parseInt(request.getParameter("ban_inquire_num"));
-	        String category = request.getParameter("category");
-	        String content = request.getParameter("content");
-	        
-	        System.out.println("체크 1: "+id);
-	        System.out.println("체크 2: "+ban_inquire_num);
-	        System.out.println("체크 3: "+category);
-	        System.out.println("체크 4: "+content);
-	
-	        Service ss=sqlsession.getMapper(Service.class);
-	        String inquire_check="";
-	        String result="";
-	        inquire_check=ss.inquire_ban_check(id, ban_inquire_num, category, content); //동일한 사람이 동일한 글을 동일한 사유로 여러번 신고할 수 없도록 중복 방지
-	        System.out.println("가져온 신고글 제목: "+inquire_check);
-	        if (inquire_check==null) {result="ok";}
-	        else {result="nope";}
-	        System.out.println("결과 "+result);
-	        
-	      return result;
-	   }
-	  
-	  @RequestMapping(value = "/inquire_ban_save", method = RequestMethod.POST)
-	   public String inquire_ban_save(HttpServletRequest request, Model mo) throws IOException {
-	      
-	      	String title = request.getParameter("title");
-	        String name = request.getParameter("name");
-	        String id = request.getParameter("id");
-	        int ban_inquire_num=Integer.parseInt(request.getParameter("ban_inquire_num"));
-	        String ban_name = request.getParameter("ban_name");
-	        String ban_id = request.getParameter("ban_id");
-	        String category = request.getParameter("category");
-	        String content = request.getParameter("content");
-	
-	        Service ss=sqlsession.getMapper(Service.class);
-	        ss.inquire_ban_save(title, name, id, ban_inquire_num, ban_name, ban_id, category, content);
-	        
-	        InquireDTO dto=ss.inquire_detail(ban_inquire_num);
-			mo.addAttribute("dto", dto);
-	    
-	      return "inquire_detail";
-	   }
-	  
-	  
-	  @RequestMapping(value = "/inquire_reply_save", method = RequestMethod.POST)
-	   public String inquire_reply_save(HttpServletRequest request, Model mo) throws IOException {
-	      
-		int inquire_num=Integer.parseInt(request.getParameter("inquire_num"));
-		String content=request.getParameter("content");
-		Service ss=sqlsession.getMapper(Service.class);
-		
-		System.out.println("확인용: "+inquire_num+content);
-		  
-		//댓글 저장
-		ss.inquire_reply_save(inquire_num, content, inquire_num);
-			
-		//댓글 출력
-		ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
-		mo.addAttribute("list", list);
-		System.out.println("디티오 확인"+list);
-		
-		//해당 글에 답 여부(댓글 갯수) 수정
-		int reply_count=0;
-		reply_count= ss.inquire_reply_count(inquire_num);
-		if(reply_count==0) {System.out.println("답이 없네");} //답 갯수가 0인 경우
-		else {ss.inquire_reply_check(inquire_num);} //
-			
-		//디테일에 가져가는 정보
-		ss.inquire_updatecnt(inquire_num);
-		InquireDTO dto=ss.inquire_detail(inquire_num);
-		mo.addAttribute("dto", dto);
-		
-		return "inquire_detail";
-	   }
-	   
-	
-	  
+	//문의글을 삭제(작성자, 관리자만 허용)하는 경우, 그리고 문의글 삭제 시 문의글에 달린 답변도 자동삭제, 문의글에 첨부돼 있던 사진도 자동 삭제
 	  @RequestMapping(value = "inquire_delete")
 	   public String inquire_delete(HttpServletRequest request) {
 
@@ -433,13 +331,15 @@ public class InquireController {
 					if(file.exists()) {file.delete();}
 				}
 			}
-		     ss.inquire_delete(inquire_num);
+		     ss.inquire_delete(inquire_num); //문의글 삭제
+		     ss.inquire_reply_delete_when_inquire_delete(inquire_num); //문의글 삭제 시 거기에 달린 답변도 함께 삭제
 
-	      return "redirect:/inquire_listout";
+	      return "redirect:/inquire_listout?sort=latest";
 	   }
 	
 	  
 	  
+	  //문의글을 수정하는 경우, 수정을 위해 기존 글 등에 대한 데이터를 가져옴
 	  @RequestMapping(value = "inquire_modify")
 	   public String inquire_modify(HttpServletRequest request, Model mo) {
 
@@ -457,8 +357,7 @@ public class InquireController {
 	  
 	  
 	  
-	  
-	  
+	  //문의글을 수정하는 경우에 대한 저장. 우선은 사진을 제외한 내용의 저장.
 	  @RequestMapping(value = "inquire_modify_save", method = RequestMethod.POST)
 	   public String inquire_modify_save(MultipartHttpServletRequest mul, Model mo) throws IllegalStateException, IOException {
 		  
@@ -480,32 +379,31 @@ public class InquireController {
 	        }
 	    }
 	    if (new_photos) {
-	    	
 	    	InquireDTO idto = ss.all_photo(inquire_num);
 		    List<String> photoPaths = Arrays.asList(idto.getPic1(), idto.getPic2(), 
 										    		 idto.getPic3(), idto.getPic4(), 
 										    		 idto.getPic5());
 			for(String pics : photoPaths) {
-				
 				if(pics != null && !pics.equals("nope"))
 				{File file = new File(imagepath+"\\"+pics);
 					
 					if(file.exists()) {file.delete();}
 				}
 			}
-	    
 	        modi_photos(mul, inquire_num, ss);
 	    }
 		ss.inquire_modify_save(title, category, content, secret, secret_pw, inquire_num);
 		
 		//디테일에 가져가는 정보
-				ss.inquire_updatecnt(inquire_num);
 				InquireDTO dto=ss.inquire_detail(inquire_num);
 				mo.addAttribute("dto", dto);
 				
+				ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
+				mo.addAttribute("list", list);
+				
 				return "inquire_detail";
 }
-
+	 //문의글을 수정하는 경우, 사진 수정을 한 경우
 	private void modi_photos(MultipartHttpServletRequest mul, int inquire_num, Service ss) throws IllegalStateException, IOException {
 		
 		String[] change_photo = new String[5];
@@ -530,6 +428,41 @@ public class InquireController {
 	}
 	
 	
+	
+	//문의글에 댓글(관리자 답)을 작성한 경우 저장
+	  @RequestMapping(value = "/inquire_reply_save", method = RequestMethod.POST)
+	   public String inquire_reply_save(HttpServletRequest request, Model mo) throws IOException {
+	      
+		int inquire_num=Integer.parseInt(request.getParameter("inquire_num"));
+		String content=request.getParameter("content");
+		Service ss=sqlsession.getMapper(Service.class);
+		
+		System.out.println("확인용: "+inquire_num+content);
+		  
+		//댓글 저장
+		ss.inquire_reply_save(inquire_num, content, inquire_num);
+			
+		//댓글 출력
+		ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
+		mo.addAttribute("list", list);
+		System.out.println("디티오 확인"+list);
+		
+		//해당 글에 답 여부(댓글 갯수) 수정
+		int reply_count=0;
+		reply_count= ss.inquire_reply_count(inquire_num);
+		if(reply_count==0) {System.out.println("답이 없네");} //답 갯수가 0인 경우
+		else {ss.inquire_reply_check(inquire_num);} //
+			
+		//디테일에 가져가는 정보
+		InquireDTO dto=ss.inquire_detail(inquire_num);
+		mo.addAttribute("dto", dto);
+		
+		return "inquire_detail";
+	   }
+	
+	
+	
+		//문의글에 달린 답을 삭제하는 경우(답변 여부도 함께 변경)
 	  @RequestMapping(value = "inquire_reply_delete")
 	   public String inquire_reply_delete(HttpServletRequest request, Model mo) {
 
@@ -544,21 +477,225 @@ public class InquireController {
 			mo.addAttribute("list", list);
 			System.out.println("디티오 확인"+list);
 		     
-		   //해당 글에 답 여부(댓글 갯수) 수정
+		   //해당 문의글의 답 여부(댓글 갯수) 수정
 			int reply_count=0;
 			reply_count= ss.inquire_reply_count(inquire_num);
 			if(reply_count==0) {System.out.println("답이 없네");} //답 갯수가 0인 경우
 			else {ss.inquire_reply_check(inquire_num);} //
 				
-			//디테일에 가져가는 정보
-			ss.inquire_updatecnt(inquire_num);
+			//문의글 디테일에 가져가는 정보
 			InquireDTO dto=ss.inquire_detail(inquire_num);
 			mo.addAttribute("dto", dto);
 			
 			return "inquire_detail";
 	   }
+	  
+	  
+	  
+	  //문의글에 달린 답을 수정하는 경우
+	  @RequestMapping(value = "inquire_reply_modify")
+	   public String inquire_reply_modify(HttpServletRequest request, Model mo) {
+
+		    int inquire_reply_num = Integer.parseInt(request.getParameter("inquire_reply_num"));
+		  	int inquire_num = Integer.parseInt(request.getParameter("inquire_num"));
+		  	String newcontent = request.getParameter("newcontent");
+		  	
+		    System.out.println("문의 답변 수정 확인1 : "+inquire_num + "문의 답변 수정 확인2 : "+inquire_reply_num);
+		    Service ss = sqlsession.getMapper(Service.class);
+		    
+		    ss.inquire_reply_modify(newcontent, inquire_reply_num);
+		    
+		    ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
+			mo.addAttribute("list", list);
+			System.out.println("디티오 확인"+list);
+			
+			//문의글 디테일에 가져가는 정보
+			InquireDTO dto=ss.inquire_detail(inquire_num);
+			mo.addAttribute("dto", dto);
+			
+			return "inquire_detail";
+	   }
+	  
+	  
+	  
+	  //문의글에 추천을 누른 경우 추천 수 증가 및 추천 시 중복 방지
+		@RequestMapping(value = "/inquire_recommand")
+		public String inquire_recommand(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException, ServletException {
+			int inquire_num=Integer.parseInt(request.getParameter("inquire_num"));
+			String loginid=request.getParameter("loginid");
+			
+			Service ss=sqlsession.getMapper(Service.class);
+			int rec_id_co=ss.inquire_rec_id(inquire_num, loginid);
+			
+			if(rec_id_co==0) {
+			ss.inquire_recommand(loginid, inquire_num);
+			InquireDTO dto=ss.inquire_detail(inquire_num);
+			mo.addAttribute("dto", dto);
+			}
+			
+			else {
+		        InquireDTO dto=ss.inquire_detail(inquire_num);
+				mo.addAttribute("dto", dto);
+				ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
+				mo.addAttribute("list", list);
+			}
+			
+			return "inquire_detail";
+			}
+			
+		
+		
+		//문의글을 신고할 시 보이는 신고 화면에 데이터를 넣어줌
+		@RequestMapping(value = "/inquire_report_view")
+		public String inquire_report_view(HttpServletRequest request,Model mo) {
+			int inquire_num=Integer.parseInt(request.getParameter("inquire_num"));
+			String loginid=request.getParameter("loginid");
+			
+			Service ss=sqlsession.getMapper(Service.class);
+			
+			MemberDTO mdto = ss.input_info(loginid);
+			mo.addAttribute("mdto", mdto);
+			
+			InquireDTO idto=ss.inquire_detail(inquire_num);
+			mo.addAttribute("idto", idto);
+			
+			String ban_id=idto.getId();
+			int ban_user_number=ss.ban_user_number(ban_id);
+			mo.addAttribute("ban_user_number", ban_user_number);
+			
+			return "inquire_report_view";
+		}
+		
+
+		//문의글을 신고할 시 중복 신고가 허용되지 않도록 DB에서 신고 정보를 찾아봄
+		  @ResponseBody
+		  @RequestMapping(value = "/inquire_ban_check", method = RequestMethod.POST)
+		   public String inquire_ban_check(HttpServletRequest request) throws IOException {
+		      
+		        String id = request.getParameter("id");
+		        int ban_inquire_num=Integer.parseInt(request.getParameter("ban_inquire_num"));
+		        String category = request.getParameter("category");
+		        String content = request.getParameter("content");
+		        
+		        System.out.println("체크 1: "+id);
+		        System.out.println("체크 2: "+ban_inquire_num);
+		        System.out.println("체크 3: "+category);
+		        System.out.println("체크 4: "+content);
+		
+		        Service ss=sqlsession.getMapper(Service.class);
+		        String inquire_check="";
+		        String result="";
+		        inquire_check=ss.inquire_ban_check(id, ban_inquire_num, category, content); //동일한 사람이 동일한 글을 동일한 사유로 여러번 신고할 수 없도록 중복 방지
+		        System.out.println("가져온 신고글 제목: "+inquire_check);
+		        if (inquire_check==null) {result="ok";}
+		        else {result="nope";}
+		        System.out.println("결과 "+result);
+		        
+		      return result;
+		   }
+		  
+		  
+		  
+		  //중복 신고가 아닌 경우 신고 내역 저장
+		  @RequestMapping(value = "/inquire_ban_save", method = RequestMethod.POST)
+		   public String inquire_ban_save(HttpServletRequest request, Model mo) throws IOException {
+		      
+		      	String title = request.getParameter("title");
+		        String name = request.getParameter("name");
+		        String id = request.getParameter("id");
+		        int ban_inquire_num=Integer.parseInt(request.getParameter("ban_inquire_num"));
+		        String ban_name = request.getParameter("ban_name");
+		        String ban_id = request.getParameter("ban_id");
+		        String category = request.getParameter("category");
+		        String content = request.getParameter("content");
+		        int ban_user_number=Integer.parseInt(request.getParameter("ban_user_number"));
+		
+		        Service ss=sqlsession.getMapper(Service.class);
+		        ss.inquire_ban_save(title, name, id, ban_inquire_num, ban_name, ban_id, category, content, ban_user_number);
+		        
+		        InquireDTO dto=ss.inquire_detail(ban_inquire_num);
+				mo.addAttribute("dto", dto);
+		    
+		      return "redirect:/inquire_listout?sort=latest";
+		   }
+		  
+		  
+		  
+		//관리자에게만 보이는 신고내역 페이지
+		@RequestMapping(value="/inquire_ban_listout")
+	    public String inquire_ban_listout(HttpServletRequest request, Model mo) {
+			// 맨 처음 아웃 페이지를 들어갔을 때, 
+			// 사용자 화면에 떠야 할 1) 현재 페이지 위치와 2) 페이지 당 들어가는 레코드 수 설정 -> 눌 값일 때마다 적절한 초기화 해주기
+		    String nowPage=request.getParameter("nowPage");
+		    String cntPerPage=request.getParameter("cntPerPage");
+		  /* String 클래스는 객체이기 때문에 == null을 사용 가능하지만, int같은 기본 자료형은 불가하므로,
+		   * if문에서 null 확인을 위해 위에서는 String으로 받고, 인수로 넣기 직전에 intger로 변환해줘야 한다.
+		   */ 
+		    if(nowPage==null && cntPerPage == null) {
+		       nowPage="1";
+		       cntPerPage="5";
+		    }
+		    else if(nowPage==null) {        nowPage="1";
+		    }
+		    else if(cntPerPage==null) {
+		       cntPerPage="5";
+		    }      
+		    System.out.println("현재 페이지 : "+nowPage); // 어디에 있냐에 따라 다름
+		    System.out.println("페이지 당 레코드 수 : "+cntPerPage); // 5개
+		    
+		    // 3) 전체 게시글 수 DB에서 구해오기
+		    Service ss = sqlsession.getMapper(Service.class);
+		    int total=ss.inquire_ban_list_total();
+		    System.out.println("총 레코드의 개수 : "+total);
+		     
+		    // 생성자로 나머지 페이지 처리에 필요한 필드값들도 모두 계산
+		    // 3가지 인수 넣어주기
+		    PageDTO dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+		    mo.addAttribute("paging",dto);
+		    // 리스트 안에 특정 페이지마다 출력될 5개 묶음의 레코드 모음 저장
+		    mo.addAttribute("list",ss.page_inquire_ban_listout(dto));
+		    return "inquire_ban_listout";
+	    }
+		  
+		  
 	
-	
-	
-	
+		//관리자에게만 보이는 신고 상세 내역 페이지
+		@RequestMapping(value="/inquire_ban_detail")
+	    public String inquire_ban_detail(HttpServletRequest request, Model mo) {
+			
+			int i_banned_num=Integer.parseInt(request.getParameter("i_banned_num"));
+			String ban_id=request.getParameter("ban_id");
+			
+			Service ss=sqlsession.getMapper(Service.class);
+			//신고 내역 상세
+			Inquire_ban_DTO dto=ss.inquire_ban_detail(i_banned_num);
+			mo.addAttribute("dto", dto);
+			
+			//신고당한 사람과 동일한 아이디의 레코드 갯수
+			int ban_count=ss.inquire_ban_count(ban_id);
+			mo.addAttribute("ban_count", ban_count);
+			
+			//신고당한 사람과 동일한 아이디의 레코드를 모두 가져옴
+			ArrayList<Inquire_ban_DTO2> dto2=ss.inquire_dan_list2(ban_id);
+			mo.addAttribute("dto2", dto2);
+			
+		    return "inquire_ban_detail";
+	    }
+		
+		
+		
+		//관리자 권한에서 신고 내역 삭제
+		@RequestMapping(value="/inquire_ban_delete")
+	    public String inquire_ban_delete(HttpServletRequest request) {
+			
+			int i_banned_num=Integer.parseInt(request.getParameter("i_banned_num"));
+			
+			Service ss=sqlsession.getMapper(Service.class);
+			ss.inquire_ban_delete(i_banned_num);
+			
+			return "redirect:/inquire_ban_listout";
+	    }
+
+		
+		
 }

@@ -34,7 +34,8 @@ public class MemberController {
 
    
    @RequestMapping(value = "/login")
-   public String login1() {
+   public String login1(HttpServletRequest request) {
+	    
       
       return "login";
    }
@@ -69,6 +70,10 @@ public class MemberController {
       String id = request.getParameter("id");
       String pw = request.getParameter("pw");
       
+      String bbti = request.getParameter("bbti").trim();
+      
+      System.out.println("id : "+id+" pw : "+pw+" bbti : "+bbti);
+      
       Service ss = sqlsession.getMapper(Service.class);
       String logincount = ss.login_check(id,pw);
       
@@ -85,7 +90,14 @@ public class MemberController {
          hs.setAttribute("pw", pw);
          hs.setAttribute("position", logincount);
          hs.setMaxInactiveInterval(600);
-         result = "yes";
+         
+         if(!bbti.equals("")) {
+        	 ss.insertbbti(bbti, id);
+        	 result = "yes";
+         }
+         else {
+        	 result = "yes";
+         }
       }
    
 
@@ -154,20 +166,35 @@ public class MemberController {
         String email = request.getParameter("email");
         String gender = request.getParameter("gender");
         int age=Integer.parseInt(request.getParameter("age"));
+        String bbti= request.getParameter("bbti");
         
-        System.out.println("id : "+id+" pw : "+pw+" name : "+name+" email : "+email+" gender : "+gender+" age : "+age);
-
+        System.out.println("id : "+id+" pw : "+pw+" name : "+name+" email : "+email+" gender : "+gender+" age : "+age+" bbti : "+bbti);
         Service ss=sqlsession.getMapper(Service.class);
-        ss.membersave(id, pw, name, email, gender, age);
-        
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		out.print("<script type='text/javascript'>");
-		out.print("var result = confirm('회원가입이 완료되었습니다! BBTI(바다성향테스트) 페이지로 이동할까요?');");
-		out.print("if(result){ window.open('member_try_bbti?id="+id+"','BBTI 테스트','width=605,height=805,resizable=no,scrollbars=no,menubar=no,location=no') }");	
-		out.print("else{ window.location.replace('main') }");
-		out.print("</script>");
+        
+        if(bbti==null||bbti.trim().equals("")) {
+
+	        ss.membersave(id, pw, name, email, gender, age);
+	        
+			out.print("<script type='text/javascript'>");
+			out.print("var result = confirm('회원가입이 완료되었습니다! BBTI(바다성향테스트) 페이지로 이동할까요?');");
+			out.print("if(result){ window.open('member_try_bbti?id="+id+"','BBTI 테스트','width=605,height=805,resizable=no,scrollbars=no,menubar=no,location=no') }");	
+			out.print("else{ window.location.replace('main') }");
+			out.print("</script>");
+        }
+        
+        //만약 bbti 테스트 후에 회원가입을 진행했다면 bbti값도 함께 저장해줌
+        else {
+        	
+	        ss.membersavebbti(id, pw, name, email, gender, age, bbti);
+        	
+			out.print("<script type='text/javascript'>");
+			out.print("alert('회원가입이 성공적으로 완료되었습니다! 물론, BBTI 정보도 잘 저장되었어요!');");
+			out.print("window.location.href='./';");
+			out.print("</script>");
+        }
     
 		return null;
    }
@@ -412,9 +439,7 @@ public class MemberController {
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsonResponse.toString());
    }
-   
-   
-   
+
    
    /////* 마이페이지
    
@@ -510,5 +535,123 @@ public class MemberController {
 
       return "main";
    }
+   
+   //bbti값 저장하기
+   
+   @ResponseBody
+   @RequestMapping(value="/bbti_save", method = RequestMethod.POST)
+   public String bbti1(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	   
+	   String id = request.getParameter("id").trim();
+	   String bbti = request.getParameter("bbti");
+	   String result = null;
+	   Service ss = sqlsession.getMapper(Service.class);
+	   
+	   System.out.println("id : "+id+" / bbti : "+bbti);
+	   
+	   int bc = ss.bbticheck(id);
+		  
+		  if(bc==0) {
+			   ss.insertbbti(bbti,id);
+			   result = "ok";
+		  }
+		  else {
+			  result = "already";
+		  }
+	   
+	   System.out.println("결과 : "+result);
+	   
+	   return result;
+	   
+   }
+   
+   @RequestMapping(value="/bbti_save2", method = RequestMethod.GET)
+   public String bbti2(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	   
+	   String id = request.getParameter("id").trim();
+	   String bbti = request.getParameter("bbti");
+	   Service ss = sqlsession.getMapper(Service.class);
+	   
+	   System.out.println("id : "+id+" / 덮어쓸bbti : "+bbti);
+	   
+	   response.setCharacterEncoding("UTF-8");
+	   response.setContentType("text/html; charset=UTF-8");
+	   PrintWriter out = response.getWriter();
+	   
+		ss.insertbbti(bbti,id);
+		out.print("<script type='text/javascript'>");	
+		out.print("alert('bbti가 성공적으로 저장되었어요!');");
+		out.print("window.opener.location.href='./';");
+		out.print("self.close();");
+		out.print("</script>");
+		out.flush();
+	   
+	   return "main";
+   }
+   
+   
+   @RequestMapping(value = "/login_with")
+   public String bbti2(HttpServletRequest request, Model mo) {
+	   
+	   String bbti = request.getParameter("bbti");
+	   mo.addAttribute("bbti",bbti);
+	   
+	return "login";
+	   
+   }
+   
+   @RequestMapping(value = "/join_with")
+   public String bbti3(HttpServletRequest request, Model mo) {
+	   
+	   String bbti = request.getParameter("bbti");
+	   mo.addAttribute("bbti",bbti);
+	   
+	return "member_join";
+	   
+   }
+   
+   @RequestMapping(value = "/bbti_list")
+   public String bbti4(HttpServletRequest request, Model mo) {
+	   
+	   String id = request.getParameter("id");
+	   mo.addAttribute("id",id);
+	   
+	return "bbti_list";
+	   
+   }
+   
+   @RequestMapping(value = "/bbti_list_save")
+   public String bbti5(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	   
+	   String id = request.getParameter("id");
+	   String bbti = request.getParameter("bbti");
+	   Service ss = sqlsession.getMapper(Service.class);
+	   
+	   System.out.println("id : "+id+" / 덮어쓸bbti : "+bbti);
+	   
+	   response.setCharacterEncoding("UTF-8");
+	   response.setContentType("text/html; charset=UTF-8");
+	   PrintWriter out = response.getWriter();
+	   
+		ss.insertbbti(bbti,id);
+		out.print("<script type='text/javascript'>");	
+		out.print("alert('bbti가 성공적으로 저장되었어요!');");
+		out.print("window.location.href='./';");
+		out.print("</script>");
+		out.flush();
+	   
+	return null;
+	   
+   }  
+   
+   @RequestMapping(value = "/my_post")
+   public String mypage_post(HttpServletRequest request, Model mo) {
+	   
+
+	   
+	return "my_post";
+	   
+   }
+   
 
 }

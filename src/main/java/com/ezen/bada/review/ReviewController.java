@@ -528,7 +528,10 @@ public class ReviewController {
 	        String content = request.getParameter("content");
 	
 	        Service ss=sqlsession.getMapper(Service.class);
-	        ss.review_ban_save(title, name, id, ban_review_num, ban_name, ban_id, category, content);
+	        int user_num=ss.ban_user_num(ban_id);
+	        
+	        
+	        ss.review_ban_save(title, name, id, ban_review_num, ban_name, ban_id, category, content,user_num);
 	        ss.report_up(ban_review_num);
 
 	      return "redirect:/review_detail?review_num="+ban_review_num;
@@ -559,8 +562,172 @@ public class ReviewController {
 
 	      return obj.toString();
 	   }
+	  
+	  // 댓글 수정
 	
-	
-	
+	  @ResponseBody
+	  @RequestMapping(value = "modify_reply")
+	   public String reply_modify(HttpServletRequest request) throws IOException {
+	      
+		  	JSONObject obj = new JSONObject();
+		  
+		    try {
+		        int reply_num = Integer.parseInt(request.getParameter("reply_num"));
+		        String modi_reply = request.getParameter("reply");
+
+		        Service ss = sqlsession.getMapper(Service.class);
+		        ss.reply_modify(reply_num,modi_reply);
+		        ReplyDTO dto = ss.reply_info(reply_num);
+		        
+		        obj.put("id",dto.getId());
+		        obj.put("reply_day", dto.getReply_day().substring(0, 16));
+		        obj.put("success", true);
+		        
+		    } catch (Exception e) {
+		    	obj.put("success", false);
+		        e.printStackTrace();
+		    }
+
+	      return obj.toString();
+	   }
+	  
+	  // 댓글신고
+	  
+	  @ResponseBody
+	  @RequestMapping(value = "report_reply" , method = RequestMethod.POST)
+	   public String report_reply(HttpServletRequest request) throws IOException {
+  
+		  int reply_num = Integer.parseInt(request.getParameter("reply_num"));
+		  int review_num = Integer.parseInt(request.getParameter("review_num"));
+		  String id = request.getParameter("reporter_id");
+		  String ban_id = request.getParameter("reply_id");
+		  String reply_contents = request.getParameter("reply_content");
+		  String reason = request.getParameter("reason");
+		  String detail = request.getParameter("detail");
+		  String result="";
+				  
+		  Service ss = sqlsession.getMapper(Service.class);
+		  
+		  int user_num=ss.ban_user_num(ban_id);
+		  System.out.println("너 왜그래?"+user_num);
+		  
+		  String ban_check = ss.report_check(reply_num,id,reason,reply_contents);
+		  
+		  if (ban_check==null) {
+			  ss.reply_report_save(review_num, reply_num, id, ban_id, reply_contents, reason, detail,user_num);
+			  result="ok";
+	        } else {
+	        	result="no";
+	        }
+
+		  
+	      return result;
+	   }
+	  
+	   @ResponseBody
+	   @RequestMapping(value = "/review_search", produces = "text/html; charset=UTF-8")
+	   public String search1(HttpServletRequest request) {
+		    
+	      String category = request.getParameter("search_category");
+	      String search = request.getParameter("search");
+      
+	      if ("vdate".equals(category) || "wdate".equals(category)) {
+	          String year = request.getParameter("year");
+	          String month = request.getParameter("month");
+
+	          if ("2020".equals(year)) {
+	              search = "2020";
+	          } else if (year != null && !year.isEmpty() && month != null && !month.isEmpty()) {
+	              search = year + "-" + String.format("%02d", Integer.parseInt(month)); // "2024-05"
+	          } else if (year != null && !year.isEmpty()) {
+	              search = year; // "2024"
+	          } else if (month != null && !month.isEmpty()) {
+	              search = month;
+	          }
+	      }
+	      
+	      System.out.println("날짜 확인 : "+search);
+
+	      
+	      Service ss = sqlsession.getMapper(Service.class);
+	      
+	      ArrayList<AllBoardDTO> list = ss.search_result(category,search);
+	      
+	      
+	      StringBuilder sb = new StringBuilder();
+	        sb.append("<table class='board-table'>");
+	        sb.append("<thead><tr><th>번호</th><th>제목</th><th>작성자</th><th>방문일</th><th>작성일</th><th>추천수</th><th>조회수</th></tr></thead>");
+	        sb.append("<tbody>");
+	        for (AllBoardDTO review : list) {
+	            sb.append("<tr>");
+	            sb.append("<td>").append(review.getReview_num()).append("</td>");
+	            sb.append("<td><a href='review_detail?review_num=").append(review.getReview_num()).append("'>")
+	            .append(review.getReview_title()).append(" <span class='reply_check'>[").append(review.getReply()).append("]</span></a></td>");
+	            String show_id = review.getId().substring(0,4)+"****";
+	            sb.append("<td>").append(review.getName()).append("(").append(show_id).append(")님").append("</td>");
+	            sb.append("<td>").append(review.getVisit_day()).append("</td>");
+	            String write_day = review.getWrite_day().substring(0, 10);
+	            sb.append("<td>").append(write_day).append("</td>");
+	            sb.append("<td>").append(review.getRecommend()).append("</td>");
+	            sb.append("<td>").append(review.getHits()).append("</td>");
+	            sb.append("</tr>");
+	        }
+	        sb.append("</tbody></table>");
+		  
+		   
+	      return sb.toString();
+	   }
+	   
+   
+	   @ResponseBody
+	   @RequestMapping(value = "/review_area_search", produces = "text/html; charset=UTF-8")
+	   public String search2(HttpServletRequest request) {
+		    
+	      String area = request.getParameter("area");
+	      
+	      Service ss = sqlsession.getMapper(Service.class);
+	      
+	      ArrayList<AllBoardDTO> list = ss.search_area_result(area);
+	      
+	      
+	      StringBuilder sb = new StringBuilder();
+	        sb.append("<table class='board-table'>");
+	        sb.append("<thead><tr><th>번호</th><th>제목</th><th>작성자</th><th>방문일</th><th>작성일</th><th>추천수</th><th>조회수</th></tr></thead>");
+	        sb.append("<tbody>");
+	        for (AllBoardDTO review : list) {
+	            sb.append("<tr>");
+	            sb.append("<td>").append(review.getReview_num()).append("</td>");
+	            sb.append("<td><a href='review_detail?review_num=").append(review.getReview_num()).append("'>")
+	            .append(review.getReview_title()).append(" <span class='reply_check'>[").append(review.getReply()).append("]</span></a></td>");
+	            String show_id = review.getId().substring(0,4)+"****";
+	            sb.append("<td>").append(review.getName()).append("(").append(show_id).append(")님").append("</td>");
+	            sb.append("<td>").append(review.getVisit_day()).append("</td>");
+	            String write_day = review.getWrite_day().substring(0, 10);
+	            sb.append("<td>").append(write_day).append("</td>");
+	            sb.append("<td>").append(review.getRecommend()).append("</td>");
+	            sb.append("<td>").append(review.getHits()).append("</td>");
+	            sb.append("</tr>");
+	        }
+	        sb.append("</tbody></table>");
+		  
+		   
+	      return sb.toString();
+	   }
+	   
+	   // 신고내역 확인페이지 -> 진행중입니다! _0412
+		@RequestMapping(value = "review_ban_listout")
+		   public String ban_list(HttpServletRequest request, Model mo) {
+			
+			Service ss = sqlsession.getMapper(Service.class);
+			
+			
+
+
+
+		      return "review_ban_listout";
+		   }
+	   
+
+
 	
 }

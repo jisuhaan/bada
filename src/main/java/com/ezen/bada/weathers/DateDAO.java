@@ -1,8 +1,11 @@
 package com.ezen.bada.weathers;
 
+import java.text.ChoiceFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DateDAO {
 	// LocalDate 클래스 사용
@@ -43,5 +46,23 @@ public class DateDAO {
         int newHour = (minutes > 30) ? currentTime.getHour() + 1 : currentTime.getHour();
         currentTime = LocalTime.of(newHour, 0);
         return currentTime.format(DateTimeFormatter.ofPattern("HHmm"));
+    }
+    
+    public static Map<String, String> setForecastDate(){
+    	Map<String, String> datemap = new HashMap<String, String>();
+    	
+    	double [] limit = {0, 200, 500, 800, 1100, 1400, 1700, 2000, 2300};
+    	String [] basetime = {"2300","0200","0500","0800","1100","1400","1700","2000","2300"};
+    	ChoiceFormat cf = new ChoiceFormat(limit, basetime);
+
+    	int getCurrentTime = Integer.parseInt(getCurrentTime());
+    	String setDate = getCurrentDateString();
+    	if (getCurrentTime < limit[1]) {
+    		setDate = getYesterdayDateString();
+    	}
+    	
+    	datemap.put("date", setDate);
+    	datemap.put("time", cf.format(getCurrentTime));
+		return datemap;
     }
 }

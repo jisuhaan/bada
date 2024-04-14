@@ -180,18 +180,20 @@
 				    </div>
 				</td>
             </tr>
-            <tr>
-            	<td colspan="2"> <span style="float: right;">
-            	&nbsp;
-            	<a href="#" onclick="confirm_reply_Delete('${l.inquire_reply_num}')">
-  						<img src="./resources/image/delete_icon.png" width="15px"></a>
-        		&nbsp; &nbsp; &nbsp;
-        		<a href="inquire_reply_modify?inquire_reply_num=${l.inquire_reply_num}"> <img src="./resources/image/modify_icon.png" width="15px"> </a>
-            	<br> 삭제 &nbsp; &nbsp; 수정
-            	</span>
-            	
-                </td>
-            </tr>
+            <tr id="reply_${l.inquire_reply_num}">
+			    <td colspan="2"> <span style="float: right;">
+			        &nbsp;
+			        <a href="#" onclick="confirm_reply_Delete('${l.inquire_reply_num}' , '${dto.inquire_num}')">
+			            <img src="./resources/image/delete_icon.png" width="15px"></a>
+			        &nbsp; &nbsp; &nbsp;
+			        <a href="#" onclick="createEditForm('${l.inquire_reply_num}', '${dto.inquire_num}', '${l.content}')">
+			            <img src="./resources/image/modify_icon.png" width="15px">
+			        </a>
+			        <br> 삭제 &nbsp; &nbsp; 수정
+			    </span>
+			    
+			    </td>
+			</tr>
             </c:forEach>
             
             </c:when>
@@ -218,20 +220,78 @@
     </form>
     
     
-    
+
 <script type="text/javascript">
 function confirmDelete(inquire_num) {
-    if(confirm('문의글을 정말 삭제하시겠습니까?')) {
+    if(confirm('문의를 정말 삭제하시겠습니까?')) {
         location.href = 'inquire_delete?inquire_num=' + inquire_num;
     }
 }
+</script>
 
-function confirm_reply_Delete(inquire_reply_num) {
+<script type="text/javascript">
+function confirm_reply_Delete(inquire_reply_num, inquire_num) {
     if(confirm('답변을 정말 삭제하시겠습니까?')) {
-        location.href = 'inquire_reply_delete?inquire_reply_num=' + inquire_reply_num; + '&inquire_num='
+        location.href = 'inquire_reply_delete?inquire_reply_num=' + inquire_reply_num + '&inquire_num=' + inquire_num;
     }
 }
 </script>
-			        	
+
+<script type="text/javascript">
+function createEditForm(inquire_reply_num, inquire_num, content) {
+    console.log('inquire_reply_num:', inquire_reply_num);
+    console.log('inquire_num:', inquire_num);
+    console.log('content:', content);
+    
+    // 수정 폼 HTML 생성
+    var formHtml = '<form id="editForm_' + inquire_reply_num + '">' +
+                       '<textarea cols="90" rows="5" id="content_' + inquire_reply_num + '" name="newcontent">' + content + '</textarea><br>' +
+                       '<span style="float: right;"> <input type="button" value="답변 수정" onclick="submitEditedReply(\'' + inquire_reply_num + '\', \'' + inquire_num + '\')"> </span>' +
+                       '<input type="hidden" name="inquire_reply_num" value="' + inquire_reply_num +'">' +
+                       '<input type="hidden" name="inquire_num" value="' + inquire_num +'">' +
+                   '</form>';
+    
+    // 수정 폼을 해당 댓글 영역에 추가
+    var targetElement = document.getElementById('reply_' + inquire_reply_num);
+    if(targetElement) {
+        console.log('targetElement found:', targetElement);
+        var parentElement = targetElement.parentNode; // 부모 요소를 찾습니다.
+        var newRow = parentElement.insertRow(targetElement.rowIndex + 1); // 새로운 행을 삽입합니다.
+        var newCell = newRow.insertCell(); // 새로운 셀을 삽입합니다.
+        newCell.colSpan = "2"; // 새로운 셀이 전체 행을 차지하도록 설정합니다.
+        newCell.innerHTML = formHtml; // 수정 폼 HTML을 삽입합니다.
+    } else {
+        console.error('Target element not found:', 'reply_' + inquire_reply_num);
+    }
+}
+
+function submitEditedReply(inquire_reply_num, inquire_num) {
+    var newcontent = document.getElementById('content_' + inquire_reply_num).value;
+    var formData = new FormData();
+    formData.append('inquire_reply_num', inquire_reply_num);
+    formData.append('inquire_num', inquire_num);
+    formData.append('newcontent', newcontent);
+
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                console.log('답변 수정이 성공적으로 완료되었습니다.');
+                window.location.reload(); // 답변 수정 후 페이지 새로고침
+            } else {
+                console.error('서버 오류:', xhr.status);
+                alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+            }
+        }
+    };
+    xhr.open('POST', 'inquire_reply_modify');
+    xhr.send(formData);
+}
+</script>
+
+
+
+
+
 </body>
 </html>

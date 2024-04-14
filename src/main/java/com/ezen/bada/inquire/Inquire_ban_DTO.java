@@ -5,15 +5,16 @@ public class Inquire_ban_DTO {
 	int i_banned_num;
 	String title, name, id;
 	int ban_inquire_num;
-	String ban_name, dan_id, category, content, ban_date;
-	int ban_counting;
+	String ban_name, ban_id, category, content, ban_date;
+	int ban_counting, ban_user_number;
 	
 	public Inquire_ban_DTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	public Inquire_ban_DTO(int i_banned_num, String title, String name, String id, int ban_inquire_num, String ban_name,
-			String dan_id, String category, String content, String ban_date, int ban_counting) {
+			String ban_id, String category, String content, String ban_date, int ban_counting, int ban_user_number) {
 		super();
 		this.i_banned_num = i_banned_num;
 		this.title = title;
@@ -21,11 +22,12 @@ public class Inquire_ban_DTO {
 		this.id = id;
 		this.ban_inquire_num = ban_inquire_num;
 		this.ban_name = ban_name;
-		this.dan_id = dan_id;
+		this.ban_id = ban_id;
 		this.category = category;
 		this.content = content;
 		this.ban_date = ban_date;
 		this.ban_counting = ban_counting;
+		this.ban_user_number = ban_user_number;
 	}
 	public int getI_banned_num() {
 		return i_banned_num;
@@ -63,11 +65,11 @@ public class Inquire_ban_DTO {
 	public void setBan_name(String ban_name) {
 		this.ban_name = ban_name;
 	}
-	public String getDan_id() {
-		return dan_id;
+	public String getBan_id() {
+		return ban_id;
 	}
-	public void setDan_id(String dan_id) {
-		this.dan_id = dan_id;
+	public void setBan_id(String ban_id) {
+		this.ban_id = ban_id;
 	}
 	public String getCategory() {
 		return category;
@@ -93,6 +95,11 @@ public class Inquire_ban_DTO {
 	public void setBan_counting(int ban_counting) {
 		this.ban_counting = ban_counting;
 	}
-	
+	public int getBan_user_number() {
+		return ban_user_number;
+	}
+	public void setBan_user_number(int ban_user_number) {
+		this.ban_user_number = ban_user_number;
+	}
 	
 }

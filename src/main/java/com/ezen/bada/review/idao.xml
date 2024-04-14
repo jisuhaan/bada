@@ -146,8 +146,9 @@
 
 <!-- 게시글 신고 저장 -->
 <insert id="review_ban_save">
-	insert into bada_review_report (review_report_num, title, name, id, ban_review_num, ban_name, ban_id, category, content) 
-	values (review_report_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6}, #{param7}, #{param8})
+	insert into bada_review_report (review_report_num, title, name, id, ban_review_num, ban_name, ban_id, category, content, ban_user_number) 
+	values 
+	(review_report_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6}, #{param7}, #{param8},#{param9})
 </insert>
 
 <!-- bada_user_review 신고 count up -->
@@ -164,6 +165,88 @@
 <update id="reply_minus">
 	UPDATE bada_user_review SET reply = reply - 1 where review_num = #{param1}
 </update>
+
+<!-- 댓글수정 -->
+<update id="reply_modify">
+	UPDATE bada_review_comment SET reply_contents = #{param2} where reply_num = #{param1}
+</update>
+
+<!-- 댓글 실시간 반영 정보 추출 -->
+
+<select id="reply_info" resultType="com.ezen.bada.review.ReplyDTO">
+	select id, reply_day from bada_review_comment 
+	where reply_num =#{param1}
+</select>
+
+<!-- 댓글 신고 저장 -->
+
+<insert id="reply_report_save">
+   INSERT INTO bada_review_reply_report 
+   (review_reply_ban_num, review_num, reply_num, id, ban_id, reply_contents, reason, detail, BAN_USER_NUMBER)
+   VALUES 
+   (review_reply_ban_seq.nextval, #{review_num}, #{reply_num}, #{id}, #{ban_id}, #{reply_contents}, #{reason}, #{detail}, #{user_num})
+</insert>
+
+
+<!-- 댓글 중복신고 체크 -->
+<select id="report_check" resultType="String">
+	select detail 
+	from bada_review_reply_report
+	where reply_num=#{param1} and id=#{param2} and reason=#{param3} and reply_contents=#{param4}
+</select>
+
+<!-- 리뷰게시글 검색 -->
+
+<select id="search_result" resultType="com.ezen.bada.review.AllBoardDTO">
+ 	select * from bada_user_review
+ 	    <where>
+        <choose>
+            <!-- 제목 검색 -->
+            <when test="param1 == 'title'">
+                review_title LIKE '%' || #{param2}  || '%'
+            </when>
+            <!-- 내용 검색 -->
+            <when test="param1 == 'intext'">
+                review_contents LIKE '%' || #{param2}  || '%'
+            </when>
+            <!-- 작성자명 검색 -->
+            <when test="param1 == 'name'">
+                name LIKE '%' || #{param2}  || '%'
+            </when>
+           
+ 			<!-- 방문시기 검색 -->
+            <when test="param1 == 'vdate' and param2 != '2020'">
+                visit_day LIKE #{param2} || '%'
+            </when>
+            <when test="param1 == 'vdate' and param2 == '2020'">
+       			<![CDATA[EXTRACT(YEAR FROM TO_DATE(visit_day, 'YYYY-MM-DD')) <= #{param2}]]>
+    		</when>
+            
+            <!-- 작성일 검색 -->
+            <when test="param1 == 'wdate' and param2 != '2020'">
+  			  TO_CHAR(write_day, 'YYYY-MM-DD') LIKE #{param2} || '%'
+			</when>
+			<when test="param1 == 'wdate' and param2 == '2020'">
+			   <![CDATA[EXTRACT(YEAR FROM write_day) <= #{param2}]]>
+			</when>
+       
+        </choose>
+    </where>
+</select>
+
+<!-- 피신고자 회원일련번호  -->
+<select id="ban_user_num" resultType="Integer">
+	select user_number from bada_user where ID = #{param1}
+</select>
+
+<!-- 리뷰게시판 지역선택별 게시글 -->
+<select id="search_area_result" resultType="com.ezen.bada.review.AllBoardDTO">
+	SELECT bur.* 
+	FROM bada_user_review bur
+	JOIN bada_list bl ON bur.beach_code = bl.beach_code
+	WHERE (#{param1} = '경인' AND bl.state IN ('경기', '인천')) OR (bl.state = #{param1})
+</select>
+
 
 
 </mapper>

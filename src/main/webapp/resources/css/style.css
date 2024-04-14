@@ -29,12 +29,15 @@
 }
 
 body {
-	width:90%;
-	height:100%;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	width:100%;
 	font-family: 'Pretendard-Regular';
 	margin:0 auto;
 	margin-left:100px;
-	background-color: rgba(245,235,222,1);
+	background-image: url('../image/2560x1440-01.png');
+	background-size: cover;
 }
 
 li a {

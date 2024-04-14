@@ -70,5 +70,14 @@
 		<put-attribute name="body" value="/WEB-INF/views/member/info_modify.jsp"/>
 	</definition>	
 	
+	<definition name="bbti_list" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: BBTI 리스트"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/bbti_list.jsp"/>
+	</definition>
+	
+	<definition name="my_post" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 나의 게시글"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/my_post.jsp"/>
+	</definition>
 			   
 </tiles-definitions>

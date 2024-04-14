@@ -2,6 +2,7 @@ package com.ezen.bada.weathers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
@@ -10,16 +11,19 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.NodeList;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,6 +41,7 @@ import java.io.StringReader;
 //디코딩된 서비스 키를 사용하고, 이를 메소드에서 인코딩 해주는 게 오류 해결의 핵심!!
 public class APIClient {
 	ObjectMapper objectMapper = new ObjectMapper();
+	
 	
     public String getApi(String stringURL, Map<String, Object> params) throws IOException {
         // 파라미터를 URL에 추가하고 시작
@@ -124,6 +129,7 @@ public class APIClient {
             String fcstDate = itemNode.get(0).path("fcstDate").asText();
             String fcstTime = itemNode.get(0).path("fcstTime").asText();
             
+            
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("fcstTime", fcstTime);
             jsonObject.put("fcstDate", fcstDate);
@@ -137,7 +143,7 @@ public class APIClient {
             }
             System.out.println(jsonObject.toString());
             dto = objectMapper.readValue(jsonObject.toString(), UltraSrtFcstBeach_DTO.class);
- 
+            System.out.println("초단기 최근 시간 dto : "+dto.getFcstTime());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -145,7 +151,8 @@ public class APIClient {
 		
 	}
 
-    public String getVilageFcstBeach_API(int beach_num, String getYesterday) {
+    public String getVilageFcstBeach_API(int beach_num, String getday, String basetime, int day) {
+    	int nor = 290*day;
     	String text = null;
     	// API 호출
         String url = "http://apis.data.go.kr/1360000/BeachInfoservice/getVilageFcstBeach"; /*URL*/
@@ -154,11 +161,11 @@ public class APIClient {
         // 파라미터 맵 구성
         Map<String, Object> params = new HashMap<>();
         params.put("serviceKey", serviceKey);
-        params.put("numOfRows", "290");
+        params.put("numOfRows", Integer.toString(nor));
         params.put("pageNo", "1");
         params.put("dataType", "JSON");
-        params.put("base_date", getYesterday);
-        params.put("base_time", "2300");
+        params.put("base_date", getday);
+        params.put("base_time", basetime);
         params.put("beach_num", beach_num);
 
         // API 호출
@@ -239,7 +246,7 @@ public class APIClient {
 	
 	public List<Map<String, String>> getWeatherWarning_API(String stnId) {
     	// API 호출
-        String url = "https://apis.data.go.kr/1360000/WthrWrnInfoService/getPwnCd"; /*URL*/
+        String url = "http://apis.data.go.kr/1360000/WthrWrnInfoService/getPwnCd"; /*URL*/
         String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; 
 
         // 파라미터 맵 구성
@@ -276,13 +283,45 @@ public class APIClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
         return itemList;
+		
+	}
+	
+	// 기상 특보 일주일 현황인데, 가져오려면 기존과 형식이 달라져서 생각을 좀 해봐야할듯
+	public List<Map<String, String>> getPwnStatus_API() {
+    	// API 호출
+        String url = "http://apis.data.go.kr/1360000/WthrWrnInfoService/getPwnStatus"; /*URL*/
+        String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; 
+
+        // 파라미터 맵 구성
+        Map<String, Object> params = new HashMap<>();
+        params.put("dataType", "JSON");
+        params.put("numOfRows", 10);
+        params.put("pageNo", 1);
+        params.put("serviceKey", serviceKey);
+
+        // API 호출
+        List<Map<String, String>> itemList = new ArrayList<Map<String, String>>();
+        try {
+        	String text = getApi(url, params);
+            System.out.println("기온 특보 API 호출 결과: " + text);
+        
+            JsonNode rootNode = objectMapper.readTree(text);
+            // tm과 tw 추출
+            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
+            System.out.println(itemNode);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        return null;
 		
 	}
 
 	// 당일의 최저, 최고 기온을 구하는 메소드 
-	public Bada_tmx_n_DTO get_bada_tmx_n(int beach_num, String getYesterday) {
-		String text = getVilageFcstBeach_API(beach_num, DateDAO.getYesterdayDateString());
+	public Bada_tmx_n_DTO get_bada_tmx_n(int beach_num, String getYesterday, String basetime) {
+		String text = getVilageFcstBeach_API(beach_num, DateDAO.getYesterdayDateString(), basetime, 1);
 		Bada_tmx_n_DTO dto = null;
 		JsonNode rootNode;
 		try {
@@ -308,6 +347,72 @@ public class APIClient {
 			e.printStackTrace();
 		}
 		return dto;
+	}
+	
+	// 현재 시간부터 모레의 날씨 정보까지 가져와서 리스트화하기 -> 자세히 보기
+	public Map<String, Map<String, VilageFcstBeach_DTO>> getWeatherForecast(int beach_num, String getCurrentDateString, String basetime) {
+		
+		// 최종!! 날짜와 시간 별로 구분된 데이터를 그룹화하는 맵 + LinkedHashMap으로 순서 유지
+        Map<String, Map<String, VilageFcstBeach_DTO>> groupedData = new LinkedHashMap<>();
+        VilageFcstBeach_DTO dto = null;
+        
+		try {
+			// 요청 api의 String 결과
+			String text = getVilageFcstBeach_API(beach_num, getCurrentDateString, basetime, 3);
+			JsonNode rootNode = objectMapper.readTree(text);
+			JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
+
+			// 날짜를 기준으로 데이터를 그룹화하는 맵 + LinkedHashMap으로 순서 유지
+            Map<String, List<JsonNode>> dateGroupedData = new LinkedHashMap<>();
+			// 날자 기준 데이터를 그룹화
+            for (JsonNode item : itemNode) {
+                String fcstDate = item.get("fcstDate").asText();
+                dateGroupedData.putIfAbsent(fcstDate, new ArrayList<>()); // groupedData에 해당 키가 존재하지 않으면 새로운 리스트를 만들고, 아니라면 null을 반환
+                dateGroupedData.get(fcstDate).add(item);
+            }
+            for(String key : dateGroupedData.keySet()) { // dateGroupedData의 키 값(날짜 정보들) 세트로 반복
+            	List<JsonNode> itemList = dateGroupedData.get(key); // 키의 밸류값을 가져옴(날짜 별로 저장된 jsonnode 모음)
+            	// 시간을 기준으로 노드를 한 번 더 그룹화하는 맵 + 순서 유지
+            	Map<String, List<JsonNode>> timeGroupedData = new LinkedHashMap<>();
+            	// 시간 별로 node 묶어주기
+            	for (JsonNode node : itemList) {
+                    String fcstTime = node.get("fcstTime").asText();
+                    timeGroupedData.putIfAbsent(fcstTime, new ArrayList<>());
+                    timeGroupedData.get(fcstTime).add(node);
+                }
+                
+            	// 시간 별 쌍을 저장할 map 만들어주기
+            	Map<String, VilageFcstBeach_DTO> timeObjectData = new LinkedHashMap<>();
+            	// 시간 별로 category랑 value 쌍 만들어주기
+                for(String time : timeGroupedData.keySet()) {
+                	
+                	JSONObject jsonObject = new JSONObject();
+                	jsonObject.put("fcstTime", time);
+                    jsonObject.put("fcstDate", key);
+                    
+                	for(JsonNode item : timeGroupedData.get(time)) {
+                    	jsonObject.put(item.path("category").asText(), item.path("fcstValue").asText());
+                    }
+                	// 오류 방지 차원
+                	objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                	dto = objectMapper.readValue(jsonObject.toString(), VilageFcstBeach_DTO.class);
+        	        System.out.println("jsonObject: " + jsonObject);
+        	        timeObjectData.put(time, dto);
+                }
+                
+                groupedData.put(key, timeObjectData);
+//                System.out.println(key+"일의 groupedData: "+groupedData.get(key));
+            }
+            
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return groupedData;
 	}
 	
 	// xml을 파싱하는 메소드
@@ -338,7 +443,40 @@ public class APIClient {
         }
 		return null;
     }
-    
+	
+	public void getstnIdXml() {
+	  try {
+            // XML 데이터를 가져올 URL
+            URL url = new URL("https://apihub.kma.go.kr/api/typ01/url/stn_inf.php?inf=SFC&help=1&authKey=r3dQ86BKQbi3UPOgSnG4iw");
+            InputStream inputStream = url.openStream();
+
+            // XML 파서 설정
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            
+            // XML 파서를 이용하여 InputStream으로부터 Document 객체 생성
+            Document document = builder.parse(inputStream);
+
+            // XML에서 STN_KO와 STN_EN 추출
+            NodeList nodeList = document.getElementsByTagName("item");
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) node;
+                    String stnKo = element.getElementsByTagName("stn_ko").item(0).getTextContent();
+                    String stnEn = element.getElementsByTagName("stn_en").item(0).getTextContent();
+                    
+                    // 추출한 데이터 출력
+                    System.out.println("STN_KO: " + stnKo);
+                    System.out.println("STN_EN: " + stnEn);
+                    System.out.println("----------------------");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+	
     private String convertWarnVar(String warnVar) {
         switch (warnVar) {
             case "1":

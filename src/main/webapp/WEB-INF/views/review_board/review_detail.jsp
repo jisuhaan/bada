@@ -95,8 +95,14 @@
 	          <strong>${re.id}</strong><span class="comment-date"> (${fn:substring(re.reply_day, 0, 16)})</span>
 	          <p>${re.reply_contents}</p>
 	           	<c:if test="${fn:trim(loginid) == fn:trim(re.id) || 'admin' == loginid}">
+          			<button type="button" class="reply_modify" data-reply_num="${re.reply_num}">수정</button>
           			<button type="button" class="reply_delete" data-reply_num="${re.reply_num}">삭제</button>
-        		</c:if> 
+        		</c:if>
+        		<c:if test="${fn:trim(loginid) != fn:trim(re.id) && not empty loginid}">
+          			<button type="button" class="reply_report" 
+          			data-reply_num="${re.reply_num}" data-review_num="${dto.review_num}" 
+          			data-reply_id="${re.id}">신고</button>
+        		</c:if>
 	        </div>
 	      </c:forEach>
 	    </div>
@@ -120,6 +126,50 @@
 	  </div>
 	  
 	</div>
+	
+	<!-- 신고 모달창 -->
+	
+	<div id="report_modal" class="modal" style="display:none;">
+	  <div class="modal-content">
+	    <span class="close">&times;</span>
+	    <h3 align="center">댓글 신고</h3>
+	    <div>
+			  <label>신고자 : </label>
+			  <span id="reporter_id"></span> <br>
+	    </div>
+	    <div>
+	        <label>신고대상 : </label>
+  			<span id="reply_id"></span> <br>
+	    </div>
+	    <div>
+			<label>신고 댓글 내용 : </label>
+			<span id="reply_content"></span> <br>
+	    </div>
+	    <div>
+	      <label for="reason">신고 사유:</label>
+	      <select id="reason" name="reason" required> 
+	        <option value="정보통신망법에 의거한 청소년 유해 컨텐츠">정보통신망법에 의거한 청소년 유해 컨텐츠</option>
+					<option value="정보통신망법에 의거한 명예훼손, 모욕, 비방">정보통신망법에 의거한 명예훼손, 모욕, 비방</option>
+					<option value="정보통신망법에 의거한 불법촬영물">정보통신망법에 의거한 불법촬영물</option>
+					<option value="정보통신망법에 의거한 광고성 게시글(스팸, 바이럴)">정보통신망법에 의거한 광고성 게시글(스팸, 바이럴)</option>
+					<option value="개인정보보호법에 의거한 개인정보 노출게시물">개인정보보호법에 의거한 개인정보 노출게시물</option>
+					<option value="불법행위,불법링크 등 불법정보 포함게시글">불법행위,불법링크 등 불법정보 포함게시글</option>
+					<option value="그 외(아래 '문의 내용'에 게재)">그 외(아래 '신고 내용'에 게재)</option>
+	      </select>
+	    </div>
+	    <div>
+	      <label for="detail">신고 내용:</label>
+	      <textarea id="detail" name="detail" rows="2" cols="45" placeholder="신고 상세 내용을 입력해주세요!" required></textarea>
+	    </div><br><br>
+	    <div class="modal-footer">
+		    <button type="button" onclick="submit_report()">신고하기</button>
+		    <button type="button" class="close">취소하기</button>
+	    </div>
+	  </div>
+	</div>
+	
+
+	
 
 <script type="text/javascript">
 
@@ -154,12 +204,13 @@ $(document).ready(function() {
                 },
                 success: function(data) {
                     if(data.success) {
-                    	var newCommentHtml = '<div class="comment">' +
+                    	var new_html = '<div class="comment">' +
                         '<strong>' + data.loginid + '</strong><span class="comment-date"> (' + data.reply_day + ')</span>' +
                         '<p>' + data.reply + '</p>' +
+                        '<button type="button" class="reply_modify" data-reply_num="' + data.reply_num + '">수정</button> ' +
                         '<button type="button" class="reply_delete" data-reply_num="' + data.reply_num + '">삭제</button>' +
                         '</div>';
-                    $('.comments-list').append(newCommentHtml);
+                    $('.comments-list').append(new_html);
                     $('#reply').val(''); 
                 } else {
                     alert('댓글을 등록하지 못했습니다.');
@@ -200,9 +251,117 @@ $(document).ready(function() {
             });
         }
     });
+   	
+   	// 댓글 수정
+   	
+   	$('.comments-container').on('click', '.reply_modify', function() {
+   	    var reply_num = $(this).data('reply_num');
+   	    var original_reply = $(this).closest('.comment').find('p').text().trim();
+   	    
+   	 	$(this).siblings('button').hide();
+   	    
+   	    var edit_monitor = '<br> <textarea class="reply-edit">' + original_reply + '</textarea>' +
+   	                   '<button type="button" class="reply-save" data-reply_num="' + reply_num + '">저장</button>';
+   	    
+   	    $(this).closest('.comment').find('p').replaceWith(edit_monitor);
+   		$(this).hide();
+   		
+   	});
+   	
+   	$('.comments-container').on('click', '.reply-save', function() {
+   	    var reply_num = $(this).data('reply_num');
+   	    var update_reply = $(this).prev('.reply-edit').val().trim();
+   	    var review_num = $('#review_num').val();
 
-    
+   	    if(update_reply) {
+   	        $.ajax({
+   	            url: 'modify_reply', 
+   	            type: 'POST',
+   	            dataType: 'json',
+   	            data: {
+   	                'reply_num': reply_num,
+   	                'reply': update_reply,
+   	                'review_num': review_num
+   	            },
+   	            success: function(data) {
+   	                if(data.success) {
+   	                    
+   	                    var update_html = '<div class="comment">' +
+                        	'<strong>' + data.id + '</strong><span class="comment-date"> (' + data.reply_day + ')</span>' +
+                       		'<p>' + update_reply + '</p>' +
+							'<button type="button" class="reply_modify" data-reply_num="' + reply_num + '">수정</button>' +
+                        	'<button type="button" class="reply_delete" data-reply_num="' + data.reply_num + '">삭제</button>' +
+                        	'</div>';
+   	                    
+   	                        $('button[data-reply_num="' + reply_num + '"]').closest('.comment').html(update_html);
+   	                } else {
+   	                    alert('댓글 수정 실패');
+   	                }
+   	            },
+   	            error: function() {
+   	                alert('댓글 수정 오류 발생');
+   	            }
+   	        });
+   	    } else {
+   	        alert('댓글 내용을 입력해주세요.');
+   	    }
+   	});
+   	
 });
+   	
+   	// 댓글 신고 모달창 시작
+   	
+    $('.reply_report').click(function() {
+        // 댓글과 관련된 정보 
+		  var reply_num = $(this).data('reply_num');
+		  var reply_id = $(this).data('reply_id');
+		  var reply_content = $(this).closest('.comment').find('p').text();
+		  var reporter_id = $('#loginid').text(); // 신고자 아이디를 가져오는 코드
+		
+		  $('#reporter_id').text(reporter_id);
+		  $('#reply_id').text(reply_id);
+		  $('#reply_content').text(reply_content);
+		  $('#detail').val('');
+
+        $('#report_modal').show();
+    });
+
+    // 모달 닫기 
+    $('.close').click(function() {
+        $('#report_modal').hide();
+    });
+    
+
+    function submit_report() {
+    	  	  
+    	  $.ajax({
+    	    url:'report_reply',
+    	    type: 'POST',
+    	    data: {
+    	      'reply_num' : $('.reply_report').data('reply_num'),
+    	      'review_num' : $('#review_num').val(),
+    	      'reporter_id' : $('#reporter_id').text().trim(),
+    	      'reply_id' : $('#reply_id').text().trim(),
+    	      'reply_content' : $('#reply_content').text().trim(),
+    	      'reason' : $('#reason').val(),
+    	      'detail' : $('#detail').val()
+    	    },
+    	    success: function(result) {
+    	    	if (result === "ok") {
+    	    	
+    	    	alert('신고가 접수되었습니다.');
+    	    	$('#report_modal').hide();
+    	    	
+    	    	} else if (result === "no") {
+    	    		alert("동일한 사유의 중복 신고는 불가합니다.");
+    	    	}
+    	    },
+    	    error: function() {
+    	    	alert('신고 처리 중 오류 발생!');
+    	    }
+    	  });
+    	}
+   	
 </script>
 </body>
 </html>

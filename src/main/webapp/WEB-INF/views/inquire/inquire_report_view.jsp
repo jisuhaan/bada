@@ -70,6 +70,7 @@
 				<td>
 					<input type="text" name="name" id="name" value="${mdto.name}" readonly="readonly">
 					<input type="hidden" name="id" id="id" value="${mdto.id}">
+					<input type="hidden" name="ban_user_number" id="ban_user_number" value="${ban_user_number}">
 				</td>
 			</tr>
 			<tr>

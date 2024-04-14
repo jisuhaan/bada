@@ -52,11 +52,23 @@
 	margin-right: 10px;
 }
 
+.bbti_selected,
+.bbti_inputself,
+.bbti_restart:hover{
+	cursor:pointer;
+}
+
 .bbti_yes,
 .bbti_choose,
 .bbti_no {
 	display: block;
 	margin-bottom: 10px; /* 각 버튼 사이의 여백 조정 */
+}
+
+.bbti_yes,
+.bbti_choose,
+.bbti_no:hover {
+	cursor:pointer;
 }
 
 .selectE,
@@ -68,6 +80,15 @@
 	display: block;
 	margin-bottom: 10px; /* 각 버튼 사이의 여백 조정 */
 	bottom: 30px;
+}
+
+.selectE,
+.selectI,
+.selectA,
+.selectP,
+.selectF,
+.selectN:hover{
+	cursor:pointer;
 }
 
 </style>
@@ -88,6 +109,23 @@ $(document).ready(function(){
 	let countF = 0;
 	let countN = 0;
 	let resultcode;
+	
+	$(".bbti_no").click(function(){
+		alert("아쉬워요... 다음엔 해주실거죠?");
+		window.location.href='main';
+	});
+	
+	$(".bbti_choose").click(function(){
+		
+		console.log("userid : "+id);
+		
+		var conf = confirm("큰 화면에서 bbti 전체 목록을 보여드릴게요! 이동할까요?")
+		if(conf){
+			window.opener.location.href="bbti_list?id="+id;
+			self.close();
+		}
+		
+	});
 	
 	$(".bbti_yes").click(function(){
 		$(".start").hide();
@@ -208,7 +246,8 @@ $(document).ready(function(){
 		$(".q10").show();		
 	});
 	
-	$(".bbti_q10").click(function(){		
+	$(".bbti_q10").click(function(){	
+		
 		
 		if(countE>countI){
 			if(countA>countP){
@@ -247,8 +286,97 @@ $(document).ready(function(){
 			}
 		}
 		
+		console.log("bbti : "+resultcode);
+		
 		$(".q10").hide();
 		$("."+resultcode).show();
+		
+		$(".bbti_restart").click(function(){
+			
+			alert('테스트를 처음부터 다시 진행할게요!');
+			
+			$("."+resultcode).hide();
+			$(".start").show();
+			
+			resultcode = null;
+			countE = 0;
+			countI = 0;
+			countA = 0;
+			countP = 0;
+			countF = 0;
+			countN = 0;
+		});
+		
+		$(".bbti_inputself").click(function(){
+			
+			var conf = confirm("큰 화면에서 bbti 전체 목록을 보여드릴게요! 이동할까요?")
+			if(conf){
+				window.opener.location.href="bbti_list?id="+id;
+				self.close();
+			}
+			
+		});
+		
+		$(".bbti_selected").click(function(){
+			
+			if(!id || id.trim() === ''){
+				
+				var bbti_join = confirm("아직 로그인을 안 하셨네요! 로그인하시겠어요? (로그인하면 bbti 정보가 자동으로 저장된답니다! 해당 페이지에서 회원가입을 하셔도 저장됩니다!)");
+				
+				if(bbti_join){
+					window.opener.location.href="login_with?bbti="+resultcode;
+					self.close();
+				}
+				else{
+					var bbti_quit = confirm("로그인하지 않으면 bbti 테스트 정보를 잃게 돼요. 로그인하지 않고 메인으로 이동할까요?")
+					if(bbti_quit){
+		                window.opener.location.href = './';
+		                self.close();
+					}
+				}
+			}
+			
+			else{
+			
+				$.ajax({
+					type:"POST",
+		            url:"bbti_save",
+		            async:true,
+		            dataType:"text",
+		            data:{"id":id,"bbti":resultcode},
+		            success:function(result){
+		            	
+		            	if(result=='ok'){
+		            		
+			                alert("bbti가 성공적으로 저장되었어요. 메인으로 이동할게요!");
+			                window.opener.location.href = './';
+			                self.close();
+			                
+		            	}
+		            	
+		            	else{
+		            		
+		            		var conf2 = confirm("이미 테스트하신적이 있네요! bbti 정보를 현재 결과로 덮어쓸까요?");
+		            		if(conf2){
+		            			window.location.href="bbti_save2?id="+id+"&bbti="+resultcode;
+		            		}
+		            		else{
+		            			alert("기존 정보를 유지합니다! 메인으로 돌아갈게요.");
+				                window.opener.location.href = './';
+				                self.close();
+		            		}
+		            	}
+		            	
+		            },
+		            error: function(){
+		                alert("데이터 전송 과정에 에러가 발생했습니다!");
+		            }
+			            				
+				});
+			
+			}
+
+		});
 		
 	});
 	
@@ -353,20 +481,98 @@ $(document).ready(function(){
 <div class="bbti_body result EAF">
 	<img src="./resources/image_bbti/bbti_result_EAF.png" width="600px" height="800px">
 	<div class="bbti_btn2">
-		<div class="bbti_selected"><img src="./resources/image_bbti/bbti_selected.png" width="150px"></div>
-		<div class="bbti_inputself"><img src="./resources/image_bbti/bbti_inputself.png" width="150px"></div>
-		<div class="bbti_restart"><img src="./resources/image_bbti/bbti_restart.png" width="150px"></div>
+		<div class="bbti_selected"><img src="./resources/image_bbti/bbti_selected.png" width="170px"></div>
+		<div class="bbti_inputself"><img src="./resources/image_bbti/bbti_inputself.png" width="170px"></div>
+		<div class="bbti_restart"><img src="./resources/image_bbti/bbti_restart.png" width="170px"></div>
 	</div>
+	<form action="login_with_bbti" name="bbti_form">
+	<input type="hidden" name="bbti" id="bbti" value="EAF">
+	</form>
 </div>
 
 <div class="bbti_body result EAN">
 	<img src="./resources/image_bbti/bbti_result_EAN.png" width="600px" height="800px">
 	<div class="bbti_btn2">
-		<div class="bbti_selected"><img src="./resources/image_bbti/bbti_selected.png" width="150px"></div>
-		<div class="bbti_inputself"><img src="./resources/image_bbti/bbti_inputself.png" width="150px"></div>
-		<div class="bbti_restart"><img src="./resources/image_bbti/bbti_restart.png" width="150px"></div>
+		<div class="bbti_selected"><img src="./resources/image_bbti/bbti_selected.png" width="170px"></div>
+		<div class="bbti_inputself"><img src="./resources/image_bbti/bbti_inputself.png" width="170px"></div>
+		<div class="bbti_restart"><img src="./resources/image_bbti/bbti_restart.png" width="170px"></div>
 	</div>
+	<form action="login_with_bbti" name="bbti_form">
+	<input type="hidden" name="bbti" id="bbti" value="EAN">
+	</form>
 </div>
-	
+
+<div class="bbti_body result EPF">
+	<img src="./resources/image_bbti/bbti_result_EPF.png" width="600px" height="800px">
+	<div class="bbti_btn2">
+		<div class="bbti_selected"><img src="./resources/image_bbti/bbti_selected.png" width="170px"></div>
+		<div class="bbti_inputself"><img src="./resources/image_bbti/bbti_inputself.png" width="170px"></div>
+		<div class="bbti_restart"><img src="./resources/image_bbti/bbti_restart.png" width="170px"></div>
+	</div>
+	<form action="login_with_bbti" name="bbti_form">
+	<input type="hidden" name="bbti" id="bbti" value="EPF">
+	</form>
+</div>
+
+<div class="bbti_body result EPN">
+	<img src="./resources/image_bbti/bbti_result_EPN.png" width="600px" height="800px">
+	<div class="bbti_btn2">
+		<div class="bbti_selected"><img src="./resources/image_bbti/bbti_selected.png" width="170px"></div>
+		<div class="bbti_inputself"><img src="./resources/image_bbti/bbti_inputself.png" width="170px"></div>
+		<div class="bbti_restart"><img src="./resources/image_bbti/bbti_restart.png" width="170px"></div>
+	</div>
+	<form action="login_with_bbti" name="bbti_form">
+	<input type="hidden" name="bbti" id="bbti" value="EPN">
+	</form>
+</div>
+
+<div class="bbti_body result IAF">
+	<img src="./resources/image_bbti/bbti_result_IAF.png" width="600px" height="800px">
+	<div class="bbti_btn2">
+		<div class="bbti_selected"><img src="./resources/image_bbti/bbti_selected.png" width="170px"></div>
+		<div class="bbti_inputself"><img src="./resources/image_bbti/bbti_inputself.png" width="170px"></div>
+		<div class="bbti_restart"><img src="./resources/image_bbti/bbti_restart.png" width="170px"></div>
+	</div>
+	<form action="login_with_bbti" name="bbti_form">
+	<input type="hidden" name="bbti" id="bbti" value="IAF">
+	</form>
+</div>
+
+<div class="bbti_body result IAN">
+	<img src="./resources/image_bbti/bbti_result_IAN.png" width="600px" height="800px">
+	<div class="bbti_btn2">
+		<div class="bbti_selected"><img src="./resources/image_bbti/bbti_selected.png" width="170px"></div>
+		<div class="bbti_inputself"><img src="./resources/image_bbti/bbti_inputself.png" width="170px"></div>
+		<div class="bbti_restart"><img src="./resources/image_bbti/bbti_restart.png" width="170px"></div>
+	</div>
+	<form action="login_with_bbti" name="bbti_form">
+	<input type="hidden" name="bbti" id="bbti" value="IAN">
+	</form>
+</div>
+
+<div class="bbti_body result IPF">
+	<img src="./resources/image_bbti/bbti_result_IPF.png" width="600px" height="800px">
+	<div class="bbti_btn2">
+		<div class="bbti_selected"><img src="./resources/image_bbti/bbti_selected.png" width="170px"></div>
+		<div class="bbti_inputself"><img src="./resources/image_bbti/bbti_inputself.png" width="170px"></div>
+		<div class="bbti_restart"><img src="./resources/image_bbti/bbti_restart.png" width="170px"></div>
+	</div>
+	<form action="login_with_bbti" name="bbti_form">
+	<input type="hidden" name="bbti" id="bbti" value="IPF">
+	</form>
+</div>
+
+<div class="bbti_body result IPN">
+	<img src="./resources/image_bbti/bbti_result_IPN.png" width="600px" height="800px">
+	<div class="bbti_btn2">
+		<div class="bbti_selected"><img src="./resources/image_bbti/bbti_selected.png" width="170px"></div>
+		<div class="bbti_inputself"><img src="./resources/image_bbti/bbti_inputself.png" width="170px"></div>
+		<div class="bbti_restart"><img src="./resources/image_bbti/bbti_restart.png" width="170px"></div>
+	</div>
+	<form action="login_with_bbti" name="bbti_form">
+	<input type="hidden" name="bbti" id="bbti" value="IPN">
+	</form>
+</div>
+
 </body>
 </html>

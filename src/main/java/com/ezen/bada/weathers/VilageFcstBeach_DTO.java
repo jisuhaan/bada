@@ -8,8 +8,6 @@ public class VilageFcstBeach_DTO {
 	String fcstDate; // 예보일자
 	String fcstTime; // 예보시간
 	
-	String hourlyTimestamps; //시간대
-	
 	// 어노테이션을 붙여야 json의 key값이 아래 dto 필드명에 정확하게 찾아감
 	@JsonProperty("POP") // 강수확률
 	String pop;
@@ -46,16 +44,23 @@ public class VilageFcstBeach_DTO {
 
 	@JsonProperty("WSD") // 풍속
 	String wsd;
+	
+	@JsonProperty("TMN") // 아침 최저기온
+	String tmn;
+	
+	@JsonProperty("TMX") // 낮 최고기온
+	String tmx;
 
 	public VilageFcstBeach_DTO() {}
 
-	public VilageFcstBeach_DTO(String fcstDate, String fcstTime, String hourlyTimestamps, String pop, String pty,
-			String rn1, String reh, String sno, String sky, String tmp, String uuu, String vvv, String wav, String vec,
-			String wsd) {
+
+
+	public VilageFcstBeach_DTO(String fcstDate, String fcstTime, String pop, String pty, String rn1, String reh,
+			String sno, String sky, String tmp, String uuu, String vvv, String wav, String vec, String wsd, String tmn,
+			String tmx) {
 		super();
 		this.fcstDate = fcstDate;
 		this.fcstTime = fcstTime;
-		this.hourlyTimestamps = hourlyTimestamps;
 		this.pop = pop;
 		this.pty = pty;
 		this.rn1 = rn1;
@@ -68,7 +73,11 @@ public class VilageFcstBeach_DTO {
 		this.wav = wav;
 		this.vec = vec;
 		this.wsd = wsd;
+		this.tmn = tmn;
+		this.tmx = tmx;
 	}
+
+
 
 	public String getFcstDate() {
 		return fcstDate;
@@ -84,14 +93,6 @@ public class VilageFcstBeach_DTO {
 
 	public void setFcstTime(String fcstTime) {
 		this.fcstTime = fcstTime;
-	}
-
-	public String getHourlyTimestamps() {
-		return hourlyTimestamps;
-	}
-
-	public void setHourlyTimestamps(String hourlyTimestamps) {
-		this.hourlyTimestamps = hourlyTimestamps;
 	}
 
 	public String getPop() {
@@ -189,4 +190,30 @@ public class VilageFcstBeach_DTO {
 	public void setWsd(String wsd) {
 		this.wsd = wsd;
 	}
+
+
+
+	public String getTmn() {
+		return tmn;
+	}
+
+
+
+	public void setTmn(String tmn) {
+		this.tmn = tmn;
+	}
+
+
+
+	public String getTmx() {
+		return tmx;
+	}
+
+
+
+	public void setTmx(String tmx) {
+		this.tmx = tmx;
+	}
+
+
 }

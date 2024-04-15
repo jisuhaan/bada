@@ -11,7 +11,6 @@
 <link href="${pageContext.request.contextPath}/resources/css/slide.css" rel="stylesheet" type="text/css">
 <title></title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
 <script src="./resources/js/sea_weatherEmoticon.js"></script>
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function() {
@@ -77,6 +76,8 @@ document.addEventListener("DOMContentLoaded", function() {
 				
 			    var latitude = "${bldt.latitude}";
 			    var longitude = "${bldt.longitude}";
+			    
+			    console.log("카카오맵에 들어갈 위도 : "+latitude+", 경도 : "+longitude);
 				
 				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 				    mapOption = { 
@@ -168,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			<c:if test="${bldt.ultraSrtFcstBeach_dto.rn1 ne '강수없음'}">
 				<div class="weather nowing">
 					<span id="today_text">시간당 강수</span><br>
-					<div class="etc_text"><img src="./resources/image/forecast_umbrella.gif" width="50px">&nbsp;<span id="hour_rain">${bldt.ultraSrtFcstBeach_dto.rn1}</span>mm</div>
+					<div class="etc_text"><img src="./resources/image/forecast_umbrella.gif" width="50px">&nbsp;<span id="hour_rain">${bldt.ultraSrtFcstBeach_dto.rn1}</span></div>
 				</div>
 			</c:if>
 			<c:if test="${warningString ne '없음'}">
@@ -187,14 +188,14 @@ document.addEventListener("DOMContentLoaded", function() {
 		
 		      // 시와 분을 ":"로 연결하여 반환
 		      return hour + ":" + minute;
-		}
+			}
 		
 		// 예시: "1854"를 "18:54"로 변환하여 반환
 		
-		  let formattedSunriseTime = formatTime("${bldt.lc_rise_set_info_dto.sunrise}");
-		  let formattedSunsetTime = formatTime("${bldt.lc_rise_set_info_dto.sunset}");
-		  document.getElementById("sunrise").innerText = formattedSunriseTime;
-		  document.getElementById("sunset").innerText = formattedSunsetTime;
+			  let formattedSunriseTime = formatTime("${bldt.lc_rise_set_info_dto.sunrise}");
+			  let formattedSunsetTime = formatTime("${bldt.lc_rise_set_info_dto.sunset}");
+			  document.getElementById("sunrise").innerText = formattedSunriseTime;
+			  document.getElementById("sunset").innerText = formattedSunsetTime;
 		</script>
 		  
 		</div>

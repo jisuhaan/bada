@@ -41,6 +41,7 @@
 .bbti_btn2 {
 	position: absolute;
 	display:flex;
+	justify-content: space-around;
 	bottom: 20px; /* 원하는 여백 조정 */
 }
 

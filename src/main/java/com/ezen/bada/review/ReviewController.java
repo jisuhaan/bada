@@ -30,8 +30,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.ezen.bada.member.MemberDTO;
 
 
-
-
 @Controller
 public class ReviewController {
 	

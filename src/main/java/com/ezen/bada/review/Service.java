@@ -132,9 +132,7 @@ public interface Service {
 
 	void review_comment_delete(int review_num);
 
-	
-
-	
+	ArrayList<AllBoardDTO> pickbestrec();
 
 }
 

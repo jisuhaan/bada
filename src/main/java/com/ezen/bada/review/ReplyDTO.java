@@ -40,7 +40,7 @@ public class ReplyDTO {
 	}
 
 	public String getReply_contents() {
-		return reply_contents;
+		return reply_contents.replaceAll("\n", "<br>");
 	}
 
 	public void setReply_contents(String reply_contents) {

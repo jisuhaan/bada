@@ -31,15 +31,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.ezen.bada.member.MemberDTO;
 
 
-
-
 @Controller
 public class ReviewController {
 	
 	@Autowired
 	SqlSession sqlsession;
 	
-	String image_path="C:\\이젠디지털12\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
+	String image_path="C:\\이젠디지탈12\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
 	
 	@RequestMapping(value = "review_input")
 	public String review1(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
@@ -705,7 +703,6 @@ public class ReviewController {
 		   
 	      return sb.toString();
 	   }
-	   
 	 
 		@RequestMapping(value = "review_ban_listout")
 		   public String ban_list(HttpServletRequest request, PageDTO dto, Model mo) {
@@ -822,8 +819,4 @@ public class ReviewController {
 			return "redirect:/reply_ban_listout";
 	    }
 		
-		
-
-
-	
 }

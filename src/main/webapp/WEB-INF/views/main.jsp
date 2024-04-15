@@ -40,7 +40,7 @@ if(hs.getAttribute("loginstate")==null){
 			
 			</div>
 			<div class="main_right_bottom">
-			<jsp:include page="main_recommand_view.jsp" />
+			<jsp:include page="main_recommend_view.jsp" />
 			</div>
 		</div>
 	</div>

@@ -114,3 +114,32 @@ for (let i = 0; i < maxSlide; i++) {
     updatePagination();
   });
 }
+
+
+// 자동으로 슬라이드 넘기기를 위한 변수 추가
+let autoSlideInterval;
+
+// 자동으로 슬라이드 넘기기 시작 함수
+function startAutoSlide() {
+  autoSlideInterval = setInterval(() => {
+    nextMove();
+  }, 3000); // 3초마다 슬라이드를 넘김
+}
+
+// 자동으로 슬라이드 넘기기 정지 함수
+function stopAutoSlide() {
+  clearInterval(autoSlideInterval);
+}
+
+// 페이지 로드 후 자동으로 슬라이드 넘기기 시작
+startAutoSlide();
+
+// 마우스가 슬라이드 영역 위에 있을 때 자동 슬라이드 정지
+slide.addEventListener("mouseover", () => {
+  stopAutoSlide();
+});
+
+// 마우스가 슬라이드 영역을 벗어났을 때 자동 슬라이드 재시작
+slide.addEventListener("mouseout", () => {
+  startAutoSlide();
+});

@@ -22,8 +22,19 @@
    #{param4}, #{param5}, #{param6})
 </insert>
 
+<select id="total" resultType="int">
+   select count(*) from bada_user
+</select>
+
+<select id="member_list" resultType="com.ezen.bada.member.MemberDTO">
+   select * from (
+   select rownum rn, A.* from(  
+   select user_number, id, name, gender, age from bada_user order by user_number asc)A)
+   where rn between #{start} AND #{end}
+</select>
+
 <select id="memberout" resultType="com.ezen.bada.member.MemberDTO">
-   select * from bada_user
+   select * from bada_user order by user_number
 </select>
 <!-- 기본 memberout이지만 일단은 *로 뽑았습니다! jsp 파일에서 출력 시에 출력만 선별해서 하면 되니까요!
 근데 혹시 보안상의 문제가 있을 것 같다면 select user_number, id, name, gender, age from bada_user로 수정해주셔도 좋아용~

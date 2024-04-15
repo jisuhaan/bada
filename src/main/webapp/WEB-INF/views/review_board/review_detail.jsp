@@ -42,7 +42,7 @@
     </div>    
 	<div class="review-images">
 	    <c:forEach items="${gallery}" var="gallery">
-	        <img src="./resources/image_user/${gallery}">
+	        <img src="./resources/image_user/${gallery}"><br>
 	    </c:forEach>
 	</div>
     <div class="review_content">

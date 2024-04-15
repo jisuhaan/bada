@@ -256,7 +256,6 @@
 </select>
 
 <!-- 신고된 게시글 목록 -->
-
 <select id="review_report" resultType="com.ezen.bada.review.Review_report_DTO">
    select * from (
    select rownum rn, A.* from(  
@@ -282,6 +281,13 @@
 <!-- 게시글 신고 내역 중 동일 아이디 신고사례 -->
 <select id="review_ban_list" resultType="com.ezen.bada.review.Review_report_DTO">
 	select * from bada_review_report where ban_id=#{param1} order by ban_date DESC
+</select> 
+  
+<!-- 베스트리뷰를 4순위까지 추출합니다 -->
+<select id="pickbestrec" resultType="com.ezen.bada.review.AllBoardDTO">
+SELECT * FROM (SELECT t.*, ROWNUM AS rnum
+FROM (SELECT * FROM bada_user_review ORDER BY recommend asc, write_day desc) t)
+WHERE rnum BETWEEN 1 AND 4
 </select>
 
  <!-- 게시글 신고 내역 삭제 -->
@@ -293,7 +299,6 @@
 <select id="ban_reply_total" resultType="int">
    select count(*)from bada_review_reply_report
 </select>
-
 
 <select id="reply_report" resultType="com.ezen.bada.review.Review_reply_report_DTO">
    select * from (

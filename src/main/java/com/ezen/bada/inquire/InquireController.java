@@ -36,7 +36,7 @@ public class InquireController {
 	@Autowired
 	SqlSession sqlsession;
 	   
-	String imagepath="C:\\coding\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
+	String imagepath="C:\\이젠디지탈12\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
 	
 	//문의글 입력창을 띄우기 위해 정보를 가져옴
 	@RequestMapping(value = "/inquire_input")

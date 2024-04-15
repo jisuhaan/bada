@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			<c:if test="${bldt.ultraSrtFcstBeach_dto.rn1 ne '강수없음'}">
 				<div class="weather nowing">
 					<span id="today_text">시간당 강수</span><br>
-					<div class="etc_text"><img src="./resources/image/forecast_umbrella.gif" width="50px">&nbsp;<span id="hour_rain">${bldt.ultraSrtFcstBeach_dto.rn1}</span>mm</div>
+					<div class="etc_text"><img src="./resources/image/forecast_umbrella.gif" width="50px">&nbsp;<span id="hour_rain">${bldt.ultraSrtFcstBeach_dto.rn1}</span></div>
 				</div>
 			</c:if>
 			<c:if test="${warningString ne '없음'}">

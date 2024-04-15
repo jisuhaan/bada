@@ -28,7 +28,7 @@ public class Inquire_reply_DTO {
 	}
 
 	public String getContent() {
-		return content;
+		return content.replaceAll("\n", "<br>");
 	}
 
 	public void setContent(String content) {

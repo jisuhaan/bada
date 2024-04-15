@@ -1,22 +1,42 @@
 @charset "UTF-8";
 
-   .review-box {
-   		width:1200px;
-        border: 1px solid #ddd; /* 경계선 설정 */
-        padding: 20px; /* 내부 여백 설정 */
-        margin: 20px 0; /* 외부 여백 설정 */
-        border-radius: 15px; /* 모서리 둥글게 설정 */
-        background-color: #f9f9f9; /* 배경색 설정 */
-    }
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
 
-    h1 {
-        text-align: center; /* 제목을 가운데 정렬 */
-        margin-bottom: 30px;
-    }
+.review-box {
+	width:800px;
+	border: 1px solid #ddd; /* 경계선 설정 */
+	padding: 40px; /* 내부 여백 설정 */
+	margin: 20px 0; /* 외부 여백 설정 */
+	border-radius: 15px; /* 모서리 둥글게 설정 */
+	background-color: #f9f9f9; /* 배경색 설정 */
+}
 
-    .review_content, .review-info, .likes {
-        margin-bottom: 10px; /* 아래쪽 여백 설정 */
-    }
+h1 {
+    text-align: center; /* 제목을 가운데 정렬 */
+    margin-bottom: 30px;
+}
+
+.review_content, .review-info, .likes {
+    margin-bottom: 10px; /* 아래쪽 여백 설정 */
+}
+
+.review_content {
+	font-family:Pretendard-Regular';
+	font-size: 13px;
+	word-wrap: break-word; /* 글자 단위로 줄 바꿈 설정 */
+	text-align: justify; /* 좌우 맞춤 설정 */
+}
+
+.review_content::after {
+    content: ''; /* 가상 요소 생성 */
+    display: inline-block; /* 인라인 블록 요소로 설정 */
+    width: 100%; /* 너비를 100%로 설정하여 컨테이너 가로폭에 맞춤 */
+}
 
     .review-info1 {
     	margin-bottom: 20px;
@@ -30,11 +50,16 @@
         color: #555; /* 폰트 색상 설정 */
     }
     
+    .review-images {
+    	display:flex;
+    	flex-direction: column;
+    	justify-content: center;
+    	align-items: center;
+    }
+    
     .review-images img {
-        width: 200px;
-        height: 200px;
-        margin: 10px; /* 이미지 사이의 여백 */
-        margin-bottom: 30px;
+        width: 500px;
+        margin: 20px; /* 이미지 사이의 여백 */
     }
     
     .hashtags {

@@ -58,7 +58,7 @@ public class AllBoardDTO {
 	}
 
 	public String getReview_contents() {
-		return review_contents;
+		return review_contents.replaceAll("\n", "<br>");
 	}
 
 	public void setReview_contents(String review_contents) {

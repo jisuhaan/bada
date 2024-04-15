@@ -78,7 +78,7 @@ public class Inquire_ban_DTO2 {
 		this.category = category;
 	}
 	public String getContent() {
-		return content;
+		return content.replaceAll("\n", "<br>");
 	}
 	public void setContent(String content) {
 		this.content = content;

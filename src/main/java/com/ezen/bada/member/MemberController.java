@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
-
 @Controller
 public class MemberController {
    
@@ -235,14 +234,40 @@ public class MemberController {
    
    
    @RequestMapping(value = "/member_out")
-   public String memberout(HttpServletRequest request, Model mo) {
+   public String memberout(HttpServletRequest request, Model mo, PageDTO dto) {
+	   
+	   String nowPage=request.getParameter("nowPage");
+	   System.out.println("nowpage 확인 : "+nowPage);
+	
+	   String cntPerPage=request.getParameter("cntPerPage");
+	   System.out.println("cntperpage 확인 : "+cntPerPage);
+	
+		Service ss = sqlsession.getMapper(Service.class);
+		int total=ss.total();
+		
+		System.out.println("board 전체 개수 : "+total);
+		
+	   if(nowPage==null && cntPerPage == null) {
+	       
+	  	 nowPage="1";
+	  // 현재 페이지 번호
+	                                                    
+	  	 cntPerPage="20";
+	 // 한 페이지당 보여줄 게시물 수
+	   
+	   }
+	   else if(nowPage==null) {
+	      nowPage="1";
+	   }
+	   else if(cntPerPage==null) {
+	      cntPerPage="20";
+	   }
+		
+	   dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+	   mo.addAttribute("paging",dto);
+	   mo.addAttribute("list",ss.member_list(dto));
       
-      Service ss=sqlsession.getMapper(Service.class);
-      ArrayList<MemberDTO> list=ss.memberout();
-      mo.addAttribute("list", list);
-      System.out.println("리스트:"+list);
-      
-      return "member_out";
+	   return "member_out";
    }
 
    @RequestMapping(value = "/member_search")

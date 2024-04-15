@@ -10,6 +10,10 @@ public interface Service {
 
 	void membersave(String id, String pw, String name, String email, String gender, int age);
 	
+	int total();
+	
+	ArrayList<MemberDTO> member_list(PageDTO dto);
+	
 	ArrayList<MemberDTO> memberout();
 	
 	

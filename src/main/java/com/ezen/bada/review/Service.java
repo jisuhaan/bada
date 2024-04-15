@@ -105,6 +105,8 @@ public interface Service {
 
 	ArrayList<AllBoardDTO> search_area_result(String area);
 
+	ArrayList<AllBoardDTO> pickbestrec();
+
 	
 
 }

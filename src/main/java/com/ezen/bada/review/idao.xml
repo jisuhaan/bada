@@ -247,6 +247,15 @@
 	WHERE (#{param1} = '경인' AND bl.state IN ('경기', '인천')) OR (bl.state = #{param1})
 </select>
 
+<!-- 베스트리뷰를 4순위까지 추출합니다 -->
+
+<select id="pickbestrec" resultType="com.ezen.bada.review.AllBoardDTO">
+
+SELECT * FROM (SELECT t.*, ROWNUM AS rnum
+FROM (SELECT * FROM bada_user_review ORDER BY recommend asc, write_day desc) t)
+WHERE rnum BETWEEN 1 AND 4
+
+</select>
 
 
 </mapper>

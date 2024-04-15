@@ -1,0 +1,132 @@
+@charset "UTF-8";
+
+
+.view_container {
+	width:100%;
+	height:100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.review_box {
+	width:100%;
+	height:100%;
+	display: flex;
+	flex-direction:column;
+	justify-content: center;
+	align-items: center;
+	text-align:center;
+}
+
+.review_title {
+	margin:0 auto;
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+
+
+/* 카드 자동 스라이더 효과 */
+
+.card-slide{
+  height: 400px;
+  margin: auto;
+  position:relative;
+  width: 100%;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+}
+
+.slide-track{
+  display:flex;
+  animation: scroll 30s linear infinite;
+}
+
+.slide-track:hover{
+  animation-play-state:paused;
+}
+
+@keyframes scroll{
+  0% {
+    transform: translateX(0);
+  }
+  100%{
+    transform: translateX(calc(-250px * 8));
+  }
+}
+
+.slide{
+  height: 300px;
+  width: 250px;
+  display: flex;
+  align-items:center;
+  padding: 15px;
+  perspective:100px;
+}
+
+.train-card{
+  width:100%;
+  height:100%;
+  border:1px solid gray;
+  background-color:white;
+  transition:transform 1s;
+  border-radius:10px;
+  overflow:hidden;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.train-card:hover{
+  transform:translateZ(18px);
+}
+
+/* 슬라이더 그라데이션 그림자 */
+
+.card-slide::before,
+.card-slide::after {
+  background:linear-gradient(to right, #F1F1F1 0%,
+  rgba(255,255,255,0) 100%);
+  content:'';
+  height:100%;
+  position:absolute;
+  width:18%;
+  z-index:2;
+}
+
+.card-slide::before{
+  left:0;
+  top:0;
+}
+
+.card-slide::after{
+  right:-5px;
+  top:0;
+  transform: rotateZ(180deg);
+}
+
+
+.card-body {
+	background-color: blue;
+	width: 95%;
+	height: 95%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.body-thumbnail{
+	width: 250px;
+	height:200px;
+	border: 1px solid gray;
+	border-radius: 5px;
+	object-fit: cover;
+}

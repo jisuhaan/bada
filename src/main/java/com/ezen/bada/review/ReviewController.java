@@ -712,20 +712,27 @@ public class ReviewController {
 	      return sb.toString();
 	   }
 	   
-	   // 신고내역 확인페이지 -> 진행중입니다! _0412
-		@RequestMapping(value = "review_ban_listout")
-		   public String ban_list(HttpServletRequest request, Model mo) {
-			
-			Service ss = sqlsession.getMapper(Service.class);
-			
-			
-
-
-
-		      return "review_ban_listout";
-		   }
-	   
-
+	// 신고내역 확인페이지 -> 진행중입니다! _0412
+	@RequestMapping(value = "review_ban_listout")
+	public String ban_list(HttpServletRequest request, Model mo) {
+		
+		Service ss = sqlsession.getMapper(Service.class);
+		
+		return "review_ban_listout";
+	}
+	
+	@RequestMapping(value="recommend_view",method = RequestMethod.GET)
+	public String main_review(HttpServletRequest request, Model mo) {
+		
+		Service ss = sqlsession.getMapper(Service.class);
+		ArrayList<AllBoardDTO> list = ss.pickbestrec();
+		
+		System.out.println("리스트 가져왔니? : "+list);
+		
+		mo.addAttribute("list", list);
+		
+		return "main_recommend_view";
+	}
 
 	
 }

@@ -104,7 +104,7 @@ $(document).ready(function() {
             <div class="area_select">
             지역선택 : 
         		<select name="area" id="area">
-        			<option value="" selected>전체</option>
+        			<option value="전체" selected>전체</option>
         			<option value="강원" id="강원">강원</option>
         			<option value="경남" id="경남">경남</option>
         			<option value="경북" id="경북">경북</option>

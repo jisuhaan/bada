@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ezen.bada.review.AllBoardDTO;
+
 
 @Controller
 public class MemberController {
@@ -473,7 +475,7 @@ public class MemberController {
    public String mypage(HttpServletRequest request, Model mo) {
        
       
-     String loginid = (String) request.getSession().getAttribute("loginid");
+      String loginid = (String) request.getSession().getAttribute("loginid");
    
       Service ss = sqlsession.getMapper(Service.class);
       MemberDTO result = ss.myinfo_main(loginid);
@@ -669,9 +671,19 @@ public class MemberController {
 	   
    }  
    
+   // 내가 쓴 리뷰 출력 -> 문의글 출력 순으로 진행 예정
    @RequestMapping(value = "/my_post")
    public String mypage_post(HttpServletRequest request, Model mo) {
 	   
+	   String loginid = (String) request.getSession().getAttribute("loginid");
+	   
+	   //리뷰
+	   
+	   Service ss = sqlsession.getMapper(Service.class);
+	   ArrayList<AllBoardDTO> review = ss.my_review(loginid);
+	   mo.addAttribute("list1", review);
+	   
+	   //문의글
 
 	   
 	return "my_post";

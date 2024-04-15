@@ -2,6 +2,8 @@ package com.ezen.bada.member;
 
 import java.util.ArrayList;
 
+import com.ezen.bada.review.AllBoardDTO;
+
 public interface Service {
 
 	String login_check(String id, String pw);
@@ -83,5 +85,7 @@ public interface Service {
 	Integer bbticheck(String id);
 
 	void membersavebbti(String id, String pw, String name, String email, String gender, int age, String bbti);
+
+	ArrayList<AllBoardDTO> my_review(String loginid);
 
 }

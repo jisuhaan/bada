@@ -19,13 +19,16 @@
             padding: 4px; /* 셀 안의 여백 설정 */
         }
         th:nth-child(1) {
-            width: 28%;
+            width: 14%;
         }
         th:nth-child(2){
         width: 12%;
         }
         th:nth-child(3){
         width: 18%;
+        }
+        th:nth-child(4){
+        width: 10%;
         }
         .lock-icon {
             display: inline-block; /* 이미지를 인라인 블록 요소로 설정하여 텍스트와 같이 정렬 */
@@ -53,25 +56,27 @@
 </head>
 <body>
 
-	<br> <br> <br>	
+	<br> <br> <br>
+	
 	<div style="margin-bottom: 20px;">
     <select id="report_type">
-        <option value="post_report" selected>신고된 게시글</option>
-        <option value="reply_report">신고된 댓글</option>
+        <option value="post_report" >신고된 게시글</option>
+        <option value="reply_report" selected>신고된 댓글</option>
     </select>
 	</div>
 	
 	<!-- option 값에 따라 변동될 부분 -->	
 	<br>
-		<table id="post_table" border="1">
+		<table id="reply_table" border="1">
 	
 			      <tr>
-			      	 <th>신고글 제목</th>
-			         <th>신고자</th>
-			         <th>신고된 원본글</th>
-			         <th>신고된 회원</th>
-			         <th>신고 사유</th>
-			         <th>신고 날짜</th>
+			      	 <th>신고자</th>
+			         <th>댓글내용</th>
+			         <th>게시물</th>
+			         <th>댓글 작성자</th>
+			         <th>신고분류</th>
+			         <th>신고사유</th>
+			         <th>신고날짜</th>
 			      </tr>
 		         
 <c:choose>
@@ -80,26 +85,32 @@
 
 <c:forEach items="${list}" var="l">
 			      <tr>
+			      
+			        <td> <a href="member_detail?user_number=${l.user_number}">
+			      	${l.name}(${fn:substring(l.id, 0, 4)}****) 님 </a> </td>
 			      	<td>
-			      	<a href="review_ban_detail?ban_review_num=${l.ban_review_num}&ban_id=${l.ban_id}">
-			      	${l.title}
-			      	</a>
-			      	</td>
-			      	<td>${l.name}(${fn:substring(l.id, 0, 4)}****) 님</td>
+			      	<a href="#" onclick="confirmDeleteBan('${l.review_reply_ban_num}')">
+			      	${l.reply_contents}
+			      	</a></td>     	
 			      	<td>
-			      	<a href="review_detail?review_num=${l.ban_review_num}">신고된 원본글로 이동</a>
+			      	<a href="review_detail?review_num=${l.review_num}">신고된 원본글로 이동</a>
 			      	</td>
+			      	
 			      	<td> <a href="member_detail?user_number=${l.ban_user_number}">
 			      	${l.ban_name}(${fn:substring(l.ban_id, 0, 4)}****) 님 </a> </td>
-			      	<td>${l.category}</td>
+			      	
+			      	<td>${l.reason}</td>
+			      	<td>${l.detail}</td>
+			      	
 			      	<td>${fn:substring(l.ban_date, 0, 19)}</td>
+			      	
 			      </tr>
 			      </c:forEach>
 			      
 		<!--  페이징 처리 6단계 -->
 		<!-- 페이징처리 -->
 		<tr style="border-left: none; border-right: none; border-bottom: none;">
-		   <td colspan="6" style="text-align: center;">
+		   <td colspan="7" style="text-align: center;">
 		   <c:if test="${paging.startPage!=1 }">
 		   	 <!-- ◀ 을 누르면 이전 페이지(-1 페이지)로 넘어갈 수 있도록  -->
 		      <a href="inquire_ban_listout?nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}">◀</a>
@@ -145,6 +156,15 @@
 	    </table>
 	    
 	<br> <br> <br> <br> <br>
+	
+	<script type="text/javascript">
+	function confirmDeleteBan(review_reply_ban_num) {
+	    if(confirm('해당 신고 내역을 정말 삭제하시겠습니까?')) {
+	        location.href = 'reply_ban_delete?review_reply_ban_num=' + review_reply_ban_num;
+	    }
+	}
+	</script>
+
 
 </body>
 </html>

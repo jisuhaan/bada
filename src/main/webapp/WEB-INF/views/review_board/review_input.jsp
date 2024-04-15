@@ -87,10 +87,11 @@
                 <input type="hidden" name="hashtags" id="hashtags" value="">
                 <td id="hasjtagFields">
                 	<div class="hashtag-categories">
-			            <div class="category" data-category="가족">가족</div>
+			            <div class="category" data-category="함께한 사람">함께한 사람</div>
 			            <div class="category" data-category="편의시설">편의시설</div>
+			            <div class="category" data-category="바다상태">바다상태</div>
 			            <div class="category" data-category="액티비티/취미">액티비티/취미</div>
-			            <div class="category" data-category="풍경/바다">풍경/바다</div>
+			            <div class="category" data-category="풍경">풍경</div>
         			</div>
       			    <div class="hashtag-dropdown" style="display: none;"></div>
       			    <br> <div id="selected-tags"></div> <br>
@@ -221,10 +222,11 @@
     function get_tag(category) {
         
         var hashtags = {
-            "가족": ["#가족", "#연인", "#혼자", "#친구", "#반려동물"],
+            "함께한 사람": ["#가족", "#연인", "#혼자", "#친구", "#반려동물"],
             "편의시설": ["#대중교통", "#자차필요", "#번화가"],
-            "액티비티/취미": ["#스쿠버다이빙", "#갯벌", "#서핑", "#물놀이", "#바다낚시", "#캠핑"],
-            "풍경/바다": ["#핫플", "#감성", "#사람이적어요", "#이국적", "#인생샷", "#일출맛집", "#전망대", "#항구"]
+            "바다상태": ["#에메랄드바다", "#백사장", "#고운모래", "#갯벌"],
+            "액티비티/취미": ["#스쿠버다이빙", "#서핑", "#물놀이", "#바다낚시", "#캠핑"],
+            "풍경": ["#핫플", "#감성", "#사람이적어요", "#이국적", "#인생샷", "#일출맛집", "#전망대", "#항구"]
         };
         return hashtags[category];
     }

@@ -177,4 +177,10 @@ from. (정)지수 -->
    #{param4}, #{param5}, #{param6}, #{param7})
 </insert>
 
+<!-- 나의 게시글(리뷰) -->
+<select id="my_review" resultType="com.ezen.bada.review.AllBoardDTO">
+   select * from bada_user_review where id = #{param1}
+</select>
+
+
 </mapper>

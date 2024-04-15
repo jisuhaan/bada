@@ -39,6 +39,7 @@
    where rn between #{start} AND #{end}
 </select>
 
+
 <!-- 조회수 up -->
 <update id="hit_up">
 	UPDATE bada_user_review SET hits = hits + 1 where review_num = #{param1}
@@ -146,9 +147,9 @@
 
 <!-- 게시글 신고 저장 -->
 <insert id="review_ban_save">
-	insert into bada_review_report (review_report_num, title, name, id, ban_review_num, ban_name, ban_id, category, content, ban_user_number) 
+	insert into bada_review_report (review_report_num, title, name, id, ban_review_num, ban_name, ban_id, category, content, ban_user_number, user_number) 
 	values 
-	(review_report_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6}, #{param7}, #{param8},#{param9})
+	(review_report_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6}, #{param7}, #{param8},#{param9},#{param10})
 </insert>
 
 <!-- bada_user_review 신고 count up -->
@@ -182,9 +183,9 @@
 
 <insert id="reply_report_save">
    INSERT INTO bada_review_reply_report 
-   (review_reply_ban_num, review_num, reply_num, id, ban_id, reply_contents, reason, detail, BAN_USER_NUMBER)
+   (review_reply_ban_num, review_num, reply_num, id, ban_id, reply_contents, reason, detail, BAN_USER_NUMBER, name, ban_name, user_number)
    VALUES 
-   (review_reply_ban_seq.nextval, #{review_num}, #{reply_num}, #{id}, #{ban_id}, #{reply_contents}, #{reason}, #{detail}, #{user_num})
+   (review_reply_ban_seq.nextval, #{review_num}, #{reply_num}, #{id}, #{ban_id}, #{reply_contents}, #{reason}, #{detail}, #{user_num}, #{name}, #{ban_name}, #{user_num2})
 </insert>
 
 
@@ -234,10 +235,17 @@
     </where>
 </select>
 
-<!-- 피신고자 회원일련번호  -->
-<select id="ban_user_num" resultType="Integer">
+
+<!-- 회원일련번호 -->
+<select id="user_num" resultType="Integer">
 	select user_number from bada_user where ID = #{param1}
 </select>
+
+<!-- 회원이름 -->
+<select id="user_name" resultType="String">
+	select name from bada_user where ID = #{param1}
+</select>
+
 
 <!-- 리뷰게시판 지역선택별 게시글 -->
 <select id="search_area_result" resultType="com.ezen.bada.review.AllBoardDTO">
@@ -247,6 +255,65 @@
 	WHERE (#{param1} = '경인' AND bl.state IN ('경기', '인천')) OR (bl.state = #{param1})
 </select>
 
+<!-- 신고된 게시글 목록 -->
 
+<select id="review_report" resultType="com.ezen.bada.review.Review_report_DTO">
+   select * from (
+   select rownum rn, A.* from(  
+   select * from bada_review_report order by review_report_num desc)A)
+   where rn between #{start} AND #{end}
+</select>
+
+<!-- 페이징처리 전체레코드수 -->
+<select id="ban_review_total" resultType="int">
+   select count(*)from bada_review_report
+</select>
+
+<!-- 신고내역 상세 내역 (관리자 확인페이지) -->
+<select id="review_ban_detail" resultType="com.ezen.bada.review.Review_report_DTO">
+	select * from bada_review_report where ban_review_num = #{param1}
+</select>
+
+<!-- 유저별 신고 누적회수 -->
+<select id="review_ban_count" resultType="int">
+	select count(*)from bada_review_report where ban_id=#{param1}
+</select>
+
+<!-- 게시글 신고 내역 중 동일 아이디 신고사례 -->
+<select id="review_ban_list" resultType="com.ezen.bada.review.Review_report_DTO">
+	select * from bada_review_report where ban_id=#{param1} order by ban_date DESC
+</select>
+
+ <!-- 게시글 신고 내역 삭제 -->
+<delete id="review_ban_delete">
+	delete from bada_review_report where review_report_num = #{param1}
+</delete>
+
+<!-- 페이징처리 신고댓글 레코드수 -->
+<select id="ban_reply_total" resultType="int">
+   select count(*)from bada_review_reply_report
+</select>
+
+
+<select id="reply_report" resultType="com.ezen.bada.review.Review_reply_report_DTO">
+   select * from (
+   select rownum rn, A.* from(  
+   select * from bada_review_reply_report order by review_reply_ban_num desc)A)
+   where rn between #{start} AND #{end}
+</select>
+
+<delete id="report_reply_delete">
+	delete from bada_review_reply_report where reply_num = #{param1}
+</delete>
+
+ <!-- 댓글 신고 내역 삭제 -->
+<delete id="reply_ban_delete">
+	delete from bada_review_reply_report where review_reply_ban_num = #{param1}
+</delete>
+
+ <!-- 게시글 삭제시 댓글내역 삭제 -->
+<delete id="review_comment_delete">
+	delete from bada_review_comment where review_num = #{param1}
+</delete>
 
 </mapper>

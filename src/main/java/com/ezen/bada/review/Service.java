@@ -74,7 +74,7 @@ public interface Service {
 	String review_ban_check(String id, int ban_review_num, String category, String content);
 
 	void review_ban_save(String title, String name, String id, int ban_review_num, String ban_name, String ban_id,
-			String category, String content, int user_num);
+			String category, String content, int user_num, String id2, int user_num2);
 
 	void reply_update(int review_num);
 
@@ -95,15 +95,44 @@ public interface Service {
             @Param("reply_contents") String reply_contents,
             @Param("reason") String reason, 
             @Param("detail") String detail, 
-            @Param("user_num") int user_num);
+            @Param("user_num") int user_num,
+            @Param("name") String name, 
+            @Param("ban_name") String ban_name, 
+            @Param("user_num2") int user_num2);
 
 	String report_check(int reply_num, String id, String reason, String reply_contents);
 
 	ArrayList<AllBoardDTO> search_result(String category, String search);
 
-	int ban_user_num(String ban_id);
-
 	ArrayList<AllBoardDTO> search_area_result(String area);
+
+	ArrayList<Review_report_DTO> review_report(PageDTO dto);
+
+	int ban_review_total();
+
+	Review_report_DTO review_ban_detail(int ban_review_num);
+
+	int review_ban_count(String ban_id);
+
+	ArrayList<Review_report_DTO> review_ban_list(String ban_id);
+
+	void review_ban_delete(int review_report_num);
+
+	int ban_reply_total();
+
+	ArrayList<Review_reply_report_DTO> reply_report(PageDTO dto);
+
+	int user_num(String id);
+
+	String user_name(String id);
+
+	void report_reply_delete(int reply_num);
+
+	void reply_ban_delete(int review_reply_ban_num);
+
+	void review_comment_delete(int review_num);
+
+	
 
 	
 

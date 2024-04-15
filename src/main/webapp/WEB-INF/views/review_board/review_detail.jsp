@@ -103,6 +103,9 @@
           			data-reply_num="${re.reply_num}" data-review_num="${dto.review_num}" 
           			data-reply_id="${re.id}">신고</button>
         		</c:if>
+        		<c:if test="${'admin' == loginid}">
+	                <button type="button" onclick="location.href='reply_ban_listout'">댓글 신고 확인</button>
+	        	</c:if>
 	        </div>
 	      </c:forEach>
 	    </div>

@@ -155,16 +155,16 @@ tr:not(:last-child):hover {
 	background-color: rgba(216,216,216,0.9);
 }
 
-.board-table .th-num {
+.th-num {
   width: 100px;
   text-align: center;
 }
 
-.board-table .th-writer {
+.th-writer {
   width: 200px;
 }
 
-.board-table .th-date {
+.th-date {
   width: 100px;
 }
 

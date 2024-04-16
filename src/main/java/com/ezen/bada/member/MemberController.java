@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ezen.bada.inquire.InquireDTO;
 import com.ezen.bada.review.AllBoardDTO;
+
 
 
 @Controller
@@ -469,22 +471,6 @@ public class MemberController {
    }
 
    
-   /////* 마이페이지
-   
-   
-   @RequestMapping(value = "/mypage")
-   public String mypage(HttpServletRequest request, Model mo) {
-       
-      
-      String loginid = (String) request.getSession().getAttribute("loginid");
-   
-      Service ss = sqlsession.getMapper(Service.class);
-      MemberDTO result = ss.myinfo_main(loginid);
-      mo.addAttribute("info", result);
-
-      return "mypage";
-   }
-   
    // 회원정보수정확인창
    
    @RequestMapping(value = "/info_modify")
@@ -672,21 +658,63 @@ public class MemberController {
 	   
    }  
    
-   // 내가 쓴 리뷰 출력 -> 문의글 출력 순으로 진행 예정
    @RequestMapping(value = "/my_post")
-   public String mypage_post(HttpServletRequest request, Model mo) {
+   public String mypage_post(HttpServletRequest request, PageDTO dto, Model mo) {
 	   
-	   String loginid = (String) request.getSession().getAttribute("loginid");
+	  String loginid = (String) request.getSession().getAttribute("loginid");
 	   
-	   //리뷰
-	   
-	   Service ss = sqlsession.getMapper(Service.class);
-	   ArrayList<AllBoardDTO> review = ss.my_review(loginid);
-	   mo.addAttribute("list1", review);
-	   
-	   //문의글
+	  Service ss = sqlsession.getMapper(Service.class);
+	   // 리뷰페이징처리
+	  String nowPage=request.getParameter("nowPage");
+      String cntPerPage=request.getParameter("cntPerPage");
 
+		int total1=ss.my_review_total(loginid);
+
+        if(nowPage==null && cntPerPage == null) {
+  
+       	 nowPage="1";                              
+         cntPerPage="5";
+
+        }
+        else if(nowPage==null) {
+           nowPage="1";
+        }
+        else if(cntPerPage==null) {
+           cntPerPage="5";
+        }
+		
+        dto=new PageDTO(total1,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+        mo.addAttribute("paging",dto);
+        mo.addAttribute("list1",ss.my_review(dto.getStart(), dto.getEnd(),loginid));
+        
+        // 문의 페이징 처리
+        
+        String nowPage2=request.getParameter("nowPage2");
+        String cntPerPage2=request.getParameter("cntPerPage2");
+        
+        int total2=ss.inquire_total(loginid);
+        
+        if(nowPage2==null && cntPerPage2 == null) {
+        	  
+          	nowPage2="1";                              
+            cntPerPage2="5";
+
+           }
+           else if(nowPage2==null) {
+              nowPage2="1";
+           }
+           else if(cntPerPage2==null) {
+              cntPerPage2="5";
+           }
+        
+        PageDTO i_dto = new PageDTO(total2, Integer.parseInt(nowPage2), Integer.parseInt(cntPerPage2));
+        mo.addAttribute("paging_i", i_dto);
+        mo.addAttribute("list2", ss.my_inquire(i_dto.getStart(), i_dto.getEnd(), loginid));
 	   
+        MemberDTO result = ss.myinfo_main(loginid);
+        mo.addAttribute("info", result);
+        
+        
 	return "my_post";
 	   
    }

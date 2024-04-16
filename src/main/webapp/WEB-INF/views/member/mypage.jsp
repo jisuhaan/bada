@@ -8,34 +8,42 @@
 <title>바라던 바다 :: 마이페이지</title>
 <style type="text/css">
 
-  .profile-card {
+ .profile-card {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    margin: 20px;
-    text-align: center;
+    width: 1300px;
+    height: 250px;
+    display: flex;
+    align-items: center; /* 세로 중앙 정렬 */
+    justify-content: space-between; /* 요소들 사이에 공간을 균등하게 배분 */
     padding: 20px;
     background: #fff;
     border-radius: 8px;
-    margin-right: 20px;
-    position: absolute;
-    top:50%;
-    left:50%;
-    margin-top: 150px;
-    
+    position: relative;
+    margin: auto;
+    top: none;
+    left: none;
+    margin-top: 15px;
+  }
+
+  .profile-info {
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center;
   }
 
   .profile-image img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
+    margin-bottom: 10px; /* 이미지와 이름 사이 간격 */
   }
 
-  .profile-info {
-    margin-top: 20px;
+  .profile-info p {
+    margin: 0;
   }
 
   .profile-action {
-    margin-top: 20px;
+    display: flex; /* 가로 정렬 */
   }
 
   .profile-action button {
@@ -45,8 +53,10 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-bottom: 10px;
+    margin-left: 10px; /* 버튼 사이 간격 */
+    margin-top: 50px;
   }
+  
 </style>
 
 <script type="text/javascript">
@@ -86,10 +96,10 @@ function confirm_quit() {
 <body>
 
 <div class="profile-card">
+  <div class="profile-info">
   <div class="profile-image">
     <img src="./resources/image/profile.png">
   </div>
-  <div class="profile-info">
     <p><strong>${info.name}</strong></p>
     <p>${info.email}</p>
   </div>

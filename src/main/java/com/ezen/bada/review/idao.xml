@@ -252,7 +252,8 @@
 	SELECT bur.* 
 	FROM bada_user_review bur
 	JOIN bada_list bl ON bur.beach_code = bl.beach_code
-	WHERE (#{param1} = '경인' AND bl.state IN ('경기', '인천')) OR (bl.state = #{param1})
+	WHERE #{param1} = '전체' OR  (#{param1} = '경인' AND bl.state IN ('경기', '인천')) OR (bl.state = #{param1})
+	ORDER BY bur.review_num DESC
 </select>
 
 <!-- 신고된 게시글 목록 -->

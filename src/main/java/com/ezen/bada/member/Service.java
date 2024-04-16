@@ -2,7 +2,11 @@ package com.ezen.bada.member;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.annotations.Param;
+
+import com.ezen.bada.inquire.InquireDTO;
 import com.ezen.bada.review.AllBoardDTO;
+
 
 public interface Service {
 
@@ -86,6 +90,18 @@ public interface Service {
 
 	void membersavebbti(String id, String pw, String name, String email, String gender, int age, String bbti);
 
-	ArrayList<AllBoardDTO> my_review(String loginid);
+	ArrayList<AllBoardDTO> my_review(@Param("start") int start, 
+									@Param("end") int end, 
+									@Param("loginid") String loginid);
+
+	ArrayList<InquireDTO> my_inquire(@Param("start") int start, 
+									@Param("end") int end, 
+									@Param("loginid") String loginid);
+
+	int my_review_total(String loginid);
+
+	int inquire_total(String loginid);
+
+	
 
 }

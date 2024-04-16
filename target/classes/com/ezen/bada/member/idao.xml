@@ -188,6 +188,7 @@ from. (정)지수 -->
    #{param4}, #{param5}, #{param6}, #{param7})
 </insert>
 
+<<<<<<< HEAD
 
 <!-- 나의 게시글 리뷰 수  -->
 <select id="my_review_total" resultType="int">
@@ -213,6 +214,11 @@ from. (정)지수 -->
    select rownum rn, A.* from(  
    select * from bada_inquire where id = #{loginid} order by inquire_num desc)A)
    where rn between #{start} AND #{end}
+=======
+<!-- 나의 게시글(리뷰) -->
+<select id="my_review" resultType="com.ezen.bada.review.AllBoardDTO">
+   select * from bada_user_review where id = #{param1}
+>>>>>>> 0412f44e94632cc948f3c406254dfb364cccb947
 </select>
 
 

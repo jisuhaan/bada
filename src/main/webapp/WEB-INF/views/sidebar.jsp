@@ -27,12 +27,12 @@
                     <ion-icon name="home-outline" class="nav__icon"></ion-icon>
                     <span class="nav_name">메인으로</span>
                 </a>
-                <a href="sea_info" class="nav__link" onclick="location.href='#'">
+                <a href="sea_info" class="nav__link" onclick="window.location.href='sea_info'">
                    <ion-icon name="map-outline" class="nav__icon"></ion-icon>
                    <span class="nav_name">추천, 바다!</span>
                 </a>
 
-                <div href="#" class="nav__link collapse" onclick="location.href='#'">
+                <div href="#" class="nav__link collapse" onclick="location.href='bada_review'">
                  <ion-icon name="heart-circle-outline" class="nav__icon"></ion-icon>
                  <span class="nav_name">리뷰, 바다!</span>
 
@@ -61,7 +61,7 @@
                     <ion-icon name="chevron-down-outline" class="collapse__link" ></ion-icon>
 
                     <ul class="collapse__menu">
-                    	<a href="#" class="collapse__sublink">1:1문의</a>
+                    	<a href="inquire_personal_view" class="collapse__sublink">1:1문의</a>
                         <a href="inquire_input" class="collapse__sublink">문의글작성</a>
                         <a href="inquire_listout?sort=latest" class="collapse__sublink">문의게시판</a>
                         <c:if test="${position=='admin'}">

@@ -192,6 +192,7 @@ public class InquireController {
     public String page(HttpServletRequest request, Model mo) {
 		
 		String sort=request.getParameter("sort");
+		if(sort==null || sort.isEmpty()) {sort="latest";}
 		
 		// 맨 처음 아웃 페이지를 들어갔을 때, 
 		// 사용자 화면에 떠야 할 1) 현재 페이지 위치와 2) 페이지 당 들어가는 레코드 수 설정 -> 눌 값일 때마다 적절한 초기화 해주기
@@ -696,6 +697,149 @@ public class InquireController {
 			return "redirect:/inquire_ban_listout";
 	    }
 
+		
+		
+		//1:1문의 입력창
+		@RequestMapping(value = "/inquire_personal_view")
+		public String inquire_personal_view(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
+			
+			Service ss = sqlsession.getMapper(Service.class);
+			HttpSession hs = request.getSession();
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			
+			if (hs.getAttribute("loginstate") == null) {
+			   String loginid="nope";
+			   String email="nope";
+			   mo.addAttribute("loginid", loginid);
+			   mo.addAttribute("email",email);
+			   
+			   return "inquire_personal_view";
+			}
+			
+			else {
+				boolean loginstate = (boolean) hs.getAttribute("loginstate");
+				if(loginstate) {
+					String loginid = (String) hs.getAttribute("loginid");
+					MemberDTO dto = ss.inquire_personal_view(loginid);
+					mo.addAttribute("dto", dto);
+					
+					return "inquire_personal_view";
+				}
+				else {
+					String loginid="nope";
+					String email="nope";
+					mo.addAttribute("loginid", loginid);
+					mo.addAttribute("email",email);
+				   
+					return "inquire_personal_view";
+				}
+			}
+		}
+		
+		
+		
+		//입력한 1:1 문의글을 저장
+		@RequestMapping(value = "/inquire_personal_save", method = RequestMethod.POST)
+		public String inquire_personal_save(MultipartHttpServletRequest mul) throws IOException {
+		    
+		    String title = mul.getParameter("title");
+		    String name = mul.getParameter("name");
+		    String id = mul.getParameter("id");
+		    String email = mul.getParameter("email");
+		    String category = mul.getParameter("category");
+		    String content = mul.getParameter("content");
+		    // 작성 일자는 DB에서 지정
+		    String pic1=null, pic2=null, pic3=null, pic4=null, pic5=null;
+			
+			MultipartFile mf1=mul.getFile("pic1");
+			if(mf1 != null && !mf1.isEmpty()) {
+				pic1=mf1.getOriginalFilename();
+				pic1=filesavee1(pic1, mf1.getBytes());
+				}
+			else {pic1="nope";}
+			
+			MultipartFile mf2=mul.getFile("pic2");
+			if(mf2 != null && !mf2.isEmpty()) {
+				pic2=mf2.getOriginalFilename();
+				pic2=filesavee2(pic2, mf2.getBytes());
+				}
+			else {pic2="nope";}
+			
+			MultipartFile mf3=mul.getFile("pic3");
+			if(mf3 != null && !mf3.isEmpty()) {
+				pic3=mf3.getOriginalFilename();
+				pic3=filesavee3(pic3, mf3.getBytes());
+				}
+			else {pic3="nope";}
+			
+			MultipartFile mf4=mul.getFile("pic4");
+			if(mf4 != null && !mf4.isEmpty()) {
+				pic4=mf4.getOriginalFilename();
+				pic4=filesavee4(pic4, mf4.getBytes());
+				}
+			else {pic4="nope";}
+			
+			MultipartFile mf5=mul.getFile("pic5");
+			if(mf5 != null && !mf5.isEmpty()) {
+				pic5=mf5.getOriginalFilename();
+				pic5=filesavee5(pic5, mf5.getBytes());
+				}
+			else {pic5="nope";}
+		    
+			System.out.println("각종 정보: "+title+category+name+id+email+content);
+		    System.out.println("첫 번째 사진:" + pic1);
+		    System.out.println("두 번째 사진:" + pic2);
+		    System.out.println("세 번째 사진:" + pic3);
+		    System.out.println("네 번째 사진:" + pic4);
+		    System.out.println("다섯 번째 사진:" + pic5);
+
+		    Service ss = sqlsession.getMapper(Service.class);
+		    ss.inquire_personal_save(title, name, id, email, category, content, pic1, pic2, pic3, pic4, pic5);
+
+		    return "main";
+		}
+		//문의글에 넣은 사진들에 별개의 랜덤 문자를 넣음(동일한 이름의 파일이 들어간 경우 구분을 위해)
+		private String filesavee5(String pic5, byte[] bytes) throws IOException {
+			UUID ud=UUID.randomUUID();
+			String what5=ud.toString()+"_"+pic5;
+			File filename=new File(imagepath+"\\"+what5);
+			FileCopyUtils.copy(bytes, filename);
+			
+			return what5;
+		}
+		private String filesavee4(String pic4, byte[] bytes) throws IOException {
+			UUID ud=UUID.randomUUID();
+			String what4=ud.toString()+"_"+pic4;
+			File filename=new File(imagepath+"\\"+what4);
+			FileCopyUtils.copy(bytes, filename);
+			
+			return what4;
+		}
+		private String filesavee3(String pic3, byte[] bytes) throws IOException {
+			UUID ud=UUID.randomUUID();
+			String what3=ud.toString()+"_"+pic3;
+			File filename=new File(imagepath+"\\"+what3);
+			FileCopyUtils.copy(bytes, filename);
+			
+			return what3;
+		}
+		private String filesavee2(String pic2, byte[] bytes) throws IOException {
+			UUID ud=UUID.randomUUID();
+			String what2=ud.toString()+"_"+pic2;
+			File filename=new File(imagepath+"\\"+what2);
+			FileCopyUtils.copy(bytes, filename);
+			
+			return what2;
+		}
+		private String filesavee1(String pic1, byte[] bytes) throws IOException {
+			UUID ud=UUID.randomUUID();
+			String what1=ud.toString()+"_"+pic1;
+			File filename=new File(imagepath+"\\"+what1);
+			FileCopyUtils.copy(bytes, filename);
+			
+			return what1;
+		}
 		
 		
 }

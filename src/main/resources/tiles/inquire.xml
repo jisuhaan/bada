@@ -69,6 +69,12 @@
 		<put-attribute name="title" value="바라는 바다! :: 문의 신고 상세"/>
 		<put-attribute name="body" value="/WEB-INF/views/inquire/inquire_ban_detail.jsp"/>
 	</definition>
+	
+	
+	<definition name="inquire_personal_view" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 1:1 문의 작성창"/>
+		<put-attribute name="body" value="/WEB-INF/views/inquire/inquire_personal_view.jsp"/>
+	</definition>
 
 	
 	

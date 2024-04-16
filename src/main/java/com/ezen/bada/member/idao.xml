@@ -188,9 +188,31 @@ from. (정)지수 -->
    #{param4}, #{param5}, #{param6}, #{param7})
 </insert>
 
-<!-- 나의 게시글(리뷰) -->
+
+<!-- 나의 게시글 리뷰 수  -->
+<select id="my_review_total" resultType="int">
+   select count(*) from bada_user_review where id = #{param1}
+</select>
+
+<!-- 나의 게시글 리뷰 목록 -->
 <select id="my_review" resultType="com.ezen.bada.review.AllBoardDTO">
-   select * from bada_user_review where id = #{param1}
+   select * from (
+   select rownum rn, A.* from(  
+   select * from bada_user_review where id = #{loginid} order by review_num desc)A)
+   where rn between #{start} AND #{end}
+</select>
+
+<!-- 나의 문의글 수  -->
+<select id="inquire_total" resultType="int">
+   select count(*) from bada_inquire where id = #{param1}
+</select>
+
+<!-- 나의 게시글 문의 목록 -->
+<select id="my_inquire" resultType="com.ezen.bada.inquire.InquireDTO">
+   select * from (
+   select rownum rn, A.* from(  
+   select * from bada_inquire where id = #{loginid} order by inquire_num desc)A)
+   where rn between #{start} AND #{end}
 </select>
 
 

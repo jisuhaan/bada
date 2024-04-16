@@ -84,7 +84,7 @@
 </c:if>
 <c:choose>
 <c:when test="${loginstate==true}">
-            <a href="mypage?loginid=${loginid}" class="nav__link">
+            <a href="my_post?loginid=${loginid}" class="nav__link">
                <ion-icon name="person-circle-outline" class="nav__icon"></ion-icon>
                 <span class="nav_name">마이페이지</span>
             </a>

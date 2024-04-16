@@ -116,5 +116,13 @@ public interface Service {
 	ArrayList<InquireDTO2> inquire_best3();
 
 	
+	//1:1 문의 입력창에 정보 띄우기
+	MemberDTO inquire_personal_view(String loginid);
+	
+	//1:1 문의 저장하기
+	void inquire_personal_save(String title, String name, String id, String email, String category, String content,
+			String pic1, String pic2, String pic3, String pic4, String pic5);
+
+	
 
 }

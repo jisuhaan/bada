@@ -61,7 +61,7 @@
                     <ion-icon name="chevron-down-outline" class="collapse__link" ></ion-icon>
 
                     <ul class="collapse__menu">
-                    	<a href="#" class="collapse__sublink">1:1문의</a>
+                    	<a href="inquire_personal_view" class="collapse__sublink">1:1문의</a>
                         <a href="inquire_input" class="collapse__sublink">문의글작성</a>
                         <a href="inquire_listout?sort=latest" class="collapse__sublink">문의게시판</a>
                         <c:if test="${position=='admin'}">

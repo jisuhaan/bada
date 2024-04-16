@@ -256,4 +256,18 @@
     ]]>
 </select>
 
+
+
+<!-- 1:1 문의글 입력하기 전 사전정보 -->
+<select id="inquire_personal_view" resultType="com.ezen.bada.member.MemberDTO">
+	select name, id, email from bada_user where id=#{param1}
+</select>
+
+<!-- 1:1 문의글 저장 -->
+<insert id="inquire_personal_save">
+	insert into bada_inquire_personal (ip_num, title, name, id, email, category, content, pic1, pic2, pic3, pic4, pic5) 
+	values (inquire_p_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6},
+	#{param7}, #{param8}, #{param9}, #{param10}, #{param11})
+</insert>
+
 </mapper>

@@ -165,4 +165,23 @@ public class SeaInfoController {
 		
 		return "sea_weather_detail";
 	}
+	
+	
+	//지은 메인 서치바 진행중..
+	@ResponseBody
+	@RequestMapping(value = "main_search")
+	public String main_search(HttpServletRequest request) {
+		
+		String area = request.getParameter("area");
+		System.out.println("area 가져왔니? : "+area);
+		String result = null;
+		Service ss = sqlsession.getMapper(Service.class);
+		
+		if(area.equals("") || area==null) {
+			result = "empty";
+		}
+		
+		
+		return result;
+	}
 }

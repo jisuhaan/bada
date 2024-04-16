@@ -25,7 +25,7 @@ if(hs.getAttribute("loginstate")==null){
 	<div class="main_search">
 		떠나자, &nbsp;
 		<input type="text" name="area" id="area" placeholder="지역명을 입력하세요! ex)강원, 강릉">&nbsp;
-		<a href="#"><i class="fa-solid fa-magnifying-glass fa-beat fa-xl" style="color: #1B70A6;"></i></a>&nbsp;
+		<a href="#" onclick="search_area();"><i class="fa-solid fa-magnifying-glass fa-beat fa-xl" style="color: #1B70A6;"></i></a>&nbsp;
 		바다로! 
 	</div>
 	
@@ -43,5 +43,41 @@ if(hs.getAttribute("loginstate")==null){
 		</div>
 	</div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+function search_area() {
+	
+	let area = $("#area").val();
+	
+	if(area=="" || area.length==1){
+		alert("검색어는 두 글자 이상 입력해주세요!");
+	}
+	else {
+		$.ajax({
+			url: "main_search",
+			type: "GET",
+			async: true,
+			data: {"area":area},
+			dataType:"text",
+			success: function(response) {
+				
+				if(response==''){
+					
+				}
+		
+			},
+			error:function(xhr, status, error) {
+	            console.error(xhr.responseText); 
+				alert('데이터 전송과정에서 문제가 발생했습니다!');
+			}
+		});
+	}
+}
+	
+</script>
+
 </body>
 </html>

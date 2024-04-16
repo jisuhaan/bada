@@ -112,12 +112,24 @@
 	        </tr>		
 	       	<tr>
 	        	<th>bbti</th>
-	        	<td>${li.bbti}</td>
+	        	<td>
+	        	<c:choose>
+						    <c:when test="${empty li.bbti}">미정</c:when>
+						    <c:when test="${li.bbti == 'EAF'}">EAF::해운대</c:when>
+						    <c:when test="${li.bbti == 'EAN'}">EAN::양양</c:when>
+						    <c:when test="${li.bbti == 'EPF'}">EPF::월미도</c:when>
+						    <c:when test="${li.bbti == 'EPN'}">EPN::다대포</c:when>
+						    <c:when test="${li.bbti == 'IAF'}">IAF::서귀포</c:when>
+						    <c:when test="${li.bbti == 'IAN'}">IAN::제부도</c:when>
+						    <c:when test="${li.bbti == 'IPF'}">IPF::여수밤바다</c:when>
+						    <c:when test="${li.bbti == 'IPN'}">IPN::독도</c:when>
+				</c:choose>
+	        	</td>
 	        </tr>	
 	       	<tr>
 	        	<td colspan="2" align="center">
 	        		<input type="button" value="삭제" id="memberdel" class="btn">&nbsp;/
-      	 			<button type="button" onclick="location.href='member_modify_view?user_number=${li.user_number}'">수정</button>
+      	 			<button type="button" class="btn" onclick="location.href='member_modify_view?user_number=${li.user_number}'">수정</button>
       			</td>
 	        </tr>	        	                     	        
 	    </table>

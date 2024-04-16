@@ -393,6 +393,7 @@ public class MemberController {
 
    @RequestMapping(value = "/member_detail") //회원 정보 출력 창
    public String member_detail(HttpServletRequest request, Model mo) {
+	   
       int user_number = Integer.parseInt(request.getParameter("user_number"));
       
       Service ss=sqlsession.getMapper(Service.class);

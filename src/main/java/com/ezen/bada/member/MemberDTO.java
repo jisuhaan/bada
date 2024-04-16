@@ -5,11 +5,12 @@ public class MemberDTO {
 	int user_number;
 	String id, pw, role, name, email, gender; 
 	int age;
+	String bbti;
 	
 	public MemberDTO() {}
 	
 	public MemberDTO(int user_number, String id, String pw, String role, String name, String email, String gender,
-			int age) {
+			int age, String bbti) {
 		super();
 		this.user_number = user_number;
 		this.id = id;
@@ -19,6 +20,7 @@ public class MemberDTO {
 		this.email = email;
 		this.gender = gender;
 		this.age = age;
+		this.bbti = bbti;
 	}
 
 	public int getUser_number() {
@@ -70,5 +72,12 @@ public class MemberDTO {
 		this.age = age;
 	}
 
+	public String getBbti() {
+		return bbti;
+	}
+
+	public void setBbti(String bbti) {
+		this.bbti = bbti;
+	}
 	
 }

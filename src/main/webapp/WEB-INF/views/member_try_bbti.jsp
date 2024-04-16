@@ -76,7 +76,9 @@
 .selectA,
 .selectP,
 .selectF,
-.selectN {
+.selectN,
+.weather,
+.review {
 	display: block;
 	margin-bottom: 10px; /* 각 버튼 사이의 여백 조정 */
 	bottom: 30px;
@@ -87,7 +89,9 @@
 .selectA,
 .selectP,
 .selectF,
-.selectN:hover{
+.selectN
+.weather,
+.review:hover{
 	cursor:pointer;
 }
 

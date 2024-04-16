@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 
 import com.ezen.bada.member.MemberDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Controller
@@ -818,5 +819,31 @@ public class ReviewController {
 			
 			return "redirect:/reply_ban_listout";
 	    }
+		
+		@ResponseBody
+		@RequestMapping(value="recommend_view", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+		public String main_review(HttpServletRequest request, Model mo) {
+		    Service ss = sqlsession.getMapper(Service.class);
+		    ArrayList<AllBoardDTO> list = ss.pickbestrec();
+
+		    System.out.println("리스트 가져왔니? : " + list);
+		    System.out.println("리스트 안 썸네일 하나 : " + list.get(0).getThumbnail());
+
+		 // 리스트를 두 번 반복하여 똑같은 데이터를 포함한 새로운 리스트 생성
+		    ArrayList<AllBoardDTO> duplicatedList = new ArrayList<>();
+		    duplicatedList.addAll(list);
+		    duplicatedList.addAll(list);
+
+		    // ObjectMapper를 사용하여 두 번 반복된 리스트를 JSON 문자열로 변환
+		    ObjectMapper mapper = new ObjectMapper();
+		    String jsonList = "";
+		    try {
+		        jsonList = mapper.writeValueAsString(duplicatedList);
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+
+		    return jsonList;
+		}
 		
 }

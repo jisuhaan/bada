@@ -1,5 +1,33 @@
 @charset "UTF-8";
 
+@font-face {
+    font-family: 'YEONGJU';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2403@1.0/YEONGJUSeonbiTTF.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ownglyph_meetme-Rg';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/Ownglyph_meetme-Rg.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DOSGothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/DOSGothic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 
 .view_container {
 	width:100%;
@@ -28,7 +56,6 @@
 	margin-bottom: 30px;
 }
 
-
 /* 카드 자동 스라이더 효과 */
 
 .card-slide{
@@ -43,11 +70,15 @@
 
 .slide-track{
   display:flex;
-  animation: scroll 30s linear infinite;
+  animation: scroll 10s linear infinite;
 }
 
 .slide-track:hover{
   animation-play-state:paused;
+}
+
+.slide:hover{
+	
 }
 
 @keyframes scroll{
@@ -55,7 +86,7 @@
     transform: translateX(0);
   }
   100%{
-    transform: translateX(calc(-250px * 8));
+    transform: translateX(calc(-250px * 4));
   }
 }
 
@@ -85,37 +116,12 @@
 
 .train-card:hover{
   transform:translateZ(18px);
+  cursor: pointer;
 }
-
-/* 슬라이더 그라데이션 그림자 */
-
-.card-slide::before,
-.card-slide::after {
-  background:linear-gradient(to right, #F1F1F1 0%,
-  rgba(255,255,255,0) 100%);
-  content:'';
-  height:100%;
-  position:absolute;
-  width:18%;
-  z-index:2;
-}
-
-.card-slide::before{
-  left:0;
-  top:0;
-}
-
-.card-slide::after{
-  right:-5px;
-  top:0;
-  transform: rotateZ(180deg);
-}
-
 
 .card-body {
-	background-color: blue;
-	width: 95%;
-	height: 95%;
+	width: 240px;
+	height: 280px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -123,10 +129,44 @@
 	text-align: center;
 }
 
-.body-thumbnail{
-	width: 250px;
-	height:200px;
+#slide_thumbnail{
+	width: 240px;
+	height:150px;
 	border: 1px solid gray;
 	border-radius: 5px;
 	object-fit: cover;
+	margin-bottom: 10px;
 }
+
+.body-contents {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.contents_title,
+.contents_user {
+	margin-bottom: 5px;
+}
+
+#slide_title{
+	font-family: 'DOSGothic';
+	font-size: 18px;
+}
+
+#slide_name{
+	font-family: 'DOSGothic';
+	font-size: 16px;
+}
+
+.contents_number{
+	padding:0;
+	display: flex;
+	width:100%;
+	justify-content: space-around;
+	font-family: 'DOSGothic';
+	font-size: 15px;
+}
+
+

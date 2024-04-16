@@ -112,7 +112,7 @@
 	        </tr>		
 	       	<tr>
 	        	<th>bbti</th>
-	        	<td>나중에 bbti 결과 띄우기!</td> <!-- 아직 구현 안 함 -->
+	        	<td>${li.bbti}</td>
 	        </tr>	
 	       	<tr>
 	        	<td colspan="2" align="center">

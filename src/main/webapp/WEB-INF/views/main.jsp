@@ -40,20 +40,21 @@ if(hs.getAttribute("loginstate")==null){
 			
 			<div class="main_banner_wrap">
 			<div class="main_banner">
-				<div class="banner first" onclick=""><img src="./resources/image/banner_1.png"></div>
-				<div class="banner second" onclick=""><img src="./resources/image/banner_2.png"></div>
-				<div class="banner third" onclick=""><img src="./resources/image/banner_3.png"></div>
-				<div class="banner fourth" onclick=""><img src="./resources/image/banner_4.png"></div>
+				<div class="banner first" onclick=""><img src="./resources/image/main_banner_1.png"></div>
+				<div class="banner second" onclick=""><img src="./resources/image/main_banner_2.png"></div>
+				<div class="banner third" onclick=""><img src="./resources/image/main_banner_3.png"></div>
+				<div class="banner fourth" onclick=""><img src="./resources/image/main_banner_4.png"></div>
 			</div>
 			</div>	
 			
 			<script type="text/javascript">
 				$(document).ready(function(){				
 					 $('.main_banner').bxSlider({
-						mode:vertical,
+						mode:'vertical',
 						slideMargin: 5,
 						auto:true,
-						autoHover:true,
+						stopAutoOnClick:true,
+						autoHover:false,
 						controls:true,
 						infiniteLoop: true,
 						pager: true		
@@ -69,7 +70,6 @@ if(hs.getAttribute("loginstate")==null){
 	</div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 
 

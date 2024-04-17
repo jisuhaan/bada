@@ -28,7 +28,7 @@
 .container {
 	width:1200px;
 	padding:50px;
-	height:90%;
+	height:1000px;
 	background-color:rgba(255,255,255,1);
 	margin: 0 auto;
 	display: flex;
@@ -48,9 +48,11 @@
 
 .main_search {
 	min-width:850px;
+	height:100px;
 	display:flex;
 	justify-content:center;
 	margin: 0 auto;
+	margin-top:50px;
 	margin-bottom: 50px;
 	width:100%;
 	padding: 10px;
@@ -72,10 +74,9 @@
 }
 
 .main_container {
-	width:1080px;
+	width:100%;
 	display: flex;
 	flex-direction: row;
-	width:100%;
 }
 
 .main_left {
@@ -92,7 +93,7 @@
 	display:flex;
 	flex-direction:column;
 	width: 50%;
-	height:70vh;
+	height:100%;
 	float:right;
 	justify-content: center;
 	text-align: center;
@@ -100,7 +101,7 @@
 
 .main_right_top{
 	width:100%;
-	height:30vh;
+	height:300px;
 	background-color:#f4d19d;
 }
 
@@ -117,8 +118,18 @@
 
 .banner img {
 	width:540px;
-	height:30vh;
+	height:300px;
 	object-fit:cover;
+}
+
+.banner:hover{
+	cursor: pointer;
+}
+
+.bx-pager {
+	position:absolute;
+	top:250px;
+	opacity: 70;
 }
 
 .main_right_bottom{
@@ -127,10 +138,8 @@
 	align-items: center;
 	text-align: center;
 	width:100%;
-	height:40vh;
+	height:500px;
 }
-
-.main_banner
 
 
 /* 태블릿 이하 사이즈 */

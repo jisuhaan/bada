@@ -6,8 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="${pageContext.request.contextPath}/resources/css/main_recommend_view.css" rel="stylesheet" type="text/css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>				
+<link href="${pageContext.request.contextPath}/resources/css/main_recommend_view.css" rel="stylesheet" type="text/css">				
 <title>Insert title here</title>
 <script>
 $(document).ready(function(){

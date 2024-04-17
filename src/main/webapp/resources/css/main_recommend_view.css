@@ -51,8 +51,8 @@
 
 .review_title {
 	margin:0 auto;
+	padding-top:60px;
 	text-align: center;
-	margin-top: 20px;
 	margin-bottom: 30px;
 }
 
@@ -83,10 +83,6 @@
 
 .slide-track:hover{
 	animation-play-state:paused;
-}
-
-.slide:hover{
-	
 }
 
 @keyframes scroll{

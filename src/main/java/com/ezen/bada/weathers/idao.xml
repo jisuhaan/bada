@@ -51,4 +51,8 @@
 		select * from bada_info where city=#{param1}
 	</select>
 		
+	<!-- pointcode 가져오기 -->
+	<select id="getPointcode" resultType="Integer">
+		SELECT bp.codenum FROM bada_list bl join bada_pointcode bp on bl.pointname = bp.pointname where bl.beach_code = #{param1}
+	</select>
 </mapper>

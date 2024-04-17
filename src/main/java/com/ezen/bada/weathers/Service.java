@@ -22,5 +22,7 @@ public interface Service {
 	String searchwhere(String area);
 
 	ArrayList<Bada_info_DTO> getcitybeach(String city);
+	
+	int getPointcode(int beach_code);
 
 }

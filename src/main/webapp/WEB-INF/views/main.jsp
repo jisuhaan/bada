@@ -48,20 +48,17 @@ if(hs.getAttribute("loginstate")==null){
 			</div>	
 			
 			<script type="text/javascript">
-			$(document).ready(function(){
-				
-				 $('.main_banner').bxSlider({
-					mode:vertical,
-					slideMargin: 5,
-					auto:true,
-					autoHover:true,
-					controls:true,
-					infiniteLoop: true,
-					pager: true,
-					
-				 });
-				 
-			});	
+				$(document).ready(function(){				
+					 $('.main_banner').bxSlider({
+						mode:vertical,
+						slideMargin: 5,
+						auto:true,
+						autoHover:true,
+						controls:true,
+						infiniteLoop: true,
+						pager: true		
+					 });		 
+				});	
 			</script>
 			
 			</div>

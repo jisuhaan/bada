@@ -214,5 +214,24 @@ from. (정)지수 -->
    where rn between #{start} AND #{end}
 </select>
 
+<!-- 마이페이지 나의 문의글 추천순  -->
+<select id="inquire_best3" resultType="com.ezen.bada.inquire.InquireDTO2">
+	<![CDATA[
+    select * from (
+        select * from bada_inquire 
+        order by rec desc
+    ) where rownum <= 3
+    ]]>
+</select>
+
+<!-- 좋아요 게시글 모음 -->
+<select id="my_favorite" resultType="com.ezen.bada.review.AllBoardDTO">
+    SELECT br.*, bl.beach AS beach
+    FROM bada_user_review br
+    JOIN bada_list bl ON br.beach_code = bl.beach_code
+    WHERE br.rec_id LIKE '%' || #{param1} || '%'
+</select>
+
+
 
 </mapper>

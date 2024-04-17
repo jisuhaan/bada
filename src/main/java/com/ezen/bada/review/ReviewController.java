@@ -637,35 +637,73 @@ public class ReviewController {
 	          }
 	      }
 	      
-	      System.out.println("날짜 확인 : "+search);
-
 	      
 	      Service ss = sqlsession.getMapper(Service.class);
 	      
 	      ArrayList<AllBoardDTO> list = ss.search_result(category,search);
-	      
-	      
+
 	      StringBuilder sb = new StringBuilder();
-	        sb.append("<table class='board-table'>");
-	        sb.append("<thead><tr><th>번호</th><th>제목</th><th>작성자</th><th>방문일</th><th>작성일</th><th>추천수</th><th>조회수</th></tr></thead>");
-	        sb.append("<tbody>");
-	        for (AllBoardDTO review : list) {
-	            sb.append("<tr>");
-	            sb.append("<td>").append(review.getReview_num()).append("</td>");
-	            sb.append("<td><a href='review_detail?review_num=").append(review.getReview_num()).append("'>")
-	            .append(review.getReview_title()).append(" <span class='reply_check'>[").append(review.getReply()).append("]</span></a></td>");
-	            String show_id = review.getId().substring(0,4)+"****";
-	            sb.append("<td>").append(review.getName()).append("(").append(show_id).append(")님").append("</td>");
-	            sb.append("<td>").append(review.getVisit_day()).append("</td>");
-	            String write_day = review.getWrite_day().substring(0, 10);
-	            sb.append("<td>").append(write_day).append("</td>");
-	            sb.append("<td>").append(review.getRecommend()).append("</td>");
-	            sb.append("<td>").append(review.getHits()).append("</td>");
-	            sb.append("</tr>");
-	        }
-	        sb.append("</tbody></table>");
-		  
-		   
+	      sb.append("<table class='board-table'>");
+	      sb.append("<thead>");
+	      sb.append("<tr>");
+	      sb.append("<th scope='col' class='th-num'>번호</th>");
+	      sb.append("<th scope='col' class='th-title'>제목</th>");
+	      sb.append("<th scope='col' class='th-writer'>작성자</th>");
+	      sb.append("<th scope='col' class='th-date vdate'>방문일</th>");
+	      sb.append("<th scope='col' class='th-date wdate'>작성일</th>");
+	      sb.append("<th scope='col' class='th-num recommend'>추천수</th>");
+	      sb.append("<th scope='col' class='th-num view'>조회수</th>");
+	      sb.append("</tr>");
+	      sb.append("</thead>");
+	      sb.append("<tbody>");
+
+	      sb.append("<tr class='notice_line'>");
+	      sb.append("<td>3</td>");
+	      sb.append("<td class='text_title'><a href='#'>[공지사항] 3번 </a></td>");
+	      sb.append("<td>관리자</td>");
+	      sb.append("<td></td>");
+	      sb.append("<td>2024-04-08</td>");
+	      sb.append("<td></td>");
+	      sb.append("<td></td>");
+	      sb.append("</tr>");
+
+	      sb.append("<tr class='notice_line'>");
+	      sb.append("<td>2</td>");
+	      sb.append("<td class='text_title'><a href='#'>[공지사항] 2번 </a></td>");
+	      sb.append("<td>관리자</td>");
+	      sb.append("<td></td>");
+	      sb.append("<td>2024-04-08</td>");
+	      sb.append("<td></td>");
+	      sb.append("<td></td>");
+	      sb.append("</tr>");
+
+	      sb.append("<tr class='notice_line'>");
+	      sb.append("<td>1</td>");
+	      sb.append("<td class='text_title'><a href='#'>[공지사항] 1번 </a></td>");
+	      sb.append("<td>관리자</td>");
+	      sb.append("<td></td>");
+	      sb.append("<td>2024-04-08</td>");
+	      sb.append("<td></td>");
+	      sb.append("<td></td>");
+	      sb.append("</tr>");
+
+	      for (AllBoardDTO review : list) {
+	          sb.append("<tr>");
+	          sb.append("<td>").append(review.getReview_num()).append("</td>");
+	          sb.append("<td class='text_title'><a href='review_detail?review_num=").append(review.getReview_num()).append("'>")
+	              .append(review.getReview_title()).append(" <span class='reply_check'>[").append(review.getReply()).append("]</span></a></td>");
+	          String show_id = review.getId().substring(0, 4) + "****";
+	          sb.append("<td>").append(review.getName()).append("(").append(show_id).append(")님").append("</td>");
+	          sb.append("<td>").append(review.getVisit_day()).append("</td>");
+	          String write_day = review.getWrite_day().substring(0, 10);
+	          sb.append("<td>").append(write_day).append("</td>");
+	          sb.append("<td>").append(review.getRecommend()).append("</td>");
+	          sb.append("<td>").append(review.getHits()).append("</td>");
+	          sb.append("</tr>");
+	      }
+
+	      sb.append("</tbody></table>");
+   
 	      return sb.toString();
 	   }
 	   
@@ -679,29 +717,69 @@ public class ReviewController {
 	      Service ss = sqlsession.getMapper(Service.class);
 	      
 	      ArrayList<AllBoardDTO> list = ss.search_area_result(area);
-	      
-	      
+     
 	      StringBuilder sb = new StringBuilder();
-	        sb.append("<table class='board-table'>");
-	        sb.append("<thead><tr><th>번호</th><th>제목</th><th>작성자</th><th>방문일</th><th>작성일</th><th>추천수</th><th>조회수</th></tr></thead>");
-	        sb.append("<tbody>");
-	        for (AllBoardDTO review : list) {
-	            sb.append("<tr>");
-	            sb.append("<td>").append(review.getReview_num()).append("</td>");
-	            sb.append("<td><a href='review_detail?review_num=").append(review.getReview_num()).append("'>")
-	            .append(review.getReview_title()).append(" <span class='reply_check'>[").append(review.getReply()).append("]</span></a></td>");
-	            String show_id = review.getId().substring(0,4)+"****";
-	            sb.append("<td>").append(review.getName()).append("(").append(show_id).append(")님").append("</td>");
-	            sb.append("<td>").append(review.getVisit_day()).append("</td>");
-	            String write_day = review.getWrite_day().substring(0, 10);
-	            sb.append("<td>").append(write_day).append("</td>");
-	            sb.append("<td>").append(review.getRecommend()).append("</td>");
-	            sb.append("<td>").append(review.getHits()).append("</td>");
-	            sb.append("</tr>");
-	        }
-	        sb.append("</tbody></table>");
-		  
-		   
+	      sb.append("<table class='board-table'>");
+	      sb.append("<thead>");
+	      sb.append("<tr>");
+	      sb.append("<th scope='col' class='th-num'>번호</th>");
+	      sb.append("<th scope='col' class='th-title'>제목</th>");
+	      sb.append("<th scope='col' class='th-writer'>작성자</th>");
+	      sb.append("<th scope='col' class='th-date vdate'>방문일</th>");
+	      sb.append("<th scope='col' class='th-date wdate'>작성일</th>");
+	      sb.append("<th scope='col' class='th-num recommend'>추천수</th>");
+	      sb.append("<th scope='col' class='th-num view'>조회수</th>");
+	      sb.append("</tr>");
+	      sb.append("</thead>");
+	      sb.append("<tbody>");
+
+	      sb.append("<tr class='notice_line'>");
+	      sb.append("<td>3</td>");
+	      sb.append("<td class='text_title'><a href='#'>[공지사항] 3번 </a></td>");
+	      sb.append("<td>관리자</td>");
+	      sb.append("<td></td>");
+	      sb.append("<td>2024-04-08</td>");
+	      sb.append("<td></td>");
+	      sb.append("<td></td>");
+	      sb.append("</tr>");
+
+	      sb.append("<tr class='notice_line'>");
+	      sb.append("<td>2</td>");
+	      sb.append("<td class='text_title'><a href='#'>[공지사항] 2번 </a></td>");
+	      sb.append("<td>관리자</td>");
+	      sb.append("<td></td>");
+	      sb.append("<td>2024-04-08</td>");
+	      sb.append("<td></td>");
+	      sb.append("<td></td>");
+	      sb.append("</tr>");
+
+	      sb.append("<tr class='notice_line'>");
+	      sb.append("<td>1</td>");
+	      sb.append("<td class='text_title'><a href='#'>[공지사항] 1번 </a></td>");
+	      sb.append("<td>관리자</td>");
+	      sb.append("<td></td>");
+	      sb.append("<td>2024-04-08</td>");
+	      sb.append("<td></td>");
+	      sb.append("<td></td>");
+	      sb.append("</tr>");
+
+	      for (AllBoardDTO review : list) {
+	          sb.append("<tr>");
+	          sb.append("<td>").append(review.getReview_num()).append("</td>");
+	          sb.append("<td class='text_title'><a href='review_detail?review_num=").append(review.getReview_num()).append("'>")
+	              .append(review.getReview_title()).append(" <span class='reply_check'>[").append(review.getReply()).append("]</span></a></td>");
+	          String show_id = review.getId().substring(0, 4) + "****";
+	          sb.append("<td>").append(review.getName()).append("(").append(show_id).append(")님").append("</td>");
+	          sb.append("<td>").append(review.getVisit_day()).append("</td>");
+	          String write_day = review.getWrite_day().substring(0, 10);
+	          sb.append("<td>").append(write_day).append("</td>");
+	          sb.append("<td>").append(review.getRecommend()).append("</td>");
+	          sb.append("<td>").append(review.getHits()).append("</td>");
+	          sb.append("</tr>");
+	      }
+
+	      sb.append("</tbody></table>");
+	   
 	      return sb.toString();
 	   }
 	 
@@ -845,5 +923,8 @@ public class ReviewController {
 
 		    return jsonList;
 		}
+		
+		
+		
 		
 }

@@ -5,59 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="${pageContext.request.contextPath}/resources/css/mypage.css" rel="stylesheet" type="text/css">
 <title>바라던 바다 :: 마이페이지</title>
-<style type="text/css">
-
- .profile-card {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 1300px;
-    height: 250px;
-    display: flex;
-    align-items: center; /* 세로 중앙 정렬 */
-    justify-content: space-between; /* 요소들 사이에 공간을 균등하게 배분 */
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    position: relative;
-    margin: auto;
-    top: none;
-    left: none;
-    margin-top: 15px;
-  }
-
-  .profile-info {
-    display: flex;
-    flex-direction: column; /* 세로 정렬 */
-    align-items: center;
-  }
-
-  .profile-image img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-bottom: 10px; /* 이미지와 이름 사이 간격 */
-  }
-
-  .profile-info p {
-    margin: 0;
-  }
-
-  .profile-action {
-    display: flex; /* 가로 정렬 */
-  }
-
-  .profile-action button {
-    padding: 10px 20px;
-    background-color: blue;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 10px; /* 버튼 사이 간격 */
-    margin-top: 50px;
-  }
-  
-</style>
 
 <script type="text/javascript">
 function confirm_quit() {
@@ -97,18 +46,32 @@ function confirm_quit() {
 
 <div class="profile-card">
   <div class="profile-info">
-  <div class="profile-image">
-    <img src="./resources/image/profile.png">
-  </div>
-    <p><strong>${info.name}</strong></p>
-    <p>${info.email}</p>
+      <div class="profile-image">
+      <img src="./resources/image/profile.png">
+    </div>
+    <div class="profile-name-email">
+      <p><strong>${info.name} 님</strong></p>
+      <p>${info.email}</p>
+    </div>
   </div>
   <div class="profile-action">
-  <button type="button" onclick="location.href='info_modify?id=${info.id}'">나의정보수정</button>
-  <button type="button" onclick="location.href='#'">북마크바다</button>
-  <button type="button" onclick="location.href='my_post?id=${info.id}'">나의게시글</button>
-  <button type="button" onclick="confirm_quit()">회원탈퇴</button>
+    <button type="button" onclick="location.href='info_modify?id=${info.id}'">나의정보수정</button>
+    <button type="button" onclick="confirm_quit()">회원탈퇴</button>
   </div>
+   <div class="additional-actions">
+        <div class="action-item">
+            <button type="button" class="action-button" onclick="location.href='#'">나의 BBTI</button>
+        </div>
+        <div class="action-item">
+            <button type="button" class="action-button" onclick="location.href='my_favorite'">북마크 바다</button>
+        </div>
+        <div class="action-item">
+            <button type="button" class="action-button" onclick="location.href='my_review'">나의 리뷰</button>
+        </div>
+        <div class="action-item">
+            <button type="button" class="action-button" onclick="location.href='my_require'">나의 문의</button>
+        </div>
+    </div>
 </div>
 
 </body>

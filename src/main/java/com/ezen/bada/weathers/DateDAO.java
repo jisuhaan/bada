@@ -26,17 +26,26 @@ public class DateDAO {
     }
     
     // 현재 시간을 분 단위로 반올림한 뒤 30분 단위로 설정
-    public static String setToThirtyMinutes() {
-        LocalTime currentTime = LocalTime.now();
+    public static Map<String, String> setToThirtyMinutes() {
+    	Map<String, String> datemap = new HashMap<String, String>();
+        
+    	LocalTime currentTime = LocalTime.now();
         int minutes = currentTime.getMinute();
+        String setdate = getCurrentDateString();
         if(minutes > 30)
         {
         	currentTime =  currentTime.withMinute(30);
         }
         else {
         	currentTime =  currentTime.minusHours(1).withMinute(30);
+			if(currentTime.getHour()==0) {
+				setdate = getYesterdayDateString();		
+			}
         }
-        return currentTime.format(DateTimeFormatter.ofPattern("HHmm"));
+    
+        datemap.put("date", setdate);
+    	datemap.put("time", currentTime.format(DateTimeFormatter.ofPattern("HHmm")));
+		return datemap;
     }
 
     // 현재 시간을 분 단위로 반올림한 뒤 다음 시간의 정각으로 설정

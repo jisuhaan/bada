@@ -18,4 +18,6 @@ public interface Service {
 
 	String weatherWarning_search(int beach_code, Object object);
 
+	int getPointcode(int beach_code);
+
 }

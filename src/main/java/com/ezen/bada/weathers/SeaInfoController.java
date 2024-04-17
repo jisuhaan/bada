@@ -90,7 +90,7 @@ public class SeaInfoController {
     	
     	try {
     	    // 초단기 예보는 dto에 저장
-    	    bldt.setUltraSrtFcstBeach_dto(apiClient.getUltraSrtFcstBeach_API(beach_code, DateDAO.getCurrentDateString(), DateDAO.setToThirtyMinutes()));
+    	    bldt.setUltraSrtFcstBeach_dto(apiClient.getUltraSrtFcstBeach_API(beach_code, DateDAO.setToThirtyMinutes().get("date"), DateDAO.setToThirtyMinutes().get("time")));
     	} catch (Exception e) {
     	    System.err.println("초단기 예보를 가져오는 도중 오류가 발생했습니다: " + e.getMessage());
     	    e.printStackTrace();

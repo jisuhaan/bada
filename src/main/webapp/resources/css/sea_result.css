@@ -123,6 +123,12 @@ body {
    float: left;
 }
 
+.info_slider div img {
+	width:550px;
+	height:250px;
+	object-fit:cover;
+}
+
 .sea_result_left_bottom {
    width:100%;
    height:400px;

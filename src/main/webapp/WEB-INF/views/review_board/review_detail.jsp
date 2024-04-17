@@ -6,21 +6,18 @@
 <html>
 <head>
 <link href="${pageContext.request.contextPath}/resources/css/review_detail.css" rel="stylesheet" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 <div class="review-box">
-    <h1>${dto.review_title}</h1> 
-
-    <div class="review-info1">
-        <p>방문해변 : ${beach}</p> 
-    </div>
-    <div class="review-info2">
-        <p>작성자 : ${dto.name}(${fn:substring(dto.id, 0, 4)}****)님</p>
-        <p>작성일 : ${fn:substring(dto.write_day, 0, 16)}</p>
-    </div>
+    <div class="review-title">${dto.review_title}</div>
+    <div class="evaluation">
     <div class="score">
+    	<span>별점</span>
         <c:forEach begin="1" end="5" var="i">
             <c:choose>
                 <c:when test="${i <= dto.review_score}">
@@ -37,26 +34,71 @@
             <div class="revisit-yes">재방문 할래요!</div>
         </c:if>
         <c:if test="${dto.re_visit == 'No'}">
-            <div class="revisit-no">다른 해변으로 갈래요!</div>
+            <div class="revisit-no">다신 안 갈래요!</div>
         </c:if>
-    </div>    
+    </div>
+    </div> 
+    <hr><br>
+    <div class="review-infos">
+    <div class="review-info1">방문해변 : ${beach}</div>
+    <div class="review-info2">
+        <p>작성자 : ${dto.name}(${fn:substring(dto.id, 0, 4)}****)</p>
+        <p>작성일 : ${fn:substring(dto.write_day, 0, 16)}</p>
+    </div>
+    </div>
+
+<c:if test="${not empty gallery}">
 	<div class="review-images">
 	    <c:forEach items="${gallery}" var="gallery">
-	        <img src="./resources/image_user/${gallery}"><br>
+	        <div><img src="./resources/image_user/${gallery}"></div>
 	    </c:forEach>
 	</div>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				
+				 $('.review-images').slick({
+				 	autoplay:true,
+				 	autoplaySpeed: 2000,
+					dots: true,
+					arrows: true,
+					infinite: true,
+				 	pauseOnHover: true,
+				 	fade:false,
+					draggable: true,
+					cssEase: 'linear'
+				 });
+				 
+			});	
+		</script>
+</c:if>
     <div class="review_content">
         <p>${dto.review_contents}</p>
     </div>
     
+    <br><hr><br>
+    <div class="hashtag_box">
+    <div id="hash_title">#해시태그 #hashtag</div>
     <div class="hashtags">
        <c:forEach var="hashtag" items="${fn:split(dto.hashtag, ' ')}">
            <span class="hashtag">${hashtag.trim()}</span>
        </c:forEach>
     </div>
+    </div>
     
-	<c:if test="${not empty loginid}">
-	   <div class="interaction-buttons">
+<c:if test="${not empty loginid}">
+   <div class="interaction-buttons">
+        <div class="text_control">
+	        <c:if test="${loginid == dto.id || 'admin' == loginid}">
+	            <div class="button-container">
+	                <button type="button" class="rounded-button" onclick="location.href='review_change?review_num=${dto.review_num}'">수정</button>
+	            </div>
+	            <div class="button-container">
+	                <button type="button" class="rounded-button" onclick="confirmDelete('${dto.review_num}')">삭제</button>
+	            </div>
+	        </c:if>
+	    </div>
+	    
+   	   	<div class="user_interaction">
 	       <c:if test="${loginid != dto.id}">
 	        <div class="button-container">
 	            <a href="review_report_view?review_num=${dto.review_num}&loginid=${loginid}" class="report-button">
@@ -71,23 +113,17 @@
 	                <span>추천 ${dto.recommend}</span>
 	            </a>
 	        </div>
-	        <c:if test="${loginid == dto.id || 'admin' == loginid}">
-	            <div class="button-container">
-	                <button type="button" class="rounded-button" onclick="location.href='review_change?review_num=${dto.review_num}'">수정</button>
-	            </div>
-	            <div class="button-container">
-	                <button type="button" class="rounded-button" onclick="confirmDelete('${dto.review_num}')">삭제</button>
-	            </div>
-	        </c:if>
-	    </div>
-	</c:if>
-     </div>
-
-  
-	<!-- 댓글 영역 전체를 감싸는 상자 -->
-	<div class="comments-container">
+        </div>
+	    	    
+	</div>
+</c:if>
+</div> 
+ 
+<!-- 댓글 영역 전체를 감싸는 상자 -->
+<div class="comments-container">
 	
 	  <!-- 댓글 목록 섹션 -->
+<c:if test="${not empty reply}">
 	  <div class="comments-list-section">
 	    <div class="comments-list">
 	      <c:forEach items="${reply}" var="re">
@@ -110,7 +146,7 @@
 	      </c:forEach>
 	    </div>
 	  </div>
-	
+</c:if>	
 	  <!-- 댓글 작성 섹션 -->
 	  <div class="comments-writing-section">
 	    <c:choose>
@@ -185,7 +221,6 @@ function confirmDelete(review_num) {
 
 </script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 $(document).ready(function() {
     $('#commentForm').submit(function(e) {

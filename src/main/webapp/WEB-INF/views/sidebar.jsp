@@ -32,7 +32,7 @@
                    <span class="nav_name">추천, 바다!</span>
                 </a>
 
-                <div href="#" class="nav__link collapse" onclick="location.href='bada_review'">
+                <div href="#" class="nav__link collapse" onclick="">
                  <ion-icon name="heart-circle-outline" class="nav__icon"></ion-icon>
                  <span class="nav_name">리뷰, 바다!</span>
 
@@ -54,7 +54,7 @@
                     <span class="nav_name">순위, 바바!</span>
                 </a>
 
-                <div href="#" class="nav__link collapse" onclick="location.href='#'">
+                <div href="#" class="nav__link collapse" onclick="">
                     <ion-icon name="people-outline" class="nav__icon"></ion-icon>
                     <span class="nav_name">문의, 바다!</span>
 

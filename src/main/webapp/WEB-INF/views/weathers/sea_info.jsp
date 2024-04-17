@@ -13,6 +13,15 @@
 $(document).ready(function(){
 	$("#arrow_box").hide();
 	$("#weather_infobox").hide();
+	
+	let area = localStorage.getItem('area');
+	console.log('검색에서 지역 가져왔니? : '+area);
+	
+	if(area) {
+		clickarea(area);
+        showarea(area);
+        localStorage.removeItem('area');
+    }
 });
 
 function showarea(area){
@@ -70,48 +79,48 @@ $.ajax({
 		<div class="map">
 			<ul class="map-step1"><!--링크 클릭 시 해당지역 추가-->
 				<li class="kyungin">
-					<a href="#" onclick="clickarea('gyeongin'); showarea('경인')" id="kyungin">
+					<a href="#" onclick="clickarea('경인'); showarea('경인');" id="kyungin">
 					<img src="./resources/image/경인-01.png" width="100px">
 					</a>
 				</li>
 				<li class="kangwon">
-					<a href="#" onclick="clickarea('kangwon'); showarea('강원');" id="kangwon">
+					<a href="#" onclick="clickarea('강원'); showarea('강원');" id="kangwon">
 					<img src="./resources/image/강원-01.png" width="100px">
 					</a>
 				</li>
 				<li class="chungnam">
-					<a href="#" onclick="clickarea('chungnam'); showarea('충남');" id="chungnam">
+					<a href="#" onclick="clickarea('충남'); showarea('충남');" id="chungnam">
 					<img src="./resources/image/충남-01.png" width="100px">
 					</a>
 				</li>
 				<li class="jeonbuk">
-					<a href="#" onclick="clickarea('jeonbuk'); showarea('전북');" id="jeonbuk">
+					<a href="#" onclick="clickarea('전북'); showarea('전북');" id="jeonbuk">
 					<img src="./resources/image/전북-01.png" width="100px">
 					</a>
 				</li>
 				<li class="jeonnam">
-					<a href="#" onclick="clickarea('jeonnam'); showarea('전남');" id="jeonnam">
+					<a href="#" onclick="clickarea('전남'); showarea('전남');" id="jeonnam">
 					<img src="./resources/image/전남-01.png" width="100px">
 					</a>
 				</li>
 				<li class="kyungbuk">
-					<a href="#" onclick="clickarea('kyungbuk'); showarea('경북');" id="kyungbuk">
+					<a href="#" onclick="clickarea('경북'); showarea('경북');" id="kyungbuk">
 					<img src="./resources/image/경북-01.png" width="100px">
 					</a>
 				</li>
 				<li class="kyungnam">
-					<a href="#" onclick="clickarea('kyungnam'); showarea('경남');" id="kyungnam">
+					<a href="#" onclick="clickarea('경남'); showarea('경남');" id="kyungnam">
 					<img src="./resources/image/경남-01.png" width="100px">
 					</a>
 				</li>
 				
 				<li class="buul">
-					<a href="#" onclick="clickarea('buul'); showarea('부울');" id="buul">
+					<a href="#" onclick="clickarea('부울'); showarea('부울');" id="buul">
 					<img src="./resources/image/부울-01.png" width="100px">
 					</a>
 				</li>
 				<li class="jeju">
-					<a href="#" onclick="clickarea('jeju'); showarea('제주');" id="jeju">
+					<a href="#" onclick="clickarea('제주'); showarea('제주');" id="jeju">
 					<img src="./resources/image/제주-01.png" width="100px">
 					</a>
 				</li>

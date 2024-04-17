@@ -10,43 +10,43 @@ function clickarea(areaid) {
 		area.style.fill = '#CDE4F2';
 	});
 	
-	if(areaid == 'gyeongin'){
+	if(areaid == '경인'){
 		select_area = svgdoc.getElementById('KR-28');
 		select_area2 = svgdoc.getElementById('KR-41');
 		select_area.style.fill = '#1B70A6';
 		select_area2.style.fill = '#1B70A6';
 	}
-	else if(areaid == 'kangwon') {
+	else if(areaid == '강원') {
 		select_area = svgdoc.getElementById('KR-42');
 		select_area.style.fill = '#1B70A6';
 	}
-	else if(areaid == 'buul'){
+	else if(areaid == '부울'){
 		select_area = svgdoc.getElementById('KR-26');
 		select_area2 = svgdoc.getElementById('KR-31');
 		select_area.style.fill = '#1B70A6';
 		select_area2.style.fill = '#1B70A6';
 	}
-	else if(areaid == 'chungnam') {
+	else if(areaid == '충남') {
 		select_area = svgdoc.getElementById('KR-44');
 		select_area.style.fill = '#1B70A6';
 	}
-	else if(areaid == 'jeonbuk') {
+	else if(areaid == '전북') {
 		select_area = svgdoc.getElementById('KR-45');
 		select_area.style.fill = '#1B70A6';
 	}
-	else if(areaid == 'jeonnam') {
+	else if(areaid == '전남') {
 		select_area = svgdoc.getElementById('KR-46');
 		select_area.style.fill = '#1B70A6';
 	}
-	else if(areaid == 'kyungbuk') {
+	else if(areaid == '경북') {
 		select_area = svgdoc.getElementById('KR-47');
 		select_area.style.fill = '#1B70A6';
 	}
-	else if(areaid == 'kyungnam') {
+	else if(areaid == '경남') {
 		select_area = svgdoc.getElementById('KR-48');
 		select_area.style.fill = '#1B70A6';
 	}
-	else if(areaid == 'jeju') {
+	else if(areaid == '제주') {
 		select_area = svgdoc.getElementById('KR-49');
 		select_area.style.fill = '#1B70A6';
 	}

@@ -1,5 +1,7 @@
 package com.ezen.bada.weathers;
 
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,10 +27,25 @@ public class SeaInfoController {
 
 	@RequestMapping(value = "/sea_info")
 	public String sea_info1() {
+			
 		return "sea_info";
+
+	}
+	
+	@RequestMapping(value = "/search_city")
+	public String sea_main_search1(HttpServletRequest request, Model mo) {
+		
+		String city = request.getParameter("city");
+		Service ss = sqlsession.getMapper(Service.class);
+		System.out.println("시군이름은? : "+city);
+		
+		ArrayList<Bada_info_DTO> list = ss.getcitybeach(city);
+		System.out.println("시군 바다리스트 : "+list);
+		mo.addAttribute("list",list);
+		
+		return "search_city";	
 	}
 
-	   
 	//지역에 해당하는 바다 이름 리스트를 뽑아옵니다.
 	@ResponseBody
 	@RequestMapping(value = "/bada_listup", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
@@ -177,8 +194,17 @@ public class SeaInfoController {
 		String result = null;
 		Service ss = sqlsession.getMapper(Service.class);
 		
-		if(area.equals("") || area==null) {
-			result = "empty";
+		String category = ss.searchwhere(area);
+		System.out.println("area 카테고리 : "+category);
+		
+		if(category.equals("state")) {
+			result=area;
+		}
+		else if(category.equals("city")) {
+			result="city";
+		}
+		else if(category.equals("")||category==null) {
+			result="no";
 		}
 		
 		

@@ -1,5 +1,6 @@
 package com.ezen.bada.weathers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface Service {
@@ -17,5 +18,9 @@ public interface Service {
 	Bada_default_DTO get_Beach_list_data(int beach_code);
 
 	String weatherWarning_search(int beach_code, Object object);
+
+	String searchwhere(String area);
+
+	ArrayList<Bada_info_DTO> getcitybeach(String city);
 
 }

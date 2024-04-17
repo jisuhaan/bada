@@ -8,9 +8,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="${pageContext.request.contextPath}/resources/css/sea_result.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/resources/css/slide.css" rel="stylesheet" type="text/css">
 <title></title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <script src="./resources/js/sea_weatherEmoticon.js"></script>
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function() {
@@ -33,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
  });
+ 
 </script>
 </head>
 <body>
@@ -46,20 +48,34 @@ document.addEventListener("DOMContentLoaded", function() {
 		<span id="beach_name">${bdt.beach_name}</span>
 		<br>
 		<div class="info_detail">	
-			<div class="info_slider" width="300px" height="300px">
-				<div class="slide slide_wrap">
-				  <div class="slide_item item1">
-				  <img src="./resources/image/${bdt.picture1}"></div>
-				  <div class="slide_item item2">
-				  <img src="./resources/image/${bdt.picture2}"></div>
-				  <div class="slide_item item3">
-				  <img src="./resources/image/${bdt.picture3}"></div>
-				  <div class="slide_prev_button slide_button">＜</div>
-				  <div class="slide_next_button slide_button">＞</div>
-				  <ul class="slide_pagination"></ul>
-				</div>
+			<div class="info_slider">
+				  <div><img src="./resources/image/${bdt.picture1}"></div>
+				  <div><img src="./resources/image/${bdt.picture2}"></div>
+				  <div><img src="./resources/image/${bdt.picture3}"></div>
 			</div>
-		</div>	
+			<script type="text/javascript">
+				$(document).ready(function(){
+	
+					 $('.info_slider').slick({
+						slide: 'div',
+						dots: false,
+						arrows: false,		
+						infinite: true,
+						adaptiveWidth: true,
+						adaptiveHeight: true,
+					 	autoplay:true,
+					 	autoplaySpeed: 2000,
+						speed: 500,
+						fade: true,
+						draggable: true,
+						cssEase: 'linear'
+					 });
+					 
+				});	
+			</script>
+		</div>
+		
+			
 			<div class="info_text">
 			<br><hr><br>
 			${bdt.infomation}
@@ -218,7 +234,6 @@ document.addEventListener("DOMContentLoaded", function() {
 	</div>
 </div>
 
-<script src="./resources/js/slide.js"></script>
 <script src="./resources/js/clockmain.js"></script>
 
 </body>

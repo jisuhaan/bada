@@ -18,13 +18,14 @@ if(hs.getAttribute("loginstate")==null){
 	hs.setAttribute("loginstate", false);
 }
 %>
-<div class="container">
+
 	<div class="main_logo">
 		<img src ="./resources/image/로고 9-1.png" width="300px">
 	</div>
+	<div class="container">
 	<div class="main_search">
 		떠나자, &nbsp;
-		<input type="text" name="area" id="area" placeholder="지역명을 입력하세요! ex)강원, 강릉">&nbsp;
+		<input type="text" name="area" id="area" placeholder="도·시·군을 뺀 지역명을 입력하세요! ex)강원, 강릉, 부산, 인천...">&nbsp;
 		<a href="#" onclick="search_area();"><i class="fa-solid fa-magnifying-glass fa-beat fa-xl" style="color: #1B70A6;"></i></a>&nbsp;
 		바다로! 
 	</div>
@@ -64,8 +65,24 @@ function search_area() {
 			dataType:"text",
 			success: function(response) {
 				
-				if(response==''){
+				if(response=='no'){
+					alert("해당 지역은 저희 바다 데이터에 존재하지 않습니다 ㅠ.ㅠ!");
+				}
+				else if(response=='city'){
+					alert("해당 도시에 있는 바다 목록을 팝업창으로 보여드릴게요!")
+					window.open("search_city?city="+area, "바라는바다::바다목록", "width=500,height=500,toolbar=no,location=no");
+				}
+				else{
 					
+					if(area=='부산'||area=='울산'){
+						area='부울';
+					}
+					if(area=='인천'||area=='경기'){
+						area='경인';
+					}
+					
+					localStorage.setItem('area', area);
+					window.location.href="sea_info";
 				}
 		
 			},

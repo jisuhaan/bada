@@ -199,7 +199,14 @@
       </dependency>
 
 <!-- 타일즈 셋팅 종료 -->     
-		
+
+<!-- 이메일 발송 세팅 --> 
+    <dependency>
+        <groupId>com.sun.mail</groupId>
+        <artifactId>javax.mail</artifactId>
+        <version>1.6.2</version>
+    </dependency>
+     
       
 	</dependencies>
     <build>

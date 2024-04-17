@@ -22,6 +22,9 @@ public interface Service {
 	ArrayList<InquireDTO> page_inquire_listout_latest(PageDTO dto);
 	ArrayList<InquireDTO> page_inquire_listout_popular(PageDTO dto);
 	
+	//문의 리스트 출력 시 추천순 top3 출력
+	ArrayList<InquireDTO2> inquire_best3();
+	
 	//문의 디테일 출력
 	InquireDTO inquire_detail(int inquire_num);
 	
@@ -113,8 +116,6 @@ public interface Service {
 	//신고된 내역 삭제
 	void inquire_ban_delete(int i_banned_num);
 
-	ArrayList<InquireDTO2> inquire_best3();
-
 	
 	//1:1 문의 입력창에 정보 띄우기
 	MemberDTO inquire_personal_view(String loginid);
@@ -122,6 +123,27 @@ public interface Service {
 	//1:1 문의 저장하기
 	void inquire_personal_save(String title, String name, String id, String email, String category, String content,
 			String pic1, String pic2, String pic3, String pic4, String pic5);
+	
+	//1:1 문의 페이징을 위한 레코드 갯수 세기
+	int inquire_list_total_personal();
+	//1:1 문의 페이징
+	ArrayList<Inquire_personal_DTO> inquire_personal_out_page(PageDTO dto);
+
+	//1:1 문의 디테일 출력
+	Inquire_personal_DTO inquire_personal_detail(int ip_num);
+
+	
+	
+	//1:1 문의 내역 삭제
+	void inquire_personal_delete(int ip_num);
+	
+	//1:1 문의 내역 삭제 시 거기에 포함된 사진을 확인
+	Inquire_personal_DTO personal_all_photo(int ip_num);
+
+	
+	
+	//1:1 문의에 답변 시 답변 여부 변경
+	void inquire_personal_tf_update(int ip_num);
 
 	
 

@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import com.ezen.bada.inquire.InquireDTO;
+import com.ezen.bada.inquire.InquireDTO2;
 import com.ezen.bada.review.AllBoardDTO;
+import com.ezen.bada.review.BeachDTO;
 
 
 public interface Service {
@@ -101,6 +103,11 @@ public interface Service {
 	int my_review_total(String loginid);
 
 	int inquire_total(String loginid);
+
+	ArrayList<InquireDTO2> inquire_best3();
+
+	ArrayList<AllBoardDTO> my_favorite(String loginid);
+
 
 	
 

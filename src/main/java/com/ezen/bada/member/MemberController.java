@@ -18,7 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ezen.bada.inquire.InquireDTO;
+import com.ezen.bada.inquire.InquireDTO2;
 import com.ezen.bada.review.AllBoardDTO;
+import com.ezen.bada.review.BeachDTO;
+import com.ezen.bada.member.PageDTO;
+
 
 
 
@@ -718,6 +722,95 @@ public class MemberController {
 	return "my_post";
 	   
    }
+   
+   // 문의 출력 -> (정) 지수님 여쭤보기!!!
+   @RequestMapping(value = "my_require")
+   public String my_require(HttpServletRequest request, Model mo, PageDTO dto) {
+	   
+	   String loginid = (String) request.getSession().getAttribute("loginid");
+	   
+	   String nowPage=request.getParameter("nowPage");
+
+	   String cntPerPage=request.getParameter("cntPerPage");
+
+	   Service ss = sqlsession.getMapper(Service.class);
+	   int my_require_total=ss.inquire_total(loginid);
+			
+	   if(nowPage==null && cntPerPage == null) {
+	       
+	  	 nowPage="1";
+	                                                    
+	  	 cntPerPage="20";
+	   
+	   }
+	   else if(nowPage==null) {
+	      nowPage="1";
+	   }
+	   else if(cntPerPage==null) {
+	      cntPerPage="20";
+	   }
+		
+	   dto=new PageDTO(my_require_total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+	   mo.addAttribute("paging",dto);
+	   mo.addAttribute("list",ss.my_inquire(dto.getStart(), dto.getEnd(),loginid));
+	   
+	   ArrayList<InquireDTO2> list2=ss.inquire_best3();
+	   mo.addAttribute("list2", list2);
+      
+	   return "my_require";
+   }
+   
+   @RequestMapping(value = "my_review")
+	public String my_review(HttpServletRequest request, PageDTO dto, Model mo) {
+		
+	   String loginid = (String) request.getSession().getAttribute("loginid");
+	   String nowPage=request.getParameter("nowPage");
+
+       String cntPerPage=request.getParameter("cntPerPage");
+
+		Service ss = sqlsession.getMapper(Service.class);
+		int total=ss.my_review_total(loginid);
+		
+		
+       if(nowPage==null && cntPerPage == null) {
+           
+      	 nowPage="1";
+                                                            
+        cntPerPage="20";
+       
+       }
+       else if(nowPage==null) {
+          nowPage="1";
+       }
+       else if(cntPerPage==null) {
+          cntPerPage="20";
+       }
+		
+       dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+       mo.addAttribute("paging",dto);
+       mo.addAttribute("list",ss.my_review(dto.getStart(), dto.getEnd(),loginid));
+
+		return "my_review";
+			
+	}
+   
+   @RequestMapping(value = "my_favorite")
+   public String my_favorite(HttpServletRequest request, Model mo) {
+	   
+	String loginid = (String) request.getSession().getAttribute("loginid");
+	Service ss = sqlsession.getMapper(Service.class);
+	ArrayList<AllBoardDTO> list = ss.my_favorite(loginid);
+	mo.addAttribute("list", list);
+	
+	
+	
+	   
+	return "my_favorite";
+   
+   }
+   
+   
+   
    
 
 }

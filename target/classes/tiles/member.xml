@@ -79,5 +79,25 @@
 		<put-attribute name="title" value="바라는 바다! :: 나의 게시글"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/my_post.jsp"/>
 	</definition>
+	
+	<definition name="my_require" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 나의 문의글"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/my_require.jsp"/>
+	</definition>
+	
+	<definition name="my_require" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 나의 문의글"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/my_require.jsp"/>
+	</definition>
+	
+	<definition name="my_review" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 나의 리뷰"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/my_review.jsp"/>
+	</definition>
+
+	<definition name="my_favorite" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 나의 리뷰"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/my_favorite.jsp"/>
+	</definition>	
 			   
 </tiles-definitions>

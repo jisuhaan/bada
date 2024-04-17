@@ -796,10 +796,12 @@ public class InquireController {
 
 		    Service ss = sqlsession.getMapper(Service.class);
 		    ss.inquire_personal_save(title, name, id, email, category, content, pic1, pic2, pic3, pic4, pic5);
+		    
+		    EmailSender.sendEmail1(name, email, title, category, content); //이메일 송신하는 자바 파일 불러옴
 
 		    return "main";
 		}
-		//문의글에 넣은 사진들에 별개의 랜덤 문자를 넣음(동일한 이름의 파일이 들어간 경우 구분을 위해)
+		//1:1 문의글에 넣은 사진들에 별개의 랜덤 문자를 넣음(동일한 이름의 파일이 들어간 경우 구분을 위해)
 		private String filesavee5(String pic5, byte[] bytes) throws IOException {
 			UUID ud=UUID.randomUUID();
 			String what5=ud.toString()+"_"+pic5;
@@ -842,4 +844,109 @@ public class InquireController {
 		}
 		
 		
+		
+		//저장된 1:1 문의 사항을 목록화 해서 출력
+		@RequestMapping(value="/inquire_personal_out")
+	    public String inquire_personal_out(HttpServletRequest request, Model mo) {
+			// 맨 처음 아웃 페이지를 들어갔을 때, 
+			// 사용자 화면에 떠야 할 1) 현재 페이지 위치와 2) 페이지 당 들어가는 레코드 수 설정 -> 눌 값일 때마다 적절한 초기화 해주기
+		    String nowPage=request.getParameter("nowPage");
+		    String cntPerPage=request.getParameter("cntPerPage");
+		  /* String 클래스는 객체이기 때문에 == null을 사용 가능하지만, int같은 기본 자료형은 불가하므로,
+		   * if문에서 null 확인을 위해 위에서는 String으로 받고, 인수로 넣기 직전에 intger로 변환해줘야 한다.
+		   */ 
+		    if(nowPage==null && cntPerPage == null) {
+		       nowPage="1";
+		       cntPerPage="5";
+		    }
+		    else if(nowPage==null) {        nowPage="1";
+		    }
+		    else if(cntPerPage==null) {
+		       cntPerPage="5";
+		    }      
+		    System.out.println("현재 페이지 : "+nowPage); // 어디에 있냐에 따라 다름
+		    System.out.println("페이지 당 레코드 수 : "+cntPerPage); // 5개
+		    
+		    // 3) 전체 게시글 수 DB에서 구해오기
+		    Service ss = sqlsession.getMapper(Service.class);
+		    int total_personal=ss.inquire_list_total_personal();
+		    System.out.println("총 레코드의 개수 : "+total_personal);
+		     
+		    // 생성자로 나머지 페이지 처리에 필요한 필드값들도 모두 계산
+		    // 3가지 인수 넣어주기
+		    PageDTO dto=new PageDTO(total_personal,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+		    mo.addAttribute("paging", dto);
+		    // 리스트 안에 특정 페이지마다 출력될 5개 묶음의 레코드 모음 저장
+		    
+		    mo.addAttribute("list", ss.inquire_personal_out_page(dto));
+			
+		    return "inquire_personal_out";
+	    }
+		
+		
+		
+		//1:1 문의글 디테일 화면(전체 내용 출력 화면)
+		@RequestMapping(value = "/inquire_personal_detail")
+		public String inquire_personal_detail(HttpServletRequest request,Model mo) {
+			int ip_num=Integer.parseInt(request.getParameter("ip_num"));
+			
+			Service ss=sqlsession.getMapper(Service.class);
+			Inquire_personal_DTO dto=ss.inquire_personal_detail(ip_num);
+			mo.addAttribute("dto", dto);
+			
+			return "inquire_personal_detail";
+		}
+		
+		
+		
+		//관리자 권한에서 1:1 문의 내역 삭제
+		@RequestMapping(value="/inquire_personal_delete")
+	    public String inquire_personal_delete(HttpServletRequest request) {
+			
+			int ip_num =Integer.parseInt(request.getParameter("ip_num"));
+			
+			Service ss=sqlsession.getMapper(Service.class);
+			Inquire_personal_DTO idto = ss.personal_all_photo(ip_num);
+		     
+		     List<String> photoPaths = Arrays.asList(idto.getPic1(), idto.getPic2(), 
+										    		 idto.getPic3(), idto.getPic4(), 
+										    		 idto.getPic5());
+			for(String pics : photoPaths) {
+				
+				if(pics != null && !pics.equals("nope")) 
+				{File file = new File(imagepath+"\\"+pics);
+					
+					if(file.exists()) {file.delete();} //사진 삭제
+				}
+			}
+			ss.inquire_personal_delete(ip_num); //1:1문의 삭제
+			
+			return "redirect:/inquire_personal_out";
+	    }
+		
+		
+		
+		//1:1 문의에 답을 보냄
+		  @RequestMapping(value = "/inquire_personal_reply", method = RequestMethod.POST)
+		  public String inquire_personal_reply(HttpServletRequest request) throws IOException {
+			  
+			int ip_num =Integer.parseInt(request.getParameter("ip_num"));
+			String title = request.getParameter("title");
+		    String name = request.getParameter("name");
+		    String email = request.getParameter("email");
+		    String category = request.getParameter("category");
+		    String content = request.getParameter("content");
+		    String reply = request.getParameter("reply");
+		    String tf = request.getParameter("tf");
+			
+		    EmailSender.sendEmail2(name, email, title, category, content, reply);
+		    
+		    Service ss=sqlsession.getMapper(Service.class);
+		    if(tf.equals("미응답")) {ss.inquire_personal_tf_update(ip_num);}
+		    else {System.out.println("답 또 보내기 완료~");}
+		    
+			
+			return "redirect:/inquire_personal_out";
+		   }
+		  
 }

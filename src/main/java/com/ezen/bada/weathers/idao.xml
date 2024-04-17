@@ -42,7 +42,7 @@
 		    CASE 
 		        WHEN EXISTS (SELECT 1 FROM bada_info WHERE state = #{param1}) THEN 'state'
 		        WHEN EXISTS (SELECT 1 FROM bada_info WHERE city = #{param1}) THEN 'city'
-		        ELSE NULL -- 데이터가 존재하지 않는 경우 NULL 반환
+		        ELSE NULL
 		    END AS category
 		FROM dual;
 	</select>

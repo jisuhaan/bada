@@ -42,6 +42,16 @@
 	where rn between #{start} AND #{end}
 </select>
 
+<!-- 추천순 top3 문의 출력하기 -->
+<select id="inquire_best3" resultType="com.ezen.bada.inquire.InquireDTO2">
+	<![CDATA[
+    select * from (
+        select * from bada_inquire 
+        order by rec desc
+    ) where rownum <= 3
+    ]]>
+</select>
+
 <!-- 문의글 디테일 -->
 <select resultType="com.ezen.bada.inquire.InquireDTO" id="inquire_detail">
 	select * from bada_inquire where inquire_num=#{param1}
@@ -247,16 +257,6 @@
 </delete>
 
 
-<select id="inquire_best3" resultType="com.ezen.bada.inquire.InquireDTO2">
-	<![CDATA[
-    select * from (
-        select * from bada_inquire 
-        order by rec desc
-    ) where rownum <= 3
-    ]]>
-</select>
-
-
 
 <!-- 1:1 문의글 입력하기 전 사전정보 -->
 <select id="inquire_personal_view" resultType="com.ezen.bada.member.MemberDTO">
@@ -269,5 +269,45 @@
 	values (inquire_p_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6},
 	#{param7}, #{param8}, #{param9}, #{param10}, #{param11})
 </insert>
+
+<!-- 1:1 문의 글 출력: 페이징처리에서 전체레코드수 구하기 -->
+<select id="inquire_list_total_personal" resultType="int">
+	select count(*)from bada_inquire_personal
+</select>
+<!-- 1:1 문의 글 출력: 한 페이지 안에 들어갈 만큼의 리스트 목록을 잘라오기 (최신순)-->
+<select id="inquire_personal_out_page" resultType="com.ezen.bada.inquire.Inquire_personal_DTO">
+	select * from( select rownum rn, A.* from(
+		select ip_num, title, name, id, email, category, content, ip_date, 
+		pic1, pic2, pic3, pic4, pic5, tf
+		from bada_inquire_personal
+		order by ip_date DESC) A) 
+	where rn between #{start} AND #{end}
+</select>
+
+<!-- 1:1 문의 상세 내역 -->
+<select id="inquire_personal_detail" resultType="com.ezen.bada.inquire.Inquire_personal_DTO">
+	select * from bada_inquire_personal where ip_num = #{param1}
+</select>
+
+
+
+ <!-- 1:1 문의 내역 삭제 -->
+<delete id="inquire_personal_delete">
+	delete from bada_inquire_personal where ip_num  = #{param1}
+</delete>
+
+<!-- 1:1 문의 삭제 시 함께 삭제할 이미지 파일 -->
+<select id="personal_all_photo" resultType="com.ezen.bada.inquire.Inquire_personal_DTO">
+    select pic1, pic2, pic3, pic4, pic5
+    from bada_inquire_personal 
+    where ip_num = #{param1}
+</select>
+
+
+
+<!-- 1:1 문의의 답변 메소드를 거칠 시 '미응답'이 '답변 완료'로 바뀌도록 함 -->
+<update id="inquire_personal_tf_update">
+	update bada_inquire_personal set tf = '답변 완료' where ip_num = #{param1}
+</update>
 
 </mapper>

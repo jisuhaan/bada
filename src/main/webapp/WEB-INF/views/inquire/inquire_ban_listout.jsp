@@ -107,7 +107,7 @@
 		     
 		      <c:if test="${paging.endPage != paging.lastPage}">
 		      <!-- ▶ 을 누르면 다음 페이지(+1 페이지)로 넘어갈 수 있도록  -->
-		      <a href="inquire_ban_listoutt?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}">▶</a>
+		      <a href="inquire_ban_listout?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}">▶</a>
 		   </c:if>
 		   
 		   </td>

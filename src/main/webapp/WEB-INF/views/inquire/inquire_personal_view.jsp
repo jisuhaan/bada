@@ -18,6 +18,15 @@
     <script>
         $(document).ready(function() {
         	$("#InquirePersonalForm").submit(function(event) {
+        		
+        		var email = $("#email").val();
+        		// 이메일 유효성 검사
+                var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (!emailPattern.test(email)) {
+                    alert("올바른 이메일 형식이 아닙니다.");
+                    return false;
+                }
+        		
                 //폼 제출 시 글자수(1500자) 제한 유효성 검사
                 var contentLength = $("#content").val().length;
                 if (contentLength > 1500) {

@@ -7,6 +7,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet" type="text/css">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -31,11 +34,35 @@ if(hs.getAttribute("loginstate")==null){
 	</div>
 	
 	<div class="main_container">
-		<div class="main_left">바다추천 영역</div>
+		<div class="main_left"><a href="#" onclick="window.open('member_try_bbti?id=${loginid}','BBTI 테스트','width=610,height=810,resizable=no,scrollbars=no,menubar=no')">BBTI 테스트</a></div>
 		<div class="main_right">
 			<div class="main_right_top">
-			배너 영역
-			<a href="#" onclick="window.open('member_try_bbti?id=${loginid}','BBTI 테스트','width=610,height=810,resizable=no,scrollbars=no,menubar=no')">BBTI 테스트</a>
+			
+			<div class="main_banner_wrap">
+			<div class="main_banner">
+				<div class="banner first" onclick=""><img src="./resources/image/banner_1.png"></div>
+				<div class="banner second" onclick=""><img src="./resources/image/banner_2.png"></div>
+				<div class="banner third" onclick=""><img src="./resources/image/banner_3.png"></div>
+				<div class="banner fourth" onclick=""><img src="./resources/image/banner_4.png"></div>
+			</div>
+			</div>	
+			
+			<script type="text/javascript">
+			$(document).ready(function(){
+				
+				 $('.main_banner').bxSlider({
+					mode:vertical,
+					slideMargin: 5,
+					auto:true,
+					autoHover:true,
+					controls:true,
+					infiniteLoop: true,
+					pager: true,
+					
+				 });
+				 
+			});	
+			</script>
 			
 			</div>
 			<div class="main_right_bottom">

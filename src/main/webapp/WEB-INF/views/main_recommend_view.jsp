@@ -45,7 +45,13 @@ function loadSlides() {
                     var thumbnail = item.thumbnail;
                    	var id = item.id.substring(0, 3) + "***";
                     var name = item.name;
-                    var review_title = item.review_title.substring(0,10) + "...";
+                    if(name.length>5){
+                    	name = item.name.substring(0,4)+"…";
+                    }
+                    var review_title = item.review_title;
+                    if(review_title.length>12){
+                    	review_title = item.review_title.substring(0,11)+"…";
+                    }
                     var hits = item.hits;
                     var recommend = item.recommend;
                    
@@ -93,7 +99,7 @@ function goReview(review_num){
 
 <div class="view_container">
     <div class="review_box">
-        <div class="review_title"><h3>추천리뷰</h3></div>
+        <div class="review_title"><h3> &nbsp;추천 리뷰&nbsp; </h3></div>
         <div class="card-slide">
             <div class='slide-track'> 
         	</div>

@@ -104,6 +104,23 @@
 	background-color:#f4d19d;
 }
 
+.main_banner_wrap {
+	width:100%;
+	height:100%;
+	margin:0 auto;
+}
+
+.main_banner{
+	width:100%;
+	height:100%;
+}
+
+.banner img {
+	width:540px;
+	height:30vh;
+	object-fit:cover;
+}
+
 .main_right_bottom{
 	display:flex;
 	justify-content: center;
@@ -112,6 +129,8 @@
 	width:100%;
 	height:40vh;
 }
+
+.main_banner
 
 
 /* 태블릿 이하 사이즈 */

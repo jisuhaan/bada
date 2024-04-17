@@ -38,13 +38,12 @@
 	
 	<!-- 메인 검색, 검색어가 도명(state)인지 시군명(city)인지 / 양쪽에 다 존재할 경우 state로 반환-->
 	<select id="searchwhere" resultType="String">
-		SELECT 
-		    CASE 
-		        WHEN EXISTS (SELECT 1 FROM bada_info WHERE state = #{param1}) THEN 'state'
-		        WHEN EXISTS (SELECT 1 FROM bada_info WHERE city = #{param1}) THEN 'city'
-		        ELSE NULL
-		    END AS category
-		FROM dual;
+		SELECT CASE 
+		WHEN EXISTS (SELECT 1 FROM bada_info WHERE state = #{param1}) THEN 'state'
+		WHEN EXISTS (SELECT 1 FROM bada_info WHERE city = #{param1}) THEN 'city'
+		ELSE NULL
+		END AS category
+		FROM dual
 	</select>
 	
 	<!-- 검색어가 시군일 경우 해당 시군의 바다를 리스트화 -->

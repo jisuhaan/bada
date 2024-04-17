@@ -318,6 +318,42 @@ public class APIClient {
         return null;
 		
 	}
+	
+	// 다른 연도의 기상 정보를 검색해오는 API
+	public getWthrDataList_DTO getWthrDataList_API(int stnIds, String currentDateString) {
+    	// API 호출
+        String url = "http://apis.data.go.kr/1360000/AsosDalyInfoService/getWthrDataList"; /*URL*/
+        String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; 
+
+        // 파라미터 맵 구성
+        Map<String, Object> params = new HashMap<>();
+        params.put("dataType", "JSON");
+        params.put("numOfRows", 10);
+        params.put("pageNo", 1);
+        params.put("dataCd", "ASOS");
+        params.put("dateCd", "DAY");
+        params.put("startDt", currentDateString);
+        params.put("endDt", currentDateString);
+        params.put("stnIds", stnIds);
+        params.put("serviceKey", serviceKey);
+
+        // API 호출
+        getWthrDataList_DTO dto = null;
+        try {
+        	String text = getApi(url, params);        
+            JsonNode rootNode = objectMapper.readTree(text);
+            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item").get(0);
+            System.out.println("다른 해의 기상 정보 API 호출 결과: " + itemNode);
+            
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            dto = objectMapper.readValue(itemNode.toString(), getWthrDataList_DTO.class);
+            System.out.println(dto.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		return dto;
+		
+	}
 
 	// 당일의 최저, 최고 기온을 구하는 메소드 
 	public Bada_tmx_n_DTO get_bada_tmx_n(int beach_num, String getYesterday, String basetime) {
@@ -337,7 +373,6 @@ public class APIClient {
 	            }
 	        }   
 	        dto = objectMapper.readValue(jsonObject.toString(), Bada_tmx_n_DTO.class);
-	        System.out.println("jsonObject: " + jsonObject);
 	        
 		} catch (JsonMappingException e) {
 			// TODO Auto-generated catch block

@@ -168,7 +168,12 @@ document.addEventListener("DOMContentLoaded", function() {
 				</div>
 				<div class="weather tempt">
 					<span id="today_text">바다 수온은</span><br>
-					<div class="temperature_text"><img src="./resources/image/forecast_wave.gif" width="50px">&nbsp;<span id="lowTemperature">${bldt.bada_tw_dto.water_temp}</span></div>
+					<div class="temperature_text"><img src="./resources/image/forecast_wave.gif" width="50px">&nbsp;<span id="lowTemperature">
+					<c:choose>
+						<c:when test="${bldt.bada_tw_dto.water_temp eq '-°C'}">정보 없음</c:when>
+						<c:when test="${bldt.bada_tw_dto.water_temp ne '-°C'}">${bldt.bada_tw_dto.water_temp}</c:when>
+					</c:choose>
+					</span></div>
 				</div>
 			</div>
 			<div class="todays now3 hidden">

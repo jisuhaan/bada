@@ -987,9 +987,51 @@ public class InquireController {
 		  
 		  //문의 토글의 이벤트란
 		  @RequestMapping(value = "/notice_event")
-		  public String eventpage1() {
+		  public String eventpage1(Model mo) {
+			  
+			  Service ss=sqlsession.getMapper(Service.class);
+			  ArrayList<Notice_DTO>list = ss.notice();
+			  mo.addAttribute("list", list);
+			  
+			  ArrayList<Event_DTO>list2 = ss.event();
+			  mo.addAttribute("list2", list2);
 			  
 			  return "notice_event";		  
 		  }
+		  
+		  
+		  @RequestMapping(value = "/notice")
+		  public String notice_show(HttpServletRequest request,Model mo) {
+			  
+
+			  
+			  return "notice_view";		  
+		  }
+		  
+
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
 		  
 }

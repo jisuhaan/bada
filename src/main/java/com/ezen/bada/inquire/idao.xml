@@ -303,6 +303,7 @@
     where ip_num = #{param1}
 </select>
 
+
 <!-- 1:1 문의를 삭제할 때 그 답도 함께 삭제 됨 -->
 <delete id="inquire_personal_reply_delete">
 	delete from bada_inquire_personal_reply where ip_num = #{param1}
@@ -329,6 +330,17 @@
 <select id="inquire_personal_reply_out" resultType="com.ezen.bada.inquire.Inquire_personal_reply_DTO">
 	select * from bada_inquire_personal_reply where ip_num=#{param1} 
 	order by ip_r_date DESC 
+</select>
+  
+<!-- 공지사항 -->
+<select id="notice" resultType="com.ezen.bada.inquire.Notice_DTO">
+    select * from bada_notice 
+</select>
+
+<!-- 이벤트목록 -->
+
+<select id="event" resultType="com.ezen.bada.inquire.Event_DTO">
+    SELECT * FROM bada_event ORDER BY start_day ASC, expire_day ASC
 </select>
 
 </mapper>

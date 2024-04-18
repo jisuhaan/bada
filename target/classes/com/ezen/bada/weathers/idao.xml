@@ -56,6 +56,10 @@
 		SELECT bp.codenum FROM bada_list bl join bada_pointcode bp on bl.pointname = bp.pointname where bl.beach_code = #{param1}
 	</select>
 	
+	<update id="viewcountUp">
+		update bada_list set VIEW_COUNT = VIEW_COUNT + 1 where beach_code = #{param1}
+	</update>
+
 	<!-- 해시태그 많이쓴 순 3위 가져오기 -->
 	<select id="gethashtags" resultType="java.lang.String">
 	<![CDATA[ 
@@ -75,4 +79,5 @@
 		WHERE ROWNUM <= 3
  	]]>
 	</select>
+
 </mapper>

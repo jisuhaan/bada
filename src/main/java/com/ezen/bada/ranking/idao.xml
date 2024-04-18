@@ -4,6 +4,16 @@
     
 <mapper namespace="com.ezen.bada.ranking.Service">
 
-
+	<select id="viewTopThree" resultType="com.ezen.bada.ranking.RankingBeachDTO">
+	<![CDATA[
+		SELECT * 
+		FROM (
+		    SELECT beach_code, beach, view_count,
+		           RANK() OVER (ORDER BY view_count DESC) AS rank
+		    FROM bada_list
+		)
+		WHERE ROWNUM <= 3
+	]]>
+	</select>
 
 </mapper>

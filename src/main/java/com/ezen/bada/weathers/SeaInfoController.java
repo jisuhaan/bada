@@ -91,6 +91,7 @@ public class SeaInfoController {
 		
 		int beach_code = Integer.parseInt(request.getParameter("beach_code"));
 		Service ss = sqlsession.getMapper(Service.class);
+		ss.viewcountUp(beach_code);
 		
 		//해변코드로 db에 마련된 해변정보(주소, 설명 등)들을 불러옵니다.
 		Bada_info_DTO bdt = ss.getbeachinfo(beach_code);

@@ -177,6 +177,21 @@
                  </c:choose>
             </tr>
             
+            <c:forEach items="${list}" var="l">
+            <tr>
+            	<td colspan="2" style="text-align: left;">관리자
+                	<span style="float: right;">${fn:substring(l.ip_r_date, 0, 19)}</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border: 2px solid #000; padding: 8px; height: 80%; padding-left: 50px;">
+    				<div style="width: 90%; height: 90%;">
+    				${l.reply}
+				    </div>
+				</td>
+            </tr>
+            </c:forEach>
+            
         </table>
     </form>
 </c:when>

@@ -154,7 +154,7 @@
 <!-- 게시글에 맞는 답변 출력 -->
 <select resultType="com.ezen.bada.inquire.Inquire_reply_DTO" id="inquire_reply_out">
 	select * from bada_inquire_reply where inquire_num=#{param1} 
-	order by inquire_reply_num DESC 
+	order by inquire_reply_date DESC 
 </select>
 
 <!-- 답변 갯수가 몇 개인지 세어 봄 -->
@@ -303,11 +303,32 @@
     where ip_num = #{param1}
 </select>
 
+<!-- 1:1 문의를 삭제할 때 그 답도 함께 삭제 됨 -->
+<delete id="inquire_personal_reply_delete">
+	delete from bada_inquire_personal_reply where ip_num = #{param1}
+</delete>
 
 
-<!-- 1:1 문의의 답변 메소드를 거칠 시 '미응답'이 '답변 완료'로 바뀌도록 함 -->
+<!-- 1:1 문의에 달린 답을 저장함 -->
+<insert id="inquire_personal_reply_save">
+	insert into bada_inquire_personal_reply (ip_r_num, reply, ip_num) 
+	values (inquire_p_r_seq.nextval, #{param1}, #{param2})
+</insert>
+
+<!-- 1:1 문의에 달린 답이 몇 개인지 셈 -->
+<select id="inquire_personal_reply_count" resultType="int">
+	select count(*) from bada_inquire_personal_reply where ip_num=#{param1}
+</select>
+
+<!-- 1:1 문의의 답변이 1개 이상일 경우 '미응답'이 '답변 완료'로 바뀌도록 함 -->
 <update id="inquire_personal_tf_update">
 	update bada_inquire_personal set tf = '답변 완료' where ip_num = #{param1}
 </update>
+
+<!-- 1:1 문의에 달린 답을 출력 -->
+<select id="inquire_personal_reply_out" resultType="com.ezen.bada.inquire.Inquire_personal_reply_DTO">
+	select * from bada_inquire_personal_reply where ip_num=#{param1} 
+	order by ip_r_date DESC 
+</select>
 
 </mapper>

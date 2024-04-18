@@ -137,20 +137,31 @@ public interface Service {
 	//1:1 문의 내역 삭제
 	void inquire_personal_delete(int ip_num);
 	
+	//1:1문의 내역을 삭제할 시 거기에 달린 답 데이터도 함께 삭제
+	void inquire_personal_reply_delete(int ip_num);
+	
 	//1:1 문의 내역 삭제 시 거기에 포함된 사진을 확인
 	Inquire_personal_DTO personal_all_photo(int ip_num);
+	
+	
 
+	//1:1 문의에 답변을 작성할 시 저장
+	void inquire_personal_reply_save(String reply, int ip_num);
+
+	//1:1 문의에 답변이 몇 개가 달렸는지 세 봄
+	int inquire_personal_reply_count(int ip_num);
 	
-	
-	//1:1 문의에 답변 시 답변 여부 변경
+	//1:1 문의에 답변이 1개 이상일 시 답변 여부가 바뀜
 	void inquire_personal_tf_update(int ip_num);
+  
+  //1:1 문의에 보낸 답을 댓글 형식으로 출력
+	ArrayList<Inquire_personal_reply_DTO> inquire_personal_reply_out(int ip_num);
 
 	// 공지사항
 	ArrayList<Notice_DTO> notice();
 
 	// 이벤트
 	ArrayList<Event_DTO> event();
-
 	
 
 }

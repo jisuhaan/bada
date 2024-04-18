@@ -334,6 +334,12 @@ public class InquireController {
 			}
 		     ss.inquire_delete(inquire_num); //문의글 삭제
 		     ss.inquire_reply_delete_when_inquire_delete(inquire_num); //문의글 삭제 시 거기에 달린 답변도 함께 삭제
+		     
+		    //해당 문의글의 답 여부(댓글 갯수) 수정
+			int reply_count=0;
+			reply_count= ss.inquire_reply_count(inquire_num);
+			if(reply_count==0) {System.out.println("답이 없네");} //답 갯수가 0인 경우
+			else {ss.inquire_reply_check(inquire_num);} //
 
 	      return "redirect:/inquire_listout?sort=latest";
 	   }
@@ -887,12 +893,16 @@ public class InquireController {
 		
 		//1:1 문의글 디테일 화면(전체 내용 출력 화면)
 		@RequestMapping(value = "/inquire_personal_detail")
-		public String inquire_personal_detail(HttpServletRequest request,Model mo) {
+		public String inquire_personal_detail(HttpServletRequest request, Model mo) {
 			int ip_num=Integer.parseInt(request.getParameter("ip_num"));
 			
 			Service ss=sqlsession.getMapper(Service.class);
 			Inquire_personal_DTO dto=ss.inquire_personal_detail(ip_num);
 			mo.addAttribute("dto", dto);
+			
+			//기존에 보낸 답을 댓글 형식으로 출력(그러나 형식만 댓글일 뿐 일단 답을 보내면 메일로 바로 보내져 있음)
+			ArrayList<Inquire_personal_reply_DTO> list=ss.inquire_personal_reply_out(ip_num);
+			mo.addAttribute("list", list);
 			
 			return "inquire_personal_detail";
 		}
@@ -912,7 +922,6 @@ public class InquireController {
 										    		 idto.getPic3(), idto.getPic4(), 
 										    		 idto.getPic5());
 			for(String pics : photoPaths) {
-				
 				if(pics != null && !pics.equals("nope")) 
 				{File file = new File(imagepath+"\\"+pics);
 					
@@ -921,14 +930,24 @@ public class InquireController {
 			}
 			ss.inquire_personal_delete(ip_num); //1:1문의 삭제
 			
+			ss.inquire_personal_reply_delete(ip_num); //문의글 삭제 시 거기에 달린 답변도 함께 삭제
+			
+			//해당 문의에 대한 답 여부(답 갯수) 수정
+			int reply_count=0;
+			reply_count= ss.inquire_personal_reply_count(ip_num);
+			if(reply_count==0) {System.out.println("답이 없네");} //답 갯수가 0인 경우
+			else {ss.inquire_personal_tf_update(ip_num);} //답이 1개 이상인 경우 답 여부를 수정하도록
+			
 			return "redirect:/inquire_personal_out";
 	    }
 		
 		
 		
-		//1:1 문의에 답을 보냄
+			//1:1 문의에 답을 보내고 저장하고 댓글 형식으로 출력하기
+			//1:1 문의에 대한 답은 홈페이지 내에서 삭제/수정해도 실제로 메일이 삭제/수정되지 않으므로 별도의 삭제/수정 기능은 넣지 않았음
+			//그러나 해당 1:1문의를 삭제하면 자동으로 답도 함께 삭제 되는 형식으로 구성
 		  @RequestMapping(value = "/inquire_personal_reply", method = RequestMethod.POST)
-		  public String inquire_personal_reply(HttpServletRequest request) throws IOException {
+		  public String inquire_personal_reply(HttpServletRequest request, Model mo) throws IOException {
 			  
 			int ip_num =Integer.parseInt(request.getParameter("ip_num"));
 			String title = request.getParameter("title");
@@ -936,19 +955,37 @@ public class InquireController {
 		    String email = request.getParameter("email");
 		    String category = request.getParameter("category");
 		    String content = request.getParameter("content");
-		    String reply = request.getParameter("reply");
 		    String tf = request.getParameter("tf");
-			
-		    EmailSender.sendEmail2(name, email, title, category, content, reply);
+		    String reply = request.getParameter("reply"); //답 내용
 		    
 		    Service ss=sqlsession.getMapper(Service.class);
-		    if(tf.equals("미응답")) {ss.inquire_personal_tf_update(ip_num);}
-		    else {System.out.println("답 또 보내기 완료~");}
 		    
+		    //답 내용을 테이블에 저장
+			ss.inquire_personal_reply_save(reply, ip_num);
 			
-			return "redirect:/inquire_personal_out";
+			//테이블에 답 내용을 저장한 직후 메일로 답변이 보내지도록 함
+			EmailSender.sendEmail2(name, email, title, category, content, reply);
+			
+			//해당 문의에 대한 답 여부(답 갯수) 수정
+			int reply_count=0;
+			reply_count= ss.inquire_personal_reply_count(ip_num);
+			if(reply_count==0) {System.out.println("답이 없네");} //답 갯수가 0인 경우
+			else {ss.inquire_personal_tf_update(ip_num);} //답이 1개 이상인 경우 답 여부를 수정하도록
+				
+			//1:1문의 디테일에 가져가는 정보
+			//1. 다시 디테일로 넘어가는 것
+			Inquire_personal_DTO dto=ss.inquire_personal_detail(ip_num);
+			mo.addAttribute("dto", dto);
+			//2. 기존에 보낸 답을 댓글 형식으로 출력(그러나 형식만 댓글일 뿐 일단 답을 보내면 메일로 바로 보내져 있음)
+			ArrayList<Inquire_personal_reply_DTO> list=ss.inquire_personal_reply_out(ip_num);
+			mo.addAttribute("list", list);
+		    
+			return "inquire_personal_detail";
 		   }
 		  
+		  
+		  
+		  //문의 토글의 이벤트란
 		  @RequestMapping(value = "/notice_event")
 		  public String eventpage1(Model mo) {
 			  

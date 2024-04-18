@@ -2,6 +2,8 @@ package com.ezen.bada.weathers;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -102,6 +104,11 @@ public class SeaInfoController {
 		System.out.println("위도 : "+bldt.getLatitude());
 		System.out.println("경도 : "+bldt.getLongitude());
 		
+		//해시태그 베스트 3
+		List<String> hashtags = ss.gethashtags(beach_code);
+		System.out.println("가져온 hashtags = " + hashtags);
+		mo.addAttribute("hashtags",hashtags);
+		
 	    // API 호출
     	APIClient apiClient = new APIClient();
     	
@@ -166,21 +173,6 @@ public class SeaInfoController {
         HttpSession session = request.getSession();
 	    session.setAttribute("bldt", bldt);
 		return "sea_result";
-	}
-	
-	
-	
-	@RequestMapping(value = "/sea_weather_detail")
-	public String sea_weather_detail(HttpServletRequest request, Model mo) {
-		
-		int beach_code = Integer.parseInt(request.getParameter("beach_code"));
-		mo.addAttribute("beach_code",beach_code);
-		
-		APIClient apiClient = new APIClient();
-		Map<String, Map<String, VilageFcstBeach_DTO>> getWeatherForecastMap = apiClient.getWeatherForecast(beach_code, DateDAO.setForecastDate().get("date"), DateDAO.setForecastDate().get("time"));
-		mo.addAttribute("groupedData",getWeatherForecastMap);
-		
-		return "sea_weather_detail";
 	}
 	
 	

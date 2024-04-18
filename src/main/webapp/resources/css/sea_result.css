@@ -183,6 +183,26 @@ body {
 	z-index: 2;
 }
 
+.hashtag_best{
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	gap:10px;
+}
+
+#hash {
+	width: 130px;
+	height:25px;
+	border: 1px solid #CDE4F2;
+	border-radius:40px;
+	background-color:#CDE4F2;
+	font-family: 'DOSGothic';
+	font-weight:600;
+	font-size: 13px;
+	margin-top: -10px;
+	text-align: center;
+}
+
 .sea_result_right {
 	display:flex;
 	box-sizing: border-box;

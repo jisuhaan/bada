@@ -90,6 +90,10 @@
 		<put-attribute name="title" value="바라는 바다! :: 1:1 문의 상세 내역"/>
 		<put-attribute name="body" value="/WEB-INF/views/inquire/notice_event.jsp"/>
 	</definition>
-	
+
+	<definition name="notice_view" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 공지사항 내용"/>
+		<put-attribute name="body" value="/WEB-INF/views/inquire/notice_view.jsp"/>
+	</definition>	
 	
 	</tiles-definitions>

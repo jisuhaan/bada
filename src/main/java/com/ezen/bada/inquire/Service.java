@@ -145,6 +145,12 @@ public interface Service {
 	//1:1 문의에 답변 시 답변 여부 변경
 	void inquire_personal_tf_update(int ip_num);
 
+	// 공지사항
+	ArrayList<Notice_DTO> notice();
+
+	// 이벤트
+	ArrayList<Event_DTO> event();
+
 	
 
 }

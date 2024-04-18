@@ -134,6 +134,9 @@ document.addEventListener("DOMContentLoaded", function() {
 					<b>편의시설</b> : ${bdt.accomodation}<br>
 					<b>주변특징</b> : ${bdt.special}<br><br>
 					<h4>많이 달린 해시태그</h4><br>
+					<div>
+					
+					</div>
 				</div>
 			</div>
 		</div>

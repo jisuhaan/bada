@@ -153,10 +153,15 @@ public interface Service {
 	
 	//1:1 문의에 답변이 1개 이상일 시 답변 여부가 바뀜
 	void inquire_personal_tf_update(int ip_num);
-
-	//1:1 문의에 보낸 답을 댓글 형식으로 출력
+  
+  //1:1 문의에 보낸 답을 댓글 형식으로 출력
 	ArrayList<Inquire_personal_reply_DTO> inquire_personal_reply_out(int ip_num);
 
+	// 공지사항
+	ArrayList<Notice_DTO> notice();
+
+	// 이벤트
+	ArrayList<Event_DTO> event();
 	
 
 }

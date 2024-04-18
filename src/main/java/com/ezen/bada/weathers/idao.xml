@@ -59,4 +59,25 @@
 	<update id="viewcountUp">
 		update bada_list set VIEW_COUNT = VIEW_COUNT + 1 where beach_code = #{param1}
 	</update>
+
+	<!-- 해시태그 많이쓴 순 3위 가져오기 -->
+	<select id="gethashtags" resultType="java.lang.String">
+	<![CDATA[ 
+		SELECT * FROM (
+	    SELECT
+	        regexp_substr(hashtag, '[^ ]+', 1, column_value) AS hashtag,
+	        COUNT(*) AS hashtag_count
+		    FROM bada_user_review CROSS JOIN
+		        TABLE(CAST(MULTISET(
+		            SELECT LEVEL
+		            FROM DUAL
+		            CONNECT BY LEVEL <= REGEXP_COUNT(hashtag, ' ') + 1
+		        ) AS SYS.ODCINUMBERLIST))
+		    WHERE beach_code = #{param1}
+		    GROUP BY regexp_substr(hashtag, '[^ ]+', 1, column_value)
+		    ORDER BY hashtag_count DESC)
+		WHERE ROWNUM <= 3
+ 	]]>
+	</select>
+
 </mapper>

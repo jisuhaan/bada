@@ -133,6 +133,13 @@ public interface Service {
 	void review_comment_delete(int review_num);
 
 	ArrayList<AllBoardDTO> pickbestrec();
+	
+	
+	//나도 한마디 저장
+	void say_one_save(String id, String name, String content, String loc);
+
+	//나도 한마디 출력
+	ArrayList<OneDTO> say_one_sentence();
 
 }
 

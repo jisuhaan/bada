@@ -807,7 +807,40 @@ public class MemberController {
    
    }
    
+   @ResponseBody
+   @RequestMapping(value = "/have_bbti")
+   public String my_bbti1(String id) {
+	   
+	   String result = null;
+	   Service ss = sqlsession.getMapper(Service.class);
+	   
+	   String bbti = ss.havebbti(id);
+	   
+	   if(bbti==null||bbti.trim().equals("")||bbti.equals("null")) {
+		   result = "nope";
+	   }
+	   else {
+		   result = bbti;
+	   }
+	   
+	   System.out.println(id+" 유저한테 bbti 있나? : " +result);
+	   
+	   return result;
+   }
    
+   @RequestMapping(value = "/my_bbti")
+   public String my_bbti2(HttpServletRequest request, Model mo) {
+	   
+	   String id = request.getParameter("id");
+	   String bbti = request.getParameter("bbti");
+	   
+	   System.out.println("받아와진 id : "+id+" / 받아와진 bbti : "+bbti);
+	   
+	   mo.addAttribute("id",id);
+	   mo.addAttribute("bbti",bbti);
+	   
+	   return "my_bbti";
+   }
    
    
 

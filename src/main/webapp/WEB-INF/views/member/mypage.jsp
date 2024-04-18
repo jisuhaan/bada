@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="${pageContext.request.contextPath}/resources/css/mypage.css" rel="stylesheet" type="text/css">
 <title>바라던 바다 :: 마이페이지</title>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 function confirm_quit() {
     var user_check = confirm("정말 탈퇴하시겠습니까?");
@@ -39,6 +39,38 @@ function confirm_quit() {
     }
 }
 
+function mybbti(id){
+	
+	$.ajax({
+		
+		url: "have_bbti", 
+        type: "GET",
+        data: {"id":id},
+        dataType: "text",
+        success: function(response) {
+		
+        	if(response=='nope'){
+        		var cc = confirm('아직 BBTI(바다성향) 테스트를 안 하셨네요! BBTI 테스트를 해볼까요?')
+        		if(cc){
+        			window.open('member_try_bbti?id='+id,'BBTI 테스트','width=605,height=805,resizable=no,scrollbars=no,menubar=no,location=no')
+        		}
+        	}
+        	else{
+        		var bbti = response;
+        		alert("내 BBTI 결과지를 보여드릴게요!");
+        		window.open('my_bbti?id='+id+'&bbti='+bbti,'BBTI 결과','width=605,height=805,resizable=no,scrollbars=no,menubar=no,location=no')
+        	}
+        },
+        
+        error:function (xhr, status, error) {
+            alert("오류가 발생했습니다.");
+            console.error(xhr.responseText); 
+        }
+		 
+	});
+	
+	
+} 
 
 </script>
 </head>
@@ -60,7 +92,7 @@ function confirm_quit() {
   </div>
    <div class="additional-actions">
         <div class="action-item">
-            <button type="button" class="action-button" onclick="location.href='#'">나의 BBTI</button>
+            <button type="button" class="action-button" onclick="mybbti('${info.id}')">나의 BBTI</button>
         </div>
         <div class="action-item">
             <button type="button" class="action-button" onclick="location.href='my_favorite'">북마크 바다</button>

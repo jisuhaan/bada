@@ -232,6 +232,8 @@ from. (정)지수 -->
     WHERE br.rec_id LIKE '%' || #{param1} || '%'
 </select>
 
-
+<select id="havebbti" resultType="String">
+	 SELECT NVL(bbti, 'null') AS bbti FROM bada_user WHERE id = #{param1}
+</select>
 
 </mapper>

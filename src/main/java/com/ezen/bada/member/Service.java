@@ -108,6 +108,8 @@ public interface Service {
 
 	ArrayList<AllBoardDTO> my_favorite(String loginid);
 
+	String havebbti(String id);
+
 
 	
 

@@ -41,7 +41,7 @@
                     <ul class="collapse__menu">
                         <a href="bada_review" class="collapse__sublink">바다리뷰</a>
 	                    <a href="review_input" class="collapse__sublink">리뷰작성</a>
-	                    <a href="#"  class="collapse__sublink">한마디</a>
+	                    <a href="say_one_sentence"  class="collapse__sublink">바다속외침</a>
 	                    <c:if test="${position=='admin'}">
                         <a href="review_ban_listout" class="collapse__sublink">게시물/댓글 신고 내역</a>
                         </c:if>       
@@ -49,7 +49,7 @@
                
                 </div>
 
-                <a href="#" class="nav__link">
+                <a href="ranking_page" class="nav__link">
                     <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
                     <span class="nav_name">순위, 바바!</span>
                 </a>
@@ -67,6 +67,7 @@
                         </c:if>
                         <a href="inquire_input" class="collapse__sublink">문의글작성</a>
                         <a href="inquire_listout?sort=latest" class="collapse__sublink">문의게시판</a>
+                        <a href="notice_event" class="collapse__sublink">공지/이벤트</a>
                         <c:if test="${position=='admin'}">
                         <a href="inquire_ban_listout" class="collapse__sublink">문의 신고 내역</a>
                         </c:if>

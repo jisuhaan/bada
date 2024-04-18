@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+   <definition name="baseLayout" template="/WEB-INF/views/layout.jsp">
+      <put-attribute name="title" value=""/>
+      <put-attribute name="top" value="/WEB-INF/views/top.jsp"/>
+      <put-attribute name="sidebar" value="/WEB-INF/views/sidebar.jsp"/>
+      <put-attribute name="body" value=""/>
+	  <put-attribute name="footer" value="/WEB-INF/views/footer.jsp"/>
+   </definition>
+   
+	<definition name="ranking_page" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 랭킹"/>
+		<put-attribute name="body" value="/WEB-INF/views/ranking/ranking_page.jsp"/>
+	</definition>
+	
+</tiles-definitions>

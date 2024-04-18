@@ -51,13 +51,14 @@
 
 .review_title {
 	margin:0 auto;
+	margin-top: 30px;
 	padding-top:60px;
 	text-align: center;
 	margin-bottom: 30px;
 }
 
 .review_title h3 {
-	font-family: 'DOSGothic';
+	font-family: 'YEONGJU';
 	font-size: 32px;
 	font-weight: 600;
 	background-color: #CDE4F2;

@@ -98,7 +98,7 @@ function goReview(review_num){
 
 <div class="view_container">
     <div class="review_box">
-        <div class="review_title"><h3> &nbsp;추천 리뷰&nbsp; </h3></div>
+        <div class="review_title"><h3> &nbsp;Best Review&nbsp; </h3></div>
         <div class="card-slide">
             <div class='slide-track'> 
         	</div>

@@ -949,4 +949,10 @@ public class InquireController {
 			return "redirect:/inquire_personal_out";
 		   }
 		  
+		  @RequestMapping(value = "/notice_event")
+		  public String eventpage1() {
+			  
+			  return "notice_event";		  
+		  }
+		  
 }

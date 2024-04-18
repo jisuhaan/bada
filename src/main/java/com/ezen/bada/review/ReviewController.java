@@ -925,6 +925,11 @@ public class ReviewController {
 		}
 		
 		
+		@RequestMapping(value = "/say_one_sentence")
+		public String say_one1() {
+			
+			return "say_one_sentence";
+		}
 		
 		
 }

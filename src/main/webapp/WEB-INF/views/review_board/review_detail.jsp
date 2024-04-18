@@ -127,11 +127,12 @@
 	  <div class="comments-list-section">
 	    <div class="comments-list">
 	      <c:forEach items="${reply}" var="re">
-	        <div class="comment">
+	      <div class="comment">
 	        <c:set var="maskedId" value="${fn:substring(re.id, 0, 4)}****" />
 				
-	          <strong>${re.name} &nbsp; (${maskedId})</strong><span class="comment-date"> (${fn:substring(re.reply_day, 0, 16)})</span>
-	          <p>${re.reply_contents}</p>
+	          <div class="user-id"><strong>${re.name}&nbsp;(${maskedId})</strong>&nbsp;<span class="comment-date"><strong>(${fn:substring(re.reply_day, 0, 16)})</strong></span></div>
+	          <div class="user_comments">${re.reply_contents}</div>
+	          <div class="comment_buttons">
 	           	<c:if test="${fn:trim(loginid) == fn:trim(re.id) || 'admin' == loginid}">
           			<button type="button" class="btn reply_modify" data-reply_num="${re.reply_num}">수정</button>
           			<button type="button" class="btn reply_delete" data-reply_num="${re.reply_num}">삭제</button>
@@ -144,28 +145,32 @@
         		<c:if test="${'admin' == loginid}">
 	                <button type="button" onclick="location.href='reply_ban_listout'" class="btn">댓글 신고 확인</button>
 	        	</c:if>
-	        </div>
+	       	 </div>
+	      </div>
 	      </c:forEach>
 	    </div>
 	  </div>
 </c:if>	
 	  <!-- 댓글 작성 섹션 -->
+<form id="commentForm" class="comment-form">
 	  <div class="comments-writing-section">
 	    <c:choose>
 	      <c:when test="${not empty loginid}">
-	        <form id="commentForm" class="comment-form">
 	          <input type="hidden" id="review_num" name="review_num" value="${dto.review_num}" />
-	          <span id="loginid" class="user-id"> ${loginid} </span>
+	          <div id="loginid" class="user-id"> ${loginid} </div>
+	          <div class="reply_input_area">
 	          <textarea id="reply" name="reply" placeholder="댓글을 입력하세요"></textarea>
+	          </div>
+	          <div class="button_area">
 	          <button id="replybtn" type="submit" class="btn">댓글쓰기</button>
-	        </form>
+	          </div>  
 	      </c:when>
 	      <c:otherwise>
 	        <p>댓글을 작성하려면 로그인해주세요.</p>
 	      </c:otherwise>
 	    </c:choose>
 	  </div>
-	  
+</form>	  
 	</div>
 	
 	<!-- 신고 모달창 -->
@@ -230,7 +235,7 @@ $(document).ready(function() {
 
         var review_num = $('#review_num').val();
         var reply = $('#reply').val().trim();
-        var loginid = $('#loginid').text();
+        var loginid = $('#loginid').text().trim();
 
         if (reply) {
             $.ajax({
@@ -244,6 +249,7 @@ $(document).ready(function() {
                 },
                 success: function(data) {
                     if(data.success) {
+                    	alert('댓글을 등록했습니다!');
                     	var new_html = '<div class="comment">' +
                         '<strong>' + data.loginid + '</strong><span class="comment-date"> (' + data.reply_day + ')</span>' +
                         '<p>' + data.reply + '</p>' +

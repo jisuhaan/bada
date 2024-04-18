@@ -433,15 +433,14 @@ public class ReviewController {
 	   public String review_comment(HttpServletRequest request) {
 		
         int review_num = Integer.parseInt(request.getParameter("review_num"));
-        String loginid = request.getParameter("loginid");
+        String loginid = request.getParameter("loginid").trim();
         String reply = request.getParameter("reply");
         
         System.out.println("받아온 리뷰번호 : "+review_num+" / 로그인한 아이디 : "+loginid+" / 댓글 : "+reply);
         
         Service ss = sqlsession.getMapper(Service.class);
         
-        String nickname = ss.getnickname(loginid);
-        
+        String nickname =  ss.getnickname(loginid);
         System.out.println("닉네임 받아왔나? : "+nickname);
         
         ss.reply_save(review_num,loginid,reply,nickname);
@@ -457,7 +456,9 @@ public class ReviewController {
         obj.put("reply_day", replyDate);
         
         System.out.println("JSON 응답 : " + obj.toString());
+        
         return obj.toString();
+        
 	   }
 	
 	

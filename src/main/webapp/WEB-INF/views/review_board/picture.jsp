@@ -4,12 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="${pageContext.request.contextPath}/resources/css/bada_review.css" rel="stylesheet" type="text/css">
 <title>Insert title here</title>
 </head>
 <body>
-<a href="review_all_page">리뷰 전체보기</a>
     <div class="bookcover">
       <div class="bookdot">
         <div class="page">
@@ -50,44 +48,34 @@
               <div class="content-title-url">https://url주소/나중에입력</div>
             </div>
             <div class="box content-box">
-              <div class="box-title">Updated news</div>
-              <div class="news-flex-box">
-                <div class="news-box">
-                  <div class="news-row">
-                    <div class="news-category category-pic">사진첩</div>
-                    <div class="news-title">일상...♥</div>
-                  </div>
-                  <div class="news-row">
-                    <div class="news-category category-post">게시판</div>
-                    <div class="news-title">웹코딩...♥</div>
-                  </div>
-                  <div class="news-row">
-                    <div class="news-category category-post">게시판</div>
-                    <div class="news-title">Memory...♥</div>
-                  </div>
-                  <div class="news-row">
-                    <div class="news-category category-pic">사진첩</div>
-                    <div class="news-title">여행...♥</div>
-                  </div>
+                <div class="content-photo">
+            
+                <div class="photo-title font-neo">교수님이.. 너무.. 벅차ㄷr..</div>
+                <div class="photo-image">
+                    <img
+                    class="photo-image-img"
+                    src="./static/images/photo1.png"
+                    alt="사진첩 이미지"
+                    />
                 </div>
-                <div class="update-box">
-                  <div class="menu-row">
-                    <div class="menu-item">다이어리<span class="menu-num">0/25</span></div>
-                    <div class="menu-item">사진첩<span class="menu-num">0/25</span></div>
-                  </div>
-                  <div class="menu-row">
-                    <div class="menu-item">게시판<span class="menu-num">0/25</span></div>
-                    <div class="menu-item">방명록<span class="menu-num">0/25</span></div>
-                  </div>
+                <div class="photo-title font-neo">나의.. 이zㅅro..★☆</div>
+                <div class="photo-image">
+                    <img
+                    class="photo-image-img"
+                    src="./static/images/photo2.png"
+                    alt="사진첩 이미지"
+                    />
                 </div>
-              </div>
-              <div class="miniroom">
-                <div class="box-title">Miniroom</div>
-                <div class="miniroom-gif-box">
-                  <img src="./static/images/myroom.png" alt="수지니의 미니룸" />
+                <div class="photo-title font-neo">양ㅍr같은 남ㅈr..</div>
+                <div class="photo-image">
+                    <img
+                    class="photo-image-img"
+                    src="./static/images/photo3.png"
+                    alt="사진첩 이미지"
+                    />
                 </div>
-              </div>
             </div>
+        </div>
           </div>
           <div class="menu-container">
             <div class="menu-button">

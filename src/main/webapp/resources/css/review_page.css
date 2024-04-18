@@ -33,12 +33,16 @@ a {
 /* 데스크탑 사이즈 */	
 
 body {
+	margin:0;
+	padding:0;
+}
+
+.review_container {
+	body:1200px;
 	display:flex;
 	justify-content:center;
 	align-items:center;
 }
-
-
 
 table {
 	border-collapse: collapse;

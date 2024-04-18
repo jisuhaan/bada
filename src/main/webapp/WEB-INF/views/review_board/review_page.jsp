@@ -90,6 +90,8 @@ $(document).ready(function() {
     pageContext.setAttribute("currentYear", currentYear);
 %>
 
+<div class="review_container">
+
 <section class="notice">
   <div class="page-title">
         <div class="container">
@@ -249,6 +251,6 @@ $(document).ready(function() {
     </div>
 
 </section>
-	           
+</div>          
 </body>
 </html>

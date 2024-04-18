@@ -2,6 +2,8 @@ package com.ezen.bada.weathers;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -102,9 +104,10 @@ public class SeaInfoController {
 		System.out.println("위도 : "+bldt.getLatitude());
 		System.out.println("경도 : "+bldt.getLongitude());
 		
-		//해당 해변에 많이 달린 해시태그를 세 개 추립니다
+		//해시태그 베스트 3
 		List<String> hashtags = ss.gethashtags(beach_code);
-		mo.addAttribute("hashtags", hashtags);
+		System.out.println("가져온 hashtags = " + hashtags);
+		mo.addAttribute("hashtags",hashtags);
 		
 	    // API 호출
     	APIClient apiClient = new APIClient();

@@ -25,6 +25,6 @@ public interface Service {
 	
 	int getPointcode(int beach_code);
 
-	List<String> gethashtags(int beach_code);
+	ArrayList<String> gethashtags(int beach_code);
 
 }

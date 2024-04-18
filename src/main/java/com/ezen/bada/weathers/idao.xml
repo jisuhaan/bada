@@ -55,4 +55,8 @@
 	<select id="getPointcode" resultType="Integer">
 		SELECT bp.codenum FROM bada_list bl join bada_pointcode bp on bl.pointname = bp.pointname where bl.beach_code = #{param1}
 	</select>
+	
+	<update id="viewcountUp">
+		update bada_list set VIEW_COUNT = VIEW_COUNT + 1 where beach_code = #{param1}
+	</update>
 </mapper>

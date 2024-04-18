@@ -89,6 +89,7 @@ public class SeaInfoController {
 		
 		int beach_code = Integer.parseInt(request.getParameter("beach_code"));
 		Service ss = sqlsession.getMapper(Service.class);
+		ss.viewcountUp(beach_code);
 		
 		//해변코드로 db에 마련된 해변정보(주소, 설명 등)들을 불러옵니다.
 		Bada_info_DTO bdt = ss.getbeachinfo(beach_code);
@@ -101,10 +102,6 @@ public class SeaInfoController {
 		Bada_default_DTO bldt = ss.get_Beach_list_data(beach_code); 
 		System.out.println("위도 : "+bldt.getLatitude());
 		System.out.println("경도 : "+bldt.getLongitude());
-		
-		//해당 해변에 많이 달린 해시태그를 세 개 추립니다
-		List<String> hashtags = ss.gethashtags(beach_code);
-		mo.addAttribute("hashtags", hashtags);
 		
 	    // API 호출
     	APIClient apiClient = new APIClient();

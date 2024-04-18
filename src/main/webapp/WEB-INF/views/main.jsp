@@ -94,7 +94,7 @@ function search_area() {
 				}
 				else if(response=='city'){
 					alert("해당 도시에 있는 바다 목록을 팝업창으로 보여드릴게요!")
-					window.open("search_city?city="+area, "바라는바다::바다목록", "width=500,height=500,toolbar=no,location=no");
+					window.open("search_city?city="+area, "바라는바다::바다목록", "width=605,height=805,resizable=no,scrollbars=no,menubar=no,location=no");
 				}
 				else{
 					

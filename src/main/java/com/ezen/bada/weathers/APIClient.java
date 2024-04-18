@@ -9,11 +9,16 @@ import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.ChoiceFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -343,10 +348,23 @@ public class APIClient {
         	String text = getApi(url, params);        
             JsonNode rootNode = objectMapper.readTree(text);
             JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item").get(0);
-            System.out.println("다른 해의 기상 정보 API 호출 결과: " + itemNode);
+//            System.out.println("다른 해의 기상 정보 API 호출 결과: " + itemNode);
             
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             dto = objectMapper.readValue(itemNode.toString(), getWthrDataList_DTO.class);
+            String data = dto.getIscs();
+            dto.setAvgTca(convertavgTca(Double.parseDouble(dto.getAvgTca())));
+            if(data==null || data.equals("") || data.isEmpty()) {}
+            else {
+	            Set<String> dataSet = new HashSet<>();
+	            Pattern pattern = Pattern.compile("\\{([^\\(\\)\\{\\}0-9a-zA-Z]+)\\}"); // 중괄호 안에 숫자, 영어가 포함 안 된 항목
+	            Matcher matcher = pattern.matcher(data);
+	            while (matcher.find()) {
+	                dataSet.add(matcher.group(1));
+	            }
+	            dto.setPtySet(dataSet);
+            }
+            
             System.out.println(dto.toString());
         } catch (IOException e) {
             e.printStackTrace();
@@ -511,6 +529,15 @@ public class APIClient {
             e.printStackTrace();
         }
     }
+	
+	private String convertavgTca(double avgTca) {
+		double pattern [] = {0,3,6,9};
+		String result [] = {"맑음", "구름 조금", "구름 많음", "흐림"};
+		ChoiceFormat cf = new ChoiceFormat(pattern, result);
+		
+		return cf.format(avgTca);
+		
+	}
 	
     private String convertWarnVar(String warnVar) {
         switch (warnVar) {

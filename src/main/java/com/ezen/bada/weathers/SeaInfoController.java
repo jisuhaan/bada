@@ -169,21 +169,6 @@ public class SeaInfoController {
 	}
 	
 	
-	
-	@RequestMapping(value = "/sea_weather_detail")
-	public String sea_weather_detail(HttpServletRequest request, Model mo) {
-		
-		int beach_code = Integer.parseInt(request.getParameter("beach_code"));
-		mo.addAttribute("beach_code",beach_code);
-		
-		APIClient apiClient = new APIClient();
-		Map<String, Map<String, VilageFcstBeach_DTO>> getWeatherForecastMap = apiClient.getWeatherForecast(beach_code, DateDAO.setForecastDate().get("date"), DateDAO.setForecastDate().get("time"));
-		mo.addAttribute("groupedData",getWeatherForecastMap);
-		
-		return "sea_weather_detail";
-	}
-	
-	
 	//지은 메인 서치바 진행중..
 	@ResponseBody
 	@RequestMapping(value = "main_search")

@@ -42,7 +42,7 @@
 }
 
 .search_body {
-    height: 800px;
+    height: 600px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -68,19 +68,19 @@
 
 /* 각 beach_button의 위치를 임의로 지정하여 간격 조절 */
 .beach_button:nth-child(1) {
-    top: 0;
+    top: -50px;
 }
 
 .beach_button:nth-child(2) {
-    top: 150px; /* 예시로 250px 간격 설정 */
+    top: 100px; /* 예시로 250px 간격 설정 */
 }
 
 .beach_button:nth-child(3) {
-    top: 300px; /* 예시로 500px 간격 설정 */
+    top: 250px; /* 예시로 500px 간격 설정 */
 }
 
 .beach_button:nth-child(4) {
-    top: 450px; /* 예시로 500px 간격 설정 */
+    top: 400px; /* 예시로 500px 간격 설정 */
 }
 /* 필요한 만큼 각 beach_button에 대해 위치 조절 */
 /* 나머지 beach_button에 대해서도 동일한 방법으로 간격 조절 가능 */
@@ -102,11 +102,11 @@
 	font-size: 30px;
 	text-align: center;
 	background-color: rgba(255,255,255,0.5);
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 
 .beach_address{
-	font-family: ''DOSGothic';
+	font-family: 'DOSGothic';
 	font-size: 16px;
 	text-align: center;
 }

@@ -60,10 +60,12 @@ public interface Service {
 
 	void thumbnail_upload(int review_num, String t_name);
 
+
 	void reply_save(
 			@Param("review_num") Integer review_num, 
             @Param("loginid") String loginid, 
-            @Param("reply") String reply);
+            @Param("reply") String reply,
+			@Param("name") String name);
 
 	ArrayList<ReplyDTO> reply_show(int review_num);
 
@@ -140,6 +142,8 @@ public interface Service {
 
 	//나도 한마디 출력
 	ArrayList<OneDTO> say_one_sentence();
+
+	String getnickname(String loginid);
 
 }
 

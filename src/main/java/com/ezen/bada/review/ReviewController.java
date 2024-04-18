@@ -229,6 +229,7 @@ public class ReviewController {
 		 mo.addAttribute("loginid", loginid);
 		 
 		 ArrayList<ReplyDTO> reply = ss.reply_show(review_num);
+		 
 		 mo.addAttribute("reply", reply);
 		
 
@@ -435,8 +436,15 @@ public class ReviewController {
         String loginid = request.getParameter("loginid");
         String reply = request.getParameter("reply");
         
+        System.out.println("받아온 리뷰번호 : "+review_num+" / 로그인한 아이디 : "+loginid+" / 댓글 : "+reply);
+        
         Service ss = sqlsession.getMapper(Service.class);
-        ss.reply_save(review_num,loginid,reply);
+        
+        String nickname = ss.getnickname(loginid);
+        
+        System.out.println("닉네임 받아왔나? : "+nickname);
+        
+        ss.reply_save(review_num,loginid,reply,nickname);
         ss.reply_update(review_num);
 
         JSONObject obj = new JSONObject();

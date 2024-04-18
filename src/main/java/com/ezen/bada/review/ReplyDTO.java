@@ -3,7 +3,7 @@ package com.ezen.bada.review;
 public class ReplyDTO {
 	
 	int review_num,reply_num;
-	String id, reply_day, reply_contents;
+	String id, name, reply_day, reply_contents;
 	
 	public ReplyDTO() {}
 
@@ -46,8 +46,14 @@ public class ReplyDTO {
 	public void setReply_contents(String reply_contents) {
 		this.reply_contents = reply_contents;
 	}
-	
-	
-	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 
 }

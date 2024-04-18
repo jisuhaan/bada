@@ -27,5 +27,7 @@ public interface Service {
 
 	void viewcountUp(int beach_code);
 
+	List<String> gethashtags(int beach_code);
+
 
 }

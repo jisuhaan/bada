@@ -128,19 +128,21 @@
 	    <div class="comments-list">
 	      <c:forEach items="${reply}" var="re">
 	        <div class="comment">
-	          <strong>${re.id}</strong><span class="comment-date"> (${fn:substring(re.reply_day, 0, 16)})</span>
+	        <c:set var="maskedId" value="${fn:substring(re.id, 0, 4)}****" />
+				
+	          <strong>${re.name} &nbsp; (${maskedId})</strong><span class="comment-date"> (${fn:substring(re.reply_day, 0, 16)})</span>
 	          <p>${re.reply_contents}</p>
 	           	<c:if test="${fn:trim(loginid) == fn:trim(re.id) || 'admin' == loginid}">
-          			<button type="button" class="reply_modify" data-reply_num="${re.reply_num}">수정</button>
-          			<button type="button" class="reply_delete" data-reply_num="${re.reply_num}">삭제</button>
+          			<button type="button" class="btn reply_modify" data-reply_num="${re.reply_num}">수정</button>
+          			<button type="button" class="btn reply_delete" data-reply_num="${re.reply_num}">삭제</button>
         		</c:if>
         		<c:if test="${fn:trim(loginid) != fn:trim(re.id) && not empty loginid}">
-          			<button type="button" class="reply_report" 
+          			<button type="button" class="btn reply_report" 
           			data-reply_num="${re.reply_num}" data-review_num="${dto.review_num}" 
           			data-reply_id="${re.id}">신고</button>
         		</c:if>
         		<c:if test="${'admin' == loginid}">
-	                <button type="button" onclick="location.href='reply_ban_listout'">댓글 신고 확인</button>
+	                <button type="button" onclick="location.href='reply_ban_listout'" class="btn">댓글 신고 확인</button>
 	        	</c:if>
 	        </div>
 	      </c:forEach>
@@ -155,7 +157,7 @@
 	          <input type="hidden" id="review_num" name="review_num" value="${dto.review_num}" />
 	          <span id="loginid" class="user-id"> ${loginid} </span>
 	          <textarea id="reply" name="reply" placeholder="댓글을 입력하세요"></textarea>
-	          <button id="replybtn" type="submit">댓글쓰기</button>
+	          <button id="replybtn" type="submit" class="btn">댓글쓰기</button>
 	        </form>
 	      </c:when>
 	      <c:otherwise>
@@ -201,8 +203,8 @@
 	      <textarea id="detail" name="detail" rows="2" cols="45" placeholder="신고 상세 내용을 입력해주세요!" required></textarea>
 	    </div><br><br>
 	    <div class="modal-footer">
-		    <button type="button" onclick="submit_report()">신고하기</button>
-		    <button type="button" class="close">취소하기</button>
+		    <button type="button" onclick="submit_report()" class="btn">신고하기</button>
+		    <button type="button" class="btn close" >취소하기</button>
 	    </div>
 	  </div>
 	</div>
@@ -254,8 +256,9 @@ $(document).ready(function() {
                     alert('댓글을 등록하지 못했습니다.');
                 	}
                 },
-                error: function() {
+                error: function(xhr, status, error) {
                     alert('댓글 등록에 실패했습니다.');
+                    console.error(xhr.responseText); 
                 }
             });
         } else {

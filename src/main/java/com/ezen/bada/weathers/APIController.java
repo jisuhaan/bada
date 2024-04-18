@@ -1,6 +1,10 @@
 package com.ezen.bada.weathers;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,8 +75,22 @@ public class APIController {
 		mo.addAttribute("beach_code",beach_code);
 		
 		APIClient apiClient = new APIClient();
+		// 3일치 가져오기
 		Map<String, Map<String, VilageFcstBeach_DTO>> getWeatherForecastMap = apiClient.getWeatherForecast(beach_code, DateDAO.setForecastDate().get("date"), DateDAO.setForecastDate().get("time"));
 		mo.addAttribute("groupedData",getWeatherForecastMap);
+		
+		// 3개년치 가져오기
+		Map<String, getWthrDataList_DTO> getWthrDataListMap = new LinkedHashMap<String, getWthrDataList_DTO>();
+		Service ss = sqlsession.getMapper(Service.class);
+        int pointcode = ss.getPointcode(beach_code);
+		for(int i=1;i<4;i++) {
+        	System.out.println(i+"번째 시도");
+        	String setStringDate = LocalDate.now().minusYears(i).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        	getWthrDataList_DTO gdto = apiClient.getWthrDataList_API(pointcode, setStringDate);
+
+        	getWthrDataListMap.put(setStringDate, gdto);
+        }	
+		mo.addAttribute("dataListMap",getWthrDataListMap);
 		
 		return "sea_weather_detail";
 	}
@@ -100,7 +118,7 @@ public class APIController {
             int pointcode = ss.getPointcode(beach_code);
             System.out.println(pointcode);
             
-            if(Integer.parseInt(monthInput+dayInput) > Integer.parseInt(DateDAO.getCurrentDateString().substring(4)))
+            if(Integer.parseInt(monthInput+dayInput) >= Integer.parseInt(DateDAO.getCurrentDateString().substring(4)))
             {
             	setYear=setYear-1;
             }

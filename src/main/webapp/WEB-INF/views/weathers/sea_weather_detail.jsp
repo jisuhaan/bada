@@ -90,9 +90,9 @@
 </head>
 <body>
 <h2> ${bldt.beach} : 오늘의 날씨 정보</h2>
-<div id="weather-info"></div>
+<br>
 <div>
-<h1>Weather Forecast</h1>
+<h1>단기 예보</h1>
 
 <c:set var="timeLoop" value="0"/>
 <c:forEach var="dateEntry" items="${groupedData}" varStatus="loop">
@@ -152,6 +152,47 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 
+</div>
+
+<div>
+<h1>지난 해 오늘의 날씨</h1>
+<c:forEach var="wthrmap" items="${dataListMap}">
+<!-- 출력 내용 -->
+    <h2>${wthrmap.key}</h2>
+     <table border="1">
+        <tr>
+            <td>평균 기온</td>
+            <td>${wthrmap.value.avgTa}</td>
+        </tr>
+        <tr>
+            <td>최저 기온</td>
+            <td>${wthrmap.value.minTa}</td>
+        </tr>
+        <tr>
+            <td>최고 기온</td>
+            <td>${wthrmap.value.maxTa}</td>
+        </tr>
+        <tr>
+            <td>평균 풍속</td>
+            <td>${wthrmap.value.avgWs}</td>
+        </tr>
+        <tr>
+            <td>평균 상대습도</td>
+            <td>${wthrmap.value.avgRhm}</td>
+        </tr>
+        <tr>
+            <td>평균 전운량</td>
+            <td>${wthrmap.value.avgTca}</td>
+        </tr>
+        <%-- ptySet이 null이 아닐 때 해당 리스트 항목도 추가 --%>
+        <c:if test="${wthrmap.value.ptySet ne null}">
+            <tr>
+                <td>강수 형태</td>
+                <td>${wthrmap.value.ptySet}</td>
+            </tr>
+        </c:if>
+    </table>
+</c:forEach>
 </div>
 
 <br><br>

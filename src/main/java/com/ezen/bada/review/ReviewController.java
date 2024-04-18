@@ -925,9 +925,65 @@ public class ReviewController {
 		}
 		
 		
+		
+		
+		
+		//나도 한마디 출력 페이지
 		@RequestMapping(value = "/say_one_sentence")
-		public String say_one1() {
+		public String say_one_sentence(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
 			
+			Service ss = sqlsession.getMapper(Service.class);
+			HttpSession hs = request.getSession();
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			
+			if (hs.getAttribute("loginstate") == null || !(boolean) hs.getAttribute("loginstate")) {
+		        // 로그인하지 않은 상태에서는 로그인 관련 정보를 가져오지 않고, 채팅 내역만 가져옴
+		        ArrayList<OneDTO> list = ss.say_one_sentence();
+		        mo.addAttribute("list", list);
+		    } else {
+		        // 로그인한 경우에는 사용자 정보와 함께 채팅 내역을 가져옴
+		        String loginid = (String) hs.getAttribute("loginid");
+		        MemberDTO dto = ss.input_info(loginid);
+		        mo.addAttribute("dto", dto);
+
+		        // 채팅 내역 가져오기
+		        ArrayList<OneDTO> list = ss.say_one_sentence();
+		        mo.addAttribute("list", list);
+		    }
+			
+			return "say_one_sentence";
+		}
+		
+		
+		
+		//나도 한마디 입력 후 저장, 그리고 다시 출력
+		@RequestMapping(value = "/say_one_save", method = RequestMethod.POST)
+		public String say_one_save(HttpServletRequest request, Model mo, HttpServletResponse response) {
+		
+			String loc = request.getParameter("loc");
+			String id = request.getParameter("id");
+		    String name = request.getParameter("name");
+		    String content = request.getParameter("content");
+		    
+		    System.out.println("확인용 가지가지 출력: 1. "+loc+"  2. "+id+"  3. "+name+"  4. "+content);
+		    
+		    Service ss = sqlsession.getMapper(Service.class);
+			HttpSession hs = request.getSession();
+			response.setContentType("text/html; charset=UTF-8");
+		    
+		    //입력한 한마디를 테이블에 저장
+			ss.say_one_save(id, name, content, loc);
+			
+			//사전에 나도 한마디를 입력하려는 사용자의 정보를 가져옴
+			String loginid = (String) hs.getAttribute("loginid");
+			MemberDTO dto = ss.input_info(loginid);
+			mo.addAttribute("dto", dto);
+				
+			//다시 나도 한마디 창에 가져가는 정보(기존 채팅 + 방금 올린 채팅)
+			ArrayList<OneDTO> list=ss.say_one_sentence();
+			mo.addAttribute("list", list);
+		    
 			return "say_one_sentence";
 		}
 		

@@ -980,15 +980,12 @@ public class InquireController {
 			ArrayList<Inquire_personal_reply_DTO> list=ss.inquire_personal_reply_out(ip_num);
 			mo.addAttribute("list", list);
 		    
-			
 			return "inquire_personal_detail";
 		   }
 		  
 		  
 		  
-		  
-		  
-		  
+		  //문의 토글의 이벤트란
 		  @RequestMapping(value = "/notice_event")
 		  public String eventpage1() {
 			  

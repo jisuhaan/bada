@@ -343,4 +343,11 @@
     SELECT * FROM bada_event ORDER BY start_day ASC, expire_day ASC
 </select>
 
+
+<!-- 이벤트 포스터 가져오기 -->
+
+<select id="event_photo" resultType="String">
+    SELECT photo FROM bada_event where event_num = #{param1}
+</select>
+
 </mapper>

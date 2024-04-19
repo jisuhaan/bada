@@ -145,6 +145,14 @@ public interface Service {
 
 	String getnickname(String loginid);
 
+	ArrayList<AllBoardDTO> picknewrec6();
+
+	ArrayList<AllBoardDTO> picknewrec6in2area(String area1, String area2);
+
+	ArrayList<AllBoardDTO> picknewrecinarea(String area);
+
+	ArrayList<OneDTO> getonesentence(String area);
+
 }
 
 

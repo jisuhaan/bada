@@ -88,14 +88,14 @@ $(document).ready(function() {
     
     <select name="sort_loc" id="sort_loc">
 		<option value="전국">전국 한마디</option>
-		<option value="경인">경인 한마디</option>
+		<option value="경기인천">경기·인천 한마디</option>
 		<option value="강원">강원 한마디</option>
 		<option value="충남">충남 한마디</option>
 		<option value="경북">경북 한마디</option>
 		<option value="전북">전북 한마디</option>
 		<option value="전남">전남 한마디</option>
 		<option value="경남">경남 한마디</option>
-		<option value="부산·울산">부산/울산 한마디</option>
+		<option value="부산울산">부산·울산 한마디</option>
 		<option value="제주">제주 한마디</option>
 	</select>
 	
@@ -135,14 +135,14 @@ $(document).ready(function() {
 	
 	<select name="loc" id="loc" required="required">
 		<option value="전국">전국</option>
-		<option value="경인">경인</option>
+		<option value="경기인천">경기·인천</option>
 		<option value="강원">강원</option>
 		<option value="충남">충남</option>
 		<option value="경북">경북</option>
 		<option value="전북">전북</option>
 		<option value="전남">전남</option>
 		<option value="경남">경남</option>
-		<option value="부산·울산">부산/울산</option>
+		<option value="부산울산">부산·울산</option>
 		<option value="제주">제주</option>
 	</select>
 	

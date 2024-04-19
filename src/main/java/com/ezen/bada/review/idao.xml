@@ -326,9 +326,6 @@ WHERE rnum BETWEEN 1 AND 4
 	delete from bada_review_comment where review_num = #{param1}
 </delete>
 
-
-
-
 <!-- 나도 한마디를 작성하면 저장이 됨 -->
 <insert id="say_one_save">
 	insert into bada_one (one_num, id, name, content, loc) 
@@ -340,5 +337,43 @@ WHERE rnum BETWEEN 1 AND 4
 	order by one_date  ASC
 </select>
 
+<!-- 리뷰메인페이지 최신리뷰 6개 추출 -->
+<select id="picknewrec6" resultType="com.ezen.bada.review.AllBoardDTO">
+<![CDATA[
+	SELECT * FROM (
+    SELECT * FROM bada_user_review ORDER BY write_day DESC
+	) WHERE ROWNUM <= 6
+]]>
+</select>
+
+<!-- 리뷰메인페이지 지역별 최신리뷰 6개 추출 -->
+<select id="picknewrec6in2area" resultType="com.ezen.bada.review.AllBoardDTO">
+<![CDATA[
+SELECT * FROM (
+    SELECT rr.*
+    FROM bada_user_review rr
+    INNER JOIN bada_info ii ON rr.beach_code = ii.beach_code
+    WHERE ii.state = #{param1} OR ii.state = #{param2}
+    ORDER BY rr.write_day DESC
+) WHERE ROWNUM <= 6
+]]>
+</select>
+
+<!-- 리뷰메인페이지 지역별 최신리뷰 6개 추출2 -->
+<select id="picknewrecinarea" resultType="com.ezen.bada.review.AllBoardDTO">
+<![CDATA[
+SELECT * FROM (
+    SELECT rr.*
+    FROM bada_user_review rr
+    INNER JOIN bada_info ii ON rr.beach_code = ii.beach_code
+    WHERE ii.state = #{param1}
+    ORDER BY rr.write_day DESC
+) WHERE ROWNUM <= 6
+]]>
+</select>
+
+<select id="getonesentence"  resultType="com.ezen.bada.review.OneDTO">
+	select * from bada_one where loc = #{param1} order by one_date desc
+</select>
 
 </mapper>

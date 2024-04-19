@@ -8,11 +8,125 @@
 	<![CDATA[
 		SELECT * 
 		FROM (
-		    SELECT beach_code, beach, view_count,
+		    SELECT beach_code, beach, view_count as count,
 		           RANK() OVER (ORDER BY view_count DESC) AS rank
 		    FROM bada_list
 		)
 		WHERE ROWNUM <= 3
+	]]>
+	</select>
+	
+	<select id="reviewTopThree" resultType="com.ezen.bada.ranking.RankingBeachDTO">
+	<![CDATA[
+		SELECT *
+		FROM (
+		    SELECT bu.beach_code, bl.beach, COUNT(*) as count,
+		           RANK() OVER (ORDER BY COUNT(*) DESC) AS rank
+		    FROM bada_user_review bu
+		    JOIN bada_list bl ON bu.beach_code = bl.beach_code
+		    GROUP BY bu.beach_code, bl.beach
+		)
+		WHERE ROWNUM <= 3
+	]]>
+	</select>
+	
+	<select id="reviewScoreTopThree" resultType="com.ezen.bada.ranking.RankingBeachDTO">
+	<![CDATA[
+		SELECT *
+		FROM (
+		    SELECT bu.beach_code, bl.beach, AVG(bu.REVIEW_SCORE) AS count,
+		        rank() OVER (ORDER BY AVG(bu.REVIEW_SCORE) DESC) AS rank
+		    FROM bada_user_review bu
+		    JOIN bada_list bl ON bu.beach_code = bl.beach_code
+		    GROUP BY bu.beach_code, bl.beach
+		)
+		WHERE ROWNUM <= 3
+	]]>
+	</select>
+	
+	<select id="re_visitTopThree" resultType="com.ezen.bada.ranking.RankingBeachDTO">
+	<![CDATA[
+		SELECT *
+		FROM (
+		    SELECT 
+		        bu.beach_code, 
+		        bl.beach, 
+		        SUM(CASE WHEN bu.re_visit = 'Yes' THEN 1 ELSE 0 END) AS count,
+		        RANK() OVER (ORDER BY SUM(CASE WHEN bu.re_visit = 'Yes' THEN 1 ELSE 0 END) DESC) AS rank
+		    FROM bada_user_review bu
+		    JOIN bada_list bl ON bu.beach_code = bl.beach_code
+		    GROUP BY bu.beach_code, bl.beach
+		)
+		WHERE ROWNUM <= 3
+	]]>
+	</select>
+	
+	<select id="bbtiTopThree" resultType="com.ezen.bada.ranking.RankingBBTIDTO">
+	<![CDATA[
+		SELECT
+		    *
+		FROM
+		(SELECT
+		    bb.bbti_name as bbti,
+		    COUNT(*) as count,
+		    rank() OVER (ORDER BY  COUNT(*) DESC) as rank
+		FROM bada_user bu
+		JOIN BADA_BBTI bb on bu.bbti = bb.bbti_code
+		WHERE
+		    bbti IS NOT NULL
+		GROUP BY bu.bbti, bb.bbti_name)
+		WHERE ROWNUM <= 3
+	]]>
+	</select>
+	
+	<select id="hashtagTopThree" resultType="com.ezen.bada.ranking.RankingHashtagDTO">
+	<![CDATA[
+		WITH ranked_beaches AS (
+		    SELECT
+		        hashtag,
+		        MAX(CASE WHEN rank_num = 1 THEN beach END) AS most_used_beach,
+		        MAX(CASE WHEN rank_num = 2 THEN beach END) AS second_used_beach,
+		        MAX(CASE WHEN rank_num = 3 THEN beach END) AS third_used_beach,
+		        MAX(CASE WHEN rank_num = 1 THEN beach_code END) AS most_used_beach_code,
+		        MAX(CASE WHEN rank_num = 2 THEN beach_code END) AS second_used_beach_code,
+		        MAX(CASE WHEN rank_num = 3 THEN beach_code END) AS third_used_beach_code,
+		        MAX(CASE WHEN rank_num = 1 THEN hashtag_count END) AS max_hashtag_count,
+		        MAX(CASE WHEN rank_num = 2 THEN hashtag_count END) AS second_hashtag_count,
+		        MAX(CASE WHEN rank_num = 3 THEN hashtag_count END) AS third_hashtag_count
+		    FROM (
+		        SELECT
+		            regexp_substr(r.hashtag, '[^ ]+', 1, column_value) AS hashtag,
+		            bl.beach,
+		            bl.beach_code,
+		            COUNT(*) AS hashtag_count,
+		            DENSE_RANK() OVER (PARTITION BY regexp_substr(r.hashtag, '[^ ]+', 1, column_value) ORDER BY COUNT(*) DESC) AS rank_num
+		        FROM
+		            bada_user_review r
+		            INNER JOIN bada_list bl ON r.beach_code = bl.beach_code
+		            CROSS JOIN TABLE(CAST(MULTISET(SELECT LEVEL FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT(r.hashtag, ' ') + 1) AS SYS.ODCINUMBERLIST))
+		        GROUP BY
+		            regexp_substr(r.hashtag, '[^ ]+', 1, column_value),
+		            bl.beach,
+		            bl.beach_code
+		    )
+		    GROUP BY
+		        hashtag
+		)
+		SELECT
+		    hashtag,
+		    most_used_beach,
+		    most_used_beach_code,
+		    max_hashtag_count,
+		    second_used_beach,
+		    second_used_beach_code,
+		    second_hashtag_count,
+		    third_used_beach,
+		    third_used_beach_code,
+		    third_hashtag_count
+		FROM
+		    ranked_beaches
+		ORDER BY
+		    max_hashtag_count DESC
 	]]>
 	</select>
 

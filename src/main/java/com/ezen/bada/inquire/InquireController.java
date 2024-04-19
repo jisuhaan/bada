@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.print.DocFlavor.STRING;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -1003,11 +1004,24 @@ public class InquireController {
 		  @RequestMapping(value = "/notice")
 		  public String notice_show(HttpServletRequest request,Model mo) {
 			  
+			  int notice_num = Integer.parseInt(request.getParameter("notice_num"));
+			  mo.addAttribute("notice_num", notice_num);
 
 			  
 			  return "notice_view";		  
 		  }
 		  
+		  
+		  @RequestMapping(value = "/event")
+		  public String event_show(HttpServletRequest request,Model mo) {
+			  
+			  int event_num = Integer.parseInt(request.getParameter("event_num"));
+			  Service ss=sqlsession.getMapper(Service.class);
+			  String photo = ss.event_photo(event_num);
+			  mo.addAttribute("photo", photo);
+			  
+			  return "event_view";		  
+		  }
 
 		  
 		  

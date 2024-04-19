@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link href="${pageContext.request.contextPath}/resources/css/review_detail.css" rel="stylesheet" type="text/css">
     <meta charset="UTF-8">
     <title>바라는 바다! :: 문의글</title>
     <style>
@@ -39,12 +40,9 @@
     </style>
 </head>
 <body>
-
-
-
+<div class="review-box">
     <form action="inquire_reply_save" method="post">
         <table>
-            <caption>문의 사항 자세히 보기</caption>
             <tr>
                 <th>제목</th>
                 <td style="text-align: left;">${dto.title} <span style="float: right;">[${dto.category}]</span></td>
@@ -60,7 +58,7 @@
             </tr>
             <tr>
                 <td colspan="2" style="border: 2px solid #000; padding: 8px; height: 80%; padding-left: 50px;">
-    				<div style="width: 90%; height: 90%;">
+    				<div class="inquire-images" style="width: 90%; height: 90%;">
 				        ${dto.content}
 				        <br><br><br><br><br>
 				        <c:choose>
@@ -120,6 +118,7 @@
             <c:choose>
 				<c:when test="${loginstate==true}">
             <tr>
+            
                 <td colspan="2" style="text-align: center;">
                 	<span style="float: left;">
                 		<a href="inquire_report_view?inquire_num=${dto.inquire_num}&loginid=${loginid}"> <img src="./resources/image/report_icon.png" width="20px" class="report_icon"></a>
@@ -150,24 +149,15 @@
             
             </c:choose>
             
-            
-            <c:choose>
-				<c:when test="${loginstate==true && position=='admin'}">
-            <tr>
-            	<th>답 입력창
-            	</th>
-                <td>
-                	<br><br><br><br><br>
-                	<textarea cols="90" rows="5" name="content" id="content" placeholder="문의에 대한 답은 1500자 이하로 입력하세요." required></textarea>
-                	<br>
-                	<span style="float: right;">
-                		<input type="hidden" name="inquire_num" value="${dto.inquire_num}">
-                		<input type="submit" value="답 작성하기">
-                	</span>
-                </td>
-            </tr>
-            
-             <c:forEach items="${list}" var="l">
+         </table>
+    </form>      
+    
+  </div> 
+
+
+<div class="comments-container">  
+    <!-- 댓글 영역 -->   
+    <c:forEach items="${list}" var="l">
             <tr>
             	<td colspan="2" style="text-align: left;">관리자
                 	<span style="float: right;">${fn:substring(l.inquire_reply_date, 0, 19)}</span>
@@ -180,8 +170,12 @@
 				    </div>
 				</td>
             </tr>
-            <tr id="reply_${l.inquire_reply_num}">
-			    <td colspan="2"> <span style="float: right;">
+            </c:forEach>
+            <c:choose>
+				<c:when test="${loginstate==true && position=='admin'}">
+				
+				<tr id="reply_${l.inquire_reply_num}">
+			    <td colspan="2">
 			        &nbsp;
 			        <a href="#" onclick="confirm_reply_Delete('${l.inquire_reply_num}' , '${dto.inquire_num}')">
 			            <img src="./resources/image/delete_icon.png" width="15px"></a>
@@ -189,37 +183,35 @@
 			        <a href="#" onclick="createEditForm('${l.inquire_reply_num}', '${dto.inquire_num}', '${l.content}')">
 			            <img src="./resources/image/modify_icon.png" width="15px">
 			        </a>
-			        <br> 삭제 &nbsp; &nbsp; 수정
-			    </span>
+			        <br> 삭제 &nbsp; &nbsp;수정
+			    
 			    
 			    </td>
 			</tr>
-            </c:forEach>
+            <tr>
+                <td>
+                
+                	<div class="reply_input_area">
+                	<textarea name="reply" id="reply" placeholder="문의에 대한 답은 1500자 이하로 입력하세요." required></textarea>
+                	</div>
+                	<div class="button_area">
+                		<input type="hidden" name="inquire_num" value="${dto.inquire_num}">
+                		<input type="submit" id="replybtn" value="답 작성하기">
+                	</div>
+                </td>
+            </tr>
             
             </c:when>
             
-            <c:otherwise>
-             <c:forEach items="${list}" var="l">
-            <tr>
-            	<td colspan="2" style="text-align: left;">관리자
-                	<span style="float: right;">${fn:substring(l.inquire_reply_date, 0, 19)}</span>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" style="border: 2px solid #000; padding: 8px; height: 80%; padding-left: 50px;">
-    				<div style="width: 90%; height: 90%;">
-    				${l.content}
-				    </div>
-				</td>
-            </tr>
-            </c:forEach>
-            </c:otherwise>
             </c:choose>
             
-        </table>
-    </form>
+
+</div>    
     
-    
+
+
+
+
 
 <script type="text/javascript">
 function confirmDelete(inquire_num) {

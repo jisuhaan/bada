@@ -316,7 +316,10 @@ hr {
 	
 .comments-list-section, .comments-writing-section {
 	border: 1px solid #ddd;
-	padding: 10px;
+}
+
+.comments-list-section {
+	padding:10px;
 }
 
 .comment-date {
@@ -327,7 +330,6 @@ hr {
 .comment-form {
 	display: flex;
 	align-items: center;
-	gap: 10px; /* 간격을 설정합니다 */
 }
 
 .comment {
@@ -365,6 +367,7 @@ hr {
 
 .comment-form{
 	width:100%;
+	height:100px;
 	text-align: center;
 	display:flex;
 	justify-content: center;
@@ -374,6 +377,8 @@ hr {
 
 .comments-writing-section{
 	width:100%;
+	height:100%;
+	padding:5px;
 	display:flex;
 	justify-content: center;
 	align-items: center;
@@ -382,25 +387,32 @@ hr {
 
 #loginid {
 	width:10%;
-	text-align: left;
+	text-align: center;
 	margin-right: 10px;
 }
 
 .reply_input_area {
 	width:70%;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	text-align: center;
+	margin-right: 10px;
 }
 
 .button_area {
 	width:10%;
+	height:100%;
+	display:flex;
+	justify-content:center;
+	align-items:center;
 	text-align: center;
 	margin-left: 10px;
-	margin-bottom:5px;
 }
 
 #reply {
 	width:100%;
-	height: 50px; /* 세로 크기를 높임 */
-	margin-right: 10px;
+	height: 100%; /* 세로 크기를 높임 */
 	border:1px solid gray;
 	border-radius: 0px;
 	font-family: 'Pretendard-Regular';

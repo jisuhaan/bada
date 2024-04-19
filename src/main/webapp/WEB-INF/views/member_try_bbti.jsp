@@ -116,7 +116,8 @@ $(document).ready(function(){
 	
 	$(".bbti_no").click(function(){
 		alert("아쉬워요... 다음엔 해주실거죠?");
-		window.location.href='main';
+		window.opener.location.href='main';
+		window.close();
 	});
 	
 	$(".bbti_choose").click(function(){

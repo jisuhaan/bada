@@ -157,7 +157,7 @@
 	    <c:choose>
 	      <c:when test="${not empty loginid}">
 	          <input type="hidden" id="review_num" name="review_num" value="${dto.review_num}" />
-	          <div id="loginid" class="user-id"> ${loginid} </div>
+	          <div id="loginid" class="user-id2"> ${loginid} </div>
 	          <div class="reply_input_area">
 	          <textarea id="reply" name="reply" placeholder="댓글을 입력하세요"></textarea>
 	          </div>
@@ -256,10 +256,12 @@ $(document).ready(function() {
                         '<button type="button" class="reply_modify" data-reply_num="' + data.reply_num + '">수정</button> ' +
                         '<button type="button" class="reply_delete" data-reply_num="' + data.reply_num + '">삭제</button>' +
                         '</div>';
-                    $('.comments-list').append(new_html);
-                    $('#reply').val(''); 
-                } else {
-                    alert('댓글을 등록하지 못했습니다.');
+	                    $('.comments-list').append(new_html);
+	                    $('#reply').val('');
+	                    window.location.reload();
+	                    
+               		 } else {
+                   		 alert('댓글을 등록하지 못했습니다.');
                 	}
                 },
                 error: function(xhr, status, error) {

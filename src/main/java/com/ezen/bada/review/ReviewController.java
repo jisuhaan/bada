@@ -192,6 +192,11 @@ public class ReviewController {
 		ArrayList<OneDTO> olist = ss.getonesentence(area);
 		mo.addAttribute("olist", olist);
 		
+		//지역별 새글 수
+		ArrayList<CountreviewDTO> clist = ss.getreviewcount();
+		mo.addAttribute("clist", clist);
+		System.out.println("지역별새글 리스트 뽑혀옴? : "+clist);
+		
 		return "bada_review";
 			
 	}

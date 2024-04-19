@@ -67,7 +67,7 @@
               <div class="content-title-url">https://bada_review.com</div>
             </div>
             <div class="box content-box">
-              <div class="box-title">베스트리뷰</div>
+              <div class="box-title">베스트바다</div>
               <div class="news-flex-box">
                 <div class="news-box">
                   <div class="news-row">
@@ -89,13 +89,37 @@
                 </div>
                 <div class="update-box">
                   <div class="menu-row">
-                    <div class="menu-item">다이어리<span class="menu-num">0/25</span></div>
-                    <div class="menu-item">사진첩<span class="menu-num">0/25</span></div>
+                    <div class="menu-item">전국<span class="menu-num">${clist[9].today_review}/${clist[9].all_review}</span>
+                    <c:if test="${clist[9].today_review ne 0}"><img src="./resources/image/new_icon-01.png" width="10px"></c:if>
+                    </div>
+                    <div class="menu-item">강원<span class="menu-num">${clist[0].today_review}/${clist[0].all_review}</span>
+                    <c:if test="${clist[0].today_review ne 0}"><img src="./resources/image/new_icon-01.png" width="10px"></c:if></div>
+                  </div>                
+                  <div class="menu-row">
+                    <div class="menu-item">경기·인천<span class="menu-num">${clist[1].today_review}/${clist[1].all_review}</span>
+                    <c:if test="${clist[1].today_review ne 0}"><img src="./resources/image/new_icon-01.png" width="10px"></c:if></div>
+                    <div class="menu-item">제주<span class="menu-num">${clist[7].today_review}/${clist[7].all_review}</span>
+                    <c:if test="${clist[7].today_review ne 0}"><img src="./resources/image/new_icon-01.png" width="10px"></c:if>
+                    </div>
                   </div>
                   <div class="menu-row">
-                    <div class="menu-item">게시판<span class="menu-num">0/25</span></div>
-                    <div class="menu-item">방명록<span class="menu-num">0/25</span></div>
+                    <div class="menu-item">경상남도<span class="menu-num">${clist[2].today_review}/${clist[2].all_review}</span>
+                    <c:if test="${clist[2].today_review ne 0}"><img src="./resources/image/new_icon-01.png" width="10px"></c:if></div>
+                    <div class="menu-item">경상북도<span class="menu-num">${clist[3].today_review}/${clist[3].all_review}</span>
+                    <c:if test="${clist[3].today_review ne 0}"><img src="./resources/image/new_icon-01.png" width="10px"></c:if></div>
                   </div>
+                  <div class="menu-row">
+                    <div class="menu-item">전라남도<span class="menu-num">${clist[5].today_review}/${clist[5].all_review}</span>
+                    <c:if test="${clist[5].today_review ne 0}"><img src="./resources/image/new_icon-01.png" width="10px"></c:if></div>
+                    <div class="menu-item">전라북도<span class="menu-num">${clist[6].today_review}/${clist[6].all_review}</span>
+                    <c:if test="${clist[6].today_review ne 0}"><img src="./resources/image/new_icon-01.png" width="10px"></c:if></div>
+                  </div>
+                  <div class="menu-row">
+                    <div class="menu-item">부산·울산<span class="menu-num">${clist[4].today_review}/${clist[4].all_review}</span>
+                    <c:if test="${clist[4].today_review ne 0}"><img src="./resources/image/new_icon-01.png" width="10px"></c:if></div>
+                    <div class="menu-item">충청남도<span class="menu-num">${clist[8].today_review}/${clist[8].all_review}</span>
+                    <c:if test="${clist[8].today_review ne 0}"><img src="./resources/image/new_icon-01.png" width="10px"></c:if></div>
+                  </div>                                  
                 </div>
               </div>
               <div class="miniroom">
@@ -103,7 +127,7 @@
                 <div class="miniroom-gif-box">
                   <div class="review_slide">
                   <c:forEach items="${list}" var="aa">
-                  	<div class="review_card">
+                  	<div class="review_card" onclick="window.location.href='review_detail?review_num=${aa.review_num}'">
                   		<c:choose>
                   		<c:when test="${aa.thumbnail eq 'no'}">
                   		<div class="r_thumbnail"><img src="./resources/image/로고 9-2.png"></div>

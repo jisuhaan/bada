@@ -372,8 +372,64 @@ SELECT * FROM (
 ]]>
 </select>
 
+<!-- 리뷰메인페이지에서 한마디를 가져옵니다 -->
 <select id="getonesentence"  resultType="com.ezen.bada.review.OneDTO">
 	select * from bada_one where loc = #{param1} order by one_date desc
+</select>
+
+<!-- 지역별 전체 리뷰수와 오늘 올라온 리뷰수를 가져옵니다 -->
+<select id="getreviewcount" resultType="com.ezen.bada.review.CountreviewDTO">
+SELECT 
+    area,
+    all_review,
+    today_review
+FROM (
+    SELECT 
+        CASE 
+            WHEN i.state IN ('부산', '울산') THEN '부산울산' 
+            WHEN i.state IN ('경기', '인천') THEN '경기인천' 
+            ELSE i.state 
+        END AS area,
+        COUNT(*) AS all_review,
+        SUM(CASE WHEN TRUNC(r.write_day) = TRUNC(SYSDATE) THEN 1 ELSE 0 END) AS today_review
+    FROM 
+        bada_user_review r
+    INNER JOIN 
+        bada_info i ON r.beach_code = i.beach_code
+    GROUP BY 
+        CASE 
+            WHEN i.state IN ('부산', '울산') THEN '부산울산' 
+            WHEN i.state IN ('경기', '인천') THEN '경기인천' 
+            ELSE i.state 
+        END
+    UNION ALL
+    SELECT 
+        '전국' AS area,
+        SUM(all_review) AS all_review,
+        SUM(today_review) AS today_review
+    FROM (
+        SELECT 
+            CASE 
+                WHEN i.state IN ('부산', '울산') THEN '부산울산' 
+                WHEN i.state IN ('경기', '인천') THEN '경기인천' 
+                ELSE i.state 
+            END AS area,
+            COUNT(*) AS all_review,
+            SUM(CASE WHEN TRUNC(r.write_day) = TRUNC(SYSDATE) THEN 1 ELSE 0 END) AS today_review
+        FROM 
+            bada_user_review r
+        INNER JOIN 
+            bada_info i ON r.beach_code = i.beach_code
+        GROUP BY 
+            CASE 
+                WHEN i.state IN ('부산', '울산') THEN '부산울산' 
+                WHEN i.state IN ('경기', '인천') THEN '경기인천' 
+                ELSE i.state 
+            END
+    ) 전국
+) 결과
+ORDER BY CASE WHEN area = '전국' THEN 1 ELSE 0 END, area
+
 </select>
 
 </mapper>

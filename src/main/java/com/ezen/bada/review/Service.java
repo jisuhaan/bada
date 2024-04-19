@@ -153,6 +153,8 @@ public interface Service {
 
 	ArrayList<OneDTO> getonesentence(String area);
 
+	ArrayList<CountreviewDTO> getreviewcount();
+
 }
 
 

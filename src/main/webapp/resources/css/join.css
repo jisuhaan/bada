@@ -204,6 +204,12 @@ select {
 	transition: transform 0.2s;
 }
 
+.btn_2:disabled {
+    /* 비활성화된 버튼의 스타일 */
+    background-color: #A9A9A9; /* Gray */
+    color: #696969;
+}
+		
 .backbtn{
 	background-color: #F5ebed;
 }

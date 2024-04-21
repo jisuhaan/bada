@@ -27,7 +27,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-
+import com.ezen.bada.inquire.InquireDTO;
+import com.ezen.bada.inquire.Inquire_reply_DTO;
 import com.ezen.bada.member.MemberDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -853,13 +854,10 @@ public class ReviewController {
 			int total=ss.ban_review_total();
 
 	        if(nowPage==null && cntPerPage == null) {
-	            
 	       	 nowPage="1";
-	           // 현재 페이지 번호
-	                                                             
+	           // 현재 페이지 번호                                    
 	         cntPerPage="20";
 	          // 한 페이지당 보여줄 게시물 수
-	        
 	        }
 	        else if(nowPage==null) {
 	           nowPage="1";
@@ -1031,7 +1029,11 @@ public class ReviewController {
 			HttpSession hs = request.getSession();
 			response.setContentType("text/html; charset=UTF-8");
 		    
-		    //입력한 한마디를 테이블에 저장
+		    if(content.equals("")||content==null||content.isEmpty()) {content="바라는 바다 짱!><♡";}
+		    
+		    else {System.out.println("하하 집에 가고 싶어");}
+		    
+	    	//입력한 한마디를 테이블에 저장
 			ss.say_one_save(id, name, content, loc);
 			
 			//사전에 나도 한마디를 입력하려는 사용자의 정보를 가져옴
@@ -1044,7 +1046,125 @@ public class ReviewController {
 			mo.addAttribute("list", list);
 		    
 			return "say_one_sentence";
+		    
 		}
+		
+		
+		
+		//관리자 또는 유저가 나도 한마디를 삭제하는 경우
+		  @RequestMapping(value = "one_delete")
+		   public String one_delete(HttpServletRequest request, Model mo, HttpServletResponse response) {
+
+				int one_num = Integer.parseInt(request.getParameter("one_num"));
+				 
+				Service ss = sqlsession.getMapper(Service.class);
+				HttpSession hs = request.getSession();
+				response.setContentType("text/html; charset=UTF-8");
+				 
+				ss.one_delete(one_num);
+				 
+				//사전에 나도 한마디를 입력하려는 사용자의 정보를 가져옴
+				String loginid = (String) hs.getAttribute("loginid");
+				MemberDTO dto = ss.input_info(loginid);
+				mo.addAttribute("dto", dto);
+					
+				//다시 나도 한마디 창에 가져가는 정보(기존 채팅 + 방금 올린 채팅)
+				ArrayList<OneDTO> list=ss.say_one_sentence();
+				mo.addAttribute("list", list);
+			    
+				return "say_one_sentence";
+		   }
+		  
+		  
+		  
+		//나도 한마디 채팅이 신고된 경우
+		  @ResponseBody
+		  @RequestMapping(value = "one_ban")
+		   public String one_ban(HttpServletRequest request, Model mo, HttpServletResponse response) {
+
+				int ban_one_num = Integer.parseInt(request.getParameter("one_num")); //신고당한 채팅 번호
+				String id=request.getParameter("id"); //신고한 사람의 아이디
+				 
+				Service ss = sqlsession.getMapper(Service.class);
+				HttpSession hs = request.getSession();
+				response.setContentType("text/html; charset=UTF-8");
+				
+				int count_same_ban=ss.count_same_ban(ban_one_num, id); //중복 신고 방지를 위해 정보 가져옴
+				
+				if(count_same_ban==0) { //중복신고가 아닌 경우
+				
+				String ban_id=ss.find_ban_user_id(ban_one_num); //신고당한 채팅에서 신고당한 유저의 아이디 가져옴
+				int ban_user_num = ss.ban_user_num(ban_id); //신고당한 유저의 아이디로 신고당한 유저의 회원번호를 가져옴
+				String ban_name=ss.find_ban_user_name(ban_id); //신고당한 유저의 아이디로 신고당한 유저의 닉네임을 가져옴
+				String ban_content=ss.find_ban_content(ban_one_num); //신고당한 채팅 번호로 신고당한 채팅의 내용을 가져옴
+				String name=ss.find_name(id); //신고한 사람의 아이디로 신고한 사람의 닉네임을 가져옴
+				 
+				ss.one_ban_save(id, name, ban_user_num, ban_id, ban_name, ban_content, ban_one_num); //신고 정보를 테이블에 저장함
+				 
+				//사전에 나도 한마디를 입력하려는 사용자의 정보를 가져옴
+				String loginid = (String) hs.getAttribute("loginid");
+				MemberDTO dto = ss.input_info(loginid);
+				mo.addAttribute("dto", dto);
+					
+				//다시 나도 한마디 창에 가져가는 정보(기존 채팅 + 방금 올린 채팅)
+				ArrayList<OneDTO> list=ss.say_one_sentence();
+				mo.addAttribute("list", list);
+			    
+				return "say_one_sentence";}
+				
+				else { //중복신고인 경우
+				    response.setStatus(HttpServletResponse.SC_CONFLICT); // HTTP 상태 코드 409를 설정하여 중복 신고임을 전달
+				    return "duplicate_report"; // 중복 신고를 클라이언트로 전달하고 종료
+				}
+		   }
+		  
+		  
+		  
+		  //나도 한마디 채팅 신고 내역 확인창
+		  @RequestMapping(value = "one_ban_listout")
+		   public String one_ban_listout(HttpServletRequest request, PageDTO dto, Model mo) {
+
+			String nowPage=request.getParameter("nowPage");
+	        String cntPerPage=request.getParameter("cntPerPage");
+			
+			Service ss = sqlsession.getMapper(Service.class);
+			int total=ss.ban_reply_total();
+			
+	        if(nowPage==null && cntPerPage == null) {
+	            
+	       	 nowPage="1";
+	           // 현재 페이지 번호
+	                                                             
+	         cntPerPage="20";
+	          // 한 페이지당 보여줄 게시물 수
+	        
+	        }
+	        else if(nowPage==null) {
+	           nowPage="1";
+	        }
+	        else if(cntPerPage==null) {
+	           cntPerPage="20";
+	        }
+			
+	        dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+	        mo.addAttribute("paging",dto);
+	        mo.addAttribute("list",ss.one_ban(dto));
+		      return "one_ban_listout";
+		   }
+		  
+		  
+		  
+		//관리자 권한에서 신고 내역 삭제
+			@RequestMapping(value="one_ban_delete")
+		    public String one_ban_delete(HttpServletRequest request) {
+				
+				int one_ban_num=Integer.parseInt(request.getParameter("one_ban_num"));
+				
+				Service ss=sqlsession.getMapper(Service.class);
+				ss.one_ban_delete(one_ban_num);
+				
+				return "redirect:/one_ban_listout";
+		    }
 		
 		
 }

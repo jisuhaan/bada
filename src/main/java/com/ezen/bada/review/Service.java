@@ -143,17 +143,53 @@ public interface Service {
 	//나도 한마디 출력
 	ArrayList<OneDTO> say_one_sentence();
 
+	//닉네임 가져오기
 	String getnickname(String loginid);
 
+	//한마디 삭제
+	void one_delete(int one_num);
+	
+	//신고 전 중복 신고를 방지하기 위한 체크
+	int count_same_ban(int ban_one_num, String id);
+
+	//신고를 위해 신고당한 한마디의 번호로부터 신고당한 사람의 아이디를 찾아옴
+	String find_ban_user_id(int ban_one_num);
+
+	//신고를 위해 신고당한 사람의 아이디로부터 신고당한 사람의 유저넘버를 가져옴(나중에 회원정보창으로 넘어가기 위해)
+	int ban_user_num(String ban_user_id);
+	
+	//신고를 위해 신고당한 사람의 아이디로 신고당한 사람의 닉네임을 가져옴
+	String find_ban_user_name(String ban_id);
+	
+	//신고를 위해 신고당한 한마디의 번호로부터 신고당한 한마디의 내용을 가져옴
+	String find_ban_content(int ban_one_num);
+
+	//신고한 사람의 아이디로부터 신고한 사람의 닉네임을 가져옴
+	String find_name(String id);
+
+	//신고 정보를 저장
+	void one_ban_save(String id, String name, int ban_user_num, String ban_id, String ban_name, String ban_content,
+			int ban_one_num);
+
+	//신고 내역을 확인(페이징 처리)
+	ArrayList<One_ban_DTO> one_ban(PageDTO dto);
+
+	//신고내역 삭제
+	void one_ban_delete(int one_ban_num);
+
+  //새 리뷰 6개 불러오기 (순서대로 전체, 지역별(경인,부울), 지역별)
 	ArrayList<AllBoardDTO> picknewrec6();
 
 	ArrayList<AllBoardDTO> picknewrec6in2area(String area1, String area2);
 
 	ArrayList<AllBoardDTO> picknewrecinarea(String area);
-
+  
+  //한마디 리뷰홈에 불러오기
 	ArrayList<OneDTO> getonesentence(String area);
-
+  
+  //각 지역 리뷰 전체갯수/새글수 불러
 	ArrayList<CountreviewDTO> getreviewcount();
+
 
 }
 

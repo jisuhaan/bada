@@ -146,8 +146,58 @@ public class ReviewController {
 	}
 	
 	@RequestMapping(value = "bada_review")
-	public String review3() {
-			
+	public String review3(HttpServletRequest request, Model mo) {
+		
+		String area = request.getParameter("area");
+		mo.addAttribute("area",area);
+		
+		System.out.println("지역뽑혀왔니 : "+area);
+		//아이디,닉네임 넣기
+		HttpSession hs = request.getSession();
+		String id = null;
+		String name = null;
+		Service ss = sqlsession.getMapper(Service.class);
+		
+		if(hs.getAttribute("loginid")!=null) {
+			id = (String) hs.getAttribute("loginid");
+			name = ss.getnickname(id);
+		}
+		else {
+			id = "*badalove123*";
+			name = "*익명*";
+		}
+		
+		mo.addAttribute("id", id);
+		mo.addAttribute("name", name);
+		
+		ArrayList<AllBoardDTO> list = new ArrayList<AllBoardDTO>();
+		
+		//리뷰슬라이드 6개 넣기(최신순)
+		if(area.equals("전국")) {
+			list = ss.picknewrec6();
+		}
+		else if(area.equals("경기인천")||area.equals("부산울산")) {
+			String area1 = area.substring(0,2);
+			String area2 = area.substring(2);
+			list = ss.picknewrec6in2area(area1,area2);
+			System.out.println("area : "+ area1 +" "+area2);
+		}
+		else {
+			list = ss.picknewrecinarea(area);
+			System.out.println("area : "+ area);
+		}
+		
+		mo.addAttribute("list", list);
+		
+		//한마디 가져오기
+		ArrayList<OneDTO> olist = ss.getonesentence(area);
+		mo.addAttribute("olist", olist);
+		
+		//지역별 새글 수
+		ArrayList<CountreviewDTO> clist = ss.getreviewcount();
+		mo.addAttribute("clist", clist);
+		System.out.println("지역별새글 리스트 뽑혀옴? : "+clist);
+		
 		return "bada_review";
 			
 	}

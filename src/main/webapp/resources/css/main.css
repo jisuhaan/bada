@@ -47,30 +47,30 @@
 }
 
 .main_search {
-	min-width:850px;
+	width:60%;
 	height:100px;
 	display:flex;
 	justify-content:center;
+	align-items:center;
+	gap:5px;
 	margin: 0 auto;
 	margin-top:50px;
 	margin-bottom: 50px;
 	width:100%;
 	padding: 10px;
-	font-size: 36px;
-	font-family: 'YEONGJU';
-	color: #1B70A6;
 	text-shadow: -1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white;
 }
 
 .main_search input[type=text] {
-	width: 60%;
-	min-width:300px;
-	max-height:50px;
-	border: 3px solid #1B70A6;
+	width: 50%;
+	height:60px;
+	border: 5px solid #1B70A6;
 	border-radius: 8px;
 	padding: 10px 12px;
-	font-family: 'Pretendard-Regular';
-	font-size: 0.6em; 
+	font-family: 'TTHakgyoansimMonggeulmonggeulR';
+	font-size: 30px;
+	text-align: center;
+	color: #1B70A6;
 }
 
 .main_container {

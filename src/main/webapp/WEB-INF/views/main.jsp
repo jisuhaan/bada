@@ -27,10 +27,8 @@ if(hs.getAttribute("loginstate")==null){
 	</div>
 	<div class="container">
 	<div class="main_search">
-		떠나자, &nbsp;
-		<input type="text" name="area" id="area" placeholder="도·시·군을 뺀 지역명을 입력하세요! ex)강원, 강릉, 부산, 인천...">&nbsp;
-		<a href="#" onclick="search_area();"><i class="fa-solid fa-magnifying-glass fa-beat fa-xl" style="color: #1B70A6;"></i></a>&nbsp;
-		바다로! 
+		<input type="text" name="area" id="area" placeholder="도·시·군을 뺀 지역명 입력 ex)강원, 강릉, 부산..">&nbsp;
+		<a href="#" onclick="search_area();"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #1B70A6;"></i></a>&nbsp;
 	</div>
 	
 	<div class="main_container">

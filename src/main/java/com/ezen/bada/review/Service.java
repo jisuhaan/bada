@@ -143,7 +143,7 @@ public interface Service {
 	//나도 한마디 출력
 	ArrayList<OneDTO> say_one_sentence();
 
-	//
+	//닉네임 가져오기
 	String getnickname(String loginid);
 
 	//한마디 삭제
@@ -176,6 +176,20 @@ public interface Service {
 
 	//신고내역 삭제
 	void one_ban_delete(int one_ban_num);
+
+  //새 리뷰 6개 불러오기 (순서대로 전체, 지역별(경인,부울), 지역별)
+	ArrayList<AllBoardDTO> picknewrec6();
+
+	ArrayList<AllBoardDTO> picknewrec6in2area(String area1, String area2);
+
+	ArrayList<AllBoardDTO> picknewrecinarea(String area);
+  
+  //한마디 리뷰홈에 불러오기
+	ArrayList<OneDTO> getonesentence(String area);
+  
+  //각 지역 리뷰 전체갯수/새글수 불러
+	ArrayList<CountreviewDTO> getreviewcount();
+
 
 }
 

@@ -14,10 +14,25 @@
    <meta charset="UTF-8">
    <title>바라는 바다! :: 회원가입</title>
    <link href="${pageContext.request.contextPath}/resources/css/join.css" rel="stylesheet" type="text/css">
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function () {
-       
+    	var idValid = false; // 아이디 중복 검사 결과를 저장할 변수
+        var emailValid = false; // 이메일 중복 검사 결과를 저장할 변수
+        checkSubmitButton();
+        
+        function checkSubmitButton() {
+            if (idValid && emailValid) { // 아이디와 이메일 중복 검사 모두 성공 시
+                $("#submitBtn").prop("disabled", false); // 제출 버튼 활성화
+            } else {
+                $("#submitBtn").prop("disabled", true); // 제출 버튼 비활성화
+            }
+            console.log('checkSubmitButton 이후 idValid: '+idValid);
+        	console.log('checkSubmitButton 이후 emailValid: '+emailValid);
+        }
+        
+        
         $("#idcheck").click(function () {
             var id = $("#id").val();
             
@@ -36,9 +51,13 @@
                 success: function (result) {
                     if (result == "ok") {
                         alert("사용 가능한 아이디입니다.");
+                        idValid = true; // 아이디 중복 검사 결과를 true로 설정
+                        checkSubmitButton();
                     } 
                     else {
                         alert("중복된 아이디입니다.");
+                        idValid = false; // 아이디 중복 검사 결과를 false로 설정
+                        checkSubmitButton();
                     }
                 },
                 error: function () {
@@ -66,9 +85,13 @@
                 success: function (result) {
                     if (result == "ok") {
                         alert("사용 가능한 이메일입니다.");
+                        emailValid = true; // 이메일 중복 검사 결과를 true로 설정
+                        checkSubmitButton();
                     } 
                     else {
                         alert("이미 가입된 이메일입니다.");
+                        emailValid = false; // 이메일 중복 검사 결과를 false로 설정
+                        checkSubmitButton();
                     }
                 },
                 error: function () {
@@ -76,9 +99,33 @@
                 }
             });
         });
-        
 
+        
+        // 아이디나 이메일 입력창 값 변경 시 중복 검사 결과 초기화
+        $("#id").on("input", function () {
+            idValid = false;
+            checkSubmitButton();
+            console.log('input 변경 시 idValid: '+idValid);
+        });
+        
+        $("#email").on("input", function () {
+            emailValid = false;
+            checkSubmitButton();
+          	console.log('input 변경 시 emailValid: '+emailValid);
+        });
+        
+        
+        // 회원 가입 버튼 클릭 시
           $("#submitBtn").click(function () {
+          	console.log('idValid: '+idValid);
+          	console.log('emailValid: '+emailValid);
+          	
+       	    if (!idValid || !emailValid) {
+       	        alert("아이디와 이메일 중복 검사를 먼저 완료해주세요.");
+       	        return false; // 회원가입 제출 중단
+       	    }
+       	    
+       	    if (idValid && emailValid){
               var id = $("#id").val();
               var pw = $("#pw").val();
               var pw2 = $("#pw2").val();
@@ -136,6 +183,7 @@
       
               // 모든 조건 통과 시 폼 제출
 				document.forms['member_save_form'].submit();
+       	    }
 				
           });
       });

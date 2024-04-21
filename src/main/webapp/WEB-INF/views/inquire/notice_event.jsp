@@ -4,135 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style type="text/css">
-    .notice_logo {
-        text-align: center; /* 로고를 페이지 중앙에 배치 */
-        margin-top: 20px;
-        margin-bottom: 60px;
-    }
-
-    .notice-content {
-    	
-        background-color: white; /* 배경색은 하얀색 */
-        border-radius: 15px; /* 둥근 모서리 */
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 상자 그림자 효과 */
-        margin: 0 auto;
-        font-size: 16px; /* 글자 크기 */
-        width: 1400px;
-        height: 1300px;
-    }
-    
-    .category-box {
-        background-color: transparent; /* 배경색은 투명 */
-        height: 70px; /* 높이 설정 */
-        margin-bottom: 20px; /* 박스 간의 여백 */
-        cursor: pointer; /* 마우스 오버 시 커서 변경 */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 24px; /* 글자 크기 */
-        width: calc(50% - 10px); /* 전체 너비의 절반에서 양쪽 여백을 고려하여 조정 */
-    }
-    
-    .notice_img {
-        border-radius: 15px 15px 0 0; /* 위쪽 끝만 둥글게 */
-        overflow: hidden; /* 이미지가 둥근 테두리를 벗어나지 않도록 처리 */
-        width: 100%; /* 컨테이너의 전체 너비 */
-        height: auto; /* 이미지의 높이를 자동으로 설정 */
-        display: block; /* 블록 레벨 요소로 설정 */
-        margin-bottom: 0; 
-    }    
-
-    .category-box:first-child {
-        margin-right: 20px; /* 첫 번째 박스의 오른쪽 여백 설정 */
-    }
-
-    .flex-container {
-        display: flex;
-        height: 100px;
-        justify-content: space-between; /* 내용 사이의 여백을 동일하게 설정 */3
-        margin-top: 0;
-    }    
-
-    .notice-popup {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-	    min-width: 300px; /* 팝업창의 최소 너비를 고정 */
-	    min-height: 200px; /* 팝업창의 최소 높이를 고정 */
-        background: white;
-        box-shadow: 0 0 10px rgba(0,0,0,0.2);
-        border-radius: 10px;
-        padding: 20px;
-        display: none; /* 초기 상태는 숨김 */
-        z-index: 100; /* 다른 요소 위에 보이도록 z-index 설정 */
-    }
-    .notice-popup input[type="checkbox"] {
-        margin-right: 5px;
-    }
-    
-	.notice-popup .close-popup {
-	    float: right;
-	    font-weight: bold; /* 텍스트를 볼드체로 만듭니다 */
-	    cursor: pointer; /* 클릭 가능하다는 것을 명확하게 합니다 */
-	}
-
-	.notice-popup p {
-	    margin-top: 0; /* 상단 여백 제거 */
-	    font-weight: bold; /* 제목을 더 두껍게 */
-	    border-bottom: 1px solid #ccc; /* 제목 아래에 경계선 추가 */
-	    padding-bottom: 10px; /* 경계선과 내용 사이의 여백 */
-	    margin-bottom: 10px;
-	}
-	
-	.notice-popup .content {
-	    padding: 10px 10px; /* 내용의 상하 여백 */
-	    margin-top: 20px 0;
-	}
-	
-	.notice-popup .actions {
-	    padding: 10px 15px; /* 체크박스와 닫기 버튼 사이의 여백 */
-	    text-align: right; 
-	    margin-bottom: -10px;
-	}
-	
-	.close-popup {
-		font-weight: bold;
-		cursor: pointer;
-		margin-left: 20px;
-	}
-
-	.category-box:first-child {
-	    background-color: #FFD545; /* 공지사항 박스 초기 색상은 노란색 */
-	}
-	
-	.notice-content .grid-container {
-	    display: grid;
-	    grid-template-columns: repeat(3, 1fr); /* 각 열의 너비가 동등하도록 설정 */
-	    padding: 10px;
-	    grid-gap: 10px; /* 그리드 사이의 간격 */
-	}
-	
-	.notice-content .grid-item {
-	    padding: 10px; /* 패딩 값을 줄여 그리드 아이템 사이의 간격 감소 */
-	    text-align: center;
-
-	}
-      
-	.notice-content .grid-item img {
-	    width: 100%; /* 이미지의 너비를 그리드 아이템의 너비에 맞춤 */
-	    height: auto; /* 이미지의 높이를 자동으로 조절하여 비율 유지 */
-	    border-radius: 15px; /* 이미지의 모서리를 둥글게 */
-	    display: block; /* 이미지를 블록 레벨 요소로 설정 */
-	    overflow: hidden; /* 이미지가 모서리를 벗어나지 않도록 처리 */
-	    margin-bottom: 20px;
-	}
-	      
-  .grid-item:hover {
-    transform: scale(1.05); /* 호버 시 약간 확대 */
-  }	
-
-</style>
+<link href="${pageContext.request.contextPath}/resources/css/notice_event.css" rel="stylesheet" type="text/css">
 
 <script type="text/javascript">
 
@@ -253,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	    <div class="grid-container" id="events" style="display: none;">
 	        <!-- 이벤트 데이터 -->
 	        <c:forEach var="event" items="${list2}">
-	            <div class="grid-item" onclick="show_contents('notice?event_num=${event.event_num}')">
+	            <div class="grid-item" onclick="show_contents('event?event_num=${event.event_num}')">
 	                <img src="./resources/image/${event.thumbnail}">
 	                <h3>${event.title}</h3><br>
 	                <h3>${event.start_day} ~ ${event.expire_day}</h3>

@@ -162,6 +162,9 @@ public interface Service {
 
 	// 이벤트
 	ArrayList<Event_DTO> event();
+
+	// 이벤트 포스터 가져오기
+	String event_photo(int event_num);
 	
 
 }

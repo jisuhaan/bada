@@ -39,9 +39,9 @@
                     <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
 
                     <ul class="collapse__menu">
-                        <a href="bada_review" class="collapse__sublink">바다리뷰</a>
+                        <a href="bada_review?area=전국" class="collapse__sublink">바다리뷰</a>
 	                    <a href="review_input" class="collapse__sublink">리뷰작성</a>
-	                    <a href="say_one_sentence"  class="collapse__sublink">바다속외침</a>
+	                    <a href="say_one_sentence"  class="collapse__sublink">바닷속외침</a>
 	                    <c:if test="${position=='admin'}">
                         <a href="review_ban_listout" class="collapse__sublink">게시물/댓글 신고 내역</a>
                         </c:if>       

@@ -1128,7 +1128,7 @@ public class ReviewController {
 	        String cntPerPage=request.getParameter("cntPerPage");
 			
 			Service ss = sqlsession.getMapper(Service.class);
-			int total=ss.ban_reply_total();
+			int total=ss.one_ban_total();
 			
 	        if(nowPage==null && cntPerPage == null) {
 	            

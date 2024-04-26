@@ -86,7 +86,7 @@
 <c:forEach items="${list}" var="l">
 			      <tr>
 			        <td>${l.name}(${fn:substring(l.id, 0, 4)}****) 님</td>
-			      	<td> <a href="member_detail?user_number=${l.ban_user_number}">
+			      	<td> <a href="member_detail?user_number=${l.ban_user_num}">
 			      	${l.ban_name}(${fn:substring(l.ban_id, 0, 4)}****) 님</a></td>
 			      	
 			      	<td>${l.ban_content}</td>
@@ -147,7 +147,7 @@
 	<br> <br> <br> <br> <br>
 	
 	<script type="text/javascript">
-	function confirmDeleteBan(review_reply_ban_num) {
+	function confirmDeleteBan(one_ban_num) {
 	    if(confirm('해당 신고 내역을 정말 삭제하시겠습니까?')) {
 	        location.href = 'one_ban_delete?one_ban_num='+one_ban_num;
 	    }

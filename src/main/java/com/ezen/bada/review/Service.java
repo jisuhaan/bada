@@ -171,11 +171,17 @@ public interface Service {
 	void one_ban_save(String id, String name, int ban_user_num, String ban_id, String ban_name, String ban_content,
 			int ban_one_num);
 
+	//신고 내역 페이징 처리를 위한 레코드 갯수 확인
+	int one_ban_total();
+	
 	//신고 내역을 확인(페이징 처리)
 	ArrayList<One_ban_DTO> one_ban(PageDTO dto);
 
 	//신고내역 삭제
 	void one_ban_delete(int one_ban_num);
+	
+	
+	
 
   //새 리뷰 6개 불러오기 (순서대로 전체, 지역별(경인,부울), 지역별)
 	ArrayList<AllBoardDTO> picknewrec6();
@@ -189,6 +195,7 @@ public interface Service {
   
   //각 지역 리뷰 전체갯수/새글수 불러
 	ArrayList<CountreviewDTO> getreviewcount();
+
 
 
 }

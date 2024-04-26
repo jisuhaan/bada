@@ -188,7 +188,7 @@ body {
 	overflow: auto;
 }
   
-.menu-button button{
+.menubtn{
 	width: 80px;
 	text-align: left;
 	margin-bottom: 0.9rem;
@@ -200,6 +200,11 @@ body {
 	border-radius: 0 5px 5px 0;
 	border: 1px solid grey;
 	cursor: pointer;
+}
+
+.menubtn.clicked {
+  background-color: #6B66FF; /* 클릭한 버튼 색상 */
+  color: white;
 }
 
 .menu-button:first-child{

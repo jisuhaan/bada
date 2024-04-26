@@ -13,6 +13,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="${pageContext.request.contextPath}/resources/css/bada_review.css" rel="stylesheet" type="text/css">
 <title>Insert title here</title>
+
 </head>
 <body>
     <div class="bookcover">
@@ -220,17 +221,17 @@
           
           <div class="menu-container">
             <div class="menu-button">
-              <a href="review_all_page"><button>게시판<br>ver.</button></a>
-              <a href="bada_review?area=전국"><button>전국</button></a>
-              <a href="bada_review?area=강원"><button>강원</button></a>
-              <a href="bada_review?area=경남"><button>경남</button></a>
-              <a href="bada_review?area=경북"><button>경북</button></a>
-              <a href="bada_review?area=경기인천"><button>경기인천</button></a>
-              <a href="bada_review?area=부산울산"><button>부산울산</button></a>
-              <a href="bada_review?area=전남"><button>전남</button></a>
-              <a href="bada_review?area=전북"><button>전북</button></a>
-              <a href="bada_review?area=제주"><button>제주</button></a>
-              <a href="bada_review?area=충남"><button>충남</button></a>
+			    <a href="review_all_page"><button id="btn1" class="menubtn">게시판<br>ver.</button></a>
+			    <a href="bada_review?area=전국"><button id="btn2" class="menubtn" onclick="changeColor(this)">전국</button></a>
+			    <a href="bada_review?area=강원"><button id="btn3" class="menubtn" onclick="changeColor(this)">강원</button></a>
+			    <a href="bada_review?area=경남"><button id="btn4" class="menubtn" onclick="changeColor(this)">경남</button></a>
+			    <a href="bada_review?area=경북"><button id="btn5" class="menubtn" onclick="changeColor(this)">경북</button></a>
+			    <a href="bada_review?area=경기인천"><button id="btn6" class="menubtn" onclick="changeColor(this)">경기인천</button></a>
+			    <a href="bada_review?area=부산울산"><button id="btn7" class="menubtn" onclick="changeColor(this)">부산울산</button></a>
+			    <a href="bada_review?area=전남"><button id="btn8" class="menubtn" onclick="changeColor(this)">전남</button></a>
+			    <a href="bada_review?area=전북"><button id="btn9" class="menubtn" onclick="changeColor(this)">전북</button></a>
+			    <a href="bada_review?area=제주"><button id="btn10" class="menubtn" onclick="changeColor(this)">제주</button></a>
+			    <a href="bada_review?area=충남"><button id="btn11" class="menubtn" onclick="changeColor(this)">충남</button></a>
             </div>
           
           </div>
@@ -267,6 +268,32 @@ $(document).ready(function(){
 	});
 	
 });
+
+//페이지 로드 시 실행되는 함수
+window.onload = function() {
+  // 로컬 스토리지에서 이전에 선택한 버튼 정보 가져오기
+  var selectedButton = localStorage.getItem('selectedButton');
+  if (selectedButton) {
+    // 이전에 선택한 버튼이 있다면 해당 버튼의 스타일을 변경
+    document.getElementById(selectedButton).classList.add('clicked');
+  }
+}
+
+// 클릭한 버튼의 스타일 변경 및 선택 정보 저장
+function changeColor(button) {
+  // 모든 버튼의 클래스 제거
+  var buttons = document.querySelectorAll('.menubtn');
+  buttons.forEach(function(btn) {
+    btn.classList.remove('clicked');
+  });
+  
+  // 클릭된 버튼에 클래스 추가
+  button.classList.add('clicked');
+  
+  // 선택한 버튼의 id를 로컬 스토리지에 저장
+  localStorage.setItem('selectedButton', button.id);
+}
+
 </script>
  
 </body>

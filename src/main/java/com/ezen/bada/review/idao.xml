@@ -492,7 +492,6 @@ ORDER BY CASE WHEN area = '전국' THEN 1 ELSE 0 END, area
 </select>
 
 
-
 <!-- 신고 내역을 삭제 -->
 <delete id="one_ban_delete">
 	delete from bada_one_ban where one_ban_num=#{param1}

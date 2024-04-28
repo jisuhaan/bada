@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+.inquire_container {
+	width:1000px;
+	background-color: white;
+	margin: 0 auto;
+	margin-top: 50px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding:30px;
+	gap:20px;
+}
+
+.listbox {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#pic_pack {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap:5px;
+}
+
+.list_buttons {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap:10px;
+}

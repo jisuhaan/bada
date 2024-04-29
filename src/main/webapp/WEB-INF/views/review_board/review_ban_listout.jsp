@@ -43,9 +43,10 @@
 	        var selected_value = this.value;
 	        if (selected_value === "reply_report") {
 	            window.location.href = "reply_ban_listout";
-	        } else if (selected_value === "post_report") {
-	            window.location.href = "review_ban_listout";
+	        } else if (selected_value === "chat_report") {
+	            window.location.href = "one_ban_listout";
 	        }
+	        else{window.location.href = "review_ban_listout";}
 	    });
 	});
 </script>
@@ -58,6 +59,7 @@
     <select id="report_type">
         <option value="post_report" selected>신고된 게시글</option>
         <option value="reply_report">신고된 댓글</option>
+        <option value="chat_report">신고된 한마디</option>
     </select>
 	</div>
 	
@@ -102,7 +104,7 @@
 		   <td colspan="6" style="text-align: center;">
 		   <c:if test="${paging.startPage!=1 }">
 		   	 <!-- ◀ 을 누르면 이전 페이지(-1 페이지)로 넘어갈 수 있도록  -->
-		      <a href="inquire_ban_listout?nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}">◀</a>
+		      <a href="review_ban_listout?nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}">◀</a>
 		      
 		   </c:if>   
 		   
@@ -114,14 +116,14 @@
 		            </c:when>   
 		            <c:when test="${p != paging.nowPage }">
 		            <!-- 현재 페이지는 아니지만, 화면 내에 표시되어 있는 다른 페이지로 넘어가고 싶은 경우 -->
-		               <a href="inquire_ban_listout?nowPage=${p}&cntPerPage=${paging.cntPerPage}">${p}</a>
+		               <a href="review_ban_listout?nowPage=${p}&cntPerPage=${paging.cntPerPage}">${p}</a>
 		            </c:when>   
 		         </c:choose>
 		      </c:forEach>
 		     
 		      <c:if test="${paging.endPage != paging.lastPage}">
 		      <!-- ▶ 을 누르면 다음 페이지(+1 페이지)로 넘어갈 수 있도록  -->
-		      <a href="inquire_ban_listoutt?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}">▶</a>
+		      <a href="review_ban_listout?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}">▶</a>
 		   </c:if>
 		   
 		   </td>

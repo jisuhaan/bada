@@ -332,6 +332,7 @@ WHERE rnum BETWEEN 1 AND 4
 	values (one_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4})
 </insert>
 
+<!-- 나도 한마디의 내용을 출력함 -->
 <select id="say_one_sentence" resultType="com.ezen.bada.review.OneDTO">
 	select * from bada_one
 	order by one_date  ASC
@@ -431,5 +432,67 @@ FROM (
 ORDER BY CASE WHEN area = '전국' THEN 1 ELSE 0 END, area
 
 </select>
+
+
+<!-- 관리자 권한으로 나도 한마디를 삭제함 -->
+<delete id="one_delete">
+	delete from bada_one where one_num=#{param1}
+</delete>
+
+
+
+<!-- 신고 전 중복 신고 방지를 위한 탐색 -->
+<select id="count_same_ban" resultType="int">
+	select count(*) from bada_one_ban where ban_one_num=#{param1} and id=#{param2}
+</select>
+
+<!-- 신고당한 채팅 정보로 신고당한 사람의 아이디를 가져옴 -->
+<select id="find_ban_user_id" resultType="String">
+	select id from bada_one where one_num=#{param1}
+</select>
+
+<!-- 신고당한 아이디로 신고당한 사람의 회원번호를 가져옴(나중에 회원정보 디테일 페이지로 이동할 예정) -->
+<select id="ban_user_num" resultType="int">
+	select user_number from bada_user where id=#{param1}
+</select>
+
+<!-- 신고당한 아이디로 신고당한 사람의 닉네임을 가져옴 -->
+<select id="find_ban_user_name" resultType="String">
+	select user_number from bada_user where id=#{param1}
+</select>
+
+<!-- 신고를 위해 신고당한 한마디의 번호로부터 신고당한 한마디의 내용을 가져옴 -->
+<select id="find_ban_content" resultType="int">
+	select user_number from bada_user where id=#{param1}
+</select>
+
+<!-- 신고한 사람의 아이디로부터 신고한 사람의 닉네임을 가져옴 -->
+<select id="find_name" resultType="String">
+	select user_number from bada_user where id=#{param1}
+</select>
+
+
+
+<!-- 신고 정보를 저장 -->
+<insert id="one_ban_save">
+	insert into bada_one_ban (one_ban_num, id, name, ban_user_num, ban_id, ban_name, ban_content, ban_one_num) 
+	values (one_ban_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6}, #{param7})
+</insert>
+
+<!-- 신고 정보를 출력 -->
+<select id="one_ban" resultType="com.ezen.bada.review.One_ban_DTO">
+   select * from (
+   select rownum rn, A.* from(  
+   select * from bada_one_ban order by ban_date desc)A)
+   where rn between #{start} AND #{end}
+</select>
+
+
+
+<!-- 신고 내역을 삭제 -->
+<delete id="one_ban_delete">
+	delete from bada_one_ban where one_ban_num=#{param1}
+</delete>
+
 
 </mapper>

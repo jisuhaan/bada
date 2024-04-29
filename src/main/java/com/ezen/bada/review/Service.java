@@ -193,7 +193,7 @@ public interface Service {
   //한마디 리뷰홈에 불러오기
 	ArrayList<OneDTO> getonesentence(String area);
   
-  //각 지역 리뷰 전체갯수/새글수 불러
+  //각 지역 리뷰 전체갯수/새글수 불러오기
 	ArrayList<CountreviewDTO> getreviewcount();
 
 

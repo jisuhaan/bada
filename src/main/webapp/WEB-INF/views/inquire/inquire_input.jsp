@@ -58,18 +58,41 @@
 	
 	<form id="inquireForm" action="inquire_save" method="post" enctype="multipart/form-data">
 	
+	<div class="container">
+	
 	<div class="inquire_container">
+	
+		<div id="inquire_title">문의하기</div>
 
 		<div class="listbox titles">
 			<div id="list_title">제목</div>
 			<div id="list_contents"><input type="text" name="title" id="title" required="required" placeholder="제목을 입력하세요."></div>
 		</div>
-		
-		<div class="listbox writer">
-			<div id="list_title">문의 작성자</div>
-			<div id="list_contents"><input type="text" name="name" id="name" value="${dto.name}" readonly="readonly">
-			<input type="hidden" name="id" id="id" value="${dto.id}"></div>
+		<hr>
+		<div class="listboxout line2">
+			<div class="listbox categories">
+				<div id="list_title">카테고리</div>
+				<select name="category" id="category" required="required">
+				<optgroup label="문의사항">
+				<option value="계정 정보 문의">계정 정보 문의</option>
+				<option value="바다 정보 문의">바다 정보 문의</option>
+				<option value="홈페이지 기능 문의">홈페이지 기능 문의</option>
+				<option value="기타 문의">기타 문의</option>
+				</optgroup>
+				<optgroup label="바다 추천">
+				<option value="새로운 바다 추천">새로운 바다 추천</option>
+				</optgroup>
+				</select>
+			</div>
+			
+			<div class="listbox writer">
+				<div id="list_title">문의 작성자</div>
+				<div id="list_contents"><input type="text" name="name" id="name" value="${dto.name}" readonly="readonly">
+				<input type="hidden" name="id" id="id" value="${dto.id}"></div>
+			</div>
 		</div>
+		
+		<hr>
 		
 		<div class="listbox secret">
 			<div id="list_title">비밀글 여부</div>
@@ -77,42 +100,38 @@
 				<input type="radio" name="secret" value="n" required>공개 문의
 				<input type="radio" name="secret" value="y" required>비밀 문의
 			</div>
-			<br> <h6>'비밀 문의'를 선택하면 답변 확인 시 사용하는 <br>
-			본인확인 용 비밀번호(숫자 4자리)를 입력하는 창이 나타납니다.</h6>
-			<div id="list_contents"><input type="text" name="secret_pw" id="secret_pw" placeholder="문의글 비밀번호를 입력하세요." style="display: none;"></div>
 		</div>   
-		
-		<div class="listbox categories">
-			<div id="list_title">카테고리</div>
-			<select name="category" id="category" required="required">
-			<optgroup label="문의사항">
-			<option value="계정 정보 문의">계정 정보 문의</option>
-			<option value="바다 정보 문의">바다 정보 문의</option>
-			<option value="홈페이지 기능 문의">홈페이지 기능 문의</option>
-			<option value="기타 문의">기타 문의</option>
-			</optgroup>
-			<optgroup label="바다 추천">
-			<option value="새로운 바다 추천">새로운 바다 추천</option>
-			</optgroup>
-			</select>
+		<div id="list_contents"><input type="text" name="secret_pw" id="secret_pw" placeholder="문의글 비밀번호를 입력하세요." style="display: none;"></div>
+		<div class="listbox secret2">
+			<div class="list_infomation">
+			<h6>'비밀 문의'를 선택하면 답변 확인 시 사용하는 <br>
+			본인확인 용 비밀번호(숫자 4자리)를 입력하는 창이 나타납니다.</h6>
+			</div>
 		</div>
+			
+		<hr>
 		
 		<div class="listbox contents">
 			<div id="list_title">문의 내용</div>
 			<textarea cols="50" rows="7" name="content" id="content" placeholder="문의 내용은 1500자 이하로 입력하세요." required></textarea>
-		</div>
+		</div>	
+		
+		<hr>
 		
 		<div class="listbox addphoto">
 			<div id="list_title">사진 첨부(최대 5장)</div>
+			<div class="pic_add">		
 			<input type="file" name="pic1" id="pic1" class="btn">
 			<button type="button" onclick="addPicField()" class="btn"> + </button>
+			</div>
 			<div id="pic_pack"></div>
 		</div>		           
 		       
+	</div>
 		
 		<div class="list_buttons">
-			<input type="submit" value="작성하기" class="btn">
-			<input type="button" value="돌아가기" class="btn" onclick="window.location.href='main'">
+			<input type="submit" value="작성하기" class="btn2">
+			<input type="button" value="돌아가기" class="btn2" onclick="window.location.href='main'">
 		</div>		
 								
 	</div>

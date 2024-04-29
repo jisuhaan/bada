@@ -35,8 +35,8 @@
                 <바라는 바다!> 를 많이<br>
                 사랑해주세요!<br><br>
                 
-                게시판ver. :: 게시판 형태
-                전체보기 :: 지역 상관없이
+                게시판ver. :: 게시판 형태<br>
+                전체보기 :: 지역 상관없이<br>
                 지역선택 :: 해당 지역만
               </div>
               <div class="profile-username font-kyobohand">
@@ -68,24 +68,24 @@
               <div class="content-title-url">https://bada_review.com</div>
             </div>
             <div class="box content-box">
-              <div class="box-title">베스트바다</div>
+              <div class="box-title">바다레코드</div>
               <div class="news-flex-box">
                 <div class="news-box">
                   <div class="news-row">
-                    <div class="news-category category-pic">사진첩</div>
-                    <div class="news-title">일상...♥</div>
+                    <div class="news-category category-pic">리뷰1위</div>
+                    <div class="news-title">나중에1위계산</div>
                   </div>
                   <div class="news-row">
-                    <div class="news-category category-post">게시판</div>
-                    <div class="news-title">웹코딩...♥</div>
+                    <div class="news-category category-post">리뷰2위</div>
+                    <div class="news-title">나중에2위계산</div>
                   </div>
                   <div class="news-row">
-                    <div class="news-category category-post">게시판</div>
-                    <div class="news-title">Memory...♥</div>
+                    <div class="news-category category-pic">리뷰3위</div>
+                    <div class="news-title">나중에3위계산</div>
                   </div>
                   <div class="news-row">
-                    <div class="news-category category-pic">사진첩</div>
-                    <div class="news-title">여행...♥</div>
+      				<div class="news-category category-post">리뷰4위</div>
+                    <div class="news-title">나중에4위계산</div>
                   </div>
                 </div>
                 <div class="update-box">

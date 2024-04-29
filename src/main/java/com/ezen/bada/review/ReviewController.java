@@ -39,7 +39,7 @@ public class ReviewController {
 	@Autowired
 	SqlSession sqlsession;
 	
-	String image_path="C:\\이젠디지탈12\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
+	String image_path="C:\\coding\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
 	
 	@RequestMapping(value = "review_input")
 	public String review1(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
@@ -1128,7 +1128,7 @@ public class ReviewController {
 	        String cntPerPage=request.getParameter("cntPerPage");
 			
 			Service ss = sqlsession.getMapper(Service.class);
-			int total=ss.ban_reply_total();
+			int total=ss.one_ban_total();
 			
 	        if(nowPage==null && cntPerPage == null) {
 	            

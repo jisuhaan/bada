@@ -144,14 +144,14 @@ function confirm_one_Delete(one_num) {
 <form action="say_one_save" method="post">
 
 	<c:choose>
-	<c:when test="${loginstate==true && position=='admin'}">
+	<c:when test="${position=='admin'}">
 	
 	<div class="chat_wrap">
     <div class="inner">
     
     <div class="header">
     <h2>실시간 나도 한마디 채팅창♡</h2>
-    </div><!-- header의 끝 -->
+    </div>
     
     <select name="sort_loc" id="sort_loc">
 		<option value="전국">전국 한마디</option>
@@ -181,7 +181,7 @@ function confirm_one_Delete(one_num) {
                 <span class="icon">
                 <a href="#" onclick="confirm_one_Delete('${l.one_num}')">
 			            <img src="./resources/image/delete_icon.png" width="17px"></a>
-			    </span>
+			    </span> <!-- icon의 끝 -->
 			    
             </div><!-- box 끝 -->
         </div><!-- item 끝 -->
@@ -194,13 +194,13 @@ function confirm_one_Delete(one_num) {
             <div class="box1">
                 <p class="msg">
 					[${l.loc}/관리자]: ${l.content}
-                </p>
+                </p> <!-- msg 끝 -->
                 <span class="time">${fn:substring(l.one_date, 2, 19)}</span>
                 
                 <span class="icon1">
                  <a href="#" onclick="confirm_one_Delete('${l.one_num}')">
 			            <img src="./resources/image/delete_icon.png" width="17px"></a>
-			    </span>
+			    </span> <!-- icon1 끝 -->
 			    
             </div><!-- box 끝 -->
              </div> <!-- item mymsg 끝 -->
@@ -231,13 +231,21 @@ function confirm_one_Delete(one_num) {
     <input type="text" class="mymsg" name="content" placeholder="지금, ${dto.name} 님도 한마디!">
     <input type="submit" class="msgbutton" value="전송">
     
-    </div>
+    </div> <!-- chatwrap 끝 -->
 
 	</c:when>
 	
 	
 	
+	
+	
 	<c:otherwise>
+
+
+<c:choose>
+<c:when test="${loginstate==true}">
+
+
 
     <div class="chat_wrap">
     <div class="inner">
@@ -258,17 +266,15 @@ function confirm_one_Delete(one_num) {
 		<option value="부산울산">부산·울산 한마디</option>
 		<option value="제주">제주 한마디</option>
 	</select>
-    
-    
-    
-	<c:choose>
 	
-	<c:when test="${loginstate==true}">
 	
 	<c:forEach items="${list}" var="l">
     
+    
+    
    <c:choose>
     <c:when test="${dto.id != l.id}">
+    
     
     <c:choose>
     <c:when test="${l.id=='admin'}">
@@ -279,27 +285,28 @@ function confirm_one_Delete(one_num) {
                 	[${l.loc}/관리자]: ${l.content}
                 </p>
                 <span class="time">${fn:substring(l.one_date, 2, 19)}</span> 
-			    
-            </div><!-- box 끝 -->
+            </div><!-- box3 끝 -->
         </div><!-- item 끝 -->
+        
       </c:when>
+      
+      
       <c:otherwise>
         <div class="item">
             <div class="box">
                 <p class="msg">
                 	[${l.loc}/${l.name}]: ${l.content}
                 </p>
-                <span class="time">${fn:substring(l.one_date, 2, 19)}</span> 
-                
+                <span class="time">${fn:substring(l.one_date, 2, 19)}</span> <!-- time 끝 -->
                 <span class="icon">
                 <a href="#" onclick="confirm_one_Ban('${l.one_num}','${dto.id}')">
 			            <img src="./resources/image/report_icon.png" width="15px"></a>
-			    </span>
-			    
+			    </span> <!-- icon 끝 -->
             </div><!-- box 끝 -->
         </div><!-- item 끝 -->
+        
        </c:otherwise>
-       </c:choose> 
+       </c:choose>
         
         
         </c:when>
@@ -310,14 +317,12 @@ function confirm_one_Delete(one_num) {
             <div class="box">
                 <p class="msg">
 					[${l.loc}/나]: ${l.content}
-                </p>
-                <span class="time">${fn:substring(l.one_date, 2, 19)}</span>
-                
+                </p> <!-- msg의 끝 -->
+                <span class="time">${fn:substring(l.one_date, 2, 19)}</span> <!-- time 끝 -->
                 <span class="icon2">
                  <a href="#" onclick="confirm_one_Delete('${l.one_num}')">
 			            <img src="./resources/image/delete_icon.png" width="17px"></a>
-			    </span>
-			    
+			    </span> <!-- icon2 끝 -->
             </div><!-- box 끝 -->
              </div> <!-- item mymsg 끝 -->
             
@@ -346,11 +351,40 @@ function confirm_one_Delete(one_num) {
     <input type="text" class="mymsg" name="content" placeholder="지금, ${dto.name} 님도 한마디!">
     <input type="submit" class="msgbutton" value="전송">
     
+    </div> <!-- chat wrap 끝 -->
+    
      </c:when>
+     
+     
+     
+     
+     
 	
 	<c:otherwise>
 	
+	<div class="chat_wrap">
+    <div class="inner">
+    
+    <div class="header">
+    <h2>실시간 나도 한마디 채팅창♡</h2>
+    </div><!-- header의 끝 -->
+    
+    <select name="sort_loc" id="sort_loc">
+		<option value="전국">전국 한마디</option>
+		<option value="경기인천">경기·인천 한마디</option>
+		<option value="강원">강원 한마디</option>
+		<option value="충남">충남 한마디</option>
+		<option value="경북">경북 한마디</option>
+		<option value="전북">전북 한마디</option>
+		<option value="전남">전남 한마디</option>
+		<option value="경남">경남 한마디</option>
+		<option value="부산울산">부산·울산 한마디</option>
+		<option value="제주">제주 한마디</option>
+	</select>
+	
 	<c:forEach items="${list}" var="l">
+	
+	
 	<c:choose>
     <c:when test="${l.id=='admin'}">
 
@@ -364,22 +398,19 @@ function confirm_one_Delete(one_num) {
             </div><!-- box 끝 -->
         </div><!-- item 끝 -->
       </c:when>
+      
       <c:otherwise>
         <div class="item">
             <div class="box">
                 <p class="msg">
                 	[${l.loc}/${l.name}]: ${l.content}
                 </p>
-                <span class="time">${fn:substring(l.one_date, 2, 19)}</span> 
-                
-                <span class="icon">
-                <a href="#" onclick="confirm_one_Ban('${l.one_num}','${dto.id}')">
-			            <img src="./resources/image/report_icon.png" width="15px"></a>
-			    </span>
+                <span class="time">${fn:substring(l.one_date, 2, 19)}</span>
 			    
             </div><!-- box 끝 -->
         </div><!-- item 끝 -->
        </c:otherwise>
+       
        </c:choose> 
        
        </c:forEach>
@@ -390,12 +421,12 @@ function confirm_one_Delete(one_num) {
 	<div class="loginplz">
 	<h3><a href="login">로그인</a> 한 회원은 '나도 한마디'에 참여할 수 있어요.</h3>
 	</div>
+	</div>
 	
 	</c:otherwise>
 	
 	</c:choose>
  
- </div> <!-- chat_wrap 끝 -->
  
  </c:otherwise>
  

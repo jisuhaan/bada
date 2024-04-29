@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta charset="UTF-8">
 	<title>바라는 바다! :: 문의 작성</title>
-    
+    <link href="${pageContext.request.contextPath}/resources/css/inquire_input.css" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -57,74 +57,92 @@
 	<c:when test="${loginstate==true}">
 	
 	<form id="inquireForm" action="inquire_save" method="post" enctype="multipart/form-data">
-		<table align="center">
+	
+	<div class="container">
+	
+	<div class="inquire_container">
+	
+		<div id="inquire_title">문의하기</div>
+
+		<div class="listbox titles">
+			<div id="list_title">제목</div>
+			<div id="list_contents"><input type="text" name="title" id="title" required="required" placeholder="제목을 입력하세요."></div>
+		</div>
+		<hr>
+		<div class="listboxout line2">
+			<div class="listbox categories">
+				<div id="list_title">카테고리</div>
+				<select name="category" id="category" required="required">
+				<optgroup label="문의사항">
+				<option value="계정 정보 문의">계정 정보 문의</option>
+				<option value="바다 정보 문의">바다 정보 문의</option>
+				<option value="홈페이지 기능 문의">홈페이지 기능 문의</option>
+				<option value="기타 문의">기타 문의</option>
+				</optgroup>
+				<optgroup label="바다 추천">
+				<option value="새로운 바다 추천">새로운 바다 추천</option>
+				</optgroup>
+				</select>
+			</div>
+			
+			<div class="listbox writer">
+				<div id="list_title">문의 작성자</div>
+				<div id="list_contents"><input type="text" name="name" id="name" value="${dto.name}" readonly="readonly">
+				<input type="hidden" name="id" id="id" value="${dto.id}"></div>
+			</div>
+		</div>
 		
-		<caption>문의 작성창</caption>
+		<hr>
 		
-			<tr>
-				<th>제목 &nbsp;&nbsp;</th>
-				<td><input type="text" name="title" id="title" required="required" placeholder="제목을 입력하세요."></td>
-			</tr>
-			<tr>
-				<th>문의 작성자</th>
-				<td>
-					<input type="text" name="name" id="name" value="${dto.name}" readonly="readonly">
-					<input type="hidden" name="id" id="id" value="${dto.id}">
-				</td>
-			</tr>
-			<tr>
-			    <th>비밀글 여부</th>
-			    <td>
-			        <input type="radio" name="secret" value="n" required>공개 문의
-			        <input type="radio" name="secret" value="y" required>비밀 문의
-			        <br> <h6>'비밀 문의'를 선택하면 답변 확인 시 사용하는 <br>
-			        본인확인 용 비밀번호(숫자 4자리)를 입력하는 창이 나타납니다.</h6>
-			        <input type="text" name="secret_pw" id="secret_pw" placeholder="문의글 비밀번호를 입력하세요." style="display: none;">
-			    </td>
-			</tr>
-			<tr>
-				<th>카테고리</th>
-				<td>
-					<select name="category" id="category" required="required">
-						<optgroup label="문의사항">
-							<option value="계정 정보 문의">계정 정보 문의</option>
-							<option value="바다 정보 문의">바다 정보 문의</option>
-							<option value="홈페이지 기능 문의">홈페이지 기능 문의</option>
-							<option value="기타 문의">기타 문의</option>
-						</optgroup>
-						<optgroup label="바다 추천">
-							<option value="새로운 바다 추천">새로운 바다 추천</option>
-						</optgroup>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<th>문의 내용</th>
-				<td>
-					<textarea cols="50" rows="7" name="content" id="content" placeholder="문의 내용은 1500자 이하로 입력하세요." required></textarea>
-				</td>
-			</tr>
-			<tr>
-                <th>사진 첨부(최대 5장)</th>
-                <td id="pic_pack">
-                    <input type="file" name="pic1" id="pic1">
-                    <button type="button" onclick="addPicField()"> + </button>
-                </td>
-            </tr>
-			<tr>
-				<td colspan="2" align="center">
-					<input type="submit" value="전송">
-					<a href="main">
-						<input type="button" value="입력 취소">
-					</a>
-				</td>
-			</tr>
-		</table>
+		<div class="listbox secret">
+			<div id="list_title">비밀글 여부</div>
+			<div id="list_select">
+				<input type="radio" name="secret" value="n" required>공개 문의
+				<input type="radio" name="secret" value="y" required>비밀 문의
+			</div>
+		</div>   
+		<div id="list_contents"><input type="text" name="secret_pw" id="secret_pw" placeholder="문의글 비밀번호를 입력하세요." style="display: none;"></div>
+		<div class="listbox secret2">
+			<div class="list_infomation">
+			<h6>'비밀 문의'를 선택하면 답변 확인 시 사용하는 <br>
+			본인확인 용 비밀번호(숫자 4자리)를 입력하는 창이 나타납니다.</h6>
+			</div>
+		</div>
+			
+		<hr>
+		
+		<div class="listbox contents">
+			<div id="list_title">문의 내용</div>
+			<textarea cols="50" rows="7" name="content" id="content" placeholder="문의 내용은 1500자 이하로 입력하세요." required></textarea>
+		</div>	
+		
+		<hr>
+		
+		<div class="listbox addphoto">
+			<div id="list_title">사진 첨부(최대 5장)</div>
+			<div class="pic_add">		
+			<input type="file" name="pic1" id="pic1" class="btn">
+			<button type="button" onclick="addPicField()" class="btn"> + </button>
+			</div>
+			<div id="pic_pack"></div>
+		</div>		           
+		       
+	</div>
+		
+		<div class="list_buttons">
+			<input type="submit" value="작성하기" class="btn">
+			<input type="button" value="돌아가기" class="btn" onclick="window.location.href='main'">
+		</div>		
+								
+	</div>
+	
 	</form>
 	
 	<script>
 	    var PicCount = 1;
+	    
 	    function addPicField() {
+	    	
 	        // 이미 추가된 사진 입력 필드의 수를 세서 5개 이상이면 추가하지 않음(사진 5장까지만 첨부 가능)
 	        if (PicCount >= 5) {
 	            alert("사진은 최대 5장까지만 첨부할 수 있습니다.");
@@ -134,11 +152,17 @@
 	        PicCount++;
 	
 	        // 버튼을 누르면 새로운 사진 input창 생성
-	        var newField = document.createElement('div');
-	        newField.innerHTML = '<input type="file" name="pic' + PicCount + '" id="pic' + PicCount + '">';
-	
-	        // 위에서 추가한 것을 보이도록 해서 pic_pack에 추가시키기
-	        document.getElementById('pic_pack').appendChild(newField);
+	        var newDiv = document.createElement("div");
+	        var newField = document.createElement("input");
+	        newField.type = "file";
+	        newField.name = "pic" + PicCount;
+	        newField.id = "pic" + PicCount;
+	        newField.className = "btn";
+
+	        // 새로운 파일 입력 필드를 pic_pack div에 추가
+	        newDiv.appendChild(newField);
+	        document.getElementById("pic_pack").appendChild(newDiv);
+	        
 	    }
 	</script>
 	

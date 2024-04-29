@@ -462,16 +462,14 @@ ORDER BY CASE WHEN area = '전국' THEN 1 ELSE 0 END, area
 </select>
 
 <!-- 신고를 위해 신고당한 한마디의 번호로부터 신고당한 한마디의 내용을 가져옴 -->
-<select id="find_ban_content" resultType="int">
-	select user_number from bada_user where id=#{param1}
+<select id="find_ban_content" resultType="String">
+	select content from bada_one where one_num=#{param1}
 </select>
 
 <!-- 신고한 사람의 아이디로부터 신고한 사람의 닉네임을 가져옴 -->
 <select id="find_name" resultType="String">
-	select user_number from bada_user where id=#{param1}
+	select name from bada_user where id=#{param1}
 </select>
-
-
 
 <!-- 신고 정보를 저장 -->
 <insert id="one_ban_save">
@@ -479,6 +477,12 @@ ORDER BY CASE WHEN area = '전국' THEN 1 ELSE 0 END, area
 	values (one_ban_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6}, #{param7})
 </insert>
 
+
+
+<!-- 신고 정보 페이징 처리를 위한 전체 레코드수 -->
+<select id="one_ban_total" resultType="int">
+   select count(*)from bada_one_ban
+</select>
 <!-- 신고 정보를 출력 -->
 <select id="one_ban" resultType="com.ezen.bada.review.One_ban_DTO">
    select * from (
@@ -486,7 +490,6 @@ ORDER BY CASE WHEN area = '전국' THEN 1 ELSE 0 END, area
    select * from bada_one_ban order by ban_date desc)A)
    where rn between #{start} AND #{end}
 </select>
-
 
 
 <!-- 신고 내역을 삭제 -->

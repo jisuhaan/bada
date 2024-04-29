@@ -1,0 +1,172 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'YEONGJU';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2403@1.0/YEONGJUSeonbiTTF.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ownglyph_meetme-Rg';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/Ownglyph_meetme-Rg.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DOSGothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/DOSGothic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.container{
+	width:800px;
+	background-color: white;
+	border: 1px solid gray;
+	box-shadow: 2px 2px 2px gray;
+	margin: 0 auto;
+	margin-top: 50px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding:20px;
+	gap:10px;
+}
+
+.inquire_container {
+	width:100%;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	padding:10px;
+	gap:20px;
+}
+
+#inquire_title {
+	font-family:'Ownglyph_meetme-Rg';
+	font-size:40px;
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+#list_title{
+	font-family: 'DOSGothic';
+	font-size: 20px;
+	text-align: center;
+	font-weight: 600;
+}
+
+.listboxout {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap:10px;
+}
+
+.listbox {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding:10px;
+	gap:10px;
+}
+
+hr {
+	width:100%;
+	color:gray;
+	line-height: 4px;
+	opacity: 0.7;
+}
+
+#title {
+	width:400px;
+	height:40px;
+	padding:10px;
+	border: 1px solid gray;
+	font-family: 'Pretendard-Regular';
+	font-size:16px;
+	text-align: center;
+}
+
+#category {
+	width:180px;
+	height:40px;
+	padding:10px;
+	border: 1px solid gray;
+	font-family: 'Pretendard-Regular';
+	font-size:16px;
+}
+
+#name {
+	width:220px;
+	height:40px;
+	padding:10px;
+	border: 1px solid gray;
+	font-family: 'Pretendard-Regular';
+	font-size:16px;
+	text-align: center;
+}
+
+#secret_pw {
+	width:150px;
+	height:40px;
+	padding:10px;
+	border: 1px solid gray;
+	font-family: 'Pretendard-Regular';
+	font-size:16px;
+	text-align: center;
+}
+
+#content {
+	width:500px;
+	height:300px;
+	border: 1px solid gray;
+	font-family: 'Pretendard-Regular';
+	font-size:14px;
+	padding:10px;
+	resize: none;
+}
+
+.list_infomation{
+	text-align: center;
+}
+
+.addphoto {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;	
+}
+
+.pic_add {
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#pic_pack {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap:5px;
+}
+
+.list_buttons {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap:10px;
+}

@@ -195,7 +195,7 @@
 <body>
 
 <c:choose>
-<c:when test="${loginstate==false}">
+<c:when test="${loginstate==false || position=='admin'}">
 
 <div class="join_logo">
 <img src="./resources/image/로고 9-1.png" width="200px" >

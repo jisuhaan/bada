@@ -28,7 +28,7 @@
 	
 	<div class="listboxout">
 		<div class="listbox replies"> 
-			<div id="replystate">${dto.reply == 0 ? '답변미등록' : '답변완료'}</div>
+			<div id="replystate">${dto.reply == 0 ? '답변없음' : '답변완료'}</div>
 			<c:if test="${dto.reply == 1}">
 			<style>
 				.replies {

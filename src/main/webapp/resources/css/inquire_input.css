@@ -30,7 +30,7 @@
 
 .container{
 	width:800px;
-	background-color: rgba(255,255,255,0.8);
+	background-color: rgba(255,255,255,0.9);
 	border: 1px solid gray;
 	box-shadow: 2px 2px 2px gray;
 	margin: 0 auto;
@@ -55,10 +55,11 @@
 }
 
 #inquire_title {
-	font-family:'Ownglyph_meetme-Rg';
+	font-family: 'DOSGothic';
 	font-size:40px;
 	text-align: center;
 	margin-bottom: 30px;
+	font-weight: 600;
 }
 
 #list_title{
@@ -129,6 +130,10 @@ hr {
 	text-align: center;
 }
 
+.contents {
+	gap:20px;
+}
+
 #content {
 	width:500px;
 	height:300px;
@@ -169,4 +174,21 @@ hr {
 	justify-content: center;
 	align-items: center;
 	gap:10px;
+}
+
+
+/* 일대일 문의창 css */
+
+.emails {
+	gap:20px;
+}
+
+#email {
+	width:220px;
+	height:40px;
+	padding:10px;
+	border: 1px solid gray;
+	font-family: 'Pretendard-Regular';
+	font-size:16px;
+	text-align: center;
 }

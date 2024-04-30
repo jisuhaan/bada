@@ -1,0 +1,410 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'YEONGJU';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2403@1.0/YEONGJUSeonbiTTF.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ownglyph_meetme-Rg';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/Ownglyph_meetme-Rg.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DOSGothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/DOSGothic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.container {
+	width:900px;
+	display:flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap:30px;
+	margin: 0 auto;
+	margin-top: 50px;
+	margin-bottom: 100px;
+}
+
+.inquire_container {
+	width:100%;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(255,255,255,0.8);
+	border: 1px solid gray;
+	box-shadow: 2px 2px 2px gray;
+	padding:30px;
+	gap:20px;
+}
+
+.listbox {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding:10px;
+	gap:10px;
+	border: 1px solid gray;
+}
+
+.listboxout {
+	width:100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap:400px;
+	margin-bottom: 50px;
+}
+
+.titles {
+	width:100%;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.title_table {
+	margin:0 auto;
+	padding:0;
+	width:100%;
+	border: 1px solid gray;
+	border-spacing: 0;
+}
+
+.title_table tbody,
+.title_table tr{
+	padding:0;
+	height:50px;
+}
+
+.title_table th {
+	border: 1px solid gray;
+	background-color: darkgray;
+}
+
+.title_table td {
+	border: 1px solid gray;
+	padding:10px;
+	text-align: center;
+}
+
+.replies {
+	width:15%;
+	height:50px;
+	border: none;
+	background-color: #e8584a;
+	border-radius: 10px;
+	box-shadow: 2px 2px 2px gray;
+}
+
+#replystate {
+	font-family: 'DOSGothic';
+	font-size: 18px;
+	font-weight: 600;
+	letter-spacing: 0.5px;
+	word-spacing: 2px;
+	
+}
+
+.writers {
+	width:50%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: flex-end;
+	text-align: right;
+	border:none;
+}
+
+#writeday,
+.writer_name {
+	text-align: right;
+	font-family: 'DOSGothic';
+	font-size: 18px;
+}
+
+.writer_name {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap:10px;
+}
+
+
+/* 이미지 슬라이드 관련 css */
+
+.inquire-images {
+	width:600px;
+	height:300px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 50px;
+}
+  
+.inquire-images div img {
+  	width:600px;
+	height:300px;
+  	object-fit: cover;	
+}
+
+.slick-arrow {
+	display:flex;
+	justify-content: space-around;
+	width: 30px;
+	height: 30px;
+	border: 1px solid gray;
+	border-radius: 50%;
+	background-color: rgba(241,241,241,0.5);
+	font-size: 0;
+}
+
+.slick-next {
+	position: absolute;
+	top:150px;
+	left:560px;
+	z-index: 1;
+}
+
+.slick-prev {
+	position: absolute;
+	top:150px;
+	left:10px;
+	z-index: 1;
+}
+
+.slick-dots {
+	position: absolute;
+	top:250px;
+	left:50%;
+	display:flex;
+	flex-direction: row;
+	list-style: none;	
+}
+
+.slick-dots li {
+	margin-right:10px;
+}
+
+.slick-dots li,
+.slick-dots li button:hover{
+	cursor: pointer;
+}
+
+.slick-dots li button{
+	font-size: 0;
+	width:8px;
+	height:8px;
+	border-radius: 50%;
+	background-color: rgba(241,241,241,0.5);
+	border: 0px;
+}
+
+.slick-dots > .slick-active > button{
+	background-color: rgba(27,112,166,0.5);
+}
+
+
+/* 본문 영역 */
+
+.content_title{
+	width:100%;
+	text-align: center;
+	font-family: 'DOSGothic';
+	font-size: 24px;
+	font-weight: 600;
+}
+
+.content {
+	width:750px;
+	padding:30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 50px;
+}
+
+.list_contents {
+	width:100%;
+	display:flex;
+	align-items:center;
+	margin:0 auto;
+	font-family:Pretendard-Regular';
+	font-size: 12px;
+	word-wrap: break-word; /* 글자 단위로 줄 바꿈 설정 */
+	text-align: left;
+	padding-left:30px;
+	padding-right:30px;
+	line-height:1.4;
+}
+
+.list_contents::after {
+    display: inline-block; /* 인라인 블록 요소로 설정 */
+    width: 100%; /* 너비를 100%로 설정하여 컨테이너 가로폭에 맞춤 */
+    text-align: left; 
+}
+
+
+/* 버튼 영역 */
+
+.inquire_btns{
+	width:100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.action_btns {
+	width:50%;
+	display: flex;
+	flex-direction:row;
+	align-items: center;
+	justify-content: flex-start;
+	gap:20px;
+}
+
+.rechit_btns {
+	width:50%;
+	display: flex;
+	flex-direction:row;
+	align-items: center;
+	justify-content: flex-end;
+	gap:20px;
+}
+
+.update_btn,
+.delete_btn,
+.list_btn,
+.rec_btn,
+.hit_btn,
+.rep_btn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+/* 코멘트 영역 */
+
+.comments_container{
+	width:100%;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(255,255,255,0.8);
+	border: 1px solid gray;
+	box-shadow: 2px 2px 2px gray;
+	padding:20px;
+	gap:20px;
+	border: 1px solid gray;
+	padding:20px;
+}
+
+.comments_list{
+	width:100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	text-align:left;
+	align-items: center;
+	gap:10px;
+}
+
+.admin_reply_list {
+	width:100%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap:10px;
+}
+
+.reply_lists {
+	width:100%;
+	display: flex;
+	align-items: center;
+	margin:0 auto;
+	font-family:Pretendard-Regular';
+	font-size: 12px;
+	word-wrap: break-word; /* 글자 단위로 줄 바꿈 설정 */
+	text-align: left;
+	line-height:1.4;	
+}
+
+#admin_name {
+	font-family: 'DOSGothic';
+	font-size: 18px;
+	font-weight: 600;
+}
+
+#admin_date {
+	font-family: 'DOSGothic';
+	font-size: 16px;
+	color: darkgray;
+	font-weight: 600;
+}
+
+.reply_btns{
+	width:100%;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	gap:15px;
+}
+
+form {
+	width:100%;
+}
+
+.comment_area {
+	width:100%;
+	display: flex;
+	flex-direction:row;
+	justify-content: center;
+	align-items: center;
+	gap:20px;
+}
+
+.reply_input_area{
+	width:90%;
+}
+
+#content {
+	width:100%;
+	height:100px;
+	border: 1px solid gray;
+	font-family: 'Pretendard-Regular';
+	font-size:14px;
+	padding:10px;
+	resize: none;
+}
+
+.button_area {
+	width:10%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+input[type=submit]{
+	width:80%;
+	height:60px;
+	text-align: center;
+}

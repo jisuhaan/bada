@@ -130,8 +130,8 @@
 	</div>
 		
 		<div class="list_buttons">
-			<input type="submit" value="작성하기" class="btn">
-			<input type="button" value="돌아가기" class="btn" onclick="window.location.href='main'">
+			<input type="submit" value="작성하기" class="btn2">
+			<input type="button" value="돌아가기" class="btn2" onclick="window.location.href='main'">
 		</div>		
 								
 	</div>

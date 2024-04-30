@@ -192,7 +192,7 @@ ${l.content}
 			    
             
 <div class="reply_input_area">
-<textarea name="reply" id="reply" placeholder="문의에 대한 답은 1500자 이하로 입력하세요." required></textarea>
+<textarea name="content" id="content" placeholder="문의에 대한 답은 1500자 이하로 입력하세요." required></textarea>
 </div>
 <div class="button_area">
 <input type="hidden" name="inquire_num" value="${dto.inquire_num}">

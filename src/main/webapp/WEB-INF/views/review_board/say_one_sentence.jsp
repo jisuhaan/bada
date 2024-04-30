@@ -135,6 +135,30 @@ function confirm_one_Delete(one_num) {
 }
 </script>
 
+<script type="text/javascript">
+$(document).ready(function() {
+    // 채팅창이 로드될 때마다 스크롤을 가장 아래로 이동합니다.
+    $('.inner').scrollTop($('.inner')[0].scrollHeight);
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    // 새로운 채팅이 추가될 때마다 스크롤을 가장 아래로 이동합니다.
+    function scrollToBottom() {
+        $('.inner').scrollTop($('.inner')[0].scrollHeight);
+    }
+
+    // 페이지가 로드될 때 스크롤을 가장 아래로 이동합니다.
+    scrollToBottom();
+
+    // 메시지를 전송한 후에도 스크롤을 가장 아래로 이동합니다.
+    $('form').submit(function() {
+        scrollToBottom();
+    });
+});
+</script>
+
     
 </head>
 <body>

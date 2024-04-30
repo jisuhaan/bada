@@ -157,16 +157,18 @@ hr {
 }
 
 .slick-dots {
+	width:100%;
 	position: absolute;
-	top:350px;
-	left:280px;
+	bottom:10px;
 	display:flex;
 	flex-direction: row;
-	list-style: none;	
+	list-style: none;
+	justify-content: center;
+	gap:5px;
 }
 
 .slick-dots li {
-	margin-right:10px;
+	display: inline-block; /* 각 dots li를 인라인 블록 요소로 설정하여 가로로 배열되도록 합니다. */
 }
 
 .slick-dots li,

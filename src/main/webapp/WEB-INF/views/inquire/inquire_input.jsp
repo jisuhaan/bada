@@ -119,8 +119,8 @@
 		<hr>
 		
 		<div class="listbox addphoto">
-			<div id="list_title">사진 첨부(최대 5장)</div>
-			<div class="pic_add">		
+			<div class="pic_add">
+			<div id="list_title">사진 첨부(최대 5장)</div>		
 			<input type="file" name="pic1" id="pic1" class="btn">
 			<button type="button" onclick="addPicField()" class="btn"> + </button>
 			</div>

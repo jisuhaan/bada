@@ -35,9 +35,9 @@
 	justify-content: center;
 	align-items: center;
 	gap:30px;
-	padding:20px;
 	margin: 0 auto;
 	margin-top: 50px;
+	margin-bottom: 100px;
 }
 
 .inquire_container {
@@ -50,7 +50,7 @@
 	background-color: rgba(255,255,255,0.8);
 	border: 1px solid gray;
 	box-shadow: 2px 2px 2px gray;
-	padding:20px;
+	padding:30px;
 	gap:20px;
 }
 
@@ -64,10 +64,12 @@
 }
 
 .listboxout {
+	width:100%;
 	display: flex;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
-	gap:10px;
+	gap:400px;
+	margin-bottom: 50px;
 }
 
 .titles {
@@ -100,6 +102,48 @@
 	border: 1px solid gray;
 	padding:10px;
 	text-align: center;
+}
+
+.replies {
+	width:15%;
+	height:50px;
+	border: none;
+	background-color: #e8584a;
+	border-radius: 10px;
+	box-shadow: 2px 2px 2px gray;
+}
+
+#replystate {
+	font-family: 'DOSGothic';
+	font-size: 18px;
+	font-weight: 600;
+	letter-spacing: 0.5px;
+	word-spacing: 2px;
+	
+}
+
+.writers {
+	width:50%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: flex-end;
+	text-align: right;
+	border:none;
+}
+
+#writeday,
+.writer_name {
+	text-align: right;
+	font-family: 'DOSGothic';
+	font-size: 18px;
+}
+
+.writer_name {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap:10px;
 }
 
 
@@ -148,7 +192,7 @@
 .slick-dots {
 	position: absolute;
 	top:250px;
-	left:250px;
+	left:50%;
 	display:flex;
 	flex-direction: row;
 	list-style: none;	
@@ -177,6 +221,85 @@
 }
 
 
+/* 본문 영역 */
+
+.content_title{
+	width:100%;
+	text-align: center;
+	font-family: 'DOSGothic';
+	font-size: 24px;
+	font-weight: 600;
+}
+
+.content {
+	width:750px;
+	padding:30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 50px;
+}
+
+.list_contents {
+	width:100%;
+	display:flex;
+	align-items:center;
+	margin:0 auto;
+	font-family:Pretendard-Regular';
+	font-size: 12px;
+	word-wrap: break-word; /* 글자 단위로 줄 바꿈 설정 */
+	text-align: left;
+	padding-left:30px;
+	padding-right:30px;
+	line-height:1.4;
+}
+
+.list_contents::after {
+    display: inline-block; /* 인라인 블록 요소로 설정 */
+    width: 100%; /* 너비를 100%로 설정하여 컨테이너 가로폭에 맞춤 */
+    text-align: left; 
+}
+
+
+/* 버튼 영역 */
+
+.inquire_btns{
+	width:100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.action_btns {
+	width:50%;
+	display: flex;
+	flex-direction:row;
+	align-items: center;
+	justify-content: flex-start;
+	gap:20px;
+}
+
+.rechit_btns {
+	width:50%;
+	display: flex;
+	flex-direction:row;
+	align-items: center;
+	justify-content: flex-end;
+	gap:20px;
+}
+
+.update_btn,
+.delete_btn,
+.list_btn,
+.rec_btn,
+.hit_btn,
+.rep_btn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
 /* 코멘트 영역 */
 
 .comments_container{
@@ -191,4 +314,97 @@
 	box-shadow: 2px 2px 2px gray;
 	padding:20px;
 	gap:20px;
+	border: 1px solid gray;
+	padding:20px;
+}
+
+.comments_list{
+	width:100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	text-align:left;
+	align-items: center;
+	gap:10px;
+}
+
+.admin_reply_list {
+	width:100%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap:10px;
+}
+
+.reply_lists {
+	width:100%;
+	display: flex;
+	align-items: center;
+	margin:0 auto;
+	font-family:Pretendard-Regular';
+	font-size: 12px;
+	word-wrap: break-word; /* 글자 단위로 줄 바꿈 설정 */
+	text-align: left;
+	line-height:1.4;	
+}
+
+#admin_name {
+	font-family: 'DOSGothic';
+	font-size: 18px;
+	font-weight: 600;
+}
+
+#admin_date {
+	font-family: 'DOSGothic';
+	font-size: 16px;
+	color: darkgray;
+	font-weight: 600;
+}
+
+.reply_btns{
+	width:100%;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	gap:15px;
+}
+
+form {
+	width:100%;
+}
+
+.comment_area {
+	width:100%;
+	display: flex;
+	flex-direction:row;
+	justify-content: center;
+	align-items: center;
+	gap:20px;
+}
+
+.reply_input_area{
+	width:90%;
+}
+
+#content {
+	width:100%;
+	height:100px;
+	border: 1px solid gray;
+	font-family: 'Pretendard-Regular';
+	font-size:14px;
+	padding:10px;
+	resize: none;
+}
+
+.button_area {
+	width:10%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+input[type=submit]{
+	width:80%;
+	height:60px;
+	text-align: center;
 }

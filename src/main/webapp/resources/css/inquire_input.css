@@ -55,10 +55,11 @@
 }
 
 #inquire_title {
-	font-family:'Ownglyph_meetme-Rg';
+	font-family: 'DOSGothic';
 	font-size:40px;
 	text-align: center;
 	margin-bottom: 30px;
+	font-weight: 600;
 }
 
 #list_title{

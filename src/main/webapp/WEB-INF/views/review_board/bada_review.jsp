@@ -49,7 +49,7 @@
                 </div>
                 <div class="dropdown-content">
                 <c:choose>
-                <c:when test="${id ne 'badalove123'}">
+                <c:when test="${id ne '*badalove123*'}">
                 	<a href="#">--------</a>
               	    <a href="my_post?loginid=${id}">마이 페이지</a>
               	    <a href="#">--------</a>
@@ -202,6 +202,7 @@
               			</div>
               		</div>
               		<div class="show_sentence">
+              			<div class="sentences">
               			<c:forEach items="${olist}" var="bb">
               			<div class="sentence">
 				            <div class="o_user">
@@ -213,6 +214,7 @@
 	                  		</div>
                   		</div>
               			</c:forEach>
+           				</div>
               		</div>
               	</div>
               </div>

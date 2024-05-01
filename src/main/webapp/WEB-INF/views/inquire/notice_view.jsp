@@ -58,7 +58,7 @@
                 </tr>
             </thead>
             <tbody>
-                <c:if test="${notice_num == 3}">
+                <c:if test="${notice_num == 1}">
                     <!-- 1번 공지사항 내용 -->
                     <tr>
                         <td class="notice-box">
@@ -74,7 +74,7 @@
                     </tr>
                 </c:if>
 
-                <c:if test="${notice_num == 4}">
+                <c:if test="${notice_num == 2}">
                     <!-- 2번 공지사항 내용 -->
                     <tr>
                         <td class="notice-box">
@@ -89,7 +89,7 @@
                     </tr>
                 </c:if>
 
-                <c:if test="${notice_num == 5}">
+                <c:if test="${notice_num == 3}">
                     <!-- 3번 공지사항 내용 -->
                     <tr>
                         <td class="notice-box">

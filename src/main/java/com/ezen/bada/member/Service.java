@@ -70,7 +70,7 @@ public interface Service {
 	
 
 	
-	void update_info(String id, String pw, String email, String gender, int age);
+	void update_info(String id, String pw, String email, String gender, int age, String name);
 	
 	void info_update1(String id, String pw, String email, int age, String gender);
 	
@@ -80,7 +80,7 @@ public interface Service {
 	
 	void member_modify(String pw, String name, String email, String gender, int age, String id);
 	
-	void update_no_pw(String id, String email, String gender, int age);
+	void update_no_pw(String email, String gender, int age, String name, String id);
 	   
 	String verify_Password(String loginid);
 	

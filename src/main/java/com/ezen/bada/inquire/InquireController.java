@@ -606,7 +606,7 @@ public class InquireController {
 		  
 		  //중복 신고가 아닌 경우 신고 내역 저장
 		  @RequestMapping(value = "/inquire_ban_save", method = RequestMethod.POST)
-		   public String inquire_ban_save(HttpServletRequest request, Model mo) throws IOException {
+		   public String inquire_ban_save(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
 		      
 		      	String title = request.getParameter("title");
 		        String name = request.getParameter("name");
@@ -623,8 +623,16 @@ public class InquireController {
 		        
 		        InquireDTO dto=ss.inquire_detail(ban_inquire_num);
 				mo.addAttribute("dto", dto);
+				
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				
+			    out.print("<script type='text/javascript'>");
+			    out.print("window.opener.location.href='inquire_listout?sort=latest'; window.close();");
+			    out.print("</script>");
+			    out.flush();
 		    
-		      return "redirect:/inquire_listout?sort=latest";
+		      return null;
 		   }
 		  
 		  

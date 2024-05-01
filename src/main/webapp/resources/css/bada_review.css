@@ -303,7 +303,7 @@ a button:hover {
 }
 
 .box-title3 {
-	width:85%;
+	width:75%;
 	float: left;
 	text-align: left;
 	justify-content: flex-start;
@@ -329,11 +329,11 @@ a button:hover {
 }
 
 .now_area{
-	width:15%;
+	width:25%;
 	font-size:15px;
 	text-align: right;
 	display: flex;
-	justify-content: center;
+	justify-content: flex-end;
 	align-items: center;
 }
 
@@ -561,8 +561,7 @@ a button:hover {
 }
 
 .write_sentence {
-	height:25%;
-	padding:5px;
+	height:30px;
 	width:100%;
 	display: flex;
 	justify-content: center;
@@ -598,11 +597,11 @@ a button:hover {
 
 #content{
 	width:98%;
-	height:80%;
+	height:22px;
 	border:1px solid gray;
 	border-radius: 5px;
 	font-family: 'Pretendard-Regular';
-	font-size: 14px;
+	font-size: 12px;
 	text-align: left;
 	padding:3px;
 }
@@ -618,22 +617,33 @@ a button:hover {
 	border:1px solid gray;
 	border-radius: 5px;
 	font-size: 12px;
+	height:20px;
 	text-align: center;
 }
 
 .show_sentence{
 	width:100%;
-	height:130px;
+	height:110px;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+}
+
+.sentences {
+	width:100%;
+	height:100%;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
 	overflow-y: scroll;
-	padding-top: 25px; 
+	scroll-behavior: smooth;
+	scroll-snap-align: start;
 }
 
 /* 수직 스크롤바 */
-.show_sentence::-webkit-scrollbar {
+
+.sentences::-webkit-scrollbar {
   width: 4px;
   height:3px; /* 너비 조절 */
   background-color: #CDE4F2; /* 배경색 변경 */
@@ -643,7 +653,7 @@ a button:hover {
   
 }
 
-.show_sentence::-ms-scrollbar {
+.sentences::-ms-scrollbar {
   width: 4px;
   height:3px; /* 너비 조절 */
   background-color: #CDE4F2; /* 배경색 변경 */

@@ -157,7 +157,7 @@
 					<img src="./resources/image/icon_eye.png" width="20px" class="eye_icon">
 					<span>${dto.cnt}</span>
 				</div>
-				<div class="rep_btn" onclick="window.location.href='inquire_report_view?inquire_num=${dto.inquire_num}&loginid=${loginid}'">
+				<div class="rep_btn" onclick="inquire_report(${dto.inquire_num},'${loginid}')">
 					<img src="./resources/image/report_icon.png" width="20px" class="report_icon">
 					<span>신고하기</span>
 				</div>
@@ -246,6 +246,13 @@ function confirm_reply_Delete(inquire_reply_num, inquire_num) {
     if(confirm('답변을 정말 삭제하시겠습니까?')) {
     	window.location.href = 'inquire_reply_delete?inquire_reply_num=' + inquire_reply_num + '&inquire_num=' + inquire_num;
     }
+}
+
+function inquire_report(inquire_num,loginid){
+	console.log('inquire_num:', inquire_num);
+	console.log('loginid:', loginid);
+	window.open('inquire_report_view?inquire_num='+inquire_num+'&loginid='+loginid,'_blank','width=600px height=500px resizable=no scrollbar=no location=no toolbars=no');
+	
 }
 
 function createEditForm(inquire_reply_num, inquire_num, content) {

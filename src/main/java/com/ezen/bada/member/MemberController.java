@@ -481,9 +481,9 @@ public class MemberController {
    public String mypage_modi1(HttpServletRequest request, Model mo) {
       
      String loginid = (String) request.getSession().getAttribute("loginid");
-      Service ss = sqlsession.getMapper(Service.class);
-       MemberDTO myinfo = ss.myinfo_modify(loginid);
-       mo.addAttribute("info", myinfo);
+     Service ss = sqlsession.getMapper(Service.class);
+     MemberDTO myinfo = ss.myinfo_modify(loginid);
+     mo.addAttribute("info", myinfo);
 
       return "info_modify";
    }

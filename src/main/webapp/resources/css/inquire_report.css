@@ -1,0 +1,137 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DOSGothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/DOSGothic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+	margin:0;
+	padding:0;
+}
+
+.body{
+	width:600px;
+	height:500px;
+	background-color: rgba(245,206,154,0.7);
+	background-size: cover;
+}
+
+.btn {
+	box-sizing:border-box;
+    background-color: #f5f5f5;
+    border-color:#424242;
+    border-width:1px;
+    box-shadow:1px black;
+    padding: 4px 8px;
+    min-height: 8px; 
+    min-width: 30px;
+    font-size: 11px;
+}
+
+.btn:hover {
+	 background-color: #bdbdbd;
+}
+
+.btn:focus {
+	 background-color: #bdbdbd;
+}
+
+.btn:active{
+	 background-color: #48b0d9;
+	 box-shadow:2px #44c6da;
+}
+
+.container{
+	width:90%;
+	height:450px;
+	margin:0 auto;
+	display:flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 30px;
+	padding:20px;
+}
+
+.container_title{
+	width:50%;
+	text-align: center;
+	font-family: 'DOSGothic';
+	font-size: 22px;
+	font-weight: 600;
+	background-color: #CDE4F2;
+}
+
+.report_container{
+	width:100%;
+	margin:0 auto;
+	display:flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+}
+
+.listbox {
+	width:100%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	gap:20px;
+}
+
+#list_title {
+	width:20%;
+	font-family: 'DOSGothic';
+	font-size: 18px;
+	font-weight: 600;
+	text-align: justify;
+}
+
+#title {
+	width:350px;
+	height:25px;
+	border: 1px solid gray;
+	padding:3px;
+	font-family:'Pretendard-Regular';
+	font-size:14px;
+}
+
+#name,
+#ban_name {
+	width:180px;
+	height:25px;
+	border: 1px solid gray;
+	padding:3px;
+	font-family:'Pretendard-Regular';
+	font-size:14px;
+}
+
+#category {
+	width:350px;
+	height:25px;
+	border: 1px solid gray;
+	padding:3px;
+	font-family:'Pretendard-Regular';
+	font-size:14px;
+}
+
+#content {
+	width:350px;
+	height:100px;
+	border: 1px solid gray;
+	font-family: 'Pretendard-Regular';
+	font-size:14px;
+	padding:10px;
+	resize: none;
+}

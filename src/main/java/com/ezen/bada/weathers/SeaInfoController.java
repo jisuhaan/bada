@@ -151,6 +151,18 @@ public class SeaInfoController {
     	    e.printStackTrace();
     	    bldt.setBada_tw_dto(new Bada_tw_DTO());
     	}
+    	
+    	try {
+    	    // 현재 파고는 String으로 받음
+    	    String wh = apiClient.getWhBuoyBeach_API(beach_code, (DateDAO.getCurrentDateString() + DateDAO.getCurrentTime()));
+    	    Bada_tw_DTO twdto = new Bada_tw_DTO();
+    	    twdto.setWater_height(wh);
+    	    bldt.setBada_tw_dto(twdto);
+    	} catch (Exception e) {
+    	    System.err.println("현재 파고를 가져오는 도중 오류가 발생했습니다: " + e.getMessage());
+    	    e.printStackTrace();
+    	    bldt.setBada_tw_dto(new Bada_tw_DTO());
+    	}
 
     	try {
     	    // 기상 특보는 Map에 저장해서 리스트화 -> 추후 수정 가능성 있음

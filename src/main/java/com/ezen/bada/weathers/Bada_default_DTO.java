@@ -16,7 +16,7 @@ public class Bada_default_DTO {
 	// 저장해올 API 정보들
 	ArrayList<VilageFcstBeach_DTO> bada_list_dto; // 단기 예보 24시간
 	
-	Bada_tw_DTO bada_tw_dto; // 수온
+	Bada_tw_DTO bada_tw_dto; // 수온과 파고
 	
 	Bada_tmx_n_DTO bada_tmx_n_dto; // 최고, 최저
 	

@@ -249,6 +249,39 @@ public class APIClient {
         return tw + "°C";
 	}
 	
+	public String getWhBuoyBeach_API(int beach_num, String searchTime) {
+		String wh = null;
+		String text = null;
+		
+    	// API 호출
+        String url = "http://apis.data.go.kr/1360000/BeachInfoservice/getWhBuoyBeach"; /*URL*/
+        String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; 
+
+        // 파라미터 맵 구성
+        Map<String, Object> params = new HashMap<>();
+        params.put("dataType", "JSON");
+        params.put("searchTime", searchTime);
+        params.put("beach_num", beach_num);
+        params.put("serviceKey", serviceKey);
+
+        // API 호출
+        try {
+        	text = getApi(url, params);
+            
+            JsonNode rootNode = objectMapper.readTree(text);
+            // tm과 tw 추출
+            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item").get(0);
+            String tm = itemNode.path("tm").asText();
+            wh = itemNode.path("wh").asText();
+            
+            System.out.println("파고 측정 시간 tm: " + tm);
+            System.out.println("파고 wh: " + wh);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return wh;
+	}
+	
 	public List<Map<String, String>> getWeatherWarning_API(String stnId) {
     	// API 호출
         String url = "http://apis.data.go.kr/1360000/WthrWrnInfoService/getPwnCd"; /*URL*/

@@ -494,22 +494,23 @@ public class MemberController {
       
        String id = request.getParameter("id");
        String email = request.getParameter("email");
-       String gender = request.getParameter("gender");;
+       String gender = request.getParameter("gender");
+       String name = request.getParameter("name");
        int age = Integer.parseInt(request.getParameter("age"));
-
-       String pw = request.getParameter("pw");
-       System.out.println("비번? : "+pw);
        
-       if (pw != null && !pw.trim().isEmpty()) {
+       String pw = request.getParameter("pw");
+       String original_pw = request.getParameter("original_pw");
+       
+       if (pw != null && !pw.equals(original_pw)) {
            // 비밀번호 변경시
            Service service = sqlsession.getMapper(Service.class);
            System.out.println("비번 변경 : "+pw);
-           service.update_info(id, pw, email, gender, age);
+           service.update_info(id, pw, email, gender, age, name);
        } else {
            // 비밀번호 미변경시
            Service service = sqlsession.getMapper(Service.class);
            System.out.println("비번 변경안해 : "+pw);
-           service.update_no_pw(id, email, gender, age);
+           service.update_no_pw(email, gender, age, name, id);
        }
      
       return "main";
@@ -520,6 +521,8 @@ public class MemberController {
    @RequestMapping(value = "/checkPassword", method = RequestMethod.POST)
    public String checkPassword(HttpServletRequest request) {
        String password = request.getParameter("password");
+       
+       
        String loginid = (String) request.getSession().getAttribute("loginid");
        Service service = sqlsession.getMapper(Service.class);
        String real_pw = service.verify_Password(loginid);

@@ -28,7 +28,7 @@
 	
 	<div class="listboxout">
 		<div class="listbox replies"> 
-			<div id="replystate">${dto.reply == 0 ? '답변미등록' : '답변완료'}</div>
+			<div id="replystate">${dto.reply == 0 ? '답변없음' : '답변완료'}</div>
 			<c:if test="${dto.reply == 1}">
 			<style>
 				.replies {
@@ -157,7 +157,7 @@
 					<img src="./resources/image/icon_eye.png" width="20px" class="eye_icon">
 					<span>${dto.cnt}</span>
 				</div>
-				<div class="rep_btn" onclick="window.location.href='inquire_report_view?inquire_num=${dto.inquire_num}&loginid=${loginid}'">
+				<div class="rep_btn" onclick="inquire_report(${dto.inquire_num},'${loginid}')">
 					<img src="./resources/image/report_icon.png" width="20px" class="report_icon">
 					<span>신고하기</span>
 				</div>
@@ -248,31 +248,66 @@ function confirm_reply_Delete(inquire_reply_num, inquire_num) {
     }
 }
 
+function inquire_report(inquire_num,loginid){
+	console.log('inquire_num:', inquire_num);
+	console.log('loginid:', loginid);
+	window.open('inquire_report_view?inquire_num='+inquire_num+'&loginid='+loginid,'_blank','width=600px height=500px resizable=no scrollbar=no location=no toolbars=no');
+	
+}
+
 function createEditForm(inquire_reply_num, inquire_num, content) {
-    console.log('inquire_reply_num:', inquire_reply_num);
+
+	console.log('inquire_reply_num:', inquire_reply_num);
     console.log('inquire_num:', inquire_num);
     console.log('content:', content);
     
-    // 수정 폼 HTML 생성
-    var formHtml = '<form id="editForm_' + inquire_reply_num + '">' +
-                       '<textarea cols="90" rows="5" id="content_' + inquire_reply_num + '" name="newcontent">' + content + '</textarea><br>' +
-                       '<span style="float: right;"> <input type="button" value="답변 수정" onclick="submitEditedReply(\'' + inquire_reply_num + '\', \'' + inquire_num + '\')"> </span>' +
-                       '<input type="hidden" name="inquire_reply_num" value="' + inquire_reply_num +'">' +
-                       '<input type="hidden" name="inquire_num" value="' + inquire_num +'">' +
-                   '</form>';
+    // 수정 버튼을 생성하고 감싸는 div 요소에 클래스 추가
+    var editButton = document.createElement('input');
+    editButton.type = 'button';
+    editButton.value = '답변 수정';
+    editButton.classList.add('btn2');
     
-    // 수정 폼을 해당 댓글 영역에 추가
+    editButton.onclick = function() {
+        submitEditedReply(inquire_reply_num, inquire_num);
+    };
+    
+    var editButtonContainer = document.createElement('div');
+    editButtonContainer.classList.add('edit_reply_btn');
+    editButtonContainer.appendChild(editButton);
+
+    // 텍스트 영역을 생성하고 감싸는 div 요소에 클래스 추가
+    var textArea = document.createElement('textarea');
+    textArea.cols = 90;
+    textArea.rows = 5;
+    textArea.id = 'content_' + inquire_reply_num;
+    textArea.name = 'newcontent';
+    textArea.value = content;
+    var textAreaContainer = document.createElement('div');
+    textAreaContainer.classList.add('edit_text');
+    textAreaContainer.appendChild(textArea);
+
+    // 수정 버튼과 텍스트 영역을 담을 부모 요소 생성
+    var editFormContainer = document.createElement('div');
+    editFormContainer.classList.add('reply_edit_area');
+    editFormContainer.appendChild(textAreaContainer);
+    editFormContainer.appendChild(editButtonContainer);
+
+    // 수정 버튼과 텍스트 영역을 추가할 부모 요소 선택
     var targetElement = document.getElementById('reply_' + inquire_reply_num);
-    if(targetElement) {
-        console.log('targetElement found:', targetElement);
-        var parentElement = targetElement.parentNode; // 부모 요소를 찾습니다.
-        var newRow = parentElement.insertRow(targetElement.rowIndex + 1); // 새로운 행을 삽입합니다.
-        var newCell = newRow.insertCell(); // 새로운 셀을 삽입합니다.
-        newCell.colSpan = "2"; // 새로운 셀이 전체 행을 차지하도록 설정합니다.
-        newCell.innerHTML = formHtml; // 수정 폼 HTML을 삽입합니다.
-    } else {
-        console.error('Target element not found:', 'reply_' + inquire_reply_num);
-    }
+    var parentElement = targetElement.parentNode;
+
+    // 텍스트 영역과 수정 버튼을 추가
+    parentElement.insertBefore(editFormContainer, targetElement.nextSibling);
+	
+	// 수정된 댓글 입력 공간과 수정 버튼을 해당 댓글 아래에 추가
+	var targetElement = document.getElementById('reply_' + inquire_reply_num);
+	if(targetElement) {
+	    console.log('targetElement found:', targetElement);
+	    targetElement.appendChild(editTextArea);
+	    targetElement.appendChild(editButton);
+	} else {
+	    console.error('Target element not found:', 'reply_' + inquire_reply_num);
+	}
 }
 
 function submitEditedReply(inquire_reply_num, inquire_num) {

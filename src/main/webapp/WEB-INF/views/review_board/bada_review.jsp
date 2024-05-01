@@ -170,7 +170,9 @@
                 </script>
                 </div>
               </div>
+              
               <div class="onesentence">
+                
                  <div class="box-title"><span class="box-title3">바닷속외침</span><span class="now_area">현재 : ${area}</span></div>
                  <div class="one_container">
                     <div class="write_sentence">
@@ -217,6 +219,7 @@
                        </div>
                     </div>
                  </div>
+              
               </div>
             </div>
           </div>

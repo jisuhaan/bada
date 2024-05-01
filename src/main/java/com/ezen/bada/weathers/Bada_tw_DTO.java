@@ -4,13 +4,15 @@ public class Bada_tw_DTO {
 
 	String record_time;
 	String water_temp;
+	String water_height;
 	
 	public Bada_tw_DTO() {}
 
-	public Bada_tw_DTO(String record_time, String water_temp) {
+	public Bada_tw_DTO(String record_time, String water_temp, String water_height) {
 		super();
 		this.record_time = record_time;
 		this.water_temp = water_temp;
+		this.water_height = water_height;
 	}
 
 	public String getRecord_time() {
@@ -29,5 +31,13 @@ public class Bada_tw_DTO {
 		this.water_temp = water_temp;
 	}
 
+	public String getWater_height() {
+		return water_height;
+	}
 
+	public void setWater_height(String water_height) {
+		this.water_height = water_height;
+	}
+
+	
 }

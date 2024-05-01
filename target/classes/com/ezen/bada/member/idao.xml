@@ -151,11 +151,11 @@ from. (정)지수 -->
 
 <!-- 회원정보 수정 -->
 <update id="update_info">
-   update bada_user set pw = #{param2}, email = #{param3}, gender = #{param4}, age = #{param5} where id = #{param1}
+   update bada_user set pw = #{param2}, email = #{param3}, gender = #{param4}, age = #{param5}, name = #{param6} where id = #{param1}
 </update>
 
 <update id="update_no_pw">
-   update bada_user set email = #{param2}, gender = #{param3}, age = #{param4} where id = #{param1}
+   update bada_user set email = #{param1}, gender = #{param2}, age = #{param3}, name = #{param4} where id = #{param5}
 </update>
 
 <!-- 비밀번호 검증 -->

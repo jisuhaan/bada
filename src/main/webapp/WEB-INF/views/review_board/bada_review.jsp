@@ -50,12 +50,12 @@
                 <div class="dropdown-content">
                 <c:choose>
                 <c:when test="${id ne '*badalove123*'}">
-                	<a href="#">--------</a>
-              	    <a href="my_post?loginid=${id}">마이 페이지</a>
-              	    <a href="#">--------</a>
+                   <a href="#">--------</a>
+                     <a href="my_post?loginid=${id}">마이 페이지</a>
+                     <a href="#">--------</a>
                 </c:when>
                 <c:otherwise>
-                	<a href="#">회원만 이용할 수 있어요!</a>
+                   <a href="#">회원만 이용할 수 있어요!</a>
                 </c:otherwise>
                 </c:choose>
                 </div>
@@ -84,7 +84,7 @@
                     <div class="news-title">나중에3위계산</div>
                   </div>
                   <div class="news-row">
-      				<div class="news-category category-post">리뷰4위</div>
+                  <div class="news-category category-post">리뷰4위</div>
                     <div class="news-title">나중에4위계산</div>
                   </div>
                 </div>
@@ -128,112 +128,115 @@
                 <div class="miniroom-gif-box">
                   <div class="review_slide">
                   <c:forEach items="${list}" var="aa">
-                  	<div class="review_card" onclick="window.location.href='review_detail?review_num=${aa.review_num}'">
-                  		<c:choose>
-                  		<c:when test="${aa.thumbnail eq 'no'}">
-                  		<div class="r_thumbnail"><img src="./resources/image/로고 9-2.png"></div>
-                  		</c:when>
-                  		<c:otherwise>
-                  		<div class="r_thumbnail"><img src="./resources/image_user/${aa.thumbnail}"></div>
-                  		</c:otherwise>
-                  		</c:choose>
-                  		<c:choose>
-                  		<c:when test="${fn:length(aa.review_title) > 17}">
-                  		<div class="r_title">[${fn:substring(aa.review_title, 0, 16)}…]</div>
-                  		</c:when>
-                  		<c:otherwise>
-                  		<div class="r_title">[${aa.review_title}]</div>
-                  		</c:otherwise>
-                  		</c:choose>
-                  		<div class="r_user">
-                  			<c:choose>
-                  			<c:when test="${fn:length(aa.name) > 4}">
-                  			<span>${fn:substring(aa.name, 0, 5)}…(${fn:substring(aa.id, 0, 4)}***)</span>
-                  			</c:when>
-                  			<c:otherwise>
-                  			<span>${aa.name}(${fn:substring(aa.id, 0, 4)}***)</span>
-                  			</c:otherwise>
-                  			</c:choose>
-                  		</div>
-                  		<div class="r_date">${fn:substring(aa.write_day, 0, 16)}</div>
-                  	</div>
+                     <div class="review_card" onclick="window.location.href='review_detail?review_num=${aa.review_num}'">
+                        <c:choose>
+                        <c:when test="${aa.thumbnail eq 'no'}">
+                        <div class="r_thumbnail"><img src="./resources/image/로고 9-2.png"></div>
+                        </c:when>
+                        <c:otherwise>
+                        <div class="r_thumbnail"><img src="./resources/image_user/${aa.thumbnail}"></div>
+                        </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                        <c:when test="${fn:length(aa.review_title) > 17}">
+                        <div class="r_title">[${fn:substring(aa.review_title, 0, 16)}…]</div>
+                        </c:when>
+                        <c:otherwise>
+                        <div class="r_title">[${aa.review_title}]</div>
+                        </c:otherwise>
+                        </c:choose>
+                        <div class="r_user">
+                           <c:choose>
+                           <c:when test="${fn:length(aa.name) > 4}">
+                           <span>${fn:substring(aa.name, 0, 5)}…(${fn:substring(aa.id, 0, 4)}***)</span>
+                           </c:when>
+                           <c:otherwise>
+                           <span>${aa.name}(${fn:substring(aa.id, 0, 4)}***)</span>
+                           </c:otherwise>
+                           </c:choose>
+                        </div>
+                        <div class="r_date">${fn:substring(aa.write_day, 0, 16)}</div>
+                     </div>
                   </c:forEach>
                   </div>
-					<script type="text/javascript">
-					$('.review_slide').slick({
-						autoplay:true,
-						autoplaySpeed:3000,
-						infinite: true,
-						slidesToShow: 3,
-						slidesToScroll: 3
-						});
-					 </script>
+               <script type="text/javascript">
+               $('.review_slide').slick({
+                  autoplay:true,
+                  autoplaySpeed:3000,
+                  infinite: true,
+                  slidesToShow: 3,
+                  slidesToScroll: 3
+                  });
+                </script>
                 </div>
               </div>
+              
               <div class="onesentence">
-              	<div class="box-title"><span class="box-title3">바닷속외침</span><span class="now_area">현재 : ${area}</span></div>
-              	<div class="one_container">
-              		<div class="write_sentence">
-              			<input type="hidden" name="id" id="id" value="${id}" readonly>
-              			<input type="hidden" name="name" id="name" value="${name}" readonly>
-	              		<div class="loc_area">
-	              		<select name="loc" id="loc" disabled>
-	              			<option value="${area}" selected>${area}</option>
-	              		</select></div>
-	              		<div class="content_area">
-		              		<c:choose>
-		              		<c:when test="${id eq '*badalove123*'}">
-		              			<input type="text" name="content" id="content" placeholder="로그인 한 회원만 이용 가능합니다!" disabled>
-		              		</c:when>
-		              		<c:otherwise>
-		              			<input type="text" name="content" id="content" placeholder="지금 나의 한마디는?">
-		              		</c:otherwise>
-		              		</c:choose>
-	              		</div>
-	              		<div class="btn_area">
-		              		<c:choose>
-			              	<c:when test="${id eq '*badalove123*'}">
-			              		<input type="button" value="보내기" id="send_sentence" class="btn" disabled style="background-color:darkgray;">
-			              	</c:when>
-			              	<c:otherwise>		              	
-		              			<input type="button" value="보내기" id="send_sentence" class="btn">
-		              		</c:otherwise>
-		              		</c:choose>
-              			</div>
-              		</div>
-              		<div class="show_sentence">
-              			<div class="sentences">
-              			<c:forEach items="${olist}" var="bb">
-              			<div class="sentence">
-				            <div class="o_user">
-	                  			<b><span>${bb.name}(${fn:substring(bb.id, 0, 4)}***)</span></b>
-	                  		</div>
-	                  		<div class="o_text">${bb.content}</div>
-	                  		<div class="o_date">
-	                  		${fn:substring(bb.one_date, 2, 16)}
-	                  		</div>
-                  		</div>
-              			</c:forEach>
-           				</div>
-              		</div>
-              	</div>
+                
+                 <div class="box-title"><span class="box-title3">바닷속외침</span><span class="now_area">현재 : ${area}</span></div>
+                 <div class="one_container">
+                    <div class="write_sentence">
+                       <input type="hidden" name="id" id="id" value="${id}" readonly>
+                       <input type="hidden" name="name" id="name" value="${name}" readonly>
+                       <div class="loc_area">
+                       <select name="loc" id="loc" disabled>
+                          <option value="${area}" selected>${area}</option>
+                       </select></div>
+                       <div class="content_area">
+                          <c:choose>
+                          <c:when test="${id eq '*badalove123*'}">
+                             <input type="text" name="content" id="content" placeholder="로그인 한 회원만 이용 가능합니다!" disabled>
+                          </c:when>
+                          <c:otherwise>
+                             <input type="text" name="content" id="content" placeholder="지금 나의 한마디는?">
+                          </c:otherwise>
+                          </c:choose>
+                       </div>
+                       <div class="btn_area">
+                          <c:choose>
+                          <c:when test="${id eq '*badalove123*'}">
+                             <input type="button" value="보내기" id="send_sentence" class="btn" disabled style="background-color:darkgray;">
+                          </c:when>
+                          <c:otherwise>                       
+                             <input type="button" value="보내기" id="send_sentence" class="btn">
+                          </c:otherwise>
+                          </c:choose>
+                       </div>
+                    </div>
+                    <div class="show_sentence">
+                       <div class="sentences">
+                       <c:forEach items="${olist}" var="bb">
+                       <div class="sentence">
+                        <div class="o_user">
+                              <b><span>${bb.name}(${fn:substring(bb.id, 0, 4)}***)</span></b>
+                           </div>
+                           <div class="o_text">${bb.content}</div>
+                           <div class="o_date">
+                           ${fn:substring(bb.one_date, 2, 16)}
+                           </div>
+                        </div>
+                       </c:forEach>
+                       </div>
+                    </div>
+                 </div>
+              
               </div>
             </div>
           </div>
           
           <div class="menu-container">
             <div class="menu-button">
-			    <a href="review_all_page"><button id="btn1" class="menubtn">게시판<br>ver.</button></a>
-			    <a href="bada_review?area=전국"><button id="btn2" class="menubtn" onclick="changeColor(this)">전국</button></a>
-			    <a href="bada_review?area=강원"><button id="btn3" class="menubtn" onclick="changeColor(this)">강원</button></a>
-			    <a href="bada_review?area=경남"><button id="btn4" class="menubtn" onclick="changeColor(this)">경남</button></a>
-			    <a href="bada_review?area=경북"><button id="btn5" class="menubtn" onclick="changeColor(this)">경북</button></a>
-			    <a href="bada_review?area=경기인천"><button id="btn6" class="menubtn" onclick="changeColor(this)">경기인천</button></a>
-			    <a href="bada_review?area=부산울산"><button id="btn7" class="menubtn" onclick="changeColor(this)">부산울산</button></a>
-			    <a href="bada_review?area=전남"><button id="btn8" class="menubtn" onclick="changeColor(this)">전남</button></a>
-			    <a href="bada_review?area=전북"><button id="btn9" class="menubtn" onclick="changeColor(this)">전북</button></a>
-			    <a href="bada_review?area=제주"><button id="btn10" class="menubtn" onclick="changeColor(this)">제주</button></a>
-			    <a href="bada_review?area=충남"><button id="btn11" class="menubtn" onclick="changeColor(this)">충남</button></a>
+             <a href="review_all_page"><button id="btn1" class="menubtn">게시판<br>ver.</button></a>
+             <a href="bada_review?area=전국"><button id="btn2" class="menubtn" onclick="changeColor(this)">전국</button></a>
+             <a href="bada_review?area=강원"><button id="btn3" class="menubtn" onclick="changeColor(this)">강원</button></a>
+             <a href="bada_review?area=경남"><button id="btn4" class="menubtn" onclick="changeColor(this)">경남</button></a>
+             <a href="bada_review?area=경북"><button id="btn5" class="menubtn" onclick="changeColor(this)">경북</button></a>
+             <a href="bada_review?area=경기인천"><button id="btn6" class="menubtn" onclick="changeColor(this)">경기인천</button></a>
+             <a href="bada_review?area=부산울산"><button id="btn7" class="menubtn" onclick="changeColor(this)">부산울산</button></a>
+             <a href="bada_review?area=전남"><button id="btn8" class="menubtn" onclick="changeColor(this)">전남</button></a>
+             <a href="bada_review?area=전북"><button id="btn9" class="menubtn" onclick="changeColor(this)">전북</button></a>
+             <a href="bada_review?area=제주"><button id="btn10" class="menubtn" onclick="changeColor(this)">제주</button></a>
+             <a href="bada_review?area=충남"><button id="btn11" class="menubtn" onclick="changeColor(this)">충남</button></a>
             </div>
           
           </div>
@@ -244,31 +247,31 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-	
-	$("#send_sentence").click(function(){
-		
-		var id = $("#id").val();
-		var name = $("#name").val();
-		var loc = $("#loc").val();
-		var content = $("#content").val();
-		
-		$.ajax({
-			type:"POST",
+   
+   $("#send_sentence").click(function(){
+      
+      var id = $("#id").val();
+      var name = $("#name").val();
+      var loc = $("#loc").val();
+      var content = $("#content").val();
+      
+      $.ajax({
+         type:"POST",
             url:"say_one_save",
             async:true,
             dataType:"text",
             data:{"id":id,"name":name,"loc":loc,"content":content},
             success:function(result){
-            	alert("한마디를 남겼습니다!");
-            	window.location.reload();
+               alert("한마디를 남겼습니다!");
+               window.location.reload();
             },
             error:function(){
-            	alert("데이터 전송 과정에 에러가 발생했습니다!");
+               alert("데이터 전송 과정에 에러가 발생했습니다!");
             }
         });
 
-	});
-	
+   });
+   
 });
 
 //페이지 로드 시 실행되는 함수

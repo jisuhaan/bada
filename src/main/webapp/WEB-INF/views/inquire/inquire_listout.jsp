@@ -18,31 +18,7 @@
   <link href="${pageContext.request.contextPath}/resources/css/review_page.css" rel="stylesheet" type="text/css">
    <title>바라는 바다! :: 문의 목록</title>
 
-   <style>
-        table {
-            margin: 0 auto;
-            width: 95%;
-            border-collapse: collapse;
-        }
-        th, td {
-            text-align: center;
-            font-size: 13px; /* 텍스트 크기를 작게 설정 */
-            padding: 4px; /* 셀 안의 여백 설정 */
-        }
-        th:nth-child(1) {
-            width: 45%; /* 첫 번째 열의 너비를 70%로 설정 */
-        }
-        th:nth-child(2){
-        width: 12%;
-        }
-        th:nth-child(3){
-        width: 10%;
-        }
-        .lock-icon {
-            display: inline-block; /* 이미지를 인라인 블록 요소로 설정하여 텍스트와 같이 정렬 */
-            vertical-align: middle; /* 아이콘을 수직 가운데 정렬 */
-        }
-    </style>
+   
 <title>바라는 바다! :: 문의 목록</title>
 </head>
 
@@ -114,7 +90,7 @@
 
 
 <c:forEach items="${list}" var="l">
-               <tr class="notice_line">
+               <tr>
                   <td colspan="2">
                   <a href="to_inquire_detail?inquire_num=${l.inquire_num}">
                        <c:choose>
@@ -182,6 +158,10 @@
 
 
 
+
+
+
+
 <c:otherwise>
 
 <c:forEach items="${list2}" var="l2">
@@ -221,7 +201,7 @@
 
 
                <c:forEach items="${list}" var="l">
-               <tr class="notice_line">
+               <tr>
                   <td colspan="2">
                   <a href="inquire_secret_yn?inquire_num=${l.inquire_num}&secret=${l.secret}">
                        <c:choose>
@@ -338,7 +318,7 @@
 
 
 <c:forEach items="${list}" var="l">
-               <tr class="notice_line">
+               <tr>
                   <td colspan="2">
                   <a href="to_inquire_detail?inquire_num=${l.inquire_num}">
                        <c:choose>
@@ -440,7 +420,7 @@
          </c:forEach>
 
                <c:forEach items="${list}" var="l">
-               <tr class="notice_line">
+               <tr>
                   <td colspan="2">
                   <a href="inquire_secret_yn?inquire_num=${l.inquire_num}&secret=${l.secret}">
                        <c:choose>

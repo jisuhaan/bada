@@ -80,6 +80,30 @@ $(document).ready(function() {
 });
 
 </script>
+
+<script>
+function toggleContent(id) {
+    var content = document.getElementById("content" + id);
+    var toggleIcon = document.getElementById("toggleIcon" + id);
+    if (content.style.display === "none" || content.style.display === "") {
+        content.style.display = "table-row"; // 숨겨진 요소를 보이게 함
+        toggleIcon.innerText = "▲"; // 아이콘 변경
+    } else {
+        content.style.display = "none"; // 보이는 요소를 숨김
+        toggleIcon.innerText = "▼"; // 아이콘 변경
+    }
+}
+</script>
+<style>
+        .wide-cell {
+        	padding: 10px;
+            cursor: pointer; /* 커서를 포인터로 변경하여 사용자에게 클릭 가능한 요소임을 나타냄 */
+        }
+        .hidden {
+            display: none; /* 숨겨진 요소 */
+        }
+        
+    </style>
 </head>
 <body>
 
@@ -154,6 +178,40 @@ $(document).ready(function() {
         </div>
     </div>
    
+   <div id="board-list">
+        <div class="container">
+            <table class="board-table">
+                <tbody>
+			      <tr>
+			      	<td class="wide-cell" onclick="toggleContent(3)"> 리뷰 게시판 이용방법 <span id="toggleIcon3">▼</span> </td>
+			      </tr>
+			      
+			      <tr class="hidden" id="content3">
+			      	<td class="wide-cell" style="text-align: left;">
+			      	안녕하세요! <바라는 바다!> 개발자 팀입니다.  <br>
+			      	<바라는 바다!> 시스템을 이용해주시는 사용자 분들께 감사의 말씀을 전하며, 리뷰 페이지 이용 방법을 간단하게 알려드리겠습니다. <br> <br>
+
+					<바라는 바다>는 기본적으로 자유로운 리뷰를 지향하고 있습니다. 때문에 특별히 정해진 형식은 없지만, 유용한 정보를 공유하는 것을 추천하고 있습니다.  <br>
+					해당 바다에서 가장 인상 깊었던 것은 무엇인지, 그 바다의 장점과 단점은 무엇인지 공유하여 <바라는 바다> 사용자들 간에서 알게 되는 정보가 양질의 정보이길 바랍니다! <br> <br>
+					
+					바다의 색깔이나 전경이 잘 보이는 사진들, 그 바다의 특징이 잘 살아있는 후기들은 다른 사용자들로부터 '추천'을 받아 best 글이 될 확률이 높습니다. <br>
+					<바라는 바다>에서는 이러한 best 후기를 작성한 유저에게 소정의 상품을 지급하고 있으니, 함께 깨끗하고 맑은 정보의 바다를 형성해주시면 좋겠습니다. <br> <br>
+					
+					언제나 여러분이 여러분만의 아름다운 바다를 찾을 수 있길 소망합니다. <br>
+					이상, <바라는 바다!> 개발자팀이었습니다. <br> <br>
+					
+					Contact us: <br>
+					경기 수원시 팔달구 향교로 2(매산로1가 60-3) [16455] <br>
+					031-253-6776 <br>
+					ezen.bada@gmail.com <br>
+			      	</td>
+			      </tr>
+            
+	   </tbody>
+            </table>
+        </div>
+    </div>
+   
   <!-- board list area -->
     <div id="board-list">
         <div class="container">
@@ -170,35 +228,7 @@ $(document).ready(function() {
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="notice_line">
-                    <td>3</td>
-                    <td class="text_title"><a href="#">[공지사항] 3번 </a></td>
-                    <td>관리자</td>
-                    <td></td>
-                    <td>2024-04-08</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-
-                <tr class="notice_line">
-                    <td>2</td>
-                    <td class="text_title"><a href="#">[공지사항] 2번 </a></td>
-                    <td>관리자</td>
-                    <td></td>
-                    <td>2024-04-08</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-
-                <tr class="notice_line">
-                    <td>1</td>
-                    <td class="text_title"><a href="#">[공지사항] 1번 </a></td>
-                    <td>관리자</td>
-                    <td></td>
-                    <td>2024-04-08</td>
-                    <td></td>
-                    <td></td>
-                </tr>
+			      
                	<c:forEach items="${list}" var="list">
 	                <tr>
 	                  <td>${list.review_num}</td> 

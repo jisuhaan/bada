@@ -39,6 +39,13 @@ document.addEventListener("DOMContentLoaded", function() {
 </head>
 <body>
 
+<%
+HttpSession hs = request.getSession();
+if(hs.getAttribute("loginstate")==null){
+	hs.setAttribute("loginstate", false);
+}
+%>
+
 <div class="result_container">
 
 	<div class="sea_result_left">

@@ -61,15 +61,13 @@
                     <ion-icon name="chevron-down-outline" class="collapse__link" ></ion-icon>
 
                     <ul class="collapse__menu">
-                    	<a href="inquire_personal_view" class="collapse__sublink">1:1문의</a>
-                    	<c:if test="${position=='admin'}">
-                        <a href="inquire_personal_out" class="collapse__sublink">1:1문의내역</a>
-                        </c:if>
-                        <a href="inquire_input" class="collapse__sublink">문의글작성</a>
+                    	<a href="notice_event" class="collapse__sublink">공지/이벤트</a>
                         <a href="inquire_listout?sort=latest" class="collapse__sublink">문의게시판</a>
-                        <a href="notice_event" class="collapse__sublink">공지/이벤트</a>
+                        <a href="inquire_input" class="collapse__sublink">문의글작성</a>
+                        <a href="inquire_personal_view" class="collapse__sublink">1:1문의</a>
                         <c:if test="${position=='admin'}">
                         <a href="inquire_ban_listout" class="collapse__sublink">문의 신고 내역</a>
+                        <a href="inquire_personal_out" class="collapse__sublink">1:1문의내역</a>
                         </c:if>
                     </ul>
                 </div>

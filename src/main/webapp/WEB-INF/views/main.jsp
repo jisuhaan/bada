@@ -40,10 +40,10 @@ if(hs.getAttribute("loginstate")==null){
 			
 			<div class="main_banner_wrap">
 			<div class="main_banner">
-				<div class="banner first" onclick=""><img src="./resources/image/main_banner_1.png"></div>
-				<div class="banner second" onclick=""><img src="./resources/image/main_banner_2.png"></div>
-				<div class="banner third" onclick=""><img src="./resources/image/main_banner_3.png"></div>
-				<div class="banner fourth" onclick=""><img src="./resources/image/main_banner_4.png"></div>
+				<div class="banner first" onclick="window.open('member_try_bbti?id=${loginid}','BBTI 테스트','width=610,height=810,resizable=no,scrollbars=no,menubar=no')"><img src="./resources/image/main_banner_1.png"></div>
+				<div class="banner second" onclick="window.open('event?event_num=2')"><img src="./resources/image/main_banner_2.png"></div>
+				<div class="banner third" onclick="window.open('event?event_num=3')"><img src="./resources/image/main_banner_3.png"></div>
+				<div class="banner fourth" onclick="window.open('event?event_num=4')"><img src="./resources/image/main_banner_4.png"></div>
 			</div>
 			</div>	
 			

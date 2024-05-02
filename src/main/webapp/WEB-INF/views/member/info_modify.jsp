@@ -118,6 +118,7 @@ $(document).ready(function() {
                 },
                 success: function(result) {
                     if(result == "yes") {
+                    	alert("회원정보 수정 완료!");
                         document.forms["modify_form"].submit();
                     } else {
                         alert("비밀번호가 일치하지 않습니다.");

@@ -1,0 +1,163 @@
+@charset "UTF-8";
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3열 그리드 */
+    padding: 10px;
+    gap: 20px; /* 각 그리드 아이템 사이의 간격 */
+  }
+  .grid-item {
+    padding: 20px;
+    text-align: center; /* 텍스트 중앙 정렬 */
+    background-color: white; /* 배경색을 흰색으로 설정 */
+    border-radius: 15px; /* 모서리를 둥글게 */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* 그림자 효과 */
+    transition: transform 0.3s; /* 호버 시 변환 효과를 위한 전환 설정 */
+    height: 320px; /* 고정 높이 */
+    width: 350px;
+    transition: all 0.3s ease;
+    position: relative; /* 여기수정 */
+  }
+
+  .grid-item:hover {
+    transform: scale(1.05); /* 호버 시 약간 확대 */
+  }
+
+  img {
+    width: 200px; /* 이미지 너비 */
+    height: 180px; /* 이미지 높이 */
+    object-fit: cover; /* 이미지 비율 유지하면서 채우기 */
+    border-radius: 2%;
+    margin-bottom: 10px;
+  }
+  .item-content {
+    padding: 10px; /* 내용 패딩 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    flex-grow: 1; /* 나머지 공간을 채움 */
+  }
+  .small-text {
+    font-size: 0.8em; /* 글자 크기 작게 */
+    color: #666; /* 글자 색상 */
+    
+  }
+ 
+  .small-text-container {
+    display: flex; /* 플렉스박스 설정 */
+    justify-content: space-between; /* 내용 사이에 공간을 균등하게 배분 */
+  }  
+  
+  h3 {
+    white-space: nowrap; /* 공백을 무시하고 한 줄에 표시 */
+    overflow: hidden; /* 넘치는 텍스트 숨기기 */
+    text-overflow: ellipsis; /* 말줄임표로 처리 */
+    max-width: 320px; /* 최대 너비 설정 */
+    margin-bottom: 10px;
+  }
+  
+  .score .star {
+	    font-size: 24px; /* 별의 크기를 설정 */
+	    color: #ccc; /* 기본 별 색상은 회색 */
+	    text-align: right;
+	    margin-bottom: 30px;
+	}
+	
+  .score .star.filled {
+	    color: #f5c518; /* 색칠된 별의 색상을 설정 (골드색) */
+}
+
+ .info-container {
+    display: none; /* 기본적으로 보이지 않음 */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%; /* 컨테이너 크기 조정 */
+    z-index: 10;
+  }
+
+  
+ .grid-item:hover .info-container {
+    display: flex;
+    opacity: 1; /* 여기수정 */
+  }
+  
+  .grid-item:hover img,
+  .grid-item:hover p,
+  .grid-item:hover h3,
+  .grid-item:hover .small-text-container {
+    opacity: 0.05; /* 흐릿한 효과 */
+  }
+  
+   .score {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -170%);
+    display: none; /* 초기 상태에서 숨김 */
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+  
+	.grid-item:hover .score,
+	.grid-item:hover .hashtag_box {
+	    display: flex; /* 호버 시 표시 */
+	}
+  
+  .hashtag {
+	float: center;
+    display: inline-block; /* 인라인 블록으로 표시하여 옆으로 나열 */
+    margin: 5px 5px; /* 해시태그 사이의 여백 */
+    padding: 5px 15px; /* 내부 여백, 좌우 여백을 증가시켜 타원형 모양을 더 잘 강조 */
+    background-color: #e0e0e0; /* 배경색 */
+    color: #333; /* 글자색 */
+    border-radius: 20px; /* 타원형 모양을 만들기 위해 더 큰 값으로 설정 */
+    font-size: 0.9em; /* 글자 크기 */
+    white-space: nowrap; /* 해시태그 내의 공백이 여러 개 있더라도 줄 바꿈이 일어나지 않도록 함 */
+}
+
+	.hashtag_box {
+	    position: absolute;
+	    top: 80%; /* score 아래에 위치 */
+	    left: 50%;
+	    transform: translateX(-50%);
+	    display: none; /* 기본적으로 숨김 */
+	    flex-direction: column; /* 해시태그가 세로로 배열 */
+	    align-items: center;
+	    justify-content: center;
+	    width: 100%; /* 전체 너비 사용 */
+	    z-index: 10;
+	}
+
+	.revisit-check {
+	    position: absolute;
+	    top: 60%; /* 조정 필요에 따라 값 변경 */
+	    left: 50%;
+	    transform: translate(-50%, -120%);
+	    text-align: center; /* 중앙 정렬 */
+	    display: flex;
+	    justify-content: center; /* 내부 요소 중앙 정렬 */
+	    align-items: center;
+	    width: 100%; /* 전체 너비 */
+	    z-index: 10;
+	}
+	
+	.revisit-check div {
+	    padding: 10px 15px;
+	    color: white;
+	    border-radius: 20px; /* 둥근 모서리 */
+	    font-size: 0.9em;
+	    margin: 5px; /* 간격 유지 */
+	}
+	
+	.revisit-yes {
+	    background-color: #28a745; /* 초록색 배경 */
+	}
+	
+	.revisit-no {
+	    background-color: #ff6b81; /* 핑크색 배경 */
+	}

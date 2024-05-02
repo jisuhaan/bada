@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="notice-popup">
     <p>바라는 바다 긴급공지</p>
     <div class="content">
-        아직 bbti 하지 않으셨다면 지금 바로 나의 bbti 확인하시고 상품 받아가세요!
+        아직 <a href="" onclick="window.open('member_try_bbti?id=${loginid}','BBTI 테스트','width=610,height=810,resizable=no,scrollbars=no,menubar=no')">bbti</a> 하지 않으셨다면 지금 바로 나의 <a href="" onclick="window.open('member_try_bbti?id=${loginid}','BBTI 테스트','width=610,height=810,resizable=no,scrollbars=no,menubar=no')">bbti</a> 확인하시고 상품 받아가세요!
     </div>
     <div class="actions">
     <label style="cursor: pointer;">

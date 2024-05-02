@@ -140,12 +140,14 @@ public class SeaInfoController {
     	    bldt.setLc_rise_set_info_dto(new LC_Rise_Set_Info_DTO());
     	}
 
+    	Bada_tw_DTO twdto = new Bada_tw_DTO();
+    	
     	try {
     	    // 현재 수온은 String으로 받음 (+°C)
     	    String tw = apiClient.getTwBuoyBeach_API(beach_code, (DateDAO.getCurrentDateString() + DateDAO.getCurrentTime()));
-    	    Bada_tw_DTO twdto = new Bada_tw_DTO();
     	    twdto.setWater_temp(tw);
     	    bldt.setBada_tw_dto(twdto);
+    	    System.out.println("수온아 제발 나와라 11: "+bldt.getBada_tw_dto().getWater_temp());
     	} catch (Exception e) {
     	    System.err.println("현재 수온을 가져오는 도중 오류가 발생했습니다: " + e.getMessage());
     	    e.printStackTrace();
@@ -155,7 +157,6 @@ public class SeaInfoController {
     	try {
     	    // 현재 파고는 String으로 받음
     	    String wh = apiClient.getWhBuoyBeach_API(beach_code, (DateDAO.getCurrentDateString() + DateDAO.getCurrentTime()));
-    	    Bada_tw_DTO twdto = new Bada_tw_DTO();
     	    twdto.setWater_height(wh);
     	    bldt.setBada_tw_dto(twdto);
     	} catch (Exception e) {
@@ -181,8 +182,9 @@ public class SeaInfoController {
     	    mo.addAttribute("warningString", "없음");
     	}
 
-
-        mo.addAttribute("bldt",bldt);
+    	String result = apiClient.calculateWeatherIndex(bldt.getUltraSrtFcstBeach_dto().getSky(), bldt.getUltraSrtFcstBeach_dto().getRn1(), Double.parseDouble(bldt.getUltraSrtFcstBeach_dto().getWsd()), Double.parseDouble(bldt.getBada_tw_dto().getWater_height()));
+        System.out.println("바다여행지수: "+ result);
+    	mo.addAttribute("bldt",bldt);
         HttpSession session = request.getSession();
 	    session.setAttribute("bldt", bldt);
 		return "sea_result";

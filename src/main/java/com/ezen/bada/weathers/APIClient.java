@@ -629,6 +629,88 @@ public class APIClient {
         }
     }
 
+    public String calculateWeatherIndex(String sky, String rain, double wind, double wave) {
+        double rn1 = rain.equals("강수없음") ? 0 : rain.equals("1.0mm 미만") ? 0.5 : Double.parseDouble(rain);
+    	int score = 0;
+
+        for (int i = 0; i < 1; i++) { // 한 번만 반복
+            // 하늘 상태에 따른 점수 계산
+            if (sky.equals("1")) {
+                score += 4;
+            } else if (sky.equals("3")) {
+                score += 2;
+            } else {
+                score = 0; // 기타 경우에 대해 가장 낮은 점수 부여
+                break; // 바로 반복문 종료
+            }
+
+            // 강수량에 따른 점수 계산
+            if (rn1 >= 10) {
+                score = 0;
+                break; // 바로 반복문 종료
+            } else if (rn1 >= 5) {
+                score += 2;
+            } else if (rn1 >= 1) {
+                score += 3;
+            } else if (rn1 == 0){
+                score += 5;
+            } else {
+                score += 4;
+            }
+
+            // 바람에 따른 점수 계산
+            if (wind <1.5) {
+                score += 5;
+            } else if (wind < 4) {
+                score += 4;
+            } else if (wind < 9) {
+                score += 3;
+            } else if (wind < 14) {
+                score += 2;
+            } else {
+                score = 0;
+                break; // 바로 반복문 종료
+            }
+
+            // 파고에 따른 점수 계산
+            if (wave >= 3) {
+                score = 0;
+                break; // 바로 반복문 종료
+            } else if (wave >= 2) {
+                score += 2;
+            } else if (wave >= 1) {
+                score += 3;
+            } else if (wave >= 0.5) {
+                score += 4;
+            } else {
+                score += 5;
+            }
+        }
+
+        // 최종 날씨 지수 계산
+        String weatherIndex = convertToChoiceFormat(score);
+        return weatherIndex;
+    }
+
+
+    // 날씨 지수를 초이스 포맷으로 변환하는 메서드
+    private String convertToChoiceFormat(int score) {
+        String result = "";
+
+        if (score >= 19) {
+            result = "매우 좋음";
+        } else if (score >= 15) {
+            result = "좋음";
+        } else if (score >= 11) {
+            result = "보통";
+        } else if (score >= 7) {
+            result = "나쁨";
+        } else {
+            result = "매우 나쁨";
+        }
+
+        return result;
+    }
 
 
 }

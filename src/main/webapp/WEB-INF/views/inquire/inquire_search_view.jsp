@@ -5,7 +5,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <%@ include file="inquire_search.jsp" %>
-<%@ include file="inquire_notice_list.jsp" %>
 
 <!DOCTYPE html>
 

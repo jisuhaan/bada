@@ -33,6 +33,7 @@ import com.ezen.bada.member.MemberDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
+
 @Controller
 public class ReviewController {
 	
@@ -41,6 +42,9 @@ public class ReviewController {
 	
 	String image_path="C:\\coding\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
 	
+	
+	
+	//리뷰 작성(데이터 삽입)
 	@RequestMapping(value = "review_input")
 	public String review1(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
 
@@ -50,44 +54,39 @@ public class ReviewController {
 		PrintWriter out = response.getWriter();
 		
 		if (hs.getAttribute("loginstate") == null) {
-		    out.print("<script type='text/javascript'> alert('로그인이 필요합니다.');");
+		    out.print("<script type='text/javascript'> alert('로그인이 필요한 기능입니다.');");
 		    out.print("window.location.href='login';");
 		    out.print("</script>");
 		    out.flush();
 		    
 		    return null;
 		}
+		
 		else {
-			
 			boolean loginstate = (boolean) hs.getAttribute("loginstate");
 			
 			if(loginstate) {
-				
 				String loginid = (String) hs.getAttribute("loginid");
 				MemberDTO dto = ss.input_info(loginid);
 				List<BeachDTO> beachList = ss.getBeachList();
-				    
 				mo.addAttribute("dto", dto);
 				mo.addAttribute("beachList", beachList);
 				
 				return "review_input";
-				
 			}
 			
 			else {
-			
-				out.println("<script>alert('로그인한 회원만 이용 가능합니다.'); location.href='login';</script>");
+				out.println("<script>alert('로그인이 필요한 기능입니다.'); location.href='login';</script>");
 			    out.flush();
 			    
 			    return null;
-				
 			}
-	     
 	    }
-
 	}
 	
 	
+	
+	//리뷰 저장
 	@RequestMapping(value = "review_save", method = RequestMethod.POST)
 	public String review2(MultipartHttpServletRequest mul) throws IOException {
 
@@ -102,7 +101,6 @@ public class ReviewController {
 		String re_visit = mul.getParameter("re_visit");
 		
 		MultipartFile tf = mul.getFile("thumb_nail");
-		
 		String t_name;
 		if (tf != null && !tf.isEmpty()) {
 		    t_name = System.currentTimeMillis() + "_" + tf.getOriginalFilename();
@@ -110,8 +108,6 @@ public class ReviewController {
 		} else {
 		    t_name = "no"; // 썸네일 파일이 없는 경우 "no" 저장
 		}
-
-		System.out.println("썸네일 명 : "+t_name);
 		
 		 String[] fileNames = new String[5];
 	        
@@ -121,37 +117,37 @@ public class ReviewController {
 	                String filename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
 	                file.transferTo(new File(image_path + File.separator + filename));
 	                fileNames[i - 1] = filename; // 파일 이름을 배열에 저장
-	            } else {
+	            }
+	            else {
 	                fileNames[i - 1] = "no"; // 파일이 없는 경우 -> null 저장시 오류 발생
 	            }
 	        }
 	   
-	    
 	    Service ss = sqlsession.getMapper(Service.class);
 	    ss.review_save(id,name,visit_day,review_title,review_contents,fileNames,
 	    		t_name,review_score,hashtags,beach_code,re_visit);
 	        
-		
-	    
 	    return "main";
 	}
 	
+	
+	
+	//
 	@RequestMapping(value = "review_input2")
 	public String review2(HttpServletRequest request, HttpServletResponse response, Model mo) throws IOException {
 		
-
-			
 		return "review_input2";
 			
 	}
 	
+	
+	
+	//리뷰 페이지의 가장 첫 번째 페이지(미니 홈페이지 ver)
 	@RequestMapping(value = "bada_review")
 	public String review3(HttpServletRequest request, Model mo) {
 		
 		String area = request.getParameter("area");
 		mo.addAttribute("area",area);
-		
-		System.out.println("지역뽑혀왔니 : "+area);
 		//아이디,닉네임 넣기
 		HttpSession hs = request.getSession();
 		String id = null;
@@ -180,11 +176,9 @@ public class ReviewController {
 			String area1 = area.substring(0,2);
 			String area2 = area.substring(2);
 			list = ss.picknewrec6in2area(area1,area2);
-			System.out.println("area : "+ area1 +" "+area2);
 		}
 		else {
 			list = ss.picknewrecinarea(area);
-			System.out.println("area : "+ area);
 		}
 		
 		mo.addAttribute("list", list);
@@ -196,36 +190,30 @@ public class ReviewController {
 		//지역별 새글 수
 		ArrayList<CountreviewDTO> clist = ss.getreviewcount();
 		mo.addAttribute("clist", clist);
-		System.out.println("지역별새글 리스트 뽑혀옴? : "+clist);
 		
 		return "bada_review";
-			
 	}
 	
 	
+	
+	//리뷰 목록형(페이징 처리형) 페이지 가져오기.
+	//가장 초기에 불러와주는 페이지이며, 소트(정렬 기준)이 없을 시 최신순 정렬을 자동으로 실시
 	@RequestMapping(value = "review_all_page")
 	public String review4(HttpServletRequest request, PageDTO dto, Model mo) {
 		
+		String sort=request.getParameter("sort");
+		if(sort==null || sort.isEmpty()) {sort="latest";} //정렬 기준이 없을 시 자동으로 최신순 정렬
 		
 		String nowPage=request.getParameter("nowPage");
-        System.out.println("nowpage 확인 : "+nowPage);
-
         String cntPerPage=request.getParameter("cntPerPage");
-        System.out.println("cntperpage 확인 : "+cntPerPage);
-		
+        
 		Service ss = sqlsession.getMapper(Service.class);
 		int total=ss.total();
-		
-		System.out.println("board 전체 개수 : "+total);
-		
         if(nowPage==null && cntPerPage == null) {
-            
        	 nowPage="1";
-           // 현재 페이지 번호
-                                                             
+           // 현재 페이지 번호                              
          cntPerPage="20";
           // 한 페이지당 보여줄 게시물 수
-        
         }
         else if(nowPage==null) {
            nowPage="1";
@@ -236,12 +224,65 @@ public class ReviewController {
 		
         dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
         mo.addAttribute("paging",dto);
-        mo.addAttribute("list",ss.review_list(dto));
+        if(sort.equals("latest")) {
+	    	mo.addAttribute("list",ss.page_review_listout_latest(dto));
+	    	mo.addAttribute("sort", sort);
+	    }
+	    else {
+	    	mo.addAttribute("list",ss.page_review_listout_popular(dto));
+	    	mo.addAttribute("sort", sort);
+	    }
 
 		return "review_page";
-			
 	}
 	
+	
+	
+	//리뷰 목록형(페이징 처리형) 페이지 가져오기.
+	//가장 초기에 불러와주는 페이지이며, 소트(정렬 기준)이 없을 시 최신순 정렬을 자동으로 실시
+	//review_all_page가 아닌 review_page로 이동할 시에도 오류가 나지 않도록 한 번 더 불러와줌
+	@RequestMapping(value = "review_page")
+	public String review_page(HttpServletRequest request, PageDTO dto, Model mo) {
+		
+		String sort=request.getParameter("sort");
+		if(sort==null || sort.isEmpty()) {sort="latest";} //정렬 기준이 없을 시 최신순으로 기본 정렬
+		
+		String nowPage=request.getParameter("nowPage");
+        String cntPerPage=request.getParameter("cntPerPage");
+		
+		Service ss = sqlsession.getMapper(Service.class);
+		int total=ss.total();
+		
+        if(nowPage==null && cntPerPage == null) {
+       	 nowPage="1";
+           // 현재 페이지 번호                           
+         cntPerPage="20";
+          // 한 페이지당 보여줄 게시물 수
+        }
+        else if(nowPage==null) {
+           nowPage="1";
+        }
+        else if(cntPerPage==null) {
+           cntPerPage="20";
+        }
+		
+        dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+        mo.addAttribute("paging",dto);
+        if(sort.equals("latest")) {
+	    	mo.addAttribute("list",ss.page_review_listout_latest(dto));
+	    	mo.addAttribute("sort", sort);
+	    }
+	    else {
+	    	mo.addAttribute("list",ss.page_review_listout_popular(dto));
+	    	mo.addAttribute("sort", sort);
+	    }
+
+		return "review_page";
+	}
+	
+	
+	
+	//리뷰 디테일(리뷰 상세 보기)
 	@RequestMapping(value = "review_detail")
 	public String review4(HttpServletRequest request, Model mo) {
 		
@@ -257,10 +298,8 @@ public class ReviewController {
 		
 		List<String> gallery = new ArrayList<String>();
 		
-		if (!"no".equals(dto.getThumbnail()))
-		{
-				gallery.add(dto.getThumbnail());
-		}
+		if (!"no".equals(dto.getThumbnail())){gallery.add(dto.getThumbnail());}
+		
 		for (int i = 1; i <= 5; i++) {
 		  try {
 			   String photoName = (String) AllBoardDTO .class.getMethod("getPhoto" + i).invoke(dto);
@@ -282,12 +321,13 @@ public class ReviewController {
 		 ArrayList<ReplyDTO> reply = ss.reply_show(review_num);
 		 
 		 mo.addAttribute("reply", reply);
-		
 
 		return "review_detail";
-		
 	}
 	
+	
+	
+	//리뷰를 삭제할 시
 	@RequestMapping(value = "review_delete")
 	   public String review_delete(HttpServletRequest request) {
 
@@ -302,13 +342,8 @@ public class ReviewController {
 			for(String photo : photoPaths) {
 				
 				if(photo != null && !photo.equals("no")) 
-				{
-					File file = new File(image_path +File.separator+photo);
-					
-					if(file.exists()) 
-					{
-						file.delete();
-					}
+				{File file = new File(image_path +File.separator+photo);
+					if(file.exists()){file.delete();}
 				}
 			}
 		     
@@ -318,11 +353,13 @@ public class ReviewController {
 	      return "redirect:/bada_review";
 	   }
 	
+	
+	
+	//리뷰를 수정할 시
 	@RequestMapping(value = "review_change")
 	   public String review_change(HttpServletRequest request, Model mo) {
 
 		     int review_num = Integer.parseInt(request.getParameter("review_num"));
-		     System.out.println("잘 들어옴? : "+review_num );
 		     Service ss = sqlsession.getMapper(Service.class);
 		     
 		     AllBoardDTO dto = ss.change_view(review_num);
@@ -337,6 +374,7 @@ public class ReviewController {
 	
 	
 	
+	//리뷰를 수정해서 저장
 	@RequestMapping(value = "review_change_save", method = RequestMethod.POST)
 	   public String review_change_save(MultipartHttpServletRequest mul) throws IllegalStateException, IOException {
 
@@ -354,7 +392,6 @@ public class ReviewController {
 	    
 	    modi_thumbnail(mul, review_num, ss);    
 	    
-	    
 	    boolean new_photos = false;
 	    
 	    for (int i = 1; i <= 5; i++) {
@@ -365,40 +402,27 @@ public class ReviewController {
 	        }
 	    }
 	    
-	    
 	    if (new_photos) {
-	    	
 	    	AllBoardDTO boardDTO = ss.all_photo(review_num);
-		     
 		     List<String> photoPaths = Arrays.asList(boardDTO.getPhoto1(), boardDTO.getPhoto2(), 
 								                     boardDTO.getPhoto3(), boardDTO.getPhoto4(), 
 								                     boardDTO.getPhoto5());
 			for(String photo : photoPaths) {
-				
 				if(photo != null && !photo.equals("no")) 
-				{
-					File file = new File(image_path +File.separator+photo);
-					
-					if(file.exists()) 
-					{
-						file.delete();
-					}
+				{File file = new File(image_path +File.separator+photo);
+					if(file.exists()) {file.delete();}
 				}
 			}
 	    	
 	        modi_photos(mul, review_num, ss);
 	    }
 	    
-	    
-	    
 	    ss.review_modify(review_num,visit_day,review_title,review_contents,
 	    		review_score,hashtags,beach_code,re_visit);
 	    
-
 	      return "redirect:/review_all_page";
 	   }
-
-
+	//리뷰를 수정할 때 만일 사진이 바뀔 경우 기존의 사진 파일을 삭제하는 메소드
 	private void modi_photos(MultipartHttpServletRequest mul, int review_num, Service ss) throws IllegalStateException, IOException {
 		
 		String[] change_photo = new String[5];
@@ -411,47 +435,39 @@ public class ReviewController {
 	            File newFile = new File(image_path + File.separator + fileName);
 	            file.transferTo(newFile);
 	            change_photo[i - 1] = fileName; 
-	        } else {
-	        	change_photo[i - 1] = "no";
 	        }
+	        else {change_photo[i - 1] = "no";}
 	    }
 	    
-
 	    Map<String, Object> params = new HashMap<>();
 	    params.put("review_num", review_num);
 	    params.put("change_photo", change_photo);
 	    ss.update_photo(params);
-		
 	}
-
-
+	//리뷰를 삭제할 때 만일 썸네일이 바뀔 경우 썸네일을 수정하고 기존의 썸네일을 삭제하는 메소드
 	private void modi_thumbnail(MultipartHttpServletRequest mul, int review_num, Service ss) throws IllegalStateException, IOException {
 	    MultipartFile tf = mul.getFile("thumb_nail");
-
+	    
 	    if (tf != null && !tf.isEmpty()) {
-
 	        String original = ss.original_thumbnail(review_num);
 
 	        if (original != null && !original.equals("no")) {
 	            File file = new File(image_path + File.separator + original);
-	            if (file.exists()) {
-	                file.delete(); 
-	            }
+	            if (file.exists()) {file.delete();}
 	        }
 
 	        UUID ud = UUID.randomUUID();
 	        String t_name = ud.toString() + "_" + tf.getOriginalFilename();
 	        File newFile = new File(image_path + File.separator + t_name);
 	        tf.transferTo(newFile);
-
 	       
 	        ss.thumbnail_upload(review_num, t_name);
 	    }
-	    
-	 
 	}
 	
 	
+	
+	//리뷰 주천하기를 누를 시
 	@RequestMapping(value = "review_recommend")
 	   public String recommend(HttpServletRequest request, Model mo) {
 
@@ -470,8 +486,7 @@ public class ReviewController {
 		
 		else {
 			AllBoardDTO dto=ss.review_detail(review_num);
-			mo.addAttribute("dto", dto);
-		}
+			mo.addAttribute("dto", dto);}
 
 	      return "redirect:/review_detail?review_num="+review_num;
 	   }
@@ -487,12 +502,9 @@ public class ReviewController {
         String loginid = request.getParameter("loginid").trim();
         String reply = request.getParameter("reply");
         
-        System.out.println("받아온 리뷰번호 : "+review_num+" / 로그인한 아이디 : "+loginid+" / 댓글 : "+reply);
-        
         Service ss = sqlsession.getMapper(Service.class);
         
         String nickname =  ss.getnickname(loginid);
-        System.out.println("닉네임 받아왔나? : "+nickname);
         
         ss.reply_save(review_num,loginid,reply,nickname);
         ss.reply_update(review_num);
@@ -506,11 +518,10 @@ public class ReviewController {
         String replyDate = sdf.format(new Date());
         obj.put("reply_day", replyDate);
         
-        System.out.println("JSON 응답 : " + obj.toString());
-        
         return obj.toString();
         
 	   }
+	
 	
 	
 	// 신고기능
@@ -530,6 +541,9 @@ public class ReviewController {
 	      return "review_report_view";
 	   }
 	
+	
+	
+	//리뷰 신고를 할 때 중복을 방지하기
 	  @ResponseBody
 	  @RequestMapping(value = "review_ban_check", method = RequestMethod.POST)
 	   public String inquire_ban_check(HttpServletRequest request) throws IOException {
@@ -538,30 +552,21 @@ public class ReviewController {
 	        int ban_review_num=Integer.parseInt(request.getParameter("ban_review_num"));
 	        String category = request.getParameter("category");
 	        String content = request.getParameter("content");
-	        
-	        System.out.println("체크 1: "+id);
-	        System.out.println("체크 2: "+ban_review_num);
-	        System.out.println("체크 3: "+category);
-	        System.out.println("체크 4: "+content);
-	        
 	
 	        Service ss=sqlsession.getMapper(Service.class);
 	        String inquire_check="";
 	        String result="";
 	        inquire_check=ss.review_ban_check(id, ban_review_num, category, content); //동일한 사람이 동일한 글을 동일한 사유로 여러번 신고할 수 없도록 중복 방지
-	        System.out.println("가져온 신고글 제목: "+inquire_check);
 	        
-	        if (inquire_check==null) {
-	        	result="ok";
-	        }
-	        else {
-	        	result="nope";
-	        	}
-	        System.out.println("결과 "+result);
+	        if (inquire_check==null) {result="ok";}
+	        else {result="nope";}
 	        
 	      return result;
 	   }
 	
+	  
+	  
+	  //리뷰 신고 저장하기 기능
 	  @RequestMapping(value = "review_ban_save", method = RequestMethod.POST)
 	   public String inquire_ban_save(HttpServletRequest request, Model mo) throws IOException {
 	      
@@ -569,7 +574,6 @@ public class ReviewController {
 	        String name = request.getParameter("name");
 	        String id = request.getParameter("id");
 	        int ban_review_num=Integer.parseInt(request.getParameter("ban_review_num"));
-	        System.out.println("이동할 게시글 번호 : "+ban_review_num);
 	        String ban_name = request.getParameter("ban_name");
 	        String ban_id = request.getParameter("ban_id");
 	        String category = request.getParameter("category");
@@ -585,8 +589,9 @@ public class ReviewController {
 	      return "redirect:/review_detail?review_num="+ban_review_num;
 	   }
 	  
-	  // 댓글삭제
 	  
+	  
+	  // 댓글을 삭제하는 기능
 	  @ResponseBody
 	  @RequestMapping(value = "delete_reply")
 	   public String reply_delete(HttpServletRequest request) throws IOException {
@@ -612,8 +617,7 @@ public class ReviewController {
 	      return obj.toString();
 	   }
 	  
-	  // 댓글 수정
-	
+	  // 댓글을 수정하는 기능
 	  @ResponseBody
 	  @RequestMapping(value = "modify_reply")
 	   public String reply_modify(HttpServletRequest request) throws IOException {
@@ -640,8 +644,9 @@ public class ReviewController {
 	      return obj.toString();
 	   }
 	  
-	  // 댓글신고
 	  
+	  
+	  // 댓글신고
 	  @ResponseBody
 	  @RequestMapping(value = "report_reply" , method = RequestMethod.POST)
 	   public String report_reply(HttpServletRequest request) throws IOException {
@@ -671,10 +676,12 @@ public class ReviewController {
 	        	result="no";
 	        }
 
-		  
 	      return result;
 	   }
 	  
+	  
+	  
+	  //리뷰 검색 기능
 	   @ResponseBody
 	   @RequestMapping(value = "/review_search", produces = "text/html; charset=UTF-8")
 	   public String search1(HttpServletRequest request) {
@@ -971,9 +978,6 @@ public class ReviewController {
 		    Service ss = sqlsession.getMapper(Service.class);
 		    ArrayList<AllBoardDTO> list = ss.pickbestrec();
 
-		    System.out.println("리스트 가져왔니? : " + list);
-		    System.out.println("리스트 안 썸네일 하나 : " + list.get(0).getThumbnail());
-
 		 // 리스트를 두 번 반복하여 똑같은 데이터를 포함한 새로운 리스트 생성
 		    ArrayList<AllBoardDTO> duplicatedList = new ArrayList<>();
 		    duplicatedList.addAll(list);
@@ -1033,15 +1037,13 @@ public class ReviewController {
 		    String name = request.getParameter("name");
 		    String content = request.getParameter("content");
 		    
-		    System.out.println("확인용 가지가지 출력: 1. "+loc+"  2. "+id+"  3. "+name+"  4. "+content);
-		    
 		    Service ss = sqlsession.getMapper(Service.class);
 			HttpSession hs = request.getSession();
 			response.setContentType("text/html; charset=UTF-8");
 		    
 		    if(content.equals("")||content==null||content.isEmpty()) {content="바라는 바다 짱!><♡";}
 		    
-		    else {System.out.println("하하 집에 가고 싶어");}
+		    else {}
 		    
 	    	//입력한 한마디를 테이블에 저장
 			ss.say_one_save(id, name, content, loc);

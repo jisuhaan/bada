@@ -176,6 +176,11 @@ function toggleContent(id) {
             </div>
         </div>
     </div>
+    
+    <div class="sort-options">
+    <label>정렬 방식:</label>&nbsp;&nbsp;
+    <a href="review_page?sort=latest">최신순</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="review_page?sort=popular">추천순</a>
+</div>
    
    <div id="board-intro">
         <div class="container">

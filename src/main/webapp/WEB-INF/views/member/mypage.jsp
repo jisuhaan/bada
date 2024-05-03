@@ -76,6 +76,7 @@ function mybbti(id){
 </head>
 <body>
 
+<div class="container">
 <div class="profile-card">
   <div class="profile-info">
       <div class="profile-image">
@@ -113,7 +114,9 @@ function mybbti(id){
             <button type="button" class="action-button" onclick="location.href='my_require'">나의 문의</button>
         </div>
     </div>
+	<div class="mypostcontainer">
+		<jsp:include page="my_post.jsp" />
+	</div>
 </div>
-
 </body>
 </html>

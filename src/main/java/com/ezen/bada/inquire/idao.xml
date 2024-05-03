@@ -227,7 +227,7 @@
 	select * from( select rownum rn, A.* from(
 		select i_banned_num, title, name, id, ban_inquire_num, ban_name, ban_id, category, content, ban_date, ban_user_number 
 		from bada_i_banned 
-		order by ban_id DESC) A) 
+		order by ban_date DESC) A) 
 	where rn between #{start} AND #{end}
 </select>
 

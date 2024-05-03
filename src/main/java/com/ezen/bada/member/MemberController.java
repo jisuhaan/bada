@@ -666,7 +666,7 @@ public class MemberController {
 	   
    }  
    
-   @RequestMapping(value = "/my_post")
+   @RequestMapping(value = "/mypage")
    public String mypage_post(HttpServletRequest request, PageDTO dto, Model mo) {
 	   
 	  String loginid = (String) request.getSession().getAttribute("loginid");
@@ -729,7 +729,7 @@ public class MemberController {
         mo.addAttribute("bookmark", total3);
         
         
-	return "my_post";
+	return "mypage";
 	   
    }
    

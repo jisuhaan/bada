@@ -49,59 +49,78 @@ public class APIClient {
 	
 	
     public String getApi(String stringURL, Map<String, Object> params) throws IOException {
-        // 파라미터를 URL에 추가하고 시작
-        StringBuilder urlBuilder = new StringBuilder(stringURL);
-        
-        urlBuilder.append("?"); // 쿼리 스트링 시작
+    	final int maxRetries = 3; // 최대 재시도 횟수
+        final int retryIntervalMillis = 1000; // 재시도 간격 (밀리초)
 
-        // params는 파라미터 키와 값들이 들어있는 Map
-        for (Map.Entry<String, Object> param : params.entrySet()) {
-        	// urlBuilder의 마지막 문자가 '?'인지 확인. *urlBuilder.length() - 1 : 문자열의 마지막 인덱스
-            if (urlBuilder.charAt(urlBuilder.length() - 1) != '?') {
-                urlBuilder.append('&'); // 파라미터 구분자 추가
-            }
-            urlBuilder.append(URLEncoder.encode(param.getKey(), "UTF-8")); // 키값을 인코딩
-            urlBuilder.append('=');
-            urlBuilder.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8")); // 값 인코딩
-        }
-
-        // URL 객체로 URL을 호출함
-        System.out.println(urlBuilder.toString()); // Url이 잘 만들었는지 확인차
-        
-        URL url = new URL(urlBuilder.toString());
-    
-        try {
-	        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-	        con.setRequestMethod("GET");
-	
-	        // Socket Timeout Exception 오류 방지 위하여 Timeout 설정 (20초로 설정)
-	        con.setConnectTimeout(20000); // 연결 시간 초과 설정 (20초)
-	        con.setReadTimeout(20000); // 읽기 시간 초과 설정 (20초)
-	        
-	        // 서버로부터 응답을 받아오기 위해 BufferedReader를 사용
-	        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
-	        // 한 줄씩 읽어서 StringBuffer에 추가
-	        String line;
-	        StringBuffer sb = new StringBuffer();
-	        while ((line = in.readLine()) != null) {
-	            sb.append(line);
-	        }
-	        in.close(); // 입력 스트림 끝. BufferedReader는 명시적으로 닫아주어야 한다.
-	
-	        // StringBuffer에 저장된 내용을 String으로 변환
-	        String text = sb.toString();
-	
-	        // 예시로 그대로 text를 반환하도록 함
-	        Map<String, Object> result = new HashMap<>();
-	        result.put("response", text);
-	        return text;
-        }catch (SocketTimeoutException e) {
+        // 최대 재시도 횟수만큼 반복
+        for (int retry = 0; retry < maxRetries; retry++) {
+            try {
+		    	// 파라미터를 URL에 추가하고 시작
+		        StringBuilder urlBuilder = new StringBuilder(stringURL);
+		        
+		        urlBuilder.append("?"); // 쿼리 스트링 시작
+		
+		        // params는 파라미터 키와 값들이 들어있는 Map
+		        for (Map.Entry<String, Object> param : params.entrySet()) {
+		        	// urlBuilder의 마지막 문자가 '?'인지 확인. *urlBuilder.length() - 1 : 문자열의 마지막 인덱스
+		            if (urlBuilder.charAt(urlBuilder.length() - 1) != '?') {
+		                urlBuilder.append('&'); // 파라미터 구분자 추가
+		            }
+		            urlBuilder.append(URLEncoder.encode(param.getKey(), "UTF-8")); // 키값을 인코딩
+		            urlBuilder.append('=');
+		            urlBuilder.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8")); // 값 인코딩
+		        }
+		
+		        // URL 객체로 URL을 호출함
+		        System.out.println(urlBuilder.toString()); // Url이 잘 만들었는지 확인차
+		        
+		        URL url = new URL(urlBuilder.toString());
+		        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		        con.setRequestMethod("GET");
+		        // Socket Timeout Exception 오류 방지 위하여 Timeout 설정 (20초로 설정)
+		        con.setConnectTimeout(20000); // 연결 시간 초과 설정 (20초)
+		        con.setReadTimeout(20000); // 읽기 시간 초과 설정 (20초)
+		        
+		        // 서버로부터 응답을 받아오기 위해 BufferedReader를 사용
+		        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
+		        // 한 줄씩 읽어서 StringBuffer에 추가
+		        String line;
+		        StringBuffer sb = new StringBuffer();
+		        while ((line = in.readLine()) != null) {
+		            sb.append(line);
+		        }
+		        in.close(); // 입력 스트림 끝. BufferedReader는 명시적으로 닫아주어야 한다.
+		
+		        // StringBuffer에 저장된 내용을 String으로 변환
+		        String text = sb.toString();
+		        // 예시로 그대로 text를 반환하도록 함
+		        Map<String, Object> result = new HashMap<>();
+		        result.put("response", text);
+		        return text;
+        } catch (SocketTimeoutException e) {
+            // SocketTimeoutException 예외 처리
             System.out.println("SocketTimeoutException 발생");
-            return null; 
+            if (retry < maxRetries - 1) {
+                // 재시도 가능한 경우, 재시도 간격을 두고 스레드 방식으로 재시도
+                System.out.println("재시도 #" + (retry + 1));
+                try {
+                    Thread.sleep(retryIntervalMillis); // 재시도 간격 대기
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+            } else {
+                // 최대 재시도 횟수를 초과한 경우, null 반환
+                System.out.println("재시도 횟수를 초과했습니다.");
+                return null;
+            }
         } catch (IOException e) {
+            // 다른 IOException 예외 처리
             e.printStackTrace();
             return null;
         }
+    }
+    return null; // 최대 재시도 횟수를 초과한 경우에도 null 반환
+
     }
 
 
@@ -126,29 +145,31 @@ public class APIClient {
         // API 호출
         try {
         	text = getApi(url, params);
-            System.out.println("초단기 API 호출 결과: " + text);
-            
-            JsonNode rootNode = objectMapper.readTree(text);
-            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
-            
-            String fcstDate = itemNode.get(0).path("fcstDate").asText();
-            String fcstTime = itemNode.get(0).path("fcstTime").asText();
-            
-            
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("fcstTime", fcstTime);
-            jsonObject.put("fcstDate", fcstDate);
-            for(JsonNode item : itemNode) {
-            	if(item.path("fcstTime").asText().equals(fcstTime)) {
-            		// 1. 맵에 저장하기
-            		result.put(item.path("category").asText(), item.path("fcstValue").asText());
-            		// 2. json으로 저장하기
-            		jsonObject.put(item.path("category").asText(), item.path("fcstValue").asText());
-            	}
-            }
-            System.out.println(jsonObject.toString());
-            dto = objectMapper.readValue(jsonObject.toString(), UltraSrtFcstBeach_DTO.class);
-            System.out.println("초단기 최근 시간 dto : "+dto.getFcstTime());
+        	if(text!=null) {
+        		System.out.println("초단기 API 호출 결과: " + text);
+                
+                JsonNode rootNode = objectMapper.readTree(text);
+                JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
+                
+                String fcstDate = itemNode.get(0).path("fcstDate").asText();
+                String fcstTime = itemNode.get(0).path("fcstTime").asText();
+                
+                
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("fcstTime", fcstTime);
+                jsonObject.put("fcstDate", fcstDate);
+                for(JsonNode item : itemNode) {
+                	if(item.path("fcstTime").asText().equals(fcstTime)) {
+                		// 1. 맵에 저장하기
+                		result.put(item.path("category").asText(), item.path("fcstValue").asText());
+                		// 2. json으로 저장하기
+                		jsonObject.put(item.path("category").asText(), item.path("fcstValue").asText());
+                	}
+                }
+                System.out.println(jsonObject.toString());
+                dto = objectMapper.readValue(jsonObject.toString(), UltraSrtFcstBeach_DTO.class);
+                System.out.println("초단기 최근 시간 dto : "+dto.getFcstTime());
+        	}
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -249,6 +270,7 @@ public class APIClient {
         return tw + "°C";
 	}
 	
+	// 파고
 	public String getWhBuoyBeach_API(int beach_num, String searchTime) {
 		String wh = null;
 		String text = null;
@@ -326,36 +348,50 @@ public class APIClient {
 		
 	}
 	
-	// 기상 특보 일주일 현황인데, 가져오려면 기존과 형식이 달라져서 생각을 좀 해봐야할듯
-	public List<Map<String, String>> getPwnStatus_API() {
-    	// API 호출
-        String url = "http://apis.data.go.kr/1360000/WthrWrnInfoService/getPwnStatus"; /*URL*/
-        String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; 
+	// 기상 특보 당장의 현황
+	public List<String> getWthrWrnMsg_API(int stnId) {
+	    // API 호출
+	    String url = "http://apis.data.go.kr/1360000/WthrWrnInfoService/getWthrWrnMsg"; /*URL*/
+	    String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; 
 
-        // 파라미터 맵 구성
-        Map<String, Object> params = new HashMap<>();
-        params.put("dataType", "JSON");
-        params.put("numOfRows", 10);
-        params.put("pageNo", 1);
-        params.put("serviceKey", serviceKey);
+	    // 파라미터 맵 구성
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("dataType", "JSON");
+	    params.put("numOfRows", 100);
+	    params.put("pageNo", 1);
+	    params.put("serviceKey", serviceKey);
+	    params.put("stnId", stnId);
 
-        // API 호출
-        List<Map<String, String>> itemList = new ArrayList<Map<String, String>>();
-        try {
-        	String text = getApi(url, params);
-            System.out.println("기온 특보 API 호출 결과: " + text);
-        
-            JsonNode rootNode = objectMapper.readTree(text);
-            // tm과 tw 추출
-            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
-            System.out.println(itemNode);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        return null;
-		
+	    // API 호출
+	    String itemresult = null;
+	    List<String> alerts = new ArrayList<>();
+	    try {
+	        String text = getApi(url, params);
+	        System.out.println("기온 특보 API 호출 결과: " + text);
+	    
+	        JsonNode rootNode = objectMapper.readTree(text);
+	        // 결과 코드 확인. 정상이면 00, 데이터가 없으면 03
+	        JsonNode headerNode = rootNode.path("response").path("header");
+	        String resultCode = headerNode.path("resultCode").asText();
+	        if (resultCode.equals("00")) {
+	            // 현황 문장 뽑아오기
+	            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item").get(0).path("t6");
+	            itemresult = itemNode.toString();
+	            String[] words = itemresult.split(" ");
+	            for (String word : words) {
+	                if (word.contains("주의보")) {
+	                    alerts.add(word);
+	                }
+	            }
+	            System.out.println(words);
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return alerts;
 	}
+
 	
 	// 다른 연도의 기상 정보를 검색해오는 API
 	public getWthrDataList_DTO getWthrDataList_API(int stnIds, String currentDateString) {
@@ -445,50 +481,52 @@ public class APIClient {
 		try {
 			// 요청 api의 String 결과
 			String text = getVilageFcstBeach_API(beach_num, getCurrentDateString, basetime, 3);
-			JsonNode rootNode = objectMapper.readTree(text);
-			JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
+			if (text != null) {
+				JsonNode rootNode = objectMapper.readTree(text);
+				JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
 
-			// 날짜를 기준으로 데이터를 그룹화하는 맵 + LinkedHashMap으로 순서 유지
-            Map<String, List<JsonNode>> dateGroupedData = new LinkedHashMap<>();
-			// 날자 기준 데이터를 그룹화
-            for (JsonNode item : itemNode) {
-                String fcstDate = item.get("fcstDate").asText();
-                dateGroupedData.putIfAbsent(fcstDate, new ArrayList<>()); // groupedData에 해당 키가 존재하지 않으면 새로운 리스트를 만들고, 아니라면 null을 반환
-                dateGroupedData.get(fcstDate).add(item);
-            }
-            for(String key : dateGroupedData.keySet()) { // dateGroupedData의 키 값(날짜 정보들) 세트로 반복
-            	List<JsonNode> itemList = dateGroupedData.get(key); // 키의 밸류값을 가져옴(날짜 별로 저장된 jsonnode 모음)
-            	// 시간을 기준으로 노드를 한 번 더 그룹화하는 맵 + 순서 유지
-            	Map<String, List<JsonNode>> timeGroupedData = new LinkedHashMap<>();
-            	// 시간 별로 node 묶어주기
-            	for (JsonNode node : itemList) {
-                    String fcstTime = node.get("fcstTime").asText();
-                    timeGroupedData.putIfAbsent(fcstTime, new ArrayList<>());
-                    timeGroupedData.get(fcstTime).add(node);
-                }
-                
-            	// 시간 별 쌍을 저장할 map 만들어주기
-            	Map<String, VilageFcstBeach_DTO> timeObjectData = new LinkedHashMap<>();
-            	// 시간 별로 category랑 value 쌍 만들어주기
-                for(String time : timeGroupedData.keySet()) {
-                	
-                	JSONObject jsonObject = new JSONObject();
-                	jsonObject.put("fcstTime", time);
-                    jsonObject.put("fcstDate", key);
-                    
-                	for(JsonNode item : timeGroupedData.get(time)) {
-                    	jsonObject.put(item.path("category").asText(), item.path("fcstValue").asText());
-                    }
-                	// 오류 방지 차원
-                	objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                	dto = objectMapper.readValue(jsonObject.toString(), VilageFcstBeach_DTO.class);
-        	        System.out.println("jsonObject: " + jsonObject);
-        	        timeObjectData.put(time, dto);
-                }
-                
-                groupedData.put(key, timeObjectData);
-//                System.out.println(key+"일의 groupedData: "+groupedData.get(key));
-            }
+				// 날짜를 기준으로 데이터를 그룹화하는 맵 + LinkedHashMap으로 순서 유지
+	            Map<String, List<JsonNode>> dateGroupedData = new LinkedHashMap<>();
+				// 날자 기준 데이터를 그룹화
+	            for (JsonNode item : itemNode) {
+	                String fcstDate = item.get("fcstDate").asText();
+	                dateGroupedData.putIfAbsent(fcstDate, new ArrayList<>()); // groupedData에 해당 키가 존재하지 않으면 새로운 리스트를 만들고, 아니라면 null을 반환
+	                dateGroupedData.get(fcstDate).add(item);
+	            }
+	            for(String key : dateGroupedData.keySet()) { // dateGroupedData의 키 값(날짜 정보들) 세트로 반복
+	            	List<JsonNode> itemList = dateGroupedData.get(key); // 키의 밸류값을 가져옴(날짜 별로 저장된 jsonnode 모음)
+	            	// 시간을 기준으로 노드를 한 번 더 그룹화하는 맵 + 순서 유지
+	            	Map<String, List<JsonNode>> timeGroupedData = new LinkedHashMap<>();
+	            	// 시간 별로 node 묶어주기
+	            	for (JsonNode node : itemList) {
+	                    String fcstTime = node.get("fcstTime").asText();
+	                    timeGroupedData.putIfAbsent(fcstTime, new ArrayList<>());
+	                    timeGroupedData.get(fcstTime).add(node);
+	                }
+	                
+	            	// 시간 별 쌍을 저장할 map 만들어주기
+	            	Map<String, VilageFcstBeach_DTO> timeObjectData = new LinkedHashMap<>();
+	            	// 시간 별로 category랑 value 쌍 만들어주기
+	                for(String time : timeGroupedData.keySet()) {
+	                	
+	                	JSONObject jsonObject = new JSONObject();
+	                	jsonObject.put("fcstTime", time);
+	                    jsonObject.put("fcstDate", key);
+	                    
+	                	for(JsonNode item : timeGroupedData.get(time)) {
+	                    	jsonObject.put(item.path("category").asText(), item.path("fcstValue").asText());
+	                    }
+	                	// 오류 방지 차원
+	                	objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	                	dto = objectMapper.readValue(jsonObject.toString(), VilageFcstBeach_DTO.class);
+	        	        System.out.println("jsonObject: " + jsonObject);
+	        	        timeObjectData.put(time, dto);
+	                }
+	                
+	                groupedData.put(key, timeObjectData);
+//	                System.out.println(key+"일의 groupedData: "+groupedData.get(key));
+	            }
+			}
             
 		} catch (JsonMappingException e) {
 			// TODO Auto-generated catch block
@@ -640,10 +678,9 @@ public class APIClient {
             } else if (sky.equals("3")) {
                 score += 2;
             } else {
-                score = 0; // 기타 경우에 대해 가장 낮은 점수 부여
-                break; // 바로 반복문 종료
+                score += 1; // 기타 경우에 대해 가장 낮은 점수 부여
             }
-
+            System.out.println("하늘점수: "+score);
             // 강수량에 따른 점수 계산
             if (rn1 >= 10) {
                 score = 0;
@@ -657,11 +694,11 @@ public class APIClient {
             } else {
                 score += 4;
             }
-
+            System.out.println("강수량점수: "+score);
             // 바람에 따른 점수 계산
-            if (wind <1.5) {
+            if (wind <=3) {
                 score += 5;
-            } else if (wind < 4) {
+            } else if (wind < 5) {
                 score += 4;
             } else if (wind < 9) {
                 score += 3;
@@ -671,7 +708,7 @@ public class APIClient {
                 score = 0;
                 break; // 바로 반복문 종료
             }
-
+            System.out.println("바람점수: "+score);
             // 파고에 따른 점수 계산
             if (wave >= 3) {
                 score = 0;
@@ -687,6 +724,7 @@ public class APIClient {
             }
         }
 
+        System.out.println("총점수: "+score);
         // 최종 날씨 지수 계산
         String weatherIndex = convertToChoiceFormat(score);
         return weatherIndex;

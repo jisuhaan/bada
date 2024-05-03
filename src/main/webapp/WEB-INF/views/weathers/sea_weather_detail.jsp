@@ -89,7 +89,7 @@
 
 </head>
 <body>
-<h2> ${bldt.beach} : 오늘의 날씨 정보</h2>
+<h2> ${choicebeach.beach} : 오늘의 날씨 정보</h2>
 <br>
 <div>
 <h1>단기 예보</h1>
@@ -184,6 +184,10 @@ document.addEventListener("DOMContentLoaded", function() {
             <td>평균 전운량</td>
             <td>${wthrmap.value.avgTca}</td>
         </tr>
+        <tr>
+            <td>작년 이 시간의 파고</td>
+            <td>${wthrmap.value.wh}</td>
+        </tr>
         <%-- ptySet이 null이 아닐 때 해당 리스트 항목도 추가 --%>
         <c:if test="${wthrmap.value.ptySet ne null}">
             <tr>
@@ -251,7 +255,8 @@ document.addEventListener("DOMContentLoaded", function() {
                                            '<p>최고 기온: ' + weather.maxTa + '</p>' +
                                            '<p>평균 풍속: ' + weather.avgWs + '</p>' +
                                            '<p>평균 상대습도: ' + weather.avgRhm + '</p>' +
-                                           '<p>평균 전운량: ' + weather.avgTca + '</p>';
+                                           '<p>평균 전운량: ' + weather.avgTca + '</p>' +
+                                           '<p>이 시간의 파고: ' + weather.wh + '</p>';
             
            // ptySet이 null이 아닐 때 해당 리스트 항목도 추가
            if (weather.ptySet != null) {

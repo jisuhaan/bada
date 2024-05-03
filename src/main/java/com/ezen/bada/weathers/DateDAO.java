@@ -37,12 +37,14 @@ public class DateDAO {
         	currentTime =  currentTime.withMinute(30);
         }
         else {
-        	currentTime =  currentTime.minusHours(1).withMinute(30);
 			if(currentTime.getHour()==0) {
-				setdate = getYesterdayDateString();		
+				setdate = getYesterdayDateString();	
+				currentTime =  currentTime.withHour(23).withMinute(30);
+			}
+			else{
+				currentTime =  currentTime.minusHours(1).withMinute(30);
 			}
         }
-    
         datemap.put("date", setdate);
     	datemap.put("time", currentTime.format(DateTimeFormatter.ofPattern("HHmm")));
 		return datemap;

@@ -30,7 +30,9 @@ public interface Service {
 
 	int total();
 
-	ArrayList<AllBoardDTO> review_list(PageDTO dto);
+	ArrayList<AllBoardDTO> page_review_listout_latest(PageDTO dto);
+
+	ArrayList<AllBoardDTO> page_review_listout_popular(PageDTO dto);
 
 	void hit_up(int review_num);
 

@@ -77,35 +77,43 @@ function mybbti(id){
 <body>
 
 <div class="container">
-	<div class="profile-card">
-	  <div class="profile-info">
-	      <div class="profile-image">
-	      <img src="./resources/image/profile.png">
-	    </div>
-	    <div class="profile-name-email">
-	      <p><strong>${info.name} 님</strong></p>
-	      <p>${info.email}</p>
-	    </div>
-	  </div>
-	  <div class="profile-action">
-	    <button type="button" onclick="location.href='info_modify?id=${info.id}'">나의정보수정</button>
-	    <button type="button" onclick="confirm_quit()">회원탈퇴</button>
-	  </div>
-	   <div class="additional-actions">
-	        <div class="action-item">
-	            <button type="button" class="action-button" onclick="mybbti('${info.id}')">나의 BBTI</button>
-	        </div>
-	        <div class="action-item">
-	            <button type="button" class="action-button" onclick="location.href='my_favorite'">북마크 바다</button>
-	        </div>
-	        <div class="action-item">
-	            <button type="button" class="action-button" onclick="location.href='my_review'">나의 리뷰</button>
-	        </div>
-	        <div class="action-item">
-	            <button type="button" class="action-button" onclick="location.href='my_require'">나의 문의</button>
-	        </div>
-	    </div>
-	</div>
+<div class="profile-card">
+  <div class="profile-info">
+      <div class="profile-image">
+      <img src="./resources/image/profile.png">
+    </div>
+    <div class="profile-name-email">
+      <p><strong>${info.name} 님</strong></p>
+      <p>${info.email}</p>
+    </div>
+  </div>
+  <div class="profile-action">
+    <button type="button" onclick="location.href='info_modify?id=${info.id}'">나의정보수정</button>
+    <button type="button" onclick="confirm_quit()">회원탈퇴</button>
+  </div>
+   <div class="additional-actions">
+        <div class="action-item">
+        	<img src="./resources/image_bbti/${info.bbti}.png"
+        		 onerror="this.onerror=null; this.src='./resources/image_bbti/NOBBTI.png'"
+        	 	 width="160px" height="130px">
+            <button type="button" class="action-button" onclick="mybbti('${info.id}')">나의 BBTI</button>
+        </div>
+        <div class="action-item">
+        	<img src="./resources/image/my_bookmark.png" width="80px" height="80px">
+        	<p><strong>나의 북마크 <span class="number-text">${bookmark}</span>건!</strong></p>
+            <button type="button" class="action-button" onclick="location.href='my_favorite'">북마크 바다</button>
+        </div>
+        <div class="action-item">
+        	<img src="./resources/image/my_review.png" width="100px" height="100px">
+        	<p><strong>내가 쓴 리뷰 <span class="number-text">${review}</span>건!</strong></p>
+            <button type="button" class="action-button" onclick="location.href='my_review'">나의 리뷰</button>
+        </div>
+        <div class="action-item">
+       		<img src="./resources/image/my_inquire.png" width="100px" height="100px">
+        	<p><strong>내가 남긴 문의 <span class="number-text">${inquire}</span>건!</strong></p>
+            <button type="button" class="action-button" onclick="location.href='my_require'">나의 문의</button>
+        </div>
+    </div>
 	<div class="mypostcontainer">
 		<jsp:include page="my_post.jsp" />
 	</div>

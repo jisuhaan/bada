@@ -104,9 +104,10 @@ public interface Service {
 
 	String report_check(int reply_num, String id, String reason, String reply_contents);
 
-	ArrayList<AllBoardDTO> search_result(String category, String search);
+	// 수정하기
+	ArrayList<AllBoardDTO> search_result(String category, String search, int start, int end);
 
-	ArrayList<AllBoardDTO> search_area_result(String area);
+	ArrayList<AllBoardDTO> search_area_result(String area, int start, int end);
 
 	ArrayList<Review_report_DTO> review_report(PageDTO dto);
 
@@ -195,6 +196,11 @@ public interface Service {
   
   //각 지역 리뷰 전체갯수/새글수 불러오기
 	ArrayList<CountreviewDTO> getreviewcount();
+	
+  // 검색 리뷰 개수
+	int search_result_count(String category, String search);
+
+	int area_result_count(String area);
 
 
 

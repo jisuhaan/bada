@@ -32,15 +32,10 @@ a {
 
 /* 데스크탑 사이즈 */	
 
-body {
-	display:flex;
-	justify-content:center;
-	align-items:center;
-}
-
 .container{
-	width:1200px;
-	height:90%;
+	margin: 0 auto;
+	width: 1200px;
+	height: 90%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -48,12 +43,9 @@ body {
 	text-align: center;	
 }
 
-.search {
-	margin-bottom: 50px;
-}
-
-.member_table {
-	width: 700px;
+.ban_table {
+	margin-top:100px;
+	width: 1000px;
 }
 
 table {
@@ -62,11 +54,11 @@ table {
 }
 
 .board-table {
-  font-size: 13px;
-  width: 100%;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  background-color: rgba(247,247,247,0.9);
+	font-size: 13px;
+	width: 100%;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	background-color: rgba(247,247,247,0.9);
 }
 
 .board-table a {
@@ -87,18 +79,30 @@ tr:not(:last-child):hover {
 	background-color: rgba(205,228,242,0.8);
 }
 
-.board-table .th-num {
-  width: 100px;
-  text-align: center;
+.th-r_title {
+	width: 200px;
+	text-align: center;
 }
 
-.th-id,
-.th-name {
+.th-r_user,
+.th-r_reported {
 	width: 150px;
+	text-align: center;
 }
 
-.th-age {
-	width:100px;
+.th-r_text {
+	width: 150px;
+	text-align: center;
+}
+
+.th-r_reason{
+	width:150px;
+	text-align: center;
+}
+
+.th-r_date {
+	width:150px;
+	text-align: center;
 }
 
 .board-table th, .board-table td {
@@ -108,6 +112,7 @@ tr:not(:last-child):hover {
 .board-table tbody td {
   border-top: 1px solid #e7e7e7;
   text-align: center;
+  padding:5px
 }
 
 .board-table tbody th {
@@ -122,31 +127,31 @@ tr:not(:last-child):hover {
 }
 
 .btn {
-  display: inline-block;
-  padding: 0 30px;
-  font-size: 15px;
-  font-weight: 400;
-  background: transparent;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  border: 1px solid transparent;
-  text-transform: uppercase;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -ms-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s;
+	display: inline-block;
+	padding: 0 30px;
+	font-size: 15px;
+	font-weight: 400;
+	background: transparent;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: 1px solid transparent;
+	text-transform: uppercase;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	-ms-transition: all 0.3s;
+	-o-transition: all 0.3s;
+	transition: all 0.3s;
 }
 
 .btn-dark {
@@ -170,3 +175,4 @@ tr:not(:last-child):hover {
   border-color: #373737;
   color: #fff;
 }
+

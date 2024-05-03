@@ -76,35 +76,39 @@ function mybbti(id){
 </head>
 <body>
 
-<div class="profile-card">
-  <div class="profile-info">
-      <div class="profile-image">
-      <img src="./resources/image/profile.png">
-    </div>
-    <div class="profile-name-email">
-      <p><strong>${info.name} 님</strong></p>
-      <p>${info.email}</p>
-    </div>
-  </div>
-  <div class="profile-action">
-    <button type="button" onclick="location.href='info_modify?id=${info.id}'">나의정보수정</button>
-    <button type="button" onclick="confirm_quit()">회원탈퇴</button>
-  </div>
-   <div class="additional-actions">
-        <div class="action-item">
-            <button type="button" class="action-button" onclick="mybbti('${info.id}')">나의 BBTI</button>
-        </div>
-        <div class="action-item">
-            <button type="button" class="action-button" onclick="location.href='my_favorite'">북마크 바다</button>
-        </div>
-        <div class="action-item">
-            <button type="button" class="action-button" onclick="location.href='my_review'">나의 리뷰</button>
-        </div>
-        <div class="action-item">
-            <button type="button" class="action-button" onclick="location.href='my_require'">나의 문의</button>
-        </div>
-    </div>
+<div class="container">
+	<div class="profile-card">
+	  <div class="profile-info">
+	      <div class="profile-image">
+	      <img src="./resources/image/profile.png">
+	    </div>
+	    <div class="profile-name-email">
+	      <p><strong>${info.name} 님</strong></p>
+	      <p>${info.email}</p>
+	    </div>
+	  </div>
+	  <div class="profile-action">
+	    <button type="button" onclick="location.href='info_modify?id=${info.id}'">나의정보수정</button>
+	    <button type="button" onclick="confirm_quit()">회원탈퇴</button>
+	  </div>
+	   <div class="additional-actions">
+	        <div class="action-item">
+	            <button type="button" class="action-button" onclick="mybbti('${info.id}')">나의 BBTI</button>
+	        </div>
+	        <div class="action-item">
+	            <button type="button" class="action-button" onclick="location.href='my_favorite'">북마크 바다</button>
+	        </div>
+	        <div class="action-item">
+	            <button type="button" class="action-button" onclick="location.href='my_review'">나의 리뷰</button>
+	        </div>
+	        <div class="action-item">
+	            <button type="button" class="action-button" onclick="location.href='my_require'">나의 문의</button>
+	        </div>
+	    </div>
+	</div>
+	<div class="mypostcontainer">
+		<jsp:include page="my_post.jsp" />
+	</div>
 </div>
-
 </body>
 </html>

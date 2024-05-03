@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ include file="mypage.jsp" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,25 +10,24 @@
 <title>바라는 바다 :: 나의 게시글</title>
 <style>
 
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 20px;
-    }
     .my_post_table {
+    	margin:0 auto;
         width: 110%; 
         display: flex;
 	    justify-content: space-between;
+	    align-items: center;
 	    flex-wrap: wrap;
-	    margin-top: 70px;
+	    margin-top: 50px;
     }
     
-    .content-container {
-    flex: 1;
-    margin: 0 20px;
-    min-width: 45%;
-	}
+    .content-container{
+    	width:48%;
+    	margin: 0 auto;
+    	display: flex;
+    	flex-direction:column;
+    	justify-content: center;
+    	align-items: center;
+    }
     
     .table-title {
     	width: 200px;
@@ -43,6 +42,7 @@
         z-index: 2;
     }
     .table-container {
+    	width:100%;
         background-color: #fff;
         border-radius: 8px;
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -59,7 +59,7 @@
     }
     
     td:first-child {
-    text-align: left;
+	    text-align: left;
 	}
     
     th {
@@ -70,10 +70,10 @@
         margin-bottom: 0;
     }
     .ellipsis {
-    max-width: 150px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+	    max-width: 150px;
+	    overflow: hidden;
+	    white-space: nowrap;
+	    text-overflow: ellipsis;
 	}
     
 </style>

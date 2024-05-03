@@ -91,3 +91,7 @@
     margin: 10px auto; /* 자동으로 중앙 정렬 */
     width: 80%; /* 버튼의 너비 */
   }
+  
+  .number-text {
+    color: #ff0080;
+}

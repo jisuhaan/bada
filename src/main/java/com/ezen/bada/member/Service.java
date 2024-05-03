@@ -110,6 +110,8 @@ public interface Service {
 
 	String havebbti(String id);
 
+	int bookmark_total(String loginid);
+
 
 	
 

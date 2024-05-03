@@ -16,11 +16,11 @@
 $(document).ready(function() {
 	
 	 $('#area').change(function() {
-	        var selecte_area = $(this).val(); // 선택된 지역값
+	        var select_area = $(this).val(); // 선택된 지역값
 	        $.ajax({
 	            type: "POST",
 	            url: "review_area_search",
-	            data: {'area' : selecte_area}, 
+	            data: {'area' : select_area}, 
 	            dataType: "html",
 	            success: function(data) {
 	                $('#board-list').html(data); 
@@ -40,9 +40,8 @@ $(document).ready(function() {
             type: "POST",
             url: "review_search",
             data: form_data,
-            dataType: "html",
-            success: function(data) {
-                $('#board-list').html(data);
+            success: function(response) {
+            	$('#board-list').html(response); // 여기가 문제 인거 같은데
             }
         });
     });
@@ -178,7 +177,7 @@ function toggleContent(id) {
         </div>
     </div>
    
-   <div id="board-list">
+   <div id="board-intro">
         <div class="container">
             <table class="board-table">
                 <tbody>

@@ -1,5 +1,15 @@
 @charset "UTF-8";
 
+.container {
+	display:flex;
+	flex-direction: column;
+	margin: 0 auto;
+	margin-top: 15px;
+	justify-content: center;
+	align-items: center;
+	gap:40px;
+}
+
  .profile-card {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 1300px;
@@ -11,10 +21,9 @@
     background: #fff;
     border-radius: 8px;
     position: relative;
-    margin: auto;
+    margin: 0 auto;
     top: none;
     left: none;
-    margin-top: 15px;
     justify-content: flex-start; 
     flex-direction: column; 
     height: auto; 
@@ -91,3 +100,16 @@
     margin: 10px auto; /* 자동으로 중앙 정렬 */
     width: 80%; /* 버튼의 너비 */
   }
+
+  .number-text {
+    color: #ff0080;
+}
+
+  .mypostcontainer {
+  	width:100%;
+  	margin: 0 auto;
+  	display: flex;
+  	justify-content: center;
+  	align-items: center;
+  }
+

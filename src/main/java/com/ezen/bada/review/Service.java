@@ -30,7 +30,9 @@ public interface Service {
 
 	int total();
 
-	ArrayList<AllBoardDTO> review_list(PageDTO dto);
+	ArrayList<AllBoardDTO> page_review_listout_latest(PageDTO dto);
+
+	ArrayList<AllBoardDTO> page_review_listout_popular(PageDTO dto);
 
 	void hit_up(int review_num);
 
@@ -104,9 +106,10 @@ public interface Service {
 
 	String report_check(int reply_num, String id, String reason, String reply_contents);
 
-	ArrayList<AllBoardDTO> search_result(String category, String search);
+	// 수정하기
+	ArrayList<AllBoardDTO> search_result(String category, String search, int start, int end);
 
-	ArrayList<AllBoardDTO> search_area_result(String area);
+	ArrayList<AllBoardDTO> search_area_result(String area, int start, int end);
 
 	ArrayList<Review_report_DTO> review_report(PageDTO dto);
 
@@ -195,6 +198,11 @@ public interface Service {
   
   //각 지역 리뷰 전체갯수/새글수 불러오기
 	ArrayList<CountreviewDTO> getreviewcount();
+	
+  // 검색 리뷰 개수
+	int search_result_count(String category, String search);
+
+	int area_result_count(String area);
 
 
 

@@ -236,4 +236,9 @@ from. (정)지수 -->
 	 SELECT NVL(bbti, 'null') AS bbti FROM bada_user WHERE id = #{param1}
 </select>
 
+<!-- 나의 북마크 수  -->
+<select id="bookmark_total" resultType="int">
+   select count(*) from bada_user_review where rec_id LIKE '%' || #{param1} || '%'
+</select>
+
 </mapper>

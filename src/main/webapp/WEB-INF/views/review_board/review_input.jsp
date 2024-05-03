@@ -12,108 +12,115 @@
 </head>
 <body>
 
-	<form id="review_form" action="review_save" method="post" enctype="multipart/form-data">
-		<table align="center">
-		<caption>바다후기 게시글 입력</caption>
-			<tr>
-				<th>작성자</th>
-				<td>
-					<input type="text" name="name" id="name" value="${dto.name}" readonly="readonly">
-					<input type="hidden" name="id" id="id" value="${dto.id}" >
-				</td>
-			</tr>
-			
-			<tr>
-				<th>방문일</th>
-				<td>
-					<input type="date" name="visit_day" id="visit_day" onchange="checkDate()" required>
-				</td>
-			</tr>
-			
-			<tr>
-				<th>후기 바다</th>
-				<td>
-					<select name="beach" id="beach" required>
-					<option value="" disabled selected>방문한 바다를 선택해주세요!</option>
-					    <c:forEach items="${beachList}" var="beach">
-					        <option value="${beach.beach_code}">${beach.beach}</option>
-					    </c:forEach>
-					</select>    
-				</td>
-			</tr>
-			<tr>
-				<th>제목 &nbsp;&nbsp;</th>
-				<td><input type="text" name="review_title" id="review_title" required placeholder="제목을 입력하세요."></td>
-			</tr>
-			<tr>
-				<th>썸네일</th>
-	            <td> 
-	            
-	            <input type="file" name="thumb_nail" id="thumb_nail" onchange="previewFile()">
-				<div id="thumbnail_view"></div>
-	            
-	            </td>
-			</tr>
-			
-			<tr>
-				<th>사진첨부(최대 5장)</th>
+<div class="container">
 
-	                <td id="pic_pack">
-	                    <input type="file" name="pic1" id="pic1">
-	                    <button type="button" onclick="addPicField()"> + </button>
-	                </td>
+<div id="container_title">리뷰작성</div>
 
-			</tr>
-			<tr>
-				<th>내용</th>
-				<td>
-					<textarea cols="60" rows="30" name="review_contents" id="review_contents" placeholder="후기는 1500자 이하로 입력하세요." required ></textarea>
-				</td>
-			</tr>
-			<tr>
-				<th>별점</th>
-				<td>
-					<fieldset id="star">
-					    <input type="radio" name="review_score" value="5" id="rate1" ><label for="rate1">★</label>
-					    <input type="radio" name="review_score" value="4" id="rate2" ><label for="rate2">★</label>
-					    <input type="radio" name="review_score" value="3" id="rate3" ><label for="rate3">★</label>
-					    <input type="radio" name="review_score" value="2" id="rate4" ><label for="rate4">★</label>
-					    <input type="radio" name="review_score" value="1" id="rate5" ><label for="rate5">★</label>
-					</fieldset>
-			    </td>
-			</tr>
-			<tr>
-                <th>해시태그</th>
-                <input type="hidden" name="hashtags" id="hashtags" value="">
-                <td id="hasjtagFields">
-                	<div class="hashtag-categories">
-			            <div class="category" data-category="함께한 사람">함께한 사람</div>
-			            <div class="category" data-category="편의시설">편의시설</div>
-			            <div class="category" data-category="바다상태">바다상태</div>
-			            <div class="category" data-category="액티비티/취미">액티비티/취미</div>
-			            <div class="category" data-category="풍경">풍경</div>
-        			</div>
-      			    <div class="hashtag-dropdown" style="display: none;"></div>
-      			    <br> <div id="selected-tags"></div> <br>
-                </td>
-            </tr>
-	            <tr>
-	                <th>재방문 의사</th>
-	                <input type="hidden" name="re_visit" id="re_visit_input">
-				    <td id="re_visit">
-				        <div class="visit-box" data-value="Yes">Yes</div>
-				        <div class="visit-box" data-value="No">No</div>
-				    </td>
-	            </tr>
-			<tr>
-				<td colspan="2" align="center">
-					<input type="submit" value="전송">
-					<input type="reset" value="취소">
-				</td>
-			</tr>
-		</table>
-	</form>
 
+<form id="review_form" action="review_save" method="post" enctype="multipart/form-data">
+
+<div class="listbox writer">
+	<div id="list_title">작성자</div>
+	<div id="list_contents"><input type="text" name="name" id="name" value="${dto.name}" readonly="readonly">
+	<input type="hidden" name="id" id="id" value="${dto.id}"></div>
+</div>
+
+<div class="listbox visitdate">
+	<div id="list_title">방문일</div>
+	<div id="list_contents"><input type="date" name="visit_day" id="visit_day" onchange="checkDate()" required></div>
+</div>
+
+
+<div class="listbox categories">
+	<div id="list_title">후기 바다</div>
+	<select name="beach" id="beach" required>
+	<option value="" disabled selected>방문한 바다를 선택해주세요!</option>
+	<c:forEach items="${beachList}" var="beach">
+	<option value="${beach.beach_code}">${beach.beach}</option>
+	</c:forEach>
+	</select>    
+</div>
+
+
+<div class="listbox titles">
+	<div id="list_title">제목</div>
+	<div id="list_contents"><input type="text" name="review_title" id="review_title" required placeholder="제목을 입력하세요."></div>
+</div>
+
+<div class="listbox thumbnails">
+<div id="list_title">썸네일</div>
+<input type="file" name="thumb_nail" id="thumb_nail" onchange="previewFile()" class="btn">
+<div id="thumbnail_view"></div>
+</div>
+         
+
+
+<div class="listbox addphoto">
+<div class="pic_add">
+<div id="list_title">사진첨부(최대 5장)</div>
+<input type="file" name="pic1" id="pic1" class="btn">
+<button type="button" onclick="addPicField()" class="btn"> + </button>
+</div>
+<div id="pic_pack"></div>
+</div>
+
+
+<div class="listbox contents">
+<div id="list_title">내용</div>
+<div id="list_contents">
+<textarea cols="60" rows="30" name="review_contents" id="review_contents" placeholder="후기는 1500자 이하로 입력하세요." required ></textarea>
+</div>
+</div>
+
+<div class="listbox reviewstars">
+<div id="list_title">별점</div>
+<div id="list_contents">
+	<fieldset id="star">
+	    <input type="radio" name="review_score" value="5" id="rate1" ><label for="rate1">★</label>
+	    <input type="radio" name="review_score" value="4" id="rate2" ><label for="rate2">★</label>
+	    <input type="radio" name="review_score" value="3" id="rate3" ><label for="rate3">★</label>
+	    <input type="radio" name="review_score" value="2" id="rate4" ><label for="rate4">★</label>
+	    <input type="radio" name="review_score" value="1" id="rate5" ><label for="rate5">★</label>
+	</fieldset>
+</div>
+</div>
+
+<div class="listbox hashes">
+<div id="list_title">해시태그</div>
+<div id="list_contents">
+<input type="hidden" name="hashtags" id="hashtags" value="">
+<div id="hasjtagFields">
+<div class="hashtag-categories">
+<div class="category" data-category="함께한 사람">함께한 사람</div>
+<div class="category" data-category="편의시설">편의시설</div>
+<div class="category" data-category="바다상태">바다상태</div>
+<div class="category" data-category="액티비티/취미">액티비티/취미</div>
+<div class="category" data-category="풍경">풍경</div>
+</div>
+<div class="hashtag-dropdown" style="display: none;"></div>
+<br> <div id="selected-tags"></div> <br>
+</div>
+</div>
+</div>      
+
+<div class="listbox revisiting">      
+<div id="list_title">재방문 의사</div>
+<div id="list_contents">
+<input type="hidden" name="re_visit" id="re_visit_input">
+<div id="re_visit">
+<div class="visit-box" data-value="Yes">Yes</div>
+<div class="visit-box" data-value="No">No</div>
+</div>
+</div>
+</div>
+<br><hr><br>
+<div class="listbox btns">   
+<input type="submit" value="전송" class="btn2">
+<input type="reset" value="취소" class="btn2">
+</div>
+			
+</form>
+</div>
 
 <script>
 
@@ -152,7 +159,7 @@
 	
 	    // 버튼을 누르면 새로운 사진 input창 생성
 	    var newField = document.createElement('div');
-	    newField.innerHTML = '<input type="file" name="pic' + PicCount + '" id="pic' + PicCount + '">';
+	    newField.innerHTML = '<input type="file" name="pic' + PicCount + '" id="pic' + PicCount + '" class="btn">';
 	
 	    // 위에서 추가한 것을 보이도록 해서 pic_pack에 추가
 	    document.getElementById('pic_pack').appendChild(newField);

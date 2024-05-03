@@ -1,11 +1,90 @@
 @charset "UTF-8";
 
+.container {
+	margin: 0 auto;
+	width:900px;
+	display:flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap:20px;
+	padding: 30px;
+	border: 1px solid gray;
+	background-color: rgba(255,255,255,0.8);
+	box-shadow: 2px 2px 2px gray;
+}
+
+#container_title {
+	font-family: 'DOSGothic';
+	font-size:40px;
+	text-align: center;
+	margin-bottom: 30px;
+	font-weight: 600;
+}
+
+.listbox {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding:10px;
+	gap:10px;
+}
+
+#list_title{
+	font-family: 'DOSGothic';
+	font-size: 20px;
+	text-align: center;
+	font-weight: 600;
+}
+
+hr {
+	width:100%;
+	color:gray;
+	line-height: 4px;
+	opacity: 0.7;
+}
+
 .category {
     border: 1px solid #ccc;
     padding: 10px;
     margin: 5px;
     display: inline-block;
     cursor: pointer;
+}
+
+.addphoto {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;	
+}
+
+.pic_add {
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#pic_pack {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap:5px;
+}
+
+.contents {
+	gap:20px;
+}
+
+#review_contents {
+	width:500px;
+	height:300px;
+	border: 1px solid gray;
+	font-family: 'Pretendard-Regular';
+	font-size:14px;
+	padding:10px;
+	resize: none;
 }
 
 .hashtag-dropdown {

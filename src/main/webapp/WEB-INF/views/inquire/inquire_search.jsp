@@ -16,7 +16,7 @@
             dateInput.value = ""; // 날짜를 선택하지 않는 경우
         } else {
             var date = new Date(selectedDate);
-            var formattedDate = date.getFullYear() + '\' + ('0' + (date.getMonth() + 1)).slice(-2) + '\' + ('0' + date.getDate()).slice(-2);
+            var formattedDate = date.getFullYear() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + ('0' + date.getDate()).slice(-2);
             dateInput.value = formattedDate; // Set formatted date (yyyy-MM-dd)
         }
     }

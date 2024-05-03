@@ -688,6 +688,13 @@ public class ReviewController {
 		    
 	      String category = request.getParameter("search_category");
 	      String search = request.getParameter("search");
+	      String nowPage = request.getParameter("nowPage");
+	      String cntPerPage = request.getParameter("cntPerPage");
+	      
+	      if (nowPage == null || cntPerPage == null) {
+	          nowPage = "1";
+	          cntPerPage = "20";
+	      }
       
 	      if ("vdate".equals(category) || "wdate".equals(category)) {
 	          String year = request.getParameter("year");
@@ -707,12 +714,14 @@ public class ReviewController {
 	      
 	      Service ss = sqlsession.getMapper(Service.class);
 	      
-	      ArrayList<AllBoardDTO> list = ss.search_result(category,search);
+	      int total = ss.search_result_count(category, search);
+	      PageDTO dto = new PageDTO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+	      
+	      ArrayList<AllBoardDTO> list = ss.search_result(category,search, dto.getStart(), dto.getEnd());
 
 	      StringBuilder sb = new StringBuilder();
 	      sb.append("<table class='board-table'>");
-	      sb.append("<thead>");
-	      sb.append("<tr>");
+	      sb.append("<thead><tr>");
 	      sb.append("<th scope='col' class='th-num'>번호</th>");
 	      sb.append("<th scope='col' class='th-title'>제목</th>");
 	      sb.append("<th scope='col' class='th-writer'>작성자</th>");
@@ -720,57 +729,50 @@ public class ReviewController {
 	      sb.append("<th scope='col' class='th-date wdate'>작성일</th>");
 	      sb.append("<th scope='col' class='th-num recommend'>추천수</th>");
 	      sb.append("<th scope='col' class='th-num view'>조회수</th>");
-	      sb.append("</tr>");
-	      sb.append("</thead>");
+	      sb.append("</tr></thead>");
 	      sb.append("<tbody>");
 
-	      sb.append("<tr class='notice_line'>");
-	      sb.append("<td>3</td>");
-	      sb.append("<td class='text_title'><a href='#'>[공지사항] 3번 </a></td>");
-	      sb.append("<td>관리자</td>");
-	      sb.append("<td></td>");
-	      sb.append("<td>2024-04-08</td>");
-	      sb.append("<td></td>");
-	      sb.append("<td></td>");
-	      sb.append("</tr>");
-
-	      sb.append("<tr class='notice_line'>");
-	      sb.append("<td>2</td>");
-	      sb.append("<td class='text_title'><a href='#'>[공지사항] 2번 </a></td>");
-	      sb.append("<td>관리자</td>");
-	      sb.append("<td></td>");
-	      sb.append("<td>2024-04-08</td>");
-	      sb.append("<td></td>");
-	      sb.append("<td></td>");
-	      sb.append("</tr>");
-
-	      sb.append("<tr class='notice_line'>");
-	      sb.append("<td>1</td>");
-	      sb.append("<td class='text_title'><a href='#'>[공지사항] 1번 </a></td>");
-	      sb.append("<td>관리자</td>");
-	      sb.append("<td></td>");
-	      sb.append("<td>2024-04-08</td>");
-	      sb.append("<td></td>");
-	      sb.append("<td></td>");
-	      sb.append("</tr>");
-
-	      for (AllBoardDTO review : list) {
+	      for (AllBoardDTO item : list) {
 	          sb.append("<tr>");
-	          sb.append("<td>").append(review.getReview_num()).append("</td>");
-	          sb.append("<td class='text_title'><a href='review_detail?review_num=").append(review.getReview_num()).append("'>")
-	              .append(review.getReview_title()).append(" <span class='reply_check'>[").append(review.getReply()).append("]</span></a></td>");
-	          String show_id = review.getId().substring(0, 4) + "****";
-	          sb.append("<td>").append(review.getName()).append("(").append(show_id).append(")님").append("</td>");
-	          sb.append("<td>").append(review.getVisit_day()).append("</td>");
-	          String write_day = review.getWrite_day().substring(0, 10);
-	          sb.append("<td>").append(write_day).append("</td>");
-	          sb.append("<td>").append(review.getRecommend()).append("</td>");
-	          sb.append("<td>").append(review.getHits()).append("</td>");
+	          sb.append("<td>").append(item.getReview_num()).append("</td>");
+	          sb.append("<td class='text_title'><a href='review_detail?review_num=").append(item.getReview_num()).append("'>")
+	              .append(item.getReview_title()).append(" <span class='reply_check'>[").append(item.getReply()).append("]</span></a></td>");
+	          sb.append("<td>").append(item.getName()).append("(")
+	              .append(item.getId().substring(0, 4)).append("****)님</td>");
+	          sb.append("<td>").append(item.getVisit_day()).append("</td>");
+	          sb.append("<td>").append(item.getWrite_day().substring(0, 10)).append("</td>");
+	          sb.append("<td>").append(item.getRecommend()).append("</td>");
+	          sb.append("<td>").append(item.getHits()).append("</td>");
 	          sb.append("</tr>");
 	      }
+	      sb.append("<tr style='border-left: none; border-right: none; border-bottom: none;'>");
+	      sb.append("<th colspan='7' style='text-align: center;'>");
 
-	      sb.append("</tbody></table>");
-   
+	      // 페이징 로직 시작
+	      if (dto.getStartPage() > 1) {
+	          sb.append("<a href='review_all_page?nowPage=").append(dto.getStartPage() - 1)
+	            .append("&cntPerPage=").append(dto.getCntPerPage()).append("'>◀</a> ");
+	      }
+
+	      for (int i = dto.getStartPage(); i <= dto.getEndPage(); i++) {
+	          if (i == dto.getNowPage()) {
+	              sb.append("<span style='color: red;'>").append(i).append("</span> ");
+	          } else {
+	              sb.append("<a href='review_all_page?nowPage=").append(i)
+	                .append("&cntPerPage=").append(dto.getCntPerPage()).append("'>")
+	                .append(i).append("</a> ");
+	          }
+	      }
+
+	      if (dto.getEndPage() < dto.getLastPage()) {
+	          sb.append("<a href='review_all_page?nowPage=").append(dto.getEndPage() + 1)
+	            .append("&cntPerPage=").append(dto.getCntPerPage()).append("'>▶</a>");
+	      }
+
+	      sb.append("</th>");
+	      sb.append("</tr>");
+	      sb.append("</tbody></table>"); 
+
 	      return sb.toString();
 	   }
 	   
@@ -780,10 +782,22 @@ public class ReviewController {
 	   public String search2(HttpServletRequest request) {
 		    
 	      String area = request.getParameter("area");
+	      String nowPage = request.getParameter("nowPage");
+	      String cntPerPage = request.getParameter("cntPerPage");
+
+	      if (nowPage == null || cntPerPage == null) {
+	          nowPage = "1";
+	          cntPerPage = "20";
+	      }
 	      
 	      Service ss = sqlsession.getMapper(Service.class);
 	      
-	      ArrayList<AllBoardDTO> list = ss.search_area_result(area);
+	      int total = ss.area_result_count(area);
+	      
+	      PageDTO dto = new PageDTO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+	      
+	      
+	      ArrayList<AllBoardDTO> list = ss.search_area_result(area,dto.getStart(), dto.getEnd());
      
 	      StringBuilder sb = new StringBuilder();
 	      sb.append("<table class='board-table'>");
@@ -800,36 +814,6 @@ public class ReviewController {
 	      sb.append("</thead>");
 	      sb.append("<tbody>");
 
-	      sb.append("<tr class='notice_line'>");
-	      sb.append("<td>3</td>");
-	      sb.append("<td class='text_title'><a href='#'>[공지사항] 3번 </a></td>");
-	      sb.append("<td>관리자</td>");
-	      sb.append("<td></td>");
-	      sb.append("<td>2024-04-08</td>");
-	      sb.append("<td></td>");
-	      sb.append("<td></td>");
-	      sb.append("</tr>");
-
-	      sb.append("<tr class='notice_line'>");
-	      sb.append("<td>2</td>");
-	      sb.append("<td class='text_title'><a href='#'>[공지사항] 2번 </a></td>");
-	      sb.append("<td>관리자</td>");
-	      sb.append("<td></td>");
-	      sb.append("<td>2024-04-08</td>");
-	      sb.append("<td></td>");
-	      sb.append("<td></td>");
-	      sb.append("</tr>");
-
-	      sb.append("<tr class='notice_line'>");
-	      sb.append("<td>1</td>");
-	      sb.append("<td class='text_title'><a href='#'>[공지사항] 1번 </a></td>");
-	      sb.append("<td>관리자</td>");
-	      sb.append("<td></td>");
-	      sb.append("<td>2024-04-08</td>");
-	      sb.append("<td></td>");
-	      sb.append("<td></td>");
-	      sb.append("</tr>");
-
 	      for (AllBoardDTO review : list) {
 	          sb.append("<tr>");
 	          sb.append("<td>").append(review.getReview_num()).append("</td>");
@@ -844,9 +828,35 @@ public class ReviewController {
 	          sb.append("<td>").append(review.getHits()).append("</td>");
 	          sb.append("</tr>");
 	      }
+	      
+	      sb.append("<tr style='border-left: none; border-right: none; border-bottom: none;'>");
+	      sb.append("<th colspan='7' style='text-align: center;'>");
 
-	      sb.append("</tbody></table>");
-	   
+	      // 페이징 로직 시작
+	      if (dto.getStartPage() > 1) {
+	          sb.append("<a href='review_all_page?nowPage=").append(dto.getStartPage() - 1)
+	            .append("&cntPerPage=").append(dto.getCntPerPage()).append("'>◀</a> ");
+	      }
+
+	      for (int i = dto.getStartPage(); i <= dto.getEndPage(); i++) {
+	          if (i == dto.getNowPage()) {
+	              sb.append("<span style='color: red;'>").append(i).append("</span> ");
+	          } else {
+	              sb.append("<a href='review_all_page?nowPage=").append(i)
+	                .append("&cntPerPage=").append(dto.getCntPerPage()).append("'>")
+	                .append(i).append("</a> ");
+	          }
+	      }
+
+	      if (dto.getEndPage() < dto.getLastPage()) {
+	          sb.append("<a href='review_all_page?nowPage=").append(dto.getEndPage() + 1)
+	            .append("&cntPerPage=").append(dto.getCntPerPage()).append("'>▶</a>");
+	      }
+
+	      sb.append("</th>");
+	      sb.append("</tr>");
+	      sb.append("</tbody></table>"); 
+
 	      return sb.toString();
 	   }
 	 

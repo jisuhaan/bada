@@ -10,79 +10,50 @@
 
 <head>
 
-	<meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>바라는 바다! :: 1:1 문의 내역</title>
-
-	<style>
-        table {
-            margin: 0 auto;
-            width: 950px;
-            border-collapse: collapse;
-        }
-        th, td {
-            text-align: center;
-            font-size: 13px; /* 텍스트 크기를 작게 설정 */
-            padding: 4px; /* 셀 안의 여백 설정 */
-        }
-        th:nth-child(2) {
-            width: 35%;
-        }
-        th:nth-child(3){
-        width: 15%;
-        }
-        th:nth-child(4){
-        width: 15%;
-        }
-        .lock-icon {
-            display: inline-block; /* 이미지를 인라인 블록 요소로 설정하여 텍스트와 같이 정렬 */
-            vertical-align: middle; /* 아이콘을 수직 가운데 정렬 */
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>바라는 바다! :: 1:1 문의 내역</title>
+<link href="${pageContext.request.contextPath}/resources/css/ban_lists.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-
-
-
-	<br> <br> <br>
-	
-		<table border="1">
-	
-			      <tr>
-			      	 <th>문의 카테고리</th>
-			      	 <th>문의 제목</th>
-			         <th>문의자</th>
-			         <th>문의자 이메일</th>
-			         <th>답변 여부</th>
-			         <th>문의 날짜</th>
-			      </tr>
-			         
-			         
-			         
 <c:choose>
+	<c:when test="${loginstate==true && position=='admin'}">	
+  	<!-- board list area -->
+	<div class="container">
+		<div class="ban_table">
+		<table class="board-table">
+		<thead>
+		<tr>
+			<th>문의 카테고리</th>
+			<th>문의 제목</th>
+			<th>문의자</th>
+			<th>문의자 이메일</th>
+			<th>답변 여부</th>
+			<th>문의 날짜</th>
+		</tr>
+		</thead>	         
+		<tbody>
 
-<c:when test="${loginstate==true && position=='admin'}">
-
-<c:forEach items="${list}" var="l">
-			      <tr>
-			      	<td>${l.category}</td>
-			      	<td>
-			      	<a href="inquire_personal_detail?ip_num=${l.ip_num}">
-			      	${l.title}
-			      	</a>
-			      	</td>
-			      	<td>
-			      	<c:choose>
-	                      <c:when test="${l.id == 'nope'}">${l.name}(비회원) 님</c:when>
-	                      <c:otherwise>${l.name}(${fn:substring(l.id, 0, 4)}****) 님</c:otherwise>
-	                 </c:choose>
-	                 </td>
-			      	<td>${l.email}</td>
-			      	<td>${l.tf}</td>
-			      	<td>${fn:substring(l.ip_date, 0, 19)}</td>
-			      </tr>
-			      </c:forEach>
+		<c:forEach items="${list}" var="l">
+			<tr>
+			<td>${l.category}</td>
+			<td>
+			<a href="inquire_personal_detail?ip_num=${l.ip_num}">
+			${l.title}
+			</a>
+			</td>
+			<td>
+			<c:choose>
+			<c:when test="${l.id == 'nope'}">${l.name}(비회원) 님</c:when>
+			<c:otherwise>${l.name}(${l.id}) 님</c:otherwise>
+			</c:choose>
+			</td>
+			<td>${l.email}</td>
+			<td>${l.tf}</td>
+			<td>${fn:substring(l.ip_date, 0, 19)}</td>
+			</tr>
+		</c:forEach>
             
  	<!--  페이징 처리 6단계 -->
 		<!-- 페이징처리 -->
@@ -116,26 +87,25 @@
 		</tr>
 		<!-- 페이징처리 -->
 	<!-- 페이징 처리 6단계 끝 -->
-</c:when>
+	</table>
+	</div>
+	</div>
+	</c:when>
 
 
 
-<c:otherwise>
-
-	<script>
-			window.onload = function() {
-			    alert("관리자 외 접근할 수 없는 페이지 입니다.");
-			    window.location.href = "${pageContext.request.contextPath}/main";
-			};
-	    </script>
-			     
-</c:otherwise>
-	    </c:choose>
-	        
-	    </table>
-	    
-	<br> <br> <br> <br> <br>
+	<c:otherwise>
 	
+	<script>
+		window.onload = function() {
+		alert("관리자 외 접근할 수 없는 페이지 입니다.");
+		window.location.href = "${pageContext.request.contextPath}/main";
+		};
+	</script>
+				     
+	</c:otherwise>
+	
+</c:choose>
 	
 </body>
 </html>

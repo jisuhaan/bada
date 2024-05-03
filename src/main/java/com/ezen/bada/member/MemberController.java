@@ -477,6 +477,7 @@ public class MemberController {
    
    // 회원정보수정확인창
    
+   
    @RequestMapping(value = "/info_modify")
    public String mypage_modi1(HttpServletRequest request, Model mo) {
       
@@ -665,7 +666,7 @@ public class MemberController {
 	   
    }  
    
-   @RequestMapping(value = "/my_post")
+   @RequestMapping(value = "/mypage")
    public String mypage_post(HttpServletRequest request, PageDTO dto, Model mo) {
 	   
 	  String loginid = (String) request.getSession().getAttribute("loginid");
@@ -719,14 +720,19 @@ public class MemberController {
         mo.addAttribute("list2", ss.my_inquire(i_dto.getStart(), i_dto.getEnd(), loginid));
 	   
         MemberDTO result = ss.myinfo_main(loginid);
+        
+        int total3=ss.bookmark_total(loginid);
+        
         mo.addAttribute("info", result);
+        mo.addAttribute("review", total1);
+        mo.addAttribute("inquire", total2);
+        mo.addAttribute("bookmark", total3);
         
         
-	return "my_post";
+	return "mypage";
 	   
    }
    
-   // 문의 출력 -> (정) 지수님 여쭤보기!!!
    @RequestMapping(value = "my_require")
    public String my_require(HttpServletRequest request, Model mo, PageDTO dto) {
 	   

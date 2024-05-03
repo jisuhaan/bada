@@ -75,9 +75,9 @@
 		<put-attribute name="body" value="/WEB-INF/views/member/bbti_list.jsp"/>
 	</definition>
 	
-	<definition name="my_post" extends="baseLayout">
-		<put-attribute name="title" value="바라는 바다! :: 나의 게시글"/>
-		<put-attribute name="body" value="/WEB-INF/views/member/my_post.jsp"/>
+	<definition name="mypage" extends="baseLayout">
+		<put-attribute name="title" value="바라는 바다! :: 마이페이지"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/mypage.jsp"/>
 	</definition>
 	
 	<definition name="my_require" extends="baseLayout">

@@ -209,8 +209,49 @@
 <!-- 리뷰게시글 검색 -->
 
 <select id="search_result" resultType="com.ezen.bada.review.AllBoardDTO">
- 	select * from bada_user_review
+ 	select * from (
+ 	select A.*, rownum rn from 
+ 	(select * from bada_user_review
  	    <where>
+        <choose>
+            <!-- 제목 검색 -->
+            <when test="param1 == 'title'">
+                review_title LIKE '%' || #{param2}  || '%'
+            </when>
+            <!-- 내용 검색 -->
+            <when test="param1 == 'intext'">
+                review_contents LIKE '%' || #{param2}  || '%'
+            </when>
+            <!-- 작성자명 검색 -->
+            <when test="param1 == 'name'">
+                name LIKE '%' || #{param2}  || '%'
+            </when>
+           
+ 			<!-- 방문시기 검색 -->
+            <when test="param1 == 'vdate' and param2 != '2020'">
+                visit_day LIKE #{param2} || '%'
+            </when>
+            <when test="param1 == 'vdate' and param2 == '2020'">
+       			<![CDATA[EXTRACT(YEAR FROM TO_DATE(visit_day, 'YYYY-MM-DD')) <= #{param2}]]>
+    		</when>
+            
+            <!-- 작성일 검색 -->
+            <when test="param1 == 'wdate' and param2 != '2020'">
+  			  TO_CHAR(write_day, 'YYYY-MM-DD') LIKE #{param2} || '%'
+			</when>
+			<when test="param1 == 'wdate' and param2 == '2020'">
+			   <![CDATA[EXTRACT(YEAR FROM write_day) <= #{param2}]]>
+			</when>
+        </choose>
+    </where> ORDER BY review_num desc) A)
+    where rn between #{param3} AND #{param4}
+</select>
+
+
+<!-- 리뷰게시글 개수 -->
+<select id="search_result_count" resultType="Integer">
+	select count(*) from bada_user_review
+	<where>
         <choose>
             <!-- 제목 검색 -->
             <when test="param1 == 'title'">
@@ -246,6 +287,7 @@
 </select>
 
 
+
 <!-- 회원일련번호 -->
 <select id="user_num" resultType="Integer">
 	select user_number from bada_user where ID = #{param1}
@@ -259,12 +301,27 @@
 
 <!-- 리뷰게시판 지역선택별 게시글 -->
 <select id="search_area_result" resultType="com.ezen.bada.review.AllBoardDTO">
-	SELECT bur.* 
+	select * from (
+		select rownum rn, A.* from(
+			SELECT bur.* 
+			FROM bada_user_review bur
+			JOIN bada_list bl ON bur.beach_code = bl.beach_code
+			WHERE #{param1} = '전체' OR  (#{param1} = '경인' AND bl.state IN ('경기', '인천')) OR (bl.state = #{param1})
+			ORDER BY bur.review_num DESC)A
+			)
+	where rn between #{param2} AND #{param3}
+</select>
+
+<!-- 리뷰게시판 지역선택별 게시글 개수(페이징처리) -->
+
+<select id="area_result_count" resultType="Integer">
+	SELECT count(*) 
 	FROM bada_user_review bur
 	JOIN bada_list bl ON bur.beach_code = bl.beach_code
 	WHERE #{param1} = '전체' OR  (#{param1} = '경인' AND bl.state IN ('경기', '인천')) OR (bl.state = #{param1})
 	ORDER BY bur.review_num DESC
 </select>
+
 
 <!-- 신고된 게시글 목록 -->
 <select id="review_report" resultType="com.ezen.bada.review.Review_report_DTO">

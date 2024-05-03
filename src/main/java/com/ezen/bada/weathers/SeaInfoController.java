@@ -181,12 +181,24 @@ public class SeaInfoController {
     	    e.printStackTrace();
     	    mo.addAttribute("warningString", "없음");
     	}
+    	
+    	try {
+    	    // 특보 현황
+    		int pointcode = ss.getPointcode(beach_code);
+    		List<String> resultString = apiClient.getWthrWrnMsg_API(108);
+    		for (String alert : resultString) {
+                System.out.println("특보 현황: " + alert);
+            }
+    	} catch (Exception e) {
+    	    System.err.println("기상 특보 현황을 가져오는 도중 오류가 발생했습니다: " + e.getMessage());
+    	    e.printStackTrace();
+    	}
 
     	String result = apiClient.calculateWeatherIndex(bldt.getUltraSrtFcstBeach_dto().getSky(), bldt.getUltraSrtFcstBeach_dto().getRn1(), Double.parseDouble(bldt.getUltraSrtFcstBeach_dto().getWsd()), Double.parseDouble(bldt.getBada_tw_dto().getWater_height()));
         System.out.println("바다여행지수: "+ result);
     	mo.addAttribute("bldt",bldt);
         HttpSession session = request.getSession();
-	    session.setAttribute("bldt", bldt);
+	    session.setAttribute("choicebeach", bldt);
 		return "sea_result";
 	}
 	

@@ -12,15 +12,16 @@ public class getWthrDataList_DTO {
 	String avgRhm; // 습도
 	String avgTca; // 전운량
 	String iscs; // 박무
+	String wh; // 파고
 	Set<String> ptySet; // 기상 형태를 모두 저장한 배열
 	
 	public getWthrDataList_DTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	public getWthrDataList_DTO(String tm, String avgTa, String minTa, String maxTa, String sumRn, String avgWs,
-			String avgRhm, String avgTca, String iscs, Set<String> ptySet) {
+			String avgRhm, String avgTca, String iscs, String wh, Set<String> ptySet) {
 		super();
 		this.tm = tm;
 		this.avgTa = avgTa;
@@ -31,8 +32,11 @@ public class getWthrDataList_DTO {
 		this.avgRhm = avgRhm;
 		this.avgTca = avgTca;
 		this.iscs = iscs;
+		this.wh = wh;
 		this.ptySet = ptySet;
 	}
+
+
 
 	public String getTm() {
 		return tm;
@@ -106,6 +110,14 @@ public class getWthrDataList_DTO {
 		this.iscs = iscs;
 	}
 
+	public String getWh() {
+		return wh;
+	}
+
+	public void setWh(String wh) {
+		this.wh = wh;
+	}
+
 	public Set<String> getPtySet() {
 		return ptySet;
 	}
@@ -114,13 +126,14 @@ public class getWthrDataList_DTO {
 		this.ptySet = ptySet;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "getWthrDataList_DTO [tm=" + tm + ", avgTa=" + avgTa + ", minTa=" + minTa + ", maxTa=" + maxTa
 				+ ", sumRn=" + sumRn + ", avgWs=" + avgWs + ", avgRhm=" + avgRhm + ", avgTca=" + avgTca + ", iscs="
-				+ iscs + ", ptySet=" + ptySet + "]";
+				+ iscs + ", wh=" + wh + ", ptySet=" + ptySet + "]";
 	}
-	
-	
+
 	
 }

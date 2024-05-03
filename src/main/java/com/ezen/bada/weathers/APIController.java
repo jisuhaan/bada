@@ -87,7 +87,9 @@ public class APIController {
         	System.out.println(i+"번째 시도");
         	String setStringDate = LocalDate.now().minusYears(i).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         	getWthrDataList_DTO gdto = apiClient.getWthrDataList_API(pointcode, setStringDate);
-
+        	String wh = apiClient.getWhBuoyBeach_API(beach_code, (setStringDate + DateDAO.getCurrentTime()));
+        	System.out.println("파고는? "+wh);
+        	gdto.setWh(wh);
         	getWthrDataListMap.put(setStringDate, gdto);
         }	
 		mo.addAttribute("dataListMap",getWthrDataListMap);
@@ -129,7 +131,9 @@ public class APIController {
             	System.out.println((i+1)+"번째 시도");
             	String setStringYear = String.valueOf(setYear);
             	getWthrDataList_DTO gdto = apiClient.getWthrDataList_API(pointcode, setStringYear+monthInput+dayInput);
-  
+            	String wh = apiClient.getWhBuoyBeach_API(pointcode, (setStringYear+monthInput+dayInput + DateDAO.getCurrentTime()));
+            	System.out.println("파고는? "+wh);
+            	gdto.setWh(wh);
             	list.add(gdto);
             	setYear=setYear-1;
             }

@@ -11,11 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.ibatis.session.SqlSession;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
-import com.ezen.bada.inquire.InquireDTO;
-import com.ezen.bada.inquire.Inquire_reply_DTO;
 import com.ezen.bada.member.MemberDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -36,6 +31,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class ReviewController {
+	
+	
 	
 	@Autowired
 	SqlSession sqlsession;
@@ -132,7 +129,7 @@ public class ReviewController {
 	
 	
 	
-	//
+	//리뷰 저장2
 	@RequestMapping(value = "review_input2")
 	public String review2(HttpServletRequest request, HttpServletResponse response, Model mo) throws IOException {
 		
@@ -196,7 +193,7 @@ public class ReviewController {
 	
 	
 	
-	//리뷰 목록형(페이징 처리형) 페이지 가져오기.
+	//리뷰 목록형(페이징 처리형) 페이지 가져오기
 	//가장 초기에 불러와주는 페이지이며, 소트(정렬 기준)이 없을 시 최신순 정렬을 자동으로 실시
 	@RequestMapping(value = "review_all_page")
 	public String review4(HttpServletRequest request, PageDTO dto, Model mo) {
@@ -327,57 +324,60 @@ public class ReviewController {
 	
 	
 	
+	
+	
 	//리뷰를 삭제할 시
 	@RequestMapping(value = "review_delete")
-	   public String review_delete(HttpServletRequest request) {
+	public String review_delete(HttpServletRequest request) {
 
-		     int review_num = Integer.parseInt(request.getParameter("review_num"));
-		     Service ss = sqlsession.getMapper(Service.class);
-		     
-		     AllBoardDTO boardDTO = ss.all_photo(review_num);
-		     
-		     List<String> photoPaths = Arrays.asList(boardDTO.getPhoto1(), boardDTO.getPhoto2(), 
-								                     boardDTO.getPhoto3(), boardDTO.getPhoto4(), 
-								                     boardDTO.getPhoto5(), boardDTO.getThumbnail());
-			for(String photo : photoPaths) {
-				
-				if(photo != null && !photo.equals("no")) 
-				{File file = new File(image_path +File.separator+photo);
-					if(file.exists()){file.delete();}
-				}
+	     int review_num = Integer.parseInt(request.getParameter("review_num"));
+	     Service ss = sqlsession.getMapper(Service.class);
+	     
+	     AllBoardDTO boardDTO = ss.all_photo(review_num);
+	     
+	     List<String> photoPaths = Arrays.asList(boardDTO.getPhoto1(), boardDTO.getPhoto2(), 
+							                     boardDTO.getPhoto3(), boardDTO.getPhoto4(), 
+							                     boardDTO.getPhoto5(), boardDTO.getThumbnail());
+		for(String photo : photoPaths) {
+			
+			if(photo != null && !photo.equals("no")) 
+			{File file = new File(image_path +File.separator+photo);
+				if(file.exists()){file.delete();}
 			}
-		     
-		     ss.review_delete(review_num);
-		     ss.review_comment_delete(review_num);
+		}
+	     
+	     ss.review_delete(review_num);
+	     ss.review_comment_delete(review_num);
 
-	      return "redirect:/bada_review";
-	   }
+      return "redirect:/bada_review";
+      }
+	
+	
 	
 	
 	
 	//리뷰를 수정할 시
 	@RequestMapping(value = "review_change")
-	   public String review_change(HttpServletRequest request, Model mo) {
+	public String review_change(HttpServletRequest request, Model mo) {
 
-		     int review_num = Integer.parseInt(request.getParameter("review_num"));
-		     Service ss = sqlsession.getMapper(Service.class);
-		     
-		     AllBoardDTO dto = ss.change_view(review_num);
-		     List<BeachDTO> beachList = ss.getBeachList();
-		     List<String> photoList = Arrays.asList(dto.getPhoto1(), dto.getPhoto2(), dto.getPhoto3(), dto.getPhoto4(), dto.getPhoto5());
-		     mo.addAttribute("beachList", beachList);
-		     mo.addAttribute("dto", dto);
-		     mo.addAttribute("photoList", photoList);
+	     int review_num = Integer.parseInt(request.getParameter("review_num"));
+	     Service ss = sqlsession.getMapper(Service.class);
+	     
+	     AllBoardDTO dto = ss.change_view(review_num);
+	     List<BeachDTO> beachList = ss.getBeachList();
+	     List<String> photoList = Arrays.asList(dto.getPhoto1(), dto.getPhoto2(), dto.getPhoto3(), dto.getPhoto4(), dto.getPhoto5());
+	     mo.addAttribute("beachList", beachList);
+	     mo.addAttribute("dto", dto);
+	     mo.addAttribute("photoList", photoList);
 
-	      return "change_view";
-	   }
+     return "change_view";
+     }
 	
 	
 	
-	//리뷰를 수정해서 저장
+	//리뷰를 수정해서 다시 저장
 	@RequestMapping(value = "review_change_save", method = RequestMethod.POST)
-	   public String review_change_save(MultipartHttpServletRequest mul) throws IllegalStateException, IOException {
-
+	public String review_change_save(MultipartHttpServletRequest mul) throws IllegalStateException, IOException {
 
 		int review_num = Integer.parseInt(mul.getParameter("review_num"));
 		String visit_day = mul.getParameter("visit_day");
@@ -387,24 +387,24 @@ public class ReviewController {
 		String review_score = mul.getParameter("review_score");
 		String hashtags = mul.getParameter("hashtags");
 		String re_visit = mul.getParameter("re_visit");
-	    
-	    Service ss = sqlsession.getMapper(Service.class);
-	    
-	    modi_thumbnail(mul, review_num, ss);    
-	    
-	    boolean new_photos = false;
-	    
-	    for (int i = 1; i <= 5; i++) {
-	        MultipartFile file = mul.getFile("pic" + i);
-	        if (file != null && !file.isEmpty()) {
-	        	new_photos = true;
-	            break; // 새로운 파일이 하나라도 있으면 반복 종료
-	        }
-	    }
-	    
-	    if (new_photos) {
-	    	AllBoardDTO boardDTO = ss.all_photo(review_num);
-		     List<String> photoPaths = Arrays.asList(boardDTO.getPhoto1(), boardDTO.getPhoto2(), 
+		
+		Service ss = sqlsession.getMapper(Service.class);
+		
+		modi_thumbnail(mul, review_num, ss);    
+		
+		boolean new_photos = false;
+		
+		for (int i = 1; i <= 5; i++) {
+		    MultipartFile file = mul.getFile("pic" + i);
+		if (file != null && !file.isEmpty()) {
+			new_photos = true;
+		    break; // 새로운 파일이 하나라도 있으면 반복 종료
+		    }
+		}
+		
+		if (new_photos) {
+			AllBoardDTO boardDTO = ss.all_photo(review_num);
+		    List<String> photoPaths = Arrays.asList(boardDTO.getPhoto1(), boardDTO.getPhoto2(), 
 								                     boardDTO.getPhoto3(), boardDTO.getPhoto4(), 
 								                     boardDTO.getPhoto5());
 			for(String photo : photoPaths) {
@@ -413,15 +413,16 @@ public class ReviewController {
 					if(file.exists()) {file.delete();}
 				}
 			}
-	    	
-	        modi_photos(mul, review_num, ss);
-	    }
-	    
-	    ss.review_modify(review_num,visit_day,review_title,review_contents,
-	    		review_score,hashtags,beach_code,re_visit);
-	    
-	      return "redirect:/review_all_page";
-	   }
+			
+		    modi_photos(mul, review_num, ss);
+		}
+		    
+		    ss.review_modify(review_num,visit_day,review_title,review_contents,
+		    				review_score,hashtags,beach_code,re_visit);
+		    
+		      return "redirect:/review_all_page";
+		   }
+	
 	//리뷰를 수정할 때 만일 사진이 바뀔 경우 기존의 사진 파일을 삭제하는 메소드
 	private void modi_photos(MultipartHttpServletRequest mul, int review_num, Service ss) throws IllegalStateException, IOException {
 		
@@ -444,6 +445,7 @@ public class ReviewController {
 	    params.put("change_photo", change_photo);
 	    ss.update_photo(params);
 	}
+	
 	//리뷰를 삭제할 때 만일 썸네일이 바뀔 경우 썸네일을 수정하고 기존의 썸네일을 삭제하는 메소드
 	private void modi_thumbnail(MultipartHttpServletRequest mul, int review_num, Service ss) throws IllegalStateException, IOException {
 	    MultipartFile tf = mul.getFile("thumb_nail");
@@ -467,9 +469,188 @@ public class ReviewController {
 	
 	
 	
+	
+	
+	//리뷰 검색 기능
+	@ResponseBody
+	@RequestMapping(value = "/review_search", produces = "text/html; charset=UTF-8")
+	public String search1(HttpServletRequest request) {
+		
+		String category = request.getParameter("search_category");
+		String search = request.getParameter("search");
+		String nowPage = request.getParameter("nowPage");
+		String cntPerPage = request.getParameter("cntPerPage");
+  
+		if (nowPage == null || cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "20";
+			}
+  
+		if ("vdate".equals(category) || "wdate".equals(category)) {
+			String year = request.getParameter("year");
+			String month = request.getParameter("month");
+
+			if ("2020".equals(year)) {
+				search = "2020";
+			} else if (year != null && !year.isEmpty() && month != null && !month.isEmpty()) {
+				search = year + "-" + String.format("%02d", Integer.parseInt(month)); // "2024-05"
+			} else if (year != null && !year.isEmpty()) {
+				search = year; // "2024"
+			} else if (month != null && !month.isEmpty()) {search = month;}
+	     }
+	      
+	    Service ss = sqlsession.getMapper(Service.class);
+	      
+	    int total = ss.search_result_count(category, search);
+	    PageDTO dto = new PageDTO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+	    ArrayList<AllBoardDTO> list = ss.search_result(category,search, dto.getStart(), dto.getEnd());
+
+	    StringBuilder sb = new StringBuilder();
+	    sb.append("<table class='board-table'>");
+	    sb.append("<thead><tr>");
+	    sb.append("<th scope='col' class='th-num'>번호</th>");
+	    sb.append("<th scope='col' class='th-title'>제목</th>");
+	    sb.append("<th scope='col' class='th-writer'>작성자</th>");
+	    sb.append("<th scope='col' class='th-date vdate'>방문일</th>");
+	    sb.append("<th scope='col' class='th-date wdate'>작성일</th>");
+	    sb.append("<th scope='col' class='th-num recommend'>추천수</th>");
+	    sb.append("<th scope='col' class='th-num view'>조회수</th>");
+	    sb.append("</tr></thead>");
+	    sb.append("<tbody>");
+
+	    for (AllBoardDTO item : list) {
+	    	sb.append("<tr>");
+	        sb.append("<td>").append(item.getReview_num()).append("</td>");
+	        sb.append("<td class='text_title'><a href='review_detail?review_num=").append(item.getReview_num()).append("'>")
+	              	  .append(item.getReview_title()).append(" <span class='reply_check'>[").append(item.getReply()).append("]</span></a></td>");
+	        sb.append("<td>").append(item.getName()).append("(")
+	              	  .append(item.getId().substring(0, 4)).append("****)님</td>");
+	        sb.append("<td>").append(item.getVisit_day()).append("</td>");
+	        sb.append("<td>").append(item.getWrite_day().substring(0, 10)).append("</td>");
+	        sb.append("<td>").append(item.getRecommend()).append("</td>");
+	        sb.append("<td>").append(item.getHits()).append("</td>");
+	        sb.append("</tr>");
+	    }
+	    sb.append("<tr style='border-left: none; border-right: none; border-bottom: none;'>");
+	    sb.append("<th colspan='7' style='text-align: center;'>");
+
+	    // 페이징 로직 시작
+	    if (dto.getStartPage() > 1) {
+	        sb.append("<a href='review_all_page?nowPage=").append(dto.getStartPage() - 1)
+	            	  .append("&cntPerPage=").append(dto.getCntPerPage()).append("'>◀</a> ");
+	    }
+
+	    for (int i = dto.getStartPage(); i <= dto.getEndPage(); i++) {
+	    	if (i == dto.getNowPage()) {
+	            sb.append("<span style='color: red;'>").append(i).append("</span> ");
+	        } else {
+	            sb.append("<a href='review_all_page?nowPage=").append(i)
+	              		  .append("&cntPerPage=").append(dto.getCntPerPage()).append("'>")
+	              		  .append(i).append("</a> ");
+	        }
+	    }
+
+	    if (dto.getEndPage() < dto.getLastPage()) {
+	        sb.append("<a href='review_all_page?nowPage=").append(dto.getEndPage() + 1)
+	            	  .append("&cntPerPage=").append(dto.getCntPerPage()).append("'>▶</a>");
+	    }
+
+	    sb.append("</th>");
+	    sb.append("</tr>");
+	    sb.append("</tbody></table>"); 
+	    
+	    return sb.toString();
+	   }
+		
+		
+		
+	//리뷰 서치
+	@ResponseBody
+	@RequestMapping(value = "/review_area_search", produces = "text/html; charset=UTF-8")
+	public String search2(HttpServletRequest request) {
+		    
+	   String area = request.getParameter("area");
+	   String nowPage = request.getParameter("nowPage");
+	   String cntPerPage = request.getParameter("cntPerPage");
+
+	   if (nowPage == null || cntPerPage == null) {
+	       nowPage = "1";
+	       cntPerPage = "20";
+	   }
+	      
+	   Service ss = sqlsession.getMapper(Service.class);
+	   int total = ss.area_result_count(area);
+	   PageDTO dto = new PageDTO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+	   ArrayList<AllBoardDTO> list = ss.search_area_result(area,dto.getStart(), dto.getEnd());
+	   
+	   StringBuilder sb = new StringBuilder();
+	   sb.append("<table class='board-table'>");
+	   sb.append("<thead>");
+	   sb.append("<tr>");
+	   sb.append("<th scope='col' class='th-num'>번호</th>");
+	   sb.append("<th scope='col' class='th-title'>제목</th>");
+	   sb.append("<th scope='col' class='th-writer'>작성자</th>");
+	   sb.append("<th scope='col' class='th-date vdate'>방문일</th>");
+	   sb.append("<th scope='col' class='th-date wdate'>작성일</th>");
+	   sb.append("<th scope='col' class='th-num recommend'>추천수</th>");
+	   sb.append("<th scope='col' class='th-num view'>조회수</th>");
+	   sb.append("</tr>");
+	   sb.append("</thead>");
+	   sb.append("<tbody>");
+
+	   for (AllBoardDTO review : list) {
+	       sb.append("<tr>");
+	       sb.append("<td>").append(review.getReview_num()).append("</td>");
+	       sb.append("<td class='text_title'><a href='review_detail?review_num=").append(review.getReview_num()).append("'>")
+	              	 .append(review.getReview_title()).append(" <span class='reply_check'>[").append(review.getReply()).append("]</span></a></td>");
+	       String show_id = review.getId().substring(0, 4) + "****";
+	       sb.append("<td>").append(review.getName()).append("(").append(show_id).append(")님").append("</td>");
+	       sb.append("<td>").append(review.getVisit_day()).append("</td>");
+	       String write_day = review.getWrite_day().substring(0, 10);
+	       sb.append("<td>").append(write_day).append("</td>");
+	       sb.append("<td>").append(review.getRecommend()).append("</td>");
+	       sb.append("<td>").append(review.getHits()).append("</td>");
+	       sb.append("</tr>");
+	   }
+	      
+	   sb.append("<tr style='border-left: none; border-right: none; border-bottom: none;'>");
+	   sb.append("<th colspan='7' style='text-align: center;'>");
+
+	   // 페이징 로직 시작
+	   if (dto.getStartPage() > 1) {
+	       sb.append("<a href='review_all_page?nowPage=").append(dto.getStartPage() - 1)
+	            	  .append("&cntPerPage=").append(dto.getCntPerPage()).append("'>◀</a> ");
+	      }
+	   
+	      for (int i = dto.getStartPage(); i <= dto.getEndPage(); i++) {
+	          if (i == dto.getNowPage()) {
+	          sb.append("<span style='color: red;'>").append(i).append("</span> ");
+	          } else {
+	              sb.append("<a href='review_all_page?nowPage=").append(i)
+	              .append("&cntPerPage=").append(dto.getCntPerPage()).append("'>")
+	              .append(i).append("</a> ");
+	          }
+	      }
+
+	      if (dto.getEndPage() < dto.getLastPage()) {
+	          sb.append("<a href='review_all_page?nowPage=").append(dto.getEndPage() + 1)
+	          .append("&cntPerPage=").append(dto.getCntPerPage()).append("'>▶</a>");
+	      }
+
+	   sb.append("</th>");
+	   sb.append("</tr>");
+	   sb.append("</tbody></table>"); 
+
+	   return sb.toString();
+	}
+	
+	
+	
+	
+	
 	//리뷰 주천하기를 누를 시
 	@RequestMapping(value = "review_recommend")
-	   public String recommend(HttpServletRequest request, Model mo) {
+	public String recommend(HttpServletRequest request, Model mo) {
 
 		int review_num=Integer.parseInt(request.getParameter("review_num"));
 		String loginid=request.getParameter("loginid");
@@ -487,16 +668,185 @@ public class ReviewController {
 		else {
 			AllBoardDTO dto=ss.review_detail(review_num);
 			mo.addAttribute("dto", dto);}
-
+	
 	      return "redirect:/review_detail?review_num="+review_num;
-	   }
+   }
+	
+	
+	
+		//추천 보기
+		@ResponseBody
+		@RequestMapping(value="recommend_view", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+		public String main_review(HttpServletRequest request, Model mo) {
+			
+		    Service ss = sqlsession.getMapper(Service.class);
+		    ArrayList<AllBoardDTO> list = ss.pickbestrec();
+
+		    // 리스트를 두 번 반복하여 똑같은 데이터를 포함한 새로운 리스트 생성
+		    ArrayList<AllBoardDTO> duplicatedList = new ArrayList<>();
+		    duplicatedList.addAll(list);
+		    duplicatedList.addAll(list);
+
+		    // ObjectMapper를 사용하여 두 번 반복된 리스트를 JSON 문자열로 변환
+		    ObjectMapper mapper = new ObjectMapper();
+		    String jsonList = "";
+		    try {
+		        jsonList = mapper.writeValueAsString(duplicatedList);
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+
+		    return jsonList;
+		}
 
 	
 	
-	// 리뷰 댓글 처리 영역
+	
+	
+	//신고 기능
+	@RequestMapping(value = "review_report_view")
+	public String report(HttpServletRequest request, Model mo) {
+
+		int review_num=Integer.parseInt(request.getParameter("review_num"));
+		String loginid=request.getParameter("loginid");
+		
+		Service ss=sqlsession.getMapper(Service.class);
+		MemberDTO mdto = ss.input_info(loginid);
+		mo.addAttribute("mdto", mdto);
+		
+		AllBoardDTO adto = ss.review_detail(review_num);
+		mo.addAttribute("adto", adto);
+
+	      return "review_report_view";
+   }
+	
+	
+	
+	//리뷰 신고 할 시 중복 방지
+	@ResponseBody
+	@RequestMapping(value = "review_ban_check", method = RequestMethod.POST)
+	public String inquire_ban_check(HttpServletRequest request) throws IOException {
+  
+		String id = request.getParameter("id");
+		int ban_review_num=Integer.parseInt(request.getParameter("ban_review_num"));
+		String category = request.getParameter("category");
+		String content = request.getParameter("content");
+		
+		Service ss=sqlsession.getMapper(Service.class);
+		String inquire_check="";
+		String result="";
+		inquire_check=ss.review_ban_check(id, ban_review_num, category, content); //동일한 사람이 동일한 글을 동일한 사유로 여러번 신고할 수 없도록 중복 방지
+		
+		if (inquire_check==null) {result="ok";}
+		else {result="nope";}
+		        
+		      return result;
+	}
+	
+	  
+	  
+	//리뷰 신고 저장
+	@RequestMapping(value = "review_ban_save", method = RequestMethod.POST)
+	public String inquire_ban_save(HttpServletRequest request, Model mo) throws IOException {
+      
+		String title = request.getParameter("title");
+		String name = request.getParameter("name");
+		String id = request.getParameter("id");
+		int ban_review_num=Integer.parseInt(request.getParameter("ban_review_num"));
+		String ban_name = request.getParameter("ban_name");
+		String ban_id = request.getParameter("ban_id");
+		String category = request.getParameter("category");
+		String content = request.getParameter("content");
+	
+	    Service ss=sqlsession.getMapper(Service.class);
+	    int user_num=ss.user_num(ban_id);
+	    int user_num2=ss.user_num(id);
+	    
+	    ss.review_ban_save(title, name, id, ban_review_num, ban_name, ban_id, category, content,user_num,id,user_num2);
+	    ss.report_up(ban_review_num);
+	
+	    return "redirect:/review_detail?review_num="+ban_review_num;
+	}
+	
+	
+	
+	//리뷰 신고 리스트 아웃
+	@RequestMapping(value = "review_ban_listout")
+	public String ban_list(HttpServletRequest request, PageDTO dto, Model mo) {
+		
+		String nowPage=request.getParameter("nowPage");
+		String cntPerPage=request.getParameter("cntPerPage");
+		Service ss = sqlsession.getMapper(Service.class);
+		int total=ss.ban_review_total();
+		
+		if(nowPage==null && cntPerPage == null) {
+		 nowPage="1";
+		   // 현재 페이지 ㄴ번호                                    
+		 cntPerPage="20";
+		  // 한 페이지당 보여줄 게시물 수
+		}
+		else if(nowPage==null) {
+		   nowPage="1";
+		}
+		else if(cntPerPage==null) {
+		   cntPerPage="20";
+		}
+		
+		dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+		mo.addAttribute("paging",dto);
+		mo.addAttribute("list",ss.review_report(dto));
+		
+		return "review_ban_listout";
+	}
+	
+	
+	
+	// 신고된 글 자세히 보기
+	@RequestMapping(value = "review_ban_detail")
+	public String ban_review_detail(HttpServletRequest request, Model mo) {
+	
+		int ban_review_num = Integer.parseInt(request.getParameter("ban_review_num"));
+		String ban_id=request.getParameter("ban_id");
+		
+		Service ss=sqlsession.getMapper(Service.class);
+
+		Review_report_DTO dto=ss.review_ban_detail(ban_review_num);
+		mo.addAttribute("dto", dto);
+
+		int ban_count=ss.review_ban_count(ban_id);
+		mo.addAttribute("ban_count", ban_count);
+		
+		ArrayList<Review_report_DTO> list=ss.review_ban_list(ban_id);
+		mo.addAttribute("list", list);
+
+		return "review_ban_detail";
+	}
+		
+		
+	
+	
+	   
+	//신고 내역 삭제
+	@RequestMapping(value="review_ban_delete")
+    public String review_ban_delete(HttpServletRequest request) {
+		
+		int review_report_num=Integer.parseInt(request.getParameter("review_report_num"));
+		
+		Service ss=sqlsession.getMapper(Service.class);
+		ss.review_ban_delete(review_report_num);
+		
+		return "redirect:/review_ban_listout";
+    }
+
+	
+	
+	
+	
+	//리뷰 댓글 처리 영역
+	//리뷰 댓글 저장
 	@ResponseBody
 	@RequestMapping(value = "reply_save", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-	   public String review_comment(HttpServletRequest request) {
+    public String review_comment(HttpServletRequest request) {
 		
         int review_num = Integer.parseInt(request.getParameter("review_num"));
         String loginid = request.getParameter("loginid").trim();
@@ -518,665 +868,336 @@ public class ReviewController {
         String replyDate = sdf.format(new Date());
         obj.put("reply_day", replyDate);
         
-        return obj.toString();
-        
-	   }
+        return obj.toString();    
+	}
 	
 	
 	
-	// 신고기능
-	@RequestMapping(value = "review_report_view")
-	   public String report(HttpServletRequest request, Model mo) {
+	
+	
+	//댓글 삭제하는 기능
+	@ResponseBody
+	@RequestMapping(value = "delete_reply")
+	public String reply_delete(HttpServletRequest request) throws IOException {
+  
+		JSONObject obj = new JSONObject();
+  
+	    try {
+		int reply_num = Integer.parseInt(request.getParameter("reply_num"));
+		int review_num = Integer.parseInt(request.getParameter("review_num"));
+		Service ss = sqlsession.getMapper(Service.class);
+		ss.reply_delete(reply_num); // 댓글테이블 댓글 삭제
+		ss.reply_minus(review_num); // user_review 테이블 reply count -
+		ss.report_reply_delete(reply_num); // 댓글신고내역 삭제
+		obj.put("success", true);
+	
+	    } catch (Exception e) {
+		  obj.put("success", false);
+	      e.printStackTrace();
+	    }
+	  
+	    return obj.toString();
+	}
+	
+	
+	
+	
+	
+	//댓글 수정하는 기능
+	@ResponseBody
+	@RequestMapping(value = "modify_reply")
+	public String reply_modify(HttpServletRequest request) throws IOException {
+      
+	  	JSONObject obj = new JSONObject();
+	  
+	    try {
+	        int reply_num = Integer.parseInt(request.getParameter("reply_num"));
+	        String modi_reply = request.getParameter("reply");
 
-		int review_num=Integer.parseInt(request.getParameter("review_num"));
-		String loginid=request.getParameter("loginid");
+	        Service ss = sqlsession.getMapper(Service.class);
+	        ss.reply_modify(reply_num,modi_reply);
+	        ReplyDTO dto = ss.reply_info(reply_num);
+	        
+	        obj.put("id",dto.getId());
+	        obj.put("reply_day", dto.getReply_day().substring(0, 16));
+	        obj.put("success", true);
+	        
+	    } catch (Exception e) {
+	    	obj.put("success", false);
+	        e.printStackTrace();
+	    }
+
+      return obj.toString();
+   }
+	
+	
+	
+	
+	
+	//댓글 신고
+	@ResponseBody
+	@RequestMapping(value = "report_reply" , method = RequestMethod.POST)
+	public String report_reply(HttpServletRequest request) throws IOException {
+		
+		int reply_num = Integer.parseInt(request.getParameter("reply_num"));
+		int review_num = Integer.parseInt(request.getParameter("review_num"));
+		String id = request.getParameter("reporter_id");
+		String ban_id = request.getParameter("reply_id");
+		String reply_contents = request.getParameter("reply_content");
+		String reason = request.getParameter("reason");
+		String detail = request.getParameter("detail");
+		String result="";
+			  
+		Service ss = sqlsession.getMapper(Service.class);
+	  
+		String name = ss.user_name(id);
+		String ban_name = ss.user_name(ban_id);
+		int user_num=ss.user_num(ban_id);
+		int user_num2=ss.user_num(id);
+	  
+		String ban_check = ss.report_check(reply_num,id,reason,reply_contents);
+	  
+		if (ban_check==null) {
+		  ss.reply_report_save(review_num, reply_num, id, ban_id, reply_contents, reason, detail,user_num,name,ban_name,user_num2);
+		  result="ok";
+        } else {result="no";}
+
+		return result;
+	}
+	
+	
+	
+	//신고 당한 댓글 조회
+	@RequestMapping(value = "reply_ban_listout")
+	public String reply_ban_list(HttpServletRequest request, PageDTO dto, Model mo) {
+		
+		String nowPage=request.getParameter("nowPage");
+		String cntPerPage=request.getParameter("cntPerPage");
+		
+		Service ss = sqlsession.getMapper(Service.class);
+		int total=ss.ban_reply_total();
+		
+		if(nowPage==null && cntPerPage == null) {  
+		 nowPage="1";
+		  // 현재 페이지 번호                                                     
+		 cntPerPage="20";
+		  // 한 페이지당 보여줄 게시물 수
+		}
+		else if(nowPage==null) {
+		  nowPage="1";
+		}
+		else if(cntPerPage==null) {
+		  cntPerPage="20";
+		}
+		
+		dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+		mo.addAttribute("paging",dto);
+		mo.addAttribute("list",ss.reply_report(dto));
+	
+	   return "reply_ban_listout";
+	}
+	
+	
+	
+	
+	
+	//댓글 신고 내역 삭제
+	@RequestMapping(value="/reply_ban_delete")
+	public String reply_ban_delete(HttpServletRequest request) {
+		
+		int review_reply_ban_num=Integer.parseInt(request.getParameter("review_reply_ban_num"));
 		
 		Service ss=sqlsession.getMapper(Service.class);
-		MemberDTO mdto = ss.input_info(loginid);
-		mo.addAttribute("mdto", mdto);
+		ss.reply_ban_delete(review_reply_ban_num);
 		
-		AllBoardDTO adto = ss.review_detail(review_num);
-		mo.addAttribute("adto", adto);
-
-	      return "review_report_view";
-	   }
+		return "redirect:/reply_ban_listout";
+	}
 	
 	
 	
-	//리뷰 신고를 할 때 중복을 방지하기
-	  @ResponseBody
-	  @RequestMapping(value = "review_ban_check", method = RequestMethod.POST)
-	   public String inquire_ban_check(HttpServletRequest request) throws IOException {
-	      
-	        String id = request.getParameter("id");
-	        int ban_review_num=Integer.parseInt(request.getParameter("ban_review_num"));
-	        String category = request.getParameter("category");
-	        String content = request.getParameter("content");
 	
-	        Service ss=sqlsession.getMapper(Service.class);
-	        String inquire_check="";
-	        String result="";
-	        inquire_check=ss.review_ban_check(id, ban_review_num, category, content); //동일한 사람이 동일한 글을 동일한 사유로 여러번 신고할 수 없도록 중복 방지
+	
+	//나도 한마디 출력 페이지
+	@RequestMapping(value = "/say_one_sentence")
+	public String say_one_sentence(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
+		
+		Service ss = sqlsession.getMapper(Service.class);
+		HttpSession hs = request.getSession();
+		response.setContentType("text/html; charset=UTF-8");
+		
+		if (hs.getAttribute("loginstate") == null || !(boolean) hs.getAttribute("loginstate")) {
+	        // 로그인하지 않은 상태에서는 로그인 관련 정보를 가져오지 않고, 채팅 내역만 가져옴
+	        ArrayList<OneDTO> list = ss.say_one_sentence();
+	        mo.addAttribute("list", list);
 	        
-	        if (inquire_check==null) {result="ok";}
-	        else {result="nope";}
-	        
-	      return result;
-	   }
-	
-	  
-	  
-	  //리뷰 신고 저장하기 기능
-	  @RequestMapping(value = "review_ban_save", method = RequestMethod.POST)
-	   public String inquire_ban_save(HttpServletRequest request, Model mo) throws IOException {
-	      
-	      	String title = request.getParameter("title");
-	        String name = request.getParameter("name");
-	        String id = request.getParameter("id");
-	        int ban_review_num=Integer.parseInt(request.getParameter("ban_review_num"));
-	        String ban_name = request.getParameter("ban_name");
-	        String ban_id = request.getParameter("ban_id");
-	        String category = request.getParameter("category");
-	        String content = request.getParameter("content");
-	
-	        Service ss=sqlsession.getMapper(Service.class);
-	        int user_num=ss.user_num(ban_id);
-	        int user_num2=ss.user_num(id);
-	        
-	        ss.review_ban_save(title, name, id, ban_review_num, ban_name, ban_id, category, content,user_num,id,user_num2);
-	        ss.report_up(ban_review_num);
+	    } else {
+	        // 로그인한 경우에는 사용자 정보와 함께 채팅 내역을 가져옴
+	        String loginid = (String) hs.getAttribute("loginid");
+	        MemberDTO dto = ss.input_info(loginid);
+	        mo.addAttribute("dto", dto);
 
-	      return "redirect:/review_detail?review_num="+ban_review_num;
-	   }
-	  
-	  
-	  
-	  // 댓글을 삭제하는 기능
-	  @ResponseBody
-	  @RequestMapping(value = "delete_reply")
-	   public String reply_delete(HttpServletRequest request) throws IOException {
-	      
-		  	JSONObject obj = new JSONObject();
-		  
-		    try {
-		        int reply_num = Integer.parseInt(request.getParameter("reply_num"));
-		        int review_num = Integer.parseInt(request.getParameter("review_num"));
-
-		        Service ss = sqlsession.getMapper(Service.class);
-		        ss.reply_delete(reply_num); // 댓글테이블 댓글 삭제
-		        ss.reply_minus(review_num); // user_review 테이블 reply count -
-		        ss.report_reply_delete(reply_num); // 댓글신고내역 삭제
-
-		        obj.put("success", true);
-		        
-		    } catch (Exception e) {
-		    	obj.put("success", false);
-		        e.printStackTrace();
-		    }
-
-	      return obj.toString();
-	   }
-	  
-	  // 댓글을 수정하는 기능
-	  @ResponseBody
-	  @RequestMapping(value = "modify_reply")
-	   public String reply_modify(HttpServletRequest request) throws IOException {
-	      
-		  	JSONObject obj = new JSONObject();
-		  
-		    try {
-		        int reply_num = Integer.parseInt(request.getParameter("reply_num"));
-		        String modi_reply = request.getParameter("reply");
-
-		        Service ss = sqlsession.getMapper(Service.class);
-		        ss.reply_modify(reply_num,modi_reply);
-		        ReplyDTO dto = ss.reply_info(reply_num);
-		        
-		        obj.put("id",dto.getId());
-		        obj.put("reply_day", dto.getReply_day().substring(0, 16));
-		        obj.put("success", true);
-		        
-		    } catch (Exception e) {
-		    	obj.put("success", false);
-		        e.printStackTrace();
-		    }
-
-	      return obj.toString();
-	   }
-	  
-	  
-	  
-	  // 댓글신고
-	  @ResponseBody
-	  @RequestMapping(value = "report_reply" , method = RequestMethod.POST)
-	   public String report_reply(HttpServletRequest request) throws IOException {
-  
-		  int reply_num = Integer.parseInt(request.getParameter("reply_num"));
-		  int review_num = Integer.parseInt(request.getParameter("review_num"));
-		  String id = request.getParameter("reporter_id");
-		  String ban_id = request.getParameter("reply_id");
-		  String reply_contents = request.getParameter("reply_content");
-		  String reason = request.getParameter("reason");
-		  String detail = request.getParameter("detail");
-		  String result="";
-				  
-		  Service ss = sqlsession.getMapper(Service.class);
-		  
-		  String name = ss.user_name(id);
-		  String ban_name = ss.user_name(ban_id);
-		  int user_num=ss.user_num(ban_id);
-		  int user_num2=ss.user_num(id);
-		  
-		  String ban_check = ss.report_check(reply_num,id,reason,reply_contents);
-		  
-		  if (ban_check==null) {
-			  ss.reply_report_save(review_num, reply_num, id, ban_id, reply_contents, reason, detail,user_num,name,ban_name,user_num2);
-			  result="ok";
-	        } else {
-	        	result="no";
-	        }
-
-	      return result;
-	   }
-	  
-	  
-	  
-	  //리뷰 검색 기능
-	   @ResponseBody
-	   @RequestMapping(value = "/review_search", produces = "text/html; charset=UTF-8")
-	   public String search1(HttpServletRequest request) {
-		    
-	      String category = request.getParameter("search_category");
-	      String search = request.getParameter("search");
-	      String nowPage = request.getParameter("nowPage");
-	      String cntPerPage = request.getParameter("cntPerPage");
-	      
-	      if (nowPage == null || cntPerPage == null) {
-	          nowPage = "1";
-	          cntPerPage = "20";
-	      }
-      
-	      if ("vdate".equals(category) || "wdate".equals(category)) {
-	          String year = request.getParameter("year");
-	          String month = request.getParameter("month");
-
-	          if ("2020".equals(year)) {
-	              search = "2020";
-	          } else if (year != null && !year.isEmpty() && month != null && !month.isEmpty()) {
-	              search = year + "-" + String.format("%02d", Integer.parseInt(month)); // "2024-05"
-	          } else if (year != null && !year.isEmpty()) {
-	              search = year; // "2024"
-	          } else if (month != null && !month.isEmpty()) {
-	              search = month;
-	          }
-	      }
-	      
-	      
-	      Service ss = sqlsession.getMapper(Service.class);
-	      
-	      int total = ss.search_result_count(category, search);
-	      PageDTO dto = new PageDTO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-	      
-	      ArrayList<AllBoardDTO> list = ss.search_result(category,search, dto.getStart(), dto.getEnd());
-
-	      StringBuilder sb = new StringBuilder();
-	      sb.append("<table class='board-table'>");
-	      sb.append("<thead><tr>");
-	      sb.append("<th scope='col' class='th-num'>번호</th>");
-	      sb.append("<th scope='col' class='th-title'>제목</th>");
-	      sb.append("<th scope='col' class='th-writer'>작성자</th>");
-	      sb.append("<th scope='col' class='th-date vdate'>방문일</th>");
-	      sb.append("<th scope='col' class='th-date wdate'>작성일</th>");
-	      sb.append("<th scope='col' class='th-num recommend'>추천수</th>");
-	      sb.append("<th scope='col' class='th-num view'>조회수</th>");
-	      sb.append("</tr></thead>");
-	      sb.append("<tbody>");
-
-	      for (AllBoardDTO item : list) {
-	          sb.append("<tr>");
-	          sb.append("<td>").append(item.getReview_num()).append("</td>");
-	          sb.append("<td class='text_title'><a href='review_detail?review_num=").append(item.getReview_num()).append("'>")
-	              .append(item.getReview_title()).append(" <span class='reply_check'>[").append(item.getReply()).append("]</span></a></td>");
-	          sb.append("<td>").append(item.getName()).append("(")
-	              .append(item.getId().substring(0, 4)).append("****)님</td>");
-	          sb.append("<td>").append(item.getVisit_day()).append("</td>");
-	          sb.append("<td>").append(item.getWrite_day().substring(0, 10)).append("</td>");
-	          sb.append("<td>").append(item.getRecommend()).append("</td>");
-	          sb.append("<td>").append(item.getHits()).append("</td>");
-	          sb.append("</tr>");
-	      }
-	      sb.append("<tr style='border-left: none; border-right: none; border-bottom: none;'>");
-	      sb.append("<th colspan='7' style='text-align: center;'>");
-
-	      // 페이징 로직 시작
-	      if (dto.getStartPage() > 1) {
-	          sb.append("<a href='review_all_page?nowPage=").append(dto.getStartPage() - 1)
-	            .append("&cntPerPage=").append(dto.getCntPerPage()).append("'>◀</a> ");
-	      }
-
-	      for (int i = dto.getStartPage(); i <= dto.getEndPage(); i++) {
-	          if (i == dto.getNowPage()) {
-	              sb.append("<span style='color: red;'>").append(i).append("</span> ");
-	          } else {
-	              sb.append("<a href='review_all_page?nowPage=").append(i)
-	                .append("&cntPerPage=").append(dto.getCntPerPage()).append("'>")
-	                .append(i).append("</a> ");
-	          }
-	      }
-
-	      if (dto.getEndPage() < dto.getLastPage()) {
-	          sb.append("<a href='review_all_page?nowPage=").append(dto.getEndPage() + 1)
-	            .append("&cntPerPage=").append(dto.getCntPerPage()).append("'>▶</a>");
-	      }
-
-	      sb.append("</th>");
-	      sb.append("</tr>");
-	      sb.append("</tbody></table>"); 
-
-	      return sb.toString();
-	   }
-	   
-   
-	   @ResponseBody
-	   @RequestMapping(value = "/review_area_search", produces = "text/html; charset=UTF-8")
-	   public String search2(HttpServletRequest request) {
-		    
-	      String area = request.getParameter("area");
-	      String nowPage = request.getParameter("nowPage");
-	      String cntPerPage = request.getParameter("cntPerPage");
-
-	      if (nowPage == null || cntPerPage == null) {
-	          nowPage = "1";
-	          cntPerPage = "20";
-	      }
-	      
-	      Service ss = sqlsession.getMapper(Service.class);
-	      
-	      int total = ss.area_result_count(area);
-	      
-	      PageDTO dto = new PageDTO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-	      
-	      
-	      ArrayList<AllBoardDTO> list = ss.search_area_result(area,dto.getStart(), dto.getEnd());
-     
-	      StringBuilder sb = new StringBuilder();
-	      sb.append("<table class='board-table'>");
-	      sb.append("<thead>");
-	      sb.append("<tr>");
-	      sb.append("<th scope='col' class='th-num'>번호</th>");
-	      sb.append("<th scope='col' class='th-title'>제목</th>");
-	      sb.append("<th scope='col' class='th-writer'>작성자</th>");
-	      sb.append("<th scope='col' class='th-date vdate'>방문일</th>");
-	      sb.append("<th scope='col' class='th-date wdate'>작성일</th>");
-	      sb.append("<th scope='col' class='th-num recommend'>추천수</th>");
-	      sb.append("<th scope='col' class='th-num view'>조회수</th>");
-	      sb.append("</tr>");
-	      sb.append("</thead>");
-	      sb.append("<tbody>");
-
-	      for (AllBoardDTO review : list) {
-	          sb.append("<tr>");
-	          sb.append("<td>").append(review.getReview_num()).append("</td>");
-	          sb.append("<td class='text_title'><a href='review_detail?review_num=").append(review.getReview_num()).append("'>")
-	              .append(review.getReview_title()).append(" <span class='reply_check'>[").append(review.getReply()).append("]</span></a></td>");
-	          String show_id = review.getId().substring(0, 4) + "****";
-	          sb.append("<td>").append(review.getName()).append("(").append(show_id).append(")님").append("</td>");
-	          sb.append("<td>").append(review.getVisit_day()).append("</td>");
-	          String write_day = review.getWrite_day().substring(0, 10);
-	          sb.append("<td>").append(write_day).append("</td>");
-	          sb.append("<td>").append(review.getRecommend()).append("</td>");
-	          sb.append("<td>").append(review.getHits()).append("</td>");
-	          sb.append("</tr>");
-	      }
-	      
-	      sb.append("<tr style='border-left: none; border-right: none; border-bottom: none;'>");
-	      sb.append("<th colspan='7' style='text-align: center;'>");
-
-	      // 페이징 로직 시작
-	      if (dto.getStartPage() > 1) {
-	          sb.append("<a href='review_all_page?nowPage=").append(dto.getStartPage() - 1)
-	            .append("&cntPerPage=").append(dto.getCntPerPage()).append("'>◀</a> ");
-	      }
-
-	      for (int i = dto.getStartPage(); i <= dto.getEndPage(); i++) {
-	          if (i == dto.getNowPage()) {
-	              sb.append("<span style='color: red;'>").append(i).append("</span> ");
-	          } else {
-	              sb.append("<a href='review_all_page?nowPage=").append(i)
-	                .append("&cntPerPage=").append(dto.getCntPerPage()).append("'>")
-	                .append(i).append("</a> ");
-	          }
-	      }
-
-	      if (dto.getEndPage() < dto.getLastPage()) {
-	          sb.append("<a href='review_all_page?nowPage=").append(dto.getEndPage() + 1)
-	            .append("&cntPerPage=").append(dto.getCntPerPage()).append("'>▶</a>");
-	      }
-
-	      sb.append("</th>");
-	      sb.append("</tr>");
-	      sb.append("</tbody></table>"); 
-
-	      return sb.toString();
-	   }
-	 
-		@RequestMapping(value = "review_ban_listout")
-		   public String ban_list(HttpServletRequest request, PageDTO dto, Model mo) {
-			
-
-			String nowPage=request.getParameter("nowPage");
-	        String cntPerPage=request.getParameter("cntPerPage");
-
-			Service ss = sqlsession.getMapper(Service.class);
-			int total=ss.ban_review_total();
-
-	        if(nowPage==null && cntPerPage == null) {
-	       	 nowPage="1";
-	           // 현재 페이지 번호                                    
-	         cntPerPage="20";
-	          // 한 페이지당 보여줄 게시물 수
-	        }
-	        else if(nowPage==null) {
-	           nowPage="1";
-	        }
-	        else if(cntPerPage==null) {
-	           cntPerPage="20";
-	        }
-			
-	        dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
-	        mo.addAttribute("paging",dto);
-	        mo.addAttribute("list",ss.review_report(dto));
-
-		      return "review_ban_listout";
-		   }
-		
-		
-		   // 신고된 글 자세히 보기
-		@RequestMapping(value = "review_ban_detail")
-			public String ban_review_detail(HttpServletRequest request, Model mo) {
-		
-			int ban_review_num = Integer.parseInt(request.getParameter("ban_review_num"));
-			String ban_id=request.getParameter("ban_id");
-			
-			Service ss=sqlsession.getMapper(Service.class);
-
-			Review_report_DTO dto=ss.review_ban_detail(ban_review_num);
-			mo.addAttribute("dto", dto);
-
-			int ban_count=ss.review_ban_count(ban_id);
-			mo.addAttribute("ban_count", ban_count);
-			
-			ArrayList<Review_report_DTO> list=ss.review_ban_list(ban_id);
-			mo.addAttribute("list", list);
-		
-
-			return "review_ban_detail";
-		}
-	   
-		//관리자 권한에서 신고 내역 삭제
-		@RequestMapping(value="review_ban_delete")
-	    public String review_ban_delete(HttpServletRequest request) {
-			
-			int review_report_num=Integer.parseInt(request.getParameter("review_report_num"));
-			
-			Service ss=sqlsession.getMapper(Service.class);
-			ss.review_ban_delete(review_report_num);
-			
-			return "redirect:/review_ban_listout";
+	        // 채팅 내역 가져오기
+	        ArrayList<OneDTO> list = ss.say_one_sentence();
+	        mo.addAttribute("list", list);
 	    }
 		
-		
-		@RequestMapping(value = "reply_ban_listout")
-		   public String reply_ban_list(HttpServletRequest request, PageDTO dto, Model mo) {
-			
-
-			String nowPage=request.getParameter("nowPage");
-	        String cntPerPage=request.getParameter("cntPerPage");
-			
-			Service ss = sqlsession.getMapper(Service.class);
-			int total=ss.ban_reply_total();
-			
-	        if(nowPage==null && cntPerPage == null) {
-	            
-	       	 nowPage="1";
-	           // 현재 페이지 번호
-	                                                             
-	         cntPerPage="20";
-	          // 한 페이지당 보여줄 게시물 수
-	        
-	        }
-	        else if(nowPage==null) {
-	           nowPage="1";
-	        }
-	        else if(cntPerPage==null) {
-	           cntPerPage="20";
-	        }
-			
-	        dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
-	        mo.addAttribute("paging",dto);
-	        mo.addAttribute("list",ss.reply_report(dto));
-			
-
-		      return "reply_ban_listout";
-		   }
+		return "say_one_sentence";
+	}
 		
 		
-		@RequestMapping(value="/reply_ban_delete")
-	    public String reply_ban_delete(HttpServletRequest request) {
-			
-			int review_reply_ban_num=Integer.parseInt(request.getParameter("review_reply_ban_num"));
-			
-			Service ss=sqlsession.getMapper(Service.class);
-			ss.reply_ban_delete(review_reply_ban_num);
-			
-			return "redirect:/reply_ban_listout";
-	    }
 		
-		@ResponseBody
-		@RequestMapping(value="recommend_view", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-		public String main_review(HttpServletRequest request, Model mo) {
-		    Service ss = sqlsession.getMapper(Service.class);
-		    ArrayList<AllBoardDTO> list = ss.pickbestrec();
+	//나도 한마디 입력 후 저장, 그리고 다시 출력
+	@RequestMapping(value = "/say_one_save", method = RequestMethod.POST)
+	public String say_one_save(HttpServletRequest request, Model mo, HttpServletResponse response) {
+	
+		String loc = request.getParameter("loc");
+		String id = request.getParameter("id");
+	    String name = request.getParameter("name");
+	    String content = request.getParameter("content");
+	    
+	    Service ss = sqlsession.getMapper(Service.class);
+		HttpSession hs = request.getSession();
+		response.setContentType("text/html; charset=UTF-8");
+	    
+	    if(content.equals("")||content==null||content.isEmpty()) {content="바라는 바다 짱!><♡";}
+	    else {}
+	    
+    	//입력한 한마디를 테이블에 저장
+		ss.say_one_save(id, name, content, loc);
+		
+		//사전에 나도 한마디를 입력하려는 사용자의 정보를 가져옴
+		String loginid = (String) hs.getAttribute("loginid");
+		MemberDTO dto = ss.input_info(loginid);
+		mo.addAttribute("dto", dto);
+			
+		//다시 나도 한마디 창에 가져가는 정보(기존 채팅 + 방금 올린 채팅)
+		ArrayList<OneDTO> list=ss.say_one_sentence();
+		mo.addAttribute("list", list);
+	    
+		return "say_one_sentence";
+	    
+	}
+	
+	
+	
+	
+	
+	//관리자 또는 유저가 나도 한마디를 삭제하는 경우
+	@RequestMapping(value = "one_delete")
+	public String one_delete(HttpServletRequest request, Model mo, HttpServletResponse response) {
 
-		 // 리스트를 두 번 반복하여 똑같은 데이터를 포함한 새로운 리스트 생성
-		    ArrayList<AllBoardDTO> duplicatedList = new ArrayList<>();
-		    duplicatedList.addAll(list);
-		    duplicatedList.addAll(list);
+		int one_num = Integer.parseInt(request.getParameter("one_num"));
+		 
+		Service ss = sqlsession.getMapper(Service.class);
+		HttpSession hs = request.getSession();
+		response.setContentType("text/html; charset=UTF-8");
+		 
+		ss.one_delete(one_num);
+		 
+		//사전에 나도 한마디를 입력하려는 사용자의 정보를 가져옴
+		String loginid = (String) hs.getAttribute("loginid");
+		MemberDTO dto = ss.input_info(loginid);
+		mo.addAttribute("dto", dto);
+			
+		//다시 나도 한마디 창에 가져가는 정보(기존 채팅 + 방금 올린 채팅)
+		ArrayList<OneDTO> list=ss.say_one_sentence();
+		mo.addAttribute("list", list);
+	    
+		return "say_one_sentence";
+	}
+		  
+		  
+		  
+	//나도 한마디 채팅이 신고된 경우
+	@ResponseBody
+	@RequestMapping(value = "one_ban")
+	public String one_ban(HttpServletRequest request, Model mo, HttpServletResponse response) {
 
-		    // ObjectMapper를 사용하여 두 번 반복된 리스트를 JSON 문자열로 변환
-		    ObjectMapper mapper = new ObjectMapper();
-		    String jsonList = "";
-		    try {
-		        jsonList = mapper.writeValueAsString(duplicatedList);
-		    } catch (Exception e) {
-		        e.printStackTrace();
-		    }
-
-		    return jsonList;
+		int ban_one_num = Integer.parseInt(request.getParameter("one_num")); //신고당한 채팅 번호
+		String id=request.getParameter("id"); //신고한 사람의 아이디
+		 
+		Service ss = sqlsession.getMapper(Service.class);
+		HttpSession hs = request.getSession();
+		response.setContentType("text/html; charset=UTF-8");
+		
+		int count_same_ban=ss.count_same_ban(ban_one_num, id); //중복 신고 방지를 위해 정보 가져옴
+		
+		if(count_same_ban==0) { //중복신고가 아닌 경우
+		
+		String ban_id=ss.find_ban_user_id(ban_one_num); //신고당한 채팅에서 신고당한 유저의 아이디 가져옴
+		int ban_user_num = ss.ban_user_num(ban_id); //신고당한 유저의 아이디로 신고당한 유저의 회원번호를 가져옴
+		String ban_name=ss.find_ban_user_name(ban_id); //신고당한 유저의 아이디로 신고당한 유저의 닉네임을 가져옴
+		String ban_content=ss.find_ban_content(ban_one_num); //신고당한 채팅 번호로 신고당한 채팅의 내용을 가져옴
+		String name=ss.find_name(id); //신고한 사람의 아이디로 신고한 사람의 닉네임을 가져옴
+		 
+		ss.one_ban_save(id, name, ban_user_num, ban_id, ban_name, ban_content, ban_one_num); //신고 정보를 테이블에 저장함
+		 
+		//사전에 나도 한마디를 입력하려는 사용자의 정보를 가져옴
+		String loginid = (String) hs.getAttribute("loginid");
+		MemberDTO dto = ss.input_info(loginid);
+		mo.addAttribute("dto", dto);
+			
+		//다시 나도 한마디 창에 가져가는 정보(기존 채팅 + 방금 올린 채팅)
+		ArrayList<OneDTO> list=ss.say_one_sentence();
+		mo.addAttribute("list", list);
+	    
+		return "say_one_sentence";}
+		
+		else { //중복신고인 경우
+		    response.setStatus(HttpServletResponse.SC_CONFLICT); // HTTP 상태 코드 409를 설정하여 중복 신고임을 전달
+		    
+		    return "duplicate_report"; // 중복 신고를 클라이언트로 전달하고 종료
 		}
-		
-		
-		
-		
-		
-		//나도 한마디 출력 페이지
-		@RequestMapping(value = "/say_one_sentence")
-		public String say_one_sentence(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
-			
-			Service ss = sqlsession.getMapper(Service.class);
-			HttpSession hs = request.getSession();
-			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			
-			if (hs.getAttribute("loginstate") == null || !(boolean) hs.getAttribute("loginstate")) {
-		        // 로그인하지 않은 상태에서는 로그인 관련 정보를 가져오지 않고, 채팅 내역만 가져옴
-		        ArrayList<OneDTO> list = ss.say_one_sentence();
-		        mo.addAttribute("list", list);
-		    } else {
-		        // 로그인한 경우에는 사용자 정보와 함께 채팅 내역을 가져옴
-		        String loginid = (String) hs.getAttribute("loginid");
-		        MemberDTO dto = ss.input_info(loginid);
-		        mo.addAttribute("dto", dto);
+   }
+	
+	
+	
+	//나도 한마디 채팅 신고 내역 확인창
+	@RequestMapping(value = "one_ban_listout")
+	public String one_ban_listout(HttpServletRequest request, PageDTO dto, Model mo) {
 
-		        // 채팅 내역 가져오기
-		        ArrayList<OneDTO> list = ss.say_one_sentence();
-		        mo.addAttribute("list", list);
-		    }
-			
-			return "say_one_sentence";
-		}
+		String nowPage=request.getParameter("nowPage");
+        String cntPerPage=request.getParameter("cntPerPage");
 		
+		Service ss = sqlsession.getMapper(Service.class);
+		int total=ss.one_ban_total();
 		
+        if(nowPage==null && cntPerPage == null) {
+       	 nowPage="1";
+           // 현재 페이지 번호                                     
+         cntPerPage="20";
+          // 한 페이지당 보여줄 게시물 수
+         }
+        else if(nowPage==null) {
+           nowPage="1";
+        }
+        else if(cntPerPage==null) {
+           cntPerPage="20";
+        }
 		
-		//나도 한마디 입력 후 저장, 그리고 다시 출력
-		@RequestMapping(value = "/say_one_save", method = RequestMethod.POST)
-		public String say_one_save(HttpServletRequest request, Model mo, HttpServletResponse response) {
+        dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+        mo.addAttribute("paging",dto);
+        mo.addAttribute("list",ss.one_ban(dto));
+        
+	    return "one_ban_listout";
+	}
+		  
+		  
+	
+	
+		  
+	//관리자 권한에서 신고 내역 삭제
+	@RequestMapping(value="one_ban_delete")
+	public String one_ban_delete(HttpServletRequest request) {
 		
-			String loc = request.getParameter("loc");
-			String id = request.getParameter("id");
-		    String name = request.getParameter("name");
-		    String content = request.getParameter("content");
-		    
-		    Service ss = sqlsession.getMapper(Service.class);
-			HttpSession hs = request.getSession();
-			response.setContentType("text/html; charset=UTF-8");
-		    
-		    if(content.equals("")||content==null||content.isEmpty()) {content="바라는 바다 짱!><♡";}
-		    
-		    else {}
-		    
-	    	//입력한 한마디를 테이블에 저장
-			ss.say_one_save(id, name, content, loc);
-			
-			//사전에 나도 한마디를 입력하려는 사용자의 정보를 가져옴
-			String loginid = (String) hs.getAttribute("loginid");
-			MemberDTO dto = ss.input_info(loginid);
-			mo.addAttribute("dto", dto);
-				
-			//다시 나도 한마디 창에 가져가는 정보(기존 채팅 + 방금 올린 채팅)
-			ArrayList<OneDTO> list=ss.say_one_sentence();
-			mo.addAttribute("list", list);
-		    
-			return "say_one_sentence";
-		    
-		}
+		int one_ban_num=Integer.parseInt(request.getParameter("one_ban_num"));
 		
+		Service ss=sqlsession.getMapper(Service.class);
+		ss.one_ban_delete(one_ban_num);
 		
+		return "redirect:/one_ban_listout";
+    }
 		
-		//관리자 또는 유저가 나도 한마디를 삭제하는 경우
-		  @RequestMapping(value = "one_delete")
-		   public String one_delete(HttpServletRequest request, Model mo, HttpServletResponse response) {
-
-				int one_num = Integer.parseInt(request.getParameter("one_num"));
-				 
-				Service ss = sqlsession.getMapper(Service.class);
-				HttpSession hs = request.getSession();
-				response.setContentType("text/html; charset=UTF-8");
-				 
-				ss.one_delete(one_num);
-				 
-				//사전에 나도 한마디를 입력하려는 사용자의 정보를 가져옴
-				String loginid = (String) hs.getAttribute("loginid");
-				MemberDTO dto = ss.input_info(loginid);
-				mo.addAttribute("dto", dto);
-					
-				//다시 나도 한마디 창에 가져가는 정보(기존 채팅 + 방금 올린 채팅)
-				ArrayList<OneDTO> list=ss.say_one_sentence();
-				mo.addAttribute("list", list);
-			    
-				return "say_one_sentence";
-		   }
-		  
-		  
-		  
-		//나도 한마디 채팅이 신고된 경우
-		  @ResponseBody
-		  @RequestMapping(value = "one_ban")
-		   public String one_ban(HttpServletRequest request, Model mo, HttpServletResponse response) {
-
-				int ban_one_num = Integer.parseInt(request.getParameter("one_num")); //신고당한 채팅 번호
-				String id=request.getParameter("id"); //신고한 사람의 아이디
-				 
-				Service ss = sqlsession.getMapper(Service.class);
-				HttpSession hs = request.getSession();
-				response.setContentType("text/html; charset=UTF-8");
-				
-				int count_same_ban=ss.count_same_ban(ban_one_num, id); //중복 신고 방지를 위해 정보 가져옴
-				
-				if(count_same_ban==0) { //중복신고가 아닌 경우
-				
-				String ban_id=ss.find_ban_user_id(ban_one_num); //신고당한 채팅에서 신고당한 유저의 아이디 가져옴
-				int ban_user_num = ss.ban_user_num(ban_id); //신고당한 유저의 아이디로 신고당한 유저의 회원번호를 가져옴
-				String ban_name=ss.find_ban_user_name(ban_id); //신고당한 유저의 아이디로 신고당한 유저의 닉네임을 가져옴
-				String ban_content=ss.find_ban_content(ban_one_num); //신고당한 채팅 번호로 신고당한 채팅의 내용을 가져옴
-				String name=ss.find_name(id); //신고한 사람의 아이디로 신고한 사람의 닉네임을 가져옴
-				 
-				ss.one_ban_save(id, name, ban_user_num, ban_id, ban_name, ban_content, ban_one_num); //신고 정보를 테이블에 저장함
-				 
-				//사전에 나도 한마디를 입력하려는 사용자의 정보를 가져옴
-				String loginid = (String) hs.getAttribute("loginid");
-				MemberDTO dto = ss.input_info(loginid);
-				mo.addAttribute("dto", dto);
-					
-				//다시 나도 한마디 창에 가져가는 정보(기존 채팅 + 방금 올린 채팅)
-				ArrayList<OneDTO> list=ss.say_one_sentence();
-				mo.addAttribute("list", list);
-			    
-				return "say_one_sentence";}
-				
-				else { //중복신고인 경우
-				    response.setStatus(HttpServletResponse.SC_CONFLICT); // HTTP 상태 코드 409를 설정하여 중복 신고임을 전달
-				    return "duplicate_report"; // 중복 신고를 클라이언트로 전달하고 종료
-				}
-		   }
-		  
-		  
-		  
-		  //나도 한마디 채팅 신고 내역 확인창
-		  @RequestMapping(value = "one_ban_listout")
-		   public String one_ban_listout(HttpServletRequest request, PageDTO dto, Model mo) {
-
-			String nowPage=request.getParameter("nowPage");
-	        String cntPerPage=request.getParameter("cntPerPage");
-			
-			Service ss = sqlsession.getMapper(Service.class);
-			int total=ss.one_ban_total();
-			
-	        if(nowPage==null && cntPerPage == null) {
-	            
-	       	 nowPage="1";
-	           // 현재 페이지 번호
-	                                                             
-	         cntPerPage="20";
-	          // 한 페이지당 보여줄 게시물 수
-	        
-	        }
-	        else if(nowPage==null) {
-	           nowPage="1";
-	        }
-	        else if(cntPerPage==null) {
-	           cntPerPage="20";
-	        }
-			
-	        dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
-	        mo.addAttribute("paging",dto);
-	        mo.addAttribute("list",ss.one_ban(dto));
-		      return "one_ban_listout";
-		   }
-		  
-		  
-		  
-		//관리자 권한에서 신고 내역 삭제
-			@RequestMapping(value="one_ban_delete")
-		    public String one_ban_delete(HttpServletRequest request) {
-				
-				int one_ban_num=Integer.parseInt(request.getParameter("one_ban_num"));
-				
-				Service ss=sqlsession.getMapper(Service.class);
-				ss.one_ban_delete(one_ban_num);
-				
-				return "redirect:/one_ban_listout";
-		    }
-		
+	
 		
 }

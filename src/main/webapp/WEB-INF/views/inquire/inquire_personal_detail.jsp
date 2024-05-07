@@ -321,7 +321,7 @@ textarea {
 		<th colspan="1">추가답변전송</th>
 		<td colspan="3" align="center">
 		<h3>이미 답변을 완료한 문의입니다. <br>
-		ezen.bada@gmail.com의 보낸 메일함에서 보낸 답변을 확인할 수 있습니다.<br><br><br> </h3>
+		ezen.bada@gmail.com의 <a href="https://mail.google.com/mail/u/0/#sent">보낸 메일함</a>에서 보낸 답변을 확인할 수 있습니다.<br><br><br> </h3>
 		<input type="hidden" name="ip_num" id="ip_num" value="${dto.ip_num}">
 		<input type="hidden" name="title" id="title" value="${dto.title}">
 		<input type="hidden" name="name" id="name" value="${dto.name}">

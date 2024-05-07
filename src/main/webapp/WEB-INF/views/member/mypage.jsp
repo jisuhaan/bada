@@ -50,14 +50,14 @@ function mybbti(id){
         success: function(response) {
 		
         	if(response=='nope'){
-        		var cc = confirm('아직 BBTI(바다성향) 테스트를 안 하셨네요! BBTI 테스트를 해볼까요?')
+        		var cc = confirm('아직 BBTI(바다성향) 테스트를 안 하셨네요. BBTI 테스트를 해볼까요?')
         		if(cc){
         			window.open('member_try_bbti?id='+id,'BBTI 테스트','width=605,height=805,resizable=no,scrollbars=no,menubar=no,location=no')
         		}
         	}
         	else{
         		var bbti = response;
-        		alert("내 BBTI 결과지를 보여드릴게요!");
+        		alert("내 BBTI 결과지를 보여드릴게요.");
         		window.open('my_bbti?id='+id+'&bbti='+bbti,'BBTI 결과','width=605,height=805,resizable=no,scrollbars=no,menubar=no,location=no')
         	}
         },

@@ -81,7 +81,7 @@ $(document).ready(function(){
 			
 		},error: function(){
 			
-			alert("데이터 전송 과정에 에러발생");
+			alert("데이터 전송 과정에서 에러가 발생했습니다.");
 		}
 		
 	});

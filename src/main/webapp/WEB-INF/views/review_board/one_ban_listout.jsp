@@ -6,35 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-	<style>
-        table {
-            margin: 0 auto;
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            text-align: center;
-            font-size: 13px; /* 텍스트 크기를 작게 설정 */
-            padding: 4px; /* 셀 안의 여백 설정 */
-        }
-        th:nth-child(1) {
-            width: 14%;
-        }
-        th:nth-child(2){
-        width: 14%;
-        }
-        th:nth-child(3){
-        width: 50%;
-        }
-        th:nth-child(4){
-        width: 14%;
-        }
-        .lock-icon {
-            display: inline-block; /* 이미지를 인라인 블록 요소로 설정하여 텍스트와 같이 정렬 */
-            vertical-align: middle; /* 아이콘을 수직 가운데 정렬 */
-        }
-    </style>
+<link href="${pageContext.request.contextPath}/resources/css/ban_lists.css" rel="stylesheet" type="text/css">
     
 <meta charset="UTF-8">
 <title>바라는 바다! :: 신고 내역</title>
@@ -57,44 +29,44 @@
 </head>
 <body>
 
-	<br> <br> <br>
+<c:choose>
+<c:when test="${loginstate==true && position=='admin'}">
 	
-	<div style="margin-bottom: 20px;">
+<div class="container">
+	
+	<div class="select_views">
     <select id="report_type">
-        <option value="post_report" >신고된 게시글</option>
+        <option value="post_report">신고된 게시글</option>
         <option value="reply_report">신고된 댓글</option>
         <option value="chat_report" selected>신고된 한마디</option>
     </select>
 	</div>
-	
-	<!-- option 값에 따라 변동될 부분 -->	
-	<br>
-		<table id="one_table" border="1">
-	
-			      <tr>
-			      	 <th>신고자</th>
-			         <th>신고당한 회원</th>
-			         <th>신고된 한마디</th>
-			         <th>신고 날짜</th>
-			         <th>신고 삭제</th>
-			      </tr>
-		         
-<c:choose>
+		        
 
-<c:when test="${loginstate==true && position=='admin'}">
+	<div class="list_container">
+		<div class="ban_table">
+		<table class="board-table">
+		<thead>
+		<tr>	
+			<th scope="col" class="th-r_user">신고자</th>
+			<th scope="col" class="th-r_reported">작성자</th>
+			<th scope="col" class="th-r_title">한마디 내용</th>
+			<th scope="col" class="th-r_date">신고날짜</th>
+			<th scope="col" class="th-r_user">삭제</th>
+		</tr>
+		</thead>
 
-<c:forEach items="${list}" var="l">
-			      <tr>
-			        <td>${l.name}(${fn:substring(l.id, 0, 4)}****) 님</td>
-			      	<td> <a href="member_detail?user_number=${l.ban_user_num}">
-			      	${l.ban_name}(${fn:substring(l.ban_id, 0, 4)}****) 님</a></td>
-			      	
-			      	<td>${l.ban_content}</td>
-			      	<td>${fn:substring(l.ban_date, 0, 19)}</td>
-			      	<td><a href="#" onclick="confirmDeleteBan('${l.one_ban_num}')">
-			            <img src="./resources/image/delete_icon.png" width="17px"></a></td>
-			      </tr>
-			      </c:forEach>
+		<c:forEach items="${list}" var="l">
+		<tr>
+			<td>${l.name}(${l.id})</td>
+			<td> <a href="member_detail?user_number=${l.ban_user_num}">
+			${l.ban_name}(${l.ban_id})</a></td>
+			<td>${l.ban_content}</td>
+			<td>${fn:substring(l.ban_date, 0, 19)}</td>
+			<td><a href="#" onclick="confirmDeleteBan('${l.one_ban_num}')">
+			<img src="./resources/image/delete_icon.png" width="17px"></a></td>
+		</tr>
+		</c:forEach>
 			      
 		<!--  페이징 처리 6단계 -->
 		<!-- 페이징처리 -->
@@ -128,31 +100,31 @@
 		</tr>
 		<!-- 페이징처리 -->
 	<!-- 페이징 처리 6단계 끝 -->
-			      
+		</table>
+		</div>
+	</div>
+</div>	      
 </c:when>
 <c:otherwise>
 
 	<script>
-			window.onload = function() {
-			    alert("관리자 외 접근할 수 없는 페이지 입니다.");
-			    window.location.href = "${pageContext.request.contextPath}/main";
-			};
-	    </script>
+		window.onload = function() {
+		    alert("관리자 외 접근할 수 없는 페이지 입니다.");
+		    window.location.href = "${pageContext.request.contextPath}/main";
+		};
+    </script>
 			     
 </c:otherwise>
-	    </c:choose>
+</c:choose>
 	        
-	    </table>
-	    
-	<br> <br> <br> <br> <br>
-	
-	<script type="text/javascript">
-	function confirmDeleteBan(one_ban_num) {
-	    if(confirm('해당 신고 내역을 정말 삭제하시겠습니까?')) {
-	        location.href = 'one_ban_delete?one_ban_num='+one_ban_num;
-	    }
-	}
-	</script>
+
+<script type="text/javascript">
+function confirmDeleteBan(one_ban_num) {
+    if(confirm('해당 신고 내역을 정말 삭제하시겠습니까?')) {
+        location.href = 'one_ban_delete?one_ban_num='+one_ban_num;
+    }
+}
+</script>
 
 
 </body>

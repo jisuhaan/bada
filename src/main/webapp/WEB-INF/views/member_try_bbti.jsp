@@ -89,7 +89,7 @@
 .selectA,
 .selectP,
 .selectF,
-.selectN
+.selectN,
 .weather,
 .review:hover{
 	cursor:pointer;

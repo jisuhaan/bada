@@ -85,7 +85,6 @@
     </div>
     </div>
     
-<c:if test="${not empty loginid}">
    <div class="interaction-buttons">
         <div class="text_control">
 	        <c:if test="${loginid == dto.id || 'admin' == loginid}">
@@ -96,27 +95,30 @@
 	                <button type="button" class="rounded-button" onclick="confirmDelete('${dto.review_num}')">삭제</button>
 	            </div>
 	        </c:if>
+            <div class="button-container">
+               <button type="button" class="rounded-button" onclick="history.go(-1);">목록</button>
+          	</div>
 	    </div>
 	    
+	<c:if test="${not empty loginid}">	    
    	   	<div class="user_interaction">
-	       <c:if test="${loginid != dto.id}">
-	        <div class="button-container">
-	            <a href="review_report_view?review_num=${dto.review_num}&loginid=${loginid}" class="report-button">
-	                <img src="./resources/image/report_icon.png" width="20px" class="report_icon">
-	                <span>신고</span>
-	            </a>
-	        </div>
-	        </c:if>
-	        <div class="button-container">
-	            <a href="review_recommend?review_num=${dto.review_num}&loginid=${loginid}" class="like-button">
-	                <img src="./resources/image/like_icon.png" width="20px" class="like_icon">
-	                <span>추천 ${dto.recommend}</span>
-	            </a>
-	        </div>
+			<div class="button-container hit_btn">
+				<img src="./resources/image/icon_eye.png" width="20px" class="eye_icon">
+				<span>${dto.hits}</span>
+			</div>
+			<div class="button-container rec_btn" onclick="window.location.href='review_recommend?review_num=${dto.review_num}&loginid=${loginid}'">
+				<img src="./resources/image/icon_like.png" width="20px" class="like_icon">
+				<span>${dto.recommend}</span>
+			</div>
+			<c:if test="${loginid != dto.id}">
+			<div class="button-container rep_btn" onclick="window.open('review_report_view?review_num=${dto.review_num}&loginid=${loginid}','_blank','width=600px height=500px resizable=no scrollbar=no location=no toolbars=no')">
+				<img src="./resources/image/report_icon.png" width="20px" class="report_icon">
+				<span>신고</span>
+			</div>
+	   		</c:if>
         </div>
-	    	    
+	</c:if>	    	    
 	</div>
-</c:if>
 </div> 
  
 <!-- 댓글 영역 전체를 감싸는 상자 -->
@@ -177,39 +179,42 @@
 	
 	<div id="report_modal" class="modal" style="display:none;">
 	  <div class="modal-content">
-	    <span class="close">&times;</span>
-	    <h3 align="center">댓글 신고</h3>
-	    <div>
-			  <label>신고자 : </label>
-			  <span id="reporter_id"></span> <br>
+	  	<div class="modal-report">
+		    <span class="close">&times;</span>
+		    <h3 align="center">댓글 신고</h3>
+		    <div>
+				  <label>신고자 : </label>
+				  <span id="reporter_id"></span> <br>
+		    </div>
+		    <div>
+		        <label>신고대상 : </label>
+	  			<span id="reply_id"></span> <br>
+		    </div>
+		    <div>
+				<label>신고 댓글 내용 : </label>
+				<span id="reply_content"></span> <br>
+		    </div>
+		    <div>
+		      <label for="reason">신고 사유:</label>
+		      <select id="reason" name="reason" required> 
+		        <option value="정보통신망법에 의거한 청소년 유해 컨텐츠">정보통신망법에 의거한 청소년 유해 컨텐츠</option>
+						<option value="정보통신망법에 의거한 명예훼손, 모욕, 비방">정보통신망법에 의거한 명예훼손, 모욕, 비방</option>
+						<option value="정보통신망법에 의거한 불법촬영물">정보통신망법에 의거한 불법촬영물</option>
+						<option value="정보통신망법에 의거한 광고성 게시글(스팸, 바이럴)">정보통신망법에 의거한 광고성 게시글(스팸, 바이럴)</option>
+						<option value="개인정보보호법에 의거한 개인정보 노출게시물">개인정보보호법에 의거한 개인정보 노출게시물</option>
+						<option value="불법행위,불법링크 등 불법정보 포함게시글">불법행위,불법링크 등 불법정보 포함게시글</option>
+						<option value="그 외(아래 '문의 내용'에 게재)">그 외(아래 '신고 내용'에 게재)</option>
+		      </select>
+		    </div>
+		    <div>
+		      <label for="detail">신고 내용:</label>
+		      <textarea id="detail" name="detail" rows="2" cols="45" placeholder="신고 상세 내용을 입력해주세요!(1500자까지)" required></textarea>
+		    </div>
 	    </div>
-	    <div>
-	        <label>신고대상 : </label>
-  			<span id="reply_id"></span> <br>
-	    </div>
-	    <div>
-			<label>신고 댓글 내용 : </label>
-			<span id="reply_content"></span> <br>
-	    </div>
-	    <div>
-	      <label for="reason">신고 사유:</label>
-	      <select id="reason" name="reason" required> 
-	        <option value="정보통신망법에 의거한 청소년 유해 컨텐츠">정보통신망법에 의거한 청소년 유해 컨텐츠</option>
-					<option value="정보통신망법에 의거한 명예훼손, 모욕, 비방">정보통신망법에 의거한 명예훼손, 모욕, 비방</option>
-					<option value="정보통신망법에 의거한 불법촬영물">정보통신망법에 의거한 불법촬영물</option>
-					<option value="정보통신망법에 의거한 광고성 게시글(스팸, 바이럴)">정보통신망법에 의거한 광고성 게시글(스팸, 바이럴)</option>
-					<option value="개인정보보호법에 의거한 개인정보 노출게시물">개인정보보호법에 의거한 개인정보 노출게시물</option>
-					<option value="불법행위,불법링크 등 불법정보 포함게시글">불법행위,불법링크 등 불법정보 포함게시글</option>
-					<option value="그 외(아래 '문의 내용'에 게재)">그 외(아래 '신고 내용'에 게재)</option>
-	      </select>
-	    </div>
-	    <div>
-	      <label for="detail">신고 내용:</label>
-	      <textarea id="detail" name="detail" rows="2" cols="45" placeholder="신고 상세 내용을 입력해주세요!" required></textarea>
-	    </div><br><br>
+	    <br><hr>
 	    <div class="modal-footer">
 		    <button type="button" onclick="submit_report()" class="btn">신고하기</button>
-		    <button type="button" class="btn close" >취소하기</button>
+		    <button type="button" class="btn close">취소하기</button>
 	    </div>
 	  </div>
 	</div>
@@ -364,7 +369,7 @@ $(document).ready(function() {
         // 댓글과 관련된 정보 
 		  var reply_num = $(this).data('reply_num');
 		  var reply_id = $(this).data('reply_id');
-		  var reply_content = $(this).closest('.comment').find('p').text();
+		  var reply_content = $(this).closest('.comment').find('.user_comments').text();
 		  var reporter_id = $('#loginid').text(); // 신고자 아이디를 가져오는 코드
 		
 		  $('#reporter_id').text(reporter_id);
@@ -409,8 +414,8 @@ $(document).ready(function() {
     	    	alert('신고 처리 중 오류 발생!');
     	    }
     	  });
-    	}
-   	
+   	}
+
 </script>
 </body>
 </html>

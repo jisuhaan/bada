@@ -556,7 +556,7 @@ public class ReviewController {
 	        Service ss=sqlsession.getMapper(Service.class);
 	        String inquire_check="";
 	        String result="";
-	        inquire_check=ss.review_ban_check(id, ban_review_num, category, content); //동일한 사람이 동일한 글을 동일한 사유로 여러번 신고할 수 없도록 중복 방지
+	        inquire_check=ss.review_ban_check(id, ban_review_num, category); //동일한 사람이 동일한 글을 동일한 사유로 여러번 신고할 수 없도록 중복 방지
 	        
 	        if (inquire_check==null) {result="ok";}
 	        else {result="nope";}
@@ -568,7 +568,7 @@ public class ReviewController {
 	  
 	  //리뷰 신고 저장하기 기능
 	  @RequestMapping(value = "review_ban_save", method = RequestMethod.POST)
-	   public String inquire_ban_save(HttpServletRequest request, Model mo) throws IOException {
+	   public String inquire_ban_save(HttpServletRequest request, HttpServletResponse response, Model mo) throws IOException {
 	      
 	      	String title = request.getParameter("title");
 	        String name = request.getParameter("name");
@@ -583,10 +583,18 @@ public class ReviewController {
 	        int user_num=ss.user_num(ban_id);
 	        int user_num2=ss.user_num(id);
 	        
-	        ss.review_ban_save(title, name, id, ban_review_num, ban_name, ban_id, category, content,user_num,id,user_num2);
+	        ss.review_ban_save(title, name, id, ban_review_num, ban_name, ban_id, category, content,user_num,user_num2);
 	        ss.report_up(ban_review_num);
+	        
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			
+		    out.print("<script type='text/javascript'>");
+		    out.print("self.close(); window.reload();");
+		    out.print("</script>");
+		    out.flush();
 
-	      return "redirect:/review_detail?review_num="+ban_review_num;
+		    return null;
 	   }
 	  
 	  

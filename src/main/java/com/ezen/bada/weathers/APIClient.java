@@ -668,7 +668,11 @@ public class APIClient {
     }
 
     public String calculateWeatherIndex(String sky, String rain, double wind, double wave) {
-        double rn1 = rain.equals("강수없음") ? 0 : rain.equals("1.0mm 미만") ? 0.5 : Double.parseDouble(rain);
+    	double rn1 = 
+                rain.equals("강수없음") ? 0 : 
+                rain.equals("1mm 미만") ? 0.5 : 
+                rain.equals("50mm 이상") ? 50 : 
+                Double.parseDouble(rain.substring(0, rain.length() - 2));
     	int score = 0;
 
         for (int i = 0; i < 1; i++) { // 한 번만 반복

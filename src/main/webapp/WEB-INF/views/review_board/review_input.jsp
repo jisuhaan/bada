@@ -57,7 +57,7 @@
 
 <div class="listbox addphoto">
 <div class="pic_add">
-<div id="list_title">사진첨부(최대 5장)</div>
+<div id="list_title">사진(최대 5장)</div>
 <input type="file" name="pic1" id="pic1" class="btn">
 <button type="button" onclick="addPicField()" class="btn"> + </button>
 </div>
@@ -86,37 +86,41 @@
 </div>
 
 <div class="listbox hashes">
-<div id="list_title">해시태그</div>
-<div id="list_contents">
-<input type="hidden" name="hashtags" id="hashtags" value="">
-<div id="hasjtagFields">
-<div class="hashtag-categories">
-<div class="category" data-category="함께한 사람">함께한 사람</div>
-<div class="category" data-category="편의시설">편의시설</div>
-<div class="category" data-category="바다상태">바다상태</div>
-<div class="category" data-category="액티비티/취미">액티비티/취미</div>
-<div class="category" data-category="풍경">풍경</div>
+	<div id="list_title">해시태그</div>
+	<div id="list_contents">
+	<input type="hidden" name="hashtags" id="hashtags" value="">
+	<div id="hashtagFields">
+	<div class="hashtag-categories">
+		<div class="category" data-category="누구와" onclick="changeColor(this)">누구와</div>
+		<div class="category" data-category="편의시설" onclick="changeColor(this)">편의시설</div>
+		<div class="category" data-category="바다" onclick="changeColor(this)">바다</div>
+		<div class="category" data-category="액티비티" onclick="changeColor(this)">액티비티</div>
+		<div class="category" data-category="풍경" onclick="changeColor(this)">풍경</div>
+	</div>
+	<div class="hashtag-dropdown" style="display: none;"></div>
+	</div>
+	</div>
 </div>
-<div class="hashtag-dropdown" style="display: none;"></div>
-<br> <div id="selected-tags"></div> <br>
+<div class="listbox selectedhashes">
+	<div id="list_title">선택된 태그</div>
+	<div id="list_contents">
+	<div id="selected-tags"></div><br>
+	</div>  
 </div>
-</div>
-</div>      
-
 <div class="listbox revisiting">      
 <div id="list_title">재방문 의사</div>
 <div id="list_contents">
 <input type="hidden" name="re_visit" id="re_visit_input">
 <div id="re_visit">
-<div class="visit-box" data-value="Yes">Yes</div>
-<div class="visit-box" data-value="No">No</div>
+	<div class="visit-box" data-value="Yes">Yes</div>
+	<div class="visit-box" data-value="No">No</div>
 </div>
 </div>
 </div>
 <br><hr><br>
 <div class="listbox btns">   
-<input type="submit" value="전송" class="btn2">
-<input type="reset" value="취소" class="btn2">
+	<input type="submit" value="전송" class="btn2">
+	<input type="reset" value="취소" class="btn2">
 </div>
 			
 </form>
@@ -124,183 +128,197 @@
 
 <script>
 
-	function previewFile() {
-		  var thumbnail_view = document.getElementById('thumbnail_view'); // 미리보기를 표시할 요소 선택
-		  var file    = document.getElementById('thumb_nail').files[0]; // 선택된 파일 가져오기
-		  var reader  = new FileReader();
-	
-		  reader.onloadend = function () {
-		    var img = document.createElement('img'); // 새로운 img 요소 생성
-		    img.src = reader.result; // reader가 읽은 파일 내용을 img의 src로 설정
-		    img.style.width = '60px';
-	        img.style.height = '60px';
-		    thumbnail_view.innerHTML = ''; // 이전에 표시된 이미지를 제거
-		    thumbnail_view.appendChild(img); // 생성된 img 요소를 preview에 추가
-		  }
-	
-		  if (file) {
-		    reader.readAsDataURL(file); // 파일 읽기 시작, 이 작업이 끝나면 reader.onloadend가 호출됨
-		  } else {
-			 thumbnail_view.innerHTML = ""; // 파일이 선택되지 않았으면 미리보기를 비움
-		  }
-		}
+function changeColor(selectedDiv) {
+    // 모든 category div 요소를 선택합니다.
+    const categories = document.querySelectorAll('.category');
 
-
-
-	var PicCount = 1;
-	function addPicField() {
-	    // 사진 5장까지만 첨부 가능
-	    if (PicCount >= 5) {
-	        alert("사진은 최대 5장까지만 첨부할 수 있습니다.");
-	        return;
-	    }
-	
-	    PicCount++;
-	
-	    // 버튼을 누르면 새로운 사진 input창 생성
-	    var newField = document.createElement('div');
-	    newField.innerHTML = '<input type="file" name="pic' + PicCount + '" id="pic' + PicCount + '" class="btn">';
-	
-	    // 위에서 추가한 것을 보이도록 해서 pic_pack에 추가
-	    document.getElementById('pic_pack').appendChild(newField);
-	}
-	
-	// 방문날짜 선택
-	function checkDate() {
-    var visitDayInput = document.getElementById('visit_day');
-    var visitDay = new Date(visitDayInput.value);
-    var today = new Date();
-    today.setHours(0, 0, 0, 0); // 시간을 00:00:00으로 설정하여 오늘 날짜만 비교
-    
-    today.setDate(today.getDate() + 1);
-
-    if (visitDay > today) {
-        alert('방문한 날짜만 선택가능합니다!');
-        visitDayInput.value = ""; // 입력 필드 초기화
-    }
-	}
-	
-
-	// 해시태그영역
-	
-	var choice_tags = [];
-
-	$(document).ready(function() {
-    $('.category').click(function() {
-        var category = $(this).data('category');
-        show_hashtags(category);
-    });
-
-    $(document).on('click', '.hashtag', function() {
-        var hashtag = $(this).text();
-        if ($(this).hasClass('selected')) {
-            // 해시태그를 선택 해제
-            $(this).removeClass('selected');
-            choice_tags = choice_tags.filter(function(value) {
-                return value !== hashtag;
-            });
+    // 선택한 category div의 배경색을 변경합니다.
+    categories.forEach(category => {
+        if (category === selectedDiv) {
+            category.style.backgroundColor = 'lightblue'; // 선택한 div의 배경색을 변경합니다.
         } else {
-            // 새 해시태그 선택
-            if (choice_tags.length < 6) {
-                $(this).addClass('selected');
-                choice_tags.push(hashtag);
-            } else {
-                alert('해시태그는 최대 6개까지 선택가능합니다.');
-            }
+            category.style.backgroundColor = ''; // 선택하지 않은 div의 배경색을 초기화합니다.
         }
-        update_Hashtag();
     });
+}
 
-    function show_hashtags(category) {
-        var hashtags = get_tag(category);
-        var dropdown = $('.hashtag-dropdown').empty().show();
-        $.each(hashtags, function(index, hashtag) {
-            var div = $('<div/>', { 
-                text: hashtag,
-                class: 'hashtag'
-            }).appendTo(dropdown);
+function previewFile() {
+	  var thumbnail_view = document.getElementById('thumbnail_view'); // 미리보기를 표시할 요소 선택
+	  var file    = document.getElementById('thumb_nail').files[0]; // 선택된 파일 가져오기
+	  var reader  = new FileReader();
+
+	  reader.onloadend = function () {
+	    var img = document.createElement('img'); // 새로운 img 요소 생성
+	    img.src = reader.result; // reader가 읽은 파일 내용을 img의 src로 설정
+	    img.style.width = '60px';
+        img.style.height = '60px';
+	    thumbnail_view.innerHTML = ''; // 이전에 표시된 이미지를 제거
+	    thumbnail_view.appendChild(img); // 생성된 img 요소를 preview에 추가
+	  }
+
+	  if (file) {
+	    reader.readAsDataURL(file); // 파일 읽기 시작, 이 작업이 끝나면 reader.onloadend가 호출됨
+	  } else {
+		 thumbnail_view.innerHTML = ""; // 파일이 선택되지 않았으면 미리보기를 비움
+	  }
+	}
+
+
+
+var PicCount = 1;
+function addPicField() {
+    // 사진 5장까지만 첨부 가능
+    if (PicCount >= 5) {
+        alert("사진은 최대 5장까지만 첨부할 수 있습니다.");
+        return;
+    }
+
+    PicCount++;
+
+    // 버튼을 누르면 새로운 사진 input창 생성
+    var newField = document.createElement('div');
+    newField.innerHTML = '<input type="file" name="pic' + PicCount + '" id="pic' + PicCount + '" class="btn">';
+
+    // 위에서 추가한 것을 보이도록 해서 pic_pack에 추가
+    document.getElementById('pic_pack').appendChild(newField);
+}
+
+// 방문날짜 선택
+function checkDate() {
+   var visitDayInput = document.getElementById('visit_day');
+   var visitDay = new Date(visitDayInput.value);
+   var today = new Date();
+   today.setHours(0, 0, 0, 0); // 시간을 00:00:00으로 설정하여 오늘 날짜만 비교
+   
+   today.setDate(today.getDate() + 1);
+
+   if (visitDay > today) {
+       alert('방문 가능한 날짜가 아닙니다!');
+       visitDayInput.value = ""; // 입력 필드 초기화
+   }
+}
+
+
+// 해시태그영역
+
+var choice_tags = [];
+
+$(document).ready(function() {
+   $('.category').click(function() {
+       var category = $(this).data('category');
+       show_hashtags(category);
+   });
+
+   $(document).on('click', '.hashtag', function() {
+       var hashtag = $(this).text();
+       if ($(this).hasClass('selected')) {
+           // 해시태그를 선택 해제
+           $(this).removeClass('selected');
+           choice_tags = choice_tags.filter(function(value) {
+               return value !== hashtag;
+           });
+       } else {
+           // 새 해시태그 선택
+           if (choice_tags.length < 6) {
+               $(this).addClass('selected');
+               choice_tags.push(hashtag);
+           } else {
+               alert('해시태그는 최대 6개까지 선택가능합니다.');
+           }
+       }
+       update_Hashtag();
+   });
+
+   function show_hashtags(category) {
+       var hashtags = get_tag(category);
+       var dropdown = $('.hashtag-dropdown').empty().show();
+       $.each(hashtags, function(index, hashtag) {
+           var div = $('<div/>', { 
+               text: hashtag,
+               class: 'hashtag'
+           }).appendTo(dropdown);
+           
+           if (choice_tags.indexOf(hashtag) !== -1) {
+               div.addClass('selected');
+           }
+       });
+   }
+
+   function get_tag(category) {
+       
+       var hashtags = {
+           "누구와": ["#가족", "#연인", "#혼자", "#친구", "#반려동물"],
+           "편의시설": ["#대중교통", "#자차필요", "#번화가"],
+           "바다": ["#에메랄드바다", "#백사장", "#고운모래", "#갯벌"],
+           "액티비티": ["#스쿠버다이빙", "#서핑", "#물놀이", "#바다낚시", "#캠핑"],
+           "풍경": ["#핫플", "#감성", "#사람이적어요", "#이국적", "#인생샷", "#일출맛집", "#전망대", "#항구"]
+       };
+       return hashtags[category];
+   }
+
+   function update_Hashtag() {
+       
+       $('#hashtags').val(choice_tags.join(' '));
+       display_tags();
+   }
+   
+   function display_tags() {
+       var tags_Area = $('#selected-tags');
+       tags_Area.empty(); // 이전 표시 내용 초기화
+       choice_tags.forEach(function(tag) {
+           $('<span/>', {
+               text: tag,
+               class: 'selected-tag'
+           }).appendTo(tags_Area);
+       });
+   }
+   
+   
+    // 재방문 의사 선택 기능
+    var visitBoxes = document.querySelectorAll('.visit-box');
+    visitBoxes.forEach(function(box) {
+        box.addEventListener('click', function() {
+            // 다른 박스의 선택 해제
+            visitBoxes.forEach(function(otherBox) {
+                otherBox.classList.remove('selected');
+            });
             
-            if (choice_tags.indexOf(hashtag) !== -1) {
-                div.addClass('selected');
-            }
+            // 현재 박스의 선택 상태를 설정
+            box.classList.add('selected');
+            document.getElementById('re_visit_input').value = box.getAttribute('data-value');
         });
-    }
+    });
+});
 
-    function get_tag(category) {
-        
-        var hashtags = {
-            "함께한 사람": ["#가족", "#연인", "#혼자", "#친구", "#반려동물"],
-            "편의시설": ["#대중교통", "#자차필요", "#번화가"],
-            "바다상태": ["#에메랄드바다", "#백사장", "#고운모래", "#갯벌"],
-            "액티비티/취미": ["#스쿠버다이빙", "#서핑", "#물놀이", "#바다낚시", "#캠핑"],
-            "풍경": ["#핫플", "#감성", "#사람이적어요", "#이국적", "#인생샷", "#일출맛집", "#전망대", "#항구"]
-        };
-        return hashtags[category];
-    }
-
-    function update_Hashtag() {
-        
-        $('#hashtags').val(choice_tags.join(' '));
-        display_tags();
-    }
+document.getElementById('review_form').onsubmit = function() {
     
-    function display_tags() {
-        var tags_Area = $('#selected-tags');
-        tags_Area.empty(); // 이전 표시 내용 초기화
-        choice_tags.forEach(function(tag) {
-            $('<span/>', {
-                text: tag,
-                class: 'selected-tag'
-            }).appendTo(tags_Area);
-        });
-    }
-    
-    
-	    // 재방문 의사 선택 기능
-	    var visitBoxes = document.querySelectorAll('.visit-box');
-	    visitBoxes.forEach(function(box) {
-	        box.addEventListener('click', function() {
-	            // 다른 박스의 선택 해제
-	            visitBoxes.forEach(function(otherBox) {
-	                otherBox.classList.remove('selected');
-	            });
-	            
-	            // 현재 박스의 선택 상태를 설정
-	            box.classList.add('selected');
-	            document.getElementById('re_visit_input').value = box.getAttribute('data-value');
-	        });
-	    });
-	});
 	
-	document.getElementById('review_form').onsubmit = function() {
-	    
-		
-	    // 별점 유효성 검사
-	    var reviewScoreSelected = document.querySelector('input[name="review_score"]:checked');
-	    if (!reviewScoreSelected) {
-	        alert('별점을 선택해주세요!');
-	        return false; // 폼 제출 중단
-	    }
-		
-		// 해시태그 유효성 검사
-	    var hashtagsValue = document.getElementById('hashtags').value;
-	    if (hashtagsValue.trim() === '') {
-	        alert('최소 하나 이상의 해시태그를 선택해주세요.');
-	        return false; // 폼 제출 중단
-	    }
+    // 별점 유효성 검사
+    var reviewScoreSelected = document.querySelector('input[name="review_score"]:checked');
+    if (!reviewScoreSelected) {
+        alert('별점을 선택해주세요!');
+        return false; // 폼 제출 중단
+    }
+	
+	// 해시태그 유효성 검사
+    var hashtagsValue = document.getElementById('hashtags').value;
+    if (hashtagsValue.trim() === '') {
+        alert('최소 하나 이상의 해시태그를 선택해주세요.');
+        return false; // 폼 제출 중단
+    }
 
-	    // 재방문 의사 유효성 검사
-	    var reVisitValue = document.getElementById('re_visit_input').value;
-	    if (reVisitValue !== 'Yes' && reVisitValue !== 'No') {
-	        alert('재방문 의사를 선택해주세요.');
-	        return false; // 폼 제출 중단
-	    }
+    // 재방문 의사 유효성 검사
+    var reVisitValue = document.getElementById('re_visit_input').value;
+    if (reVisitValue !== 'Yes' && reVisitValue !== 'No') {
+        alert('재방문 의사를 선택해주세요.');
+        return false; // 폼 제출 중단
+    }
 
-	    // 모든 검사 통과 시 폼 제출 계속
-	    alert('리뷰작성 완료!');
-	    return true;
-	    
-	};	
+    // 모든 검사 통과 시 폼 제출 계속
+    alert('리뷰작성 완료!');
+    return true;
+    
+};	
 
 </script>
 

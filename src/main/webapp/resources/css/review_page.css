@@ -145,6 +145,18 @@ tr:not(:last-child):hover {
 	background-color: rgba(205,228,242,0.8);
 }
 
+.notice_text {
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	text-align: left;
+	padding:30px;
+	word-wrap: break-word;
+	font-family:Pretendard-Regular';
+	font-size: 12px;
+	line-height:1.4;
+}
+
 .text_title {
 	text-align: left;
 	display: inline-block;

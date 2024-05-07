@@ -192,6 +192,7 @@ function toggleContent(id) {
 			      
 			      <tr class="hidden" id="content3">
 			      	<td class="wide-cell" style="text-align: left;">
+			      	<div class="notice_text">
 			      	안녕하세요! <바라는 바다!> 개발자 팀입니다.  <br>
 			      	<바라는 바다!> 시스템을 이용해주시는 사용자 분들께 감사의 말씀을 전하며, 리뷰 페이지 이용 방법을 간단하게 알려드리겠습니다. <br> <br>
 
@@ -208,6 +209,7 @@ function toggleContent(id) {
 					경기 수원시 팔달구 향교로 2(매산로1가 60-3) [16455] <br>
 					031-253-6776 <br>
 					ezen.bada@gmail.com <br>
+					</div>
 			      	</td>
 			      </tr>
             

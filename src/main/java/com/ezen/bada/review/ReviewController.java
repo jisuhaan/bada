@@ -721,31 +721,6 @@ public class ReviewController {
 		        
 		return result;
 	}
-	  
-	  
-	//리뷰 신고 저장
-	@RequestMapping(value = "review_ban_save", method = RequestMethod.POST)
-	public String inquire_ban_save(HttpServletRequest request, Model mo) throws IOException {
-      
-		String title = request.getParameter("title");
-		String name = request.getParameter("name");
-		String id = request.getParameter("id");
-		int ban_review_num=Integer.parseInt(request.getParameter("ban_review_num"));
-		String ban_name = request.getParameter("ban_name");
-		String ban_id = request.getParameter("ban_id");
-		String category = request.getParameter("category");
-		String content = request.getParameter("content");
-	
-	    Service ss=sqlsession.getMapper(Service.class);
-	    int user_num=ss.user_num(ban_id);
-	    int user_num2=ss.user_num(id);
-	    
-	    ss.review_ban_save(title, name, id, ban_review_num, ban_name, ban_id, category, content,user_num,user_num2);
-	    ss.report_up(ban_review_num);
-	
-	    return "redirect:/review_detail?review_num="+ban_review_num;
-	}
-	
 	
 	//리뷰 신고 리스트 아웃
 	@RequestMapping(value = "review_ban_listout")

@@ -241,6 +241,7 @@ body {
 	align-items: center;
 	text-align: center;
 	margin: 0 auto;
+	gap: 30px;
 }
 
 #clock_by_hour{
@@ -249,7 +250,6 @@ body {
 	font-family: 'DOSGothic';
 	font-size: 32px;
 	color: #1B70A6;
-	margin-bottom: 30px;
 }
 
 .name_beach{
@@ -257,7 +257,6 @@ body {
 	text-align: center;
 	font-size: 32px;
 	font-family: 'DOSGothic';
-	margin-bottom: 30px;
 }
 
 .todays {
@@ -269,7 +268,6 @@ body {
 	align-items: center;
 	text-align: center;
 	margin: 0 auto;
-	margin-bottom: 30px;
 }
 
 .weather{
@@ -307,7 +305,7 @@ body {
 	text-align: center;
 }
 
-#hour_rain2{
+#hour_rain2 {
 	font-size: 16px;
 }
 
@@ -315,6 +313,17 @@ body {
 	font-family: 'DOSGothic';
 	font-size: 20px;
 	text-align: center;
+}
+
+.warninglist {
+	display: flex;
+	flex-direction: column;
+	gap:5px;
+}
+
+#warning {
+	font-size: 16px;
+	font-weight: 600;
 }
 
 .temperature_text,

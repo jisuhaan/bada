@@ -96,7 +96,7 @@ public class MemberController {
          hs.setAttribute("loginid", id);
          hs.setAttribute("pw", pw);
          hs.setAttribute("position", logincount);
-         hs.setMaxInactiveInterval(600);
+         hs.setMaxInactiveInterval(6000);
          
          if(!bbti.equals("")) {
         	 ss.insertbbti(bbti, id);

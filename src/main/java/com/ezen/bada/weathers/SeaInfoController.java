@@ -208,6 +208,7 @@ public class SeaInfoController {
     	        System.out.println("특보 현황: " + alert);
     	    }
     	    mo.addAttribute("WthrWrnMsg", resultString);
+
     	} catch (Exception e) {
     	    errorMessage = "기상 특보 현황을 가져오는 도중 오류가 발생했습니다";
     	    System.err.println(errorMessage + ": " + e.getMessage());
@@ -229,6 +230,7 @@ public class SeaInfoController {
     	mo.addAttribute("bldt",bldt);
         HttpSession session = request.getSession();
 	    session.setAttribute("choicebeach", bldt);
+	    
 		return "sea_result";
 	}
 	

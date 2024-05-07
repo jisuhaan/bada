@@ -18,6 +18,7 @@
 	    align-items: center;
 	    flex-wrap: wrap;
 	    margin-top: 50px;
+	    font-size: 14px;
     }
     
     .content-container{
@@ -41,6 +42,7 @@
         position: relative;
         z-index: 2;
     }
+    
     .table-container {
     	width:100%;
         background-color: #fff;
@@ -48,27 +50,31 @@
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         padding: 20px;
     }
+    
     table {
         width: 100%;
         border-collapse: collapse;
     }
+    
     td {
     	text-align: center;
         padding: 8px;
         border-bottom: 1px solid #ddd;
     }
-    
-    td:first-child {
-	    text-align: left;
+	
+	th:last-child {
+		border-top: 1px solid darkgray;
 	}
     
     th {
     	text-align: center;
         background-color: #f0f0f0;
     }
+    
     .table-container:last-child {
         margin-bottom: 0;
     }
+    
     .ellipsis {
 	    max-width: 150px;
 	    overflow: hidden;

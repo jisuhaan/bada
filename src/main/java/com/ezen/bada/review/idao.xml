@@ -9,7 +9,7 @@
 </select>
 
 <select id="getBeachList" resultType="com.ezen.bada.review.BeachDTO">
-    SELECT beach_code, beach FROM bada_list
+    SELECT beach_code, beach FROM bada_list order by beach asc
 </select>
 
 <insert id="review_save">
@@ -152,7 +152,7 @@
 <select id="review_ban_check" resultType="String">
 	select title 
 	from bada_review_report 
-	where id=#{param1} and ban_review_num=#{param2} and category=#{param3} and content=#{param4}
+	where id=#{param1} and ban_review_num=#{param2} and category=#{param3}
 </select>
 
 <!-- 게시글 신고 저장 -->

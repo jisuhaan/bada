@@ -39,12 +39,7 @@
 	<definition name="change_view" extends="baseLayout">
 		<put-attribute name="title" value="바라는 바다 :: 후기 수정 페이지"/>
 		<put-attribute name="body" value="/WEB-INF/views/review_board/change_view.jsp"/>
-	</definition>
-	
-	<definition name="review_report_view" extends="baseLayout">
-		<put-attribute name="title" value="바라는 바다 :: 후기 신고 페이지"/>
-		<put-attribute name="body" value="/WEB-INF/views/review_board/review_report_view.jsp"/>
-	</definition>           
+	</definition>      
    
    	<definition name="review_ban_listout" extends="baseLayout">
 		<put-attribute name="title" value="바라는 바다 :: 신고 내역확인"/>

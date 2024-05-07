@@ -764,6 +764,7 @@ public class APIClient {
         		rain.equals("1mm 미만") ? 0.5 : 
         		rain.equals("50mm 이상") ? 50 : 
         		Double.parseDouble(rain.substring(0, rain.length() - 2));
+
     	int score = 0;
     	
         for (int i = 0; i < 1; i++) { // 한 번만 반복

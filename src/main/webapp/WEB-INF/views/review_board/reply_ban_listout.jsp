@@ -6,36 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-	<style>
-        table {
-            margin: 0 auto;
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            text-align: center;
-            font-size: 13px; /* 텍스트 크기를 작게 설정 */
-            padding: 4px; /* 셀 안의 여백 설정 */
-        }
-        th:nth-child(1) {
-            width: 14%;
-        }
-        th:nth-child(2){
-        width: 12%;
-        }
-        th:nth-child(3){
-        width: 18%;
-        }
-        th:nth-child(4){
-        width: 10%;
-        }
-        .lock-icon {
-            display: inline-block; /* 이미지를 인라인 블록 요소로 설정하여 텍스트와 같이 정렬 */
-            vertical-align: middle; /* 아이콘을 수직 가운데 정렬 */
-        }
-    </style>
-    
+<link href="${pageContext.request.contextPath}/resources/css/ban_lists.css" rel="stylesheet" type="text/css">
 <meta charset="UTF-8">
 <title>바라는 바다! :: 신고 내역</title>
 
@@ -57,57 +28,56 @@
 </head>
 <body>
 
-	<br> <br> <br>
+<c:choose>
+<c:when test="${loginstate==true && position=='admin'}">
 	
-	<div style="margin-bottom: 20px;">
+<div class="container">	
+	<div class="select_views">
     <select id="report_type">
-        <option value="post_report" >신고된 게시글</option>
+        <option value="post_report">신고된 게시글</option>
         <option value="reply_report" selected>신고된 댓글</option>
         <option value="chat_report">신고된 한마디</option>
     </select>
 	</div>
 	
-	<!-- option 값에 따라 변동될 부분 -->	
-	<br>
-		<table id="reply_table" border="1">
-	
-			      <tr>
-			      	 <th>신고자</th>
-			         <th>댓글내용</th>
-			         <th>게시물</th>
-			         <th>댓글 작성자</th>
-			         <th>신고분류</th>
-			         <th>신고사유</th>
-			         <th>신고날짜</th>
-			      </tr>
-		         
-<c:choose>
+	<div class="list_container">
+		<div class="ban_table">
+		<table class="board-table">
+		<thead>
+		<tr>	
+			<th scope="col" class="th-r_user">신고자</th>
+			<th scope="col" class="th-r_title">댓글내용</th>
+			<th scope="col" class="th-r_text">게시물</th>
+			<th scope="col" class="th-r_reported">댓글 작성자</th>
+			<th scope="col" class="th-r_reason">신고분류</th>
+			<th scope="col" class="th-r_reason">신고사유</th>
+			<th scope="col" class="th-r_date">신고날짜</th>
+		</tr>
+		</thead>
+        
 
-<c:when test="${loginstate==true && position=='admin'}">
-
-<c:forEach items="${list}" var="l">
-			      <tr>
-			      
-			        <td> <a href="member_detail?user_number=${l.user_number}">
-			      	${l.name}(${fn:substring(l.id, 0, 4)}****) 님 </a> </td>
-			      	<td>
-			      	<a href="#" onclick="confirmDeleteBan('${l.review_reply_ban_num}')">
-			      	${l.reply_contents}
-			      	</a></td>     	
-			      	<td>
-			      	<a href="review_detail?review_num=${l.review_num}">신고된 원본글로 이동</a>
-			      	</td>
-			      	
-			      	<td> <a href="member_detail?user_number=${l.ban_user_number}">
-			      	${l.ban_name}(${fn:substring(l.ban_id, 0, 4)}****) 님 </a> </td>
-			      	
-			      	<td>${l.reason}</td>
-			      	<td>${l.detail}</td>
-			      	
-			      	<td>${fn:substring(l.ban_date, 0, 19)}</td>
-			      	
-			      </tr>
-			      </c:forEach>
+		<c:forEach items="${list}" var="l">
+		<tr>
+		
+			<td> <a href="member_detail?user_number=${l.user_number}">
+			${l.name}(${l.id})</a></td>
+			<td>
+			<a href="#" onclick="confirmDeleteBan('${l.review_reply_ban_num}')">
+			${l.reply_contents}</a></td>     	
+			<td>
+			<a href="review_detail?review_num=${l.review_num}">원본글 보기</a>
+			</td>
+			
+			<td> <a href="member_detail?user_number=${l.ban_user_number}">
+			${l.ban_name}(${l.ban_id})</a></td>
+			
+			<td>${l.reason}</td>
+			<td>${l.detail}</td>
+			
+			<td>${fn:substring(l.ban_date, 0, 19)}</td>
+			
+		</tr>
+		</c:forEach>
 			      
 		<!--  페이징 처리 6단계 -->
 		<!-- 페이징처리 -->
@@ -139,25 +109,26 @@
 		   
 		   </td>
 		</tr>
-		<!-- 페이징처리 -->
+	<!-- 페이징처리 -->
 	<!-- 페이징 처리 6단계 끝 -->
-			      
+	</table>
+	</div>
+	</div>
+</div>   
 </c:when>
+
 <c:otherwise>
 
-	<script>
-			window.onload = function() {
-			    alert("관리자 외 접근할 수 없는 페이지 입니다.");
-			    window.location.href = "${pageContext.request.contextPath}/main";
-			};
-	    </script>
-			     
-</c:otherwise>
-	    </c:choose>
+<script>
+	window.onload = function() {
+	    alert("관리자 외 접근할 수 없는 페이지 입니다.");
+	    window.location.href = "${pageContext.request.contextPath}/main";
+	};
+</script>
 	        
-	    </table>
-	    
-	<br> <br> <br> <br> <br>
+</c:otherwise>
+</c:choose>	    
+
 	
 	<script type="text/javascript">
 	function confirmDeleteBan(review_reply_ban_num) {

@@ -34,17 +34,35 @@ a {
 
 .container{
 	margin: 0 auto;
-	width: 1200px;
+	width: 1000px;
 	height: 90%;
+	margin-top:100px;
 	display: flex;
 	flex-direction: column;
+	gap:30px;
 	justify-content: center;
 	align-items: center;
 	text-align: center;	
 }
 
+.select_views {
+	width:100%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	text-align: left;
+}
+
+#report_type {
+	width:150px;
+	height:40px;
+	border: 1px solid gray;
+	font-family: 'Pretendard-Regular';
+	font-size:14px;
+	padding:5px;
+}
+
 .ban_table {
-	margin-top:100px;
 	width: 1000px;
 }
 
@@ -91,7 +109,7 @@ tr:not(:last-child):hover {
 }
 
 .th-r_text {
-	width: 150px;
+	width: 100px;
 	text-align: center;
 }
 

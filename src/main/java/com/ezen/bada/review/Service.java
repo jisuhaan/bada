@@ -75,10 +75,10 @@ public interface Service {
 
 	void review_recommand(String loginid, int review_num);
 
-	String review_ban_check(String id, int ban_review_num, String category, String content);
+	String review_ban_check(String id, int ban_review_num, String category);
 
 	void review_ban_save(String title, String name, String id, int ban_review_num, String ban_name, String ban_id,
-			String category, String content, int user_num, String id2, int user_num2);
+			String category, String content, int user_num, int user_num2);
 
 	void reply_update(int review_num);
 

@@ -99,7 +99,7 @@ function mybbti(id){
             <button type="button" class="action-button" onclick="mybbti('${info.id}')">나의 BBTI</button>
         </div>
         <div class="action-item">
-        	<img src="./resources/image/my_bookmark.png" width="80px" height="80px">
+        	<img src="./resources/image/my_bookmark.png" width="100px" height="100px">
         	<p><strong>나의 북마크 <span class="number-text">${bookmark}</span>건!</strong></p>
             <button type="button" class="action-button" onclick="location.href='my_favorite'">북마크 바다</button>
         </div>
@@ -117,6 +117,7 @@ function mybbti(id){
 	<div class="mypostcontainer">
 		<jsp:include page="my_post.jsp" />
 	</div>
+</div>
 </div>
 </body>
 </html>

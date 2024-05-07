@@ -65,7 +65,7 @@
 			<a href="#" onclick="confirmDeleteBan('${l.review_reply_ban_num}')">
 			${l.reply_contents}</a></td>     	
 			<td>
-			<a href="review_detail?review_num=${l.review_num}">신고된 원본글로 이동</a>
+			<a href="review_detail?review_num=${l.review_num}">원본글 보기</a>
 			</td>
 			
 			<td> <a href="member_detail?user_number=${l.ban_user_number}">

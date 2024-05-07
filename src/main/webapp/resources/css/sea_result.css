@@ -307,6 +307,10 @@ body {
 	text-align: center;
 }
 
+#hour_rain2{
+	font-size: 16px;
+}
+
 #today_text {
 	font-family: 'DOSGothic';
 	font-size: 20px;
@@ -335,6 +339,17 @@ body {
 .hidden{
 	opacity: 0; /* 숨겨진 상태 */
     transition: opacity 0.5s ease; /* 부드럽게 나타나도록 트랜지션 설정 */
+}
+
+#warning {
+   font-size: 16px;
+   font-weight: 600;
+}
+
+.warninglist {
+   display: flex;
+   flex-direction: column;
+   gap:5px;
 }
 
 .sea_detail{

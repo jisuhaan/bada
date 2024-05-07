@@ -69,82 +69,92 @@ public class APIController {
     
 
 	@RequestMapping(value = "/sea_weather_detail")
-	public String sea_weather_detail(HttpServletRequest request, Model mo) {
-		
-		int beach_code = Integer.parseInt(request.getParameter("beach_code"));
+	public String sea_weather_detail(HttpServletRequest request, Model mo, @RequestParam("beach_code") int beach_code) {
+		// 지난 해 바다 날씨 검색할 때 beach_code 필요 
 		mo.addAttribute("beach_code",beach_code);
 		
 		APIClient apiClient = new APIClient();
 		// 3일치 가져오기
 		Map<String, Map<String, VilageFcstBeach_DTO>> getWeatherForecastMap = apiClient.getWeatherForecast(beach_code, DateDAO.setForecastDate().get("date"), DateDAO.setForecastDate().get("time"));
-		mo.addAttribute("groupedData",getWeatherForecastMap);
-		
+		if (getWeatherForecastMap.isEmpty()) {
+		    // 맵이 비어 있는 경우
+			mo.addAttribute("errorMessage","단기 예보 API 응답 없음");
+		} else {
+		    // 맵이 비어 있지 않은 경우
+			mo.addAttribute("groupedData",getWeatherForecastMap);
+		}
 		// 3개년치 가져오기
 		Map<String, getWthrDataList_DTO> getWthrDataListMap = new LinkedHashMap<String, getWthrDataList_DTO>();
 		Service ss = sqlsession.getMapper(Service.class);
-        int pointcode = ss.getPointcode(beach_code);
-		for(int i=1;i<4;i++) {
-        	System.out.println(i+"번째 시도");
-        	String setStringDate = LocalDate.now().minusYears(i).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        	getWthrDataList_DTO gdto = apiClient.getWthrDataList_API(pointcode, setStringDate);
-        	String wh = apiClient.getWhBuoyBeach_API(beach_code, (setStringDate + DateDAO.getCurrentTime()));
-        	System.out.println("파고는? "+wh);
-        	gdto.setWh(wh);
-        	getWthrDataListMap.put(setStringDate, gdto);
-        }	
-		mo.addAttribute("dataListMap",getWthrDataListMap);
+		int pointcode = ss.getPointcode(beach_code);
+
+		try {
+		    for (int i = 1; i < 4; i++) {
+		        System.out.println(i + "번째 시도");
+		        String setStringDate = LocalDate.now().minusYears(i).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+		        getWthrDataList_DTO gdto = apiClient.getWthrDataList_API(pointcode, setStringDate);
+		        String wh = apiClient.getWhBuoyBeach_API(beach_code, (setStringDate + DateDAO.getCurrentTime()));
+		        System.out.println("파고는? " + wh);
+		        gdto.setWh(wh);
+		        getWthrDataListMap.put(setStringDate, gdto);
+		    }
+		    mo.addAttribute("dataListMap", getWthrDataListMap);
+		} catch (Exception e) {
+			mo.addAttribute("errorMessage","종관기상관측 API 응답 없음");
+		}
 		
 		return "sea_weather_detail";
 	}
     
-    @ResponseBody
-    @RequestMapping(value = "/getWthrDataList_DTO", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-    // http에서 json 깨짐 문제는 produces = "application/json; charset=UTF-8" 추가해서 해결
-    public String getWthrDataList_DTO(@RequestBody String jsonDataString) {
-        // JSON 데이터를 받아올 때엔 @RequestParam보다 @RequestBody를 주로 사용
+	@ResponseBody
+	@RequestMapping(value = "/getWthrDataList_DTO", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+	public String getWthrDataList_DTO(@RequestBody String jsonDataString) {
+	    try {
+	        String objectreturn = "";
+	        List<getWthrDataList_DTO> list = new ArrayList<>();
 
-        String objectreturn = "";
-        List<getWthrDataList_DTO> list = new ArrayList<getWthrDataList_DTO>();
-        
-        try {
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            JsonNode jsonNode = objectMapper.readTree(jsonDataString);
-            System.out.println(jsonNode);
-            
-            int beach_code = Integer.parseInt(jsonNode.get("beach_code").asText());
-            String monthInput = jsonNode.get("monthInput").asText();
-            String dayInput = jsonNode.get("dayInput").asText();
-            int setYear = Integer.parseInt(jsonNode.get("currentYear").asText());
-      
-            Service ss = sqlsession.getMapper(Service.class);
-            int pointcode = ss.getPointcode(beach_code);
-            System.out.println(pointcode);
-            
-            if(Integer.parseInt(monthInput+dayInput) >= Integer.parseInt(DateDAO.getCurrentDateString().substring(4)))
-            {
-            	setYear=setYear-1;
-            }
-            
-            APIClient apiClient = new APIClient();
-            
-            for(int i=0;i<3;i++) {
-            	System.out.println((i+1)+"번째 시도");
-            	String setStringYear = String.valueOf(setYear);
-            	getWthrDataList_DTO gdto = apiClient.getWthrDataList_API(pointcode, setStringYear+monthInput+dayInput);
-            	String wh = apiClient.getWhBuoyBeach_API(pointcode, (setStringYear+monthInput+dayInput + DateDAO.getCurrentTime()));
-            	System.out.println("파고는? "+wh);
-            	gdto.setWh(wh);
-            	list.add(gdto);
-            	setYear=setYear-1;
-            }
-            
-            objectreturn = objectMapper.writeValueAsString(list);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        System.out.println("objectreturn: "+objectreturn);
-        return objectreturn; 
-    }
+	        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	        JsonNode jsonNode = objectMapper.readTree(jsonDataString);
+	        System.out.println(jsonNode);
 
+	        int beach_code = Integer.parseInt(jsonNode.get("beach_code").asText());
+	        String monthInput = jsonNode.get("monthInput").asText();
+	        String dayInput = jsonNode.get("dayInput").asText();
+	        int setYear = Integer.parseInt(jsonNode.get("currentYear").asText());
+
+	        
+	        
+	        Service ss = sqlsession.getMapper(Service.class);
+	        int pointcode = ss.getPointcode(beach_code);
+	        System.out.println(pointcode);
+
+	        if (Integer.parseInt(monthInput + dayInput) >= Integer.parseInt(DateDAO.getCurrentDateString().substring(4))) {
+	            setYear = setYear - 1;
+	        }
+
+	        APIClient apiClient = new APIClient();
+
+	        for (int i = 0; i < 3; i++) {
+	            System.out.println((i + 1) + "번째 시도");
+	            String setStringYear = String.valueOf(setYear);
+	            getWthrDataList_DTO gdto = apiClient.getWthrDataList_API(pointcode, setStringYear + monthInput + dayInput);
+	            String wh = apiClient.getWhBuoyBeach_API(pointcode, (setStringYear + monthInput + dayInput + DateDAO.getCurrentTime()));
+	            System.out.println("파고는? " + wh);
+	            gdto.setWh(wh);
+	            list.add(gdto);
+	            setYear = setYear - 1;
+	        }
+
+	        objectreturn = objectMapper.writeValueAsString(list);
+	        System.out.println("objectreturn: " + objectreturn);
+	        return objectreturn;
+	    } catch (Exception e) {
+	        // 예외 처리
+	        String errorMessage = "종관기상관측 API 응답 없음";
+	        System.err.println(errorMessage + ": " + e.getMessage());
+	        e.printStackTrace();
+	        return errorMessage;
+	    }
+	}
 }
 

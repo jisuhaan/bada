@@ -350,6 +350,17 @@ body {
     transition: opacity 0.5s ease; /* 부드럽게 나타나도록 트랜지션 설정 */
 }
 
+#warning {
+   font-size: 16px;
+   font-weight: 600;
+}
+
+.warninglist {
+   display: flex;
+   flex-direction: column;
+   gap:5px;
+}
+
 .sea_detail{
 	margin:0 auto;
 	padding:5px;

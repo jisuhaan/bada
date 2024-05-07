@@ -62,7 +62,6 @@
             var currentYear = new Date().getFullYear();
             
             if (isNaN(monthInput) || monthInput < 1 || monthInput > 12) {
-            	alert("현재 입력한 값: "+monthInput)
                 alert("월을 올바르게 입력해주세요 (1에서 12 사이).");
                 return;
             }
@@ -75,7 +74,7 @@
             }
             
             getWthrDataList(monthInput, dayInput, currentYear, beach_code);
-            alert("검색 버튼이 클릭되었습니다.");
+            alert("지난 바다 날씨 검색을 시작합니다.");
         });
     });
 </script>
@@ -94,44 +93,51 @@
 <div>
 <h1>단기 예보</h1>
 
-<c:set var="timeLoop" value="0"/>
-<c:forEach var="dateEntry" items="${groupedData}" varStatus="loop">
-<c:if test="${loop.index lt 3}">
-    <!-- 출력 내용 -->
-    <h2>${dateEntry.key}</h2>
-    <table border="1">
-        <tr>
-            <th>시간</th>
-            <th>날씨</th>
-            <th>강수확률</th>
-            <th>강수량</th>
-            <th>기온</th>
-            <th>습도</th>
-            <th>풍속</th>
-            <th>파고</th>
-        </tr>
-        <c:forEach var="timeEntry" items="${dateEntry.value}">
-        <!-- 숨김으로 가져올 항목들 -->
-            <div class="hidden" id="sky_${timeLoop}">${timeEntry.value.sky}</div>
-		    <div class="hidden" id="pty_${timeLoop}">${timeEntry.value.pty}</div>
-		    <div class="hidden" id="fcstDate_${timeLoop}">${timeEntry.value.fcstDate}</div>
-		    <div class="hidden" id="fcstTime_${timeLoop}">${timeEntry.value.fcstTime}</div>
-        	<tr>
-                <td>${timeEntry.value.fcstTime}</td>
-                <td id = "weatherIcon_${timeLoop}"></td>
-                <td>${timeEntry.value.pop}</td>
-                <td>${timeEntry.value.rn1}</td>
-                <td>${timeEntry.value.tmp}</td>
-                <td>${timeEntry.value.reh}</td>
-                <td>${timeEntry.value.wsd}</td>
-                <td>${timeEntry.value.wav}</td>
-            </tr>
-            <c:set var="timeLoop" value="${timeLoop + 1}"/> <!-- timeLoop 업데이트 -->
-        </c:forEach>
-    </table>
-    <br><br>
+<c:if test="${empty groupedData}">
+    현재 API 오류로 단기 예보를 띄울 수 없습니다. 새로고침을 시도하시거나, 일정 시간이 지난 후 다시 페이지에 방문해주세요.
 </c:if>
-</c:forEach>
+
+<c:if test="${not empty groupedData}">
+    <c:set var="timeLoop" value="0"/>
+	<c:forEach var="dateEntry" items="${groupedData}" varStatus="loop">
+	<c:if test="${loop.index lt 3}">
+	    <!-- 출력 내용 -->
+	    <h2>${dateEntry.key}</h2>
+	    <table border="1">
+	        <tr>
+	            <th>시간</th>
+	            <th>날씨</th>
+	            <th>강수확률</th>
+	            <th>강수량</th>
+	            <th>기온</th>
+	            <th>습도</th>
+	            <th>풍속</th>
+	            <th>파고</th>
+	        </tr>
+	        <c:forEach var="timeEntry" items="${dateEntry.value}">
+	        <!-- 숨김으로 가져올 항목들 -->
+	            <div class="hidden" id="sky_${timeLoop}">${timeEntry.value.sky}</div>
+			    <div class="hidden" id="pty_${timeLoop}">${timeEntry.value.pty}</div>
+			    <div class="hidden" id="fcstDate_${timeLoop}">${timeEntry.value.fcstDate}</div>
+			    <div class="hidden" id="fcstTime_${timeLoop}">${timeEntry.value.fcstTime}</div>
+	        	<tr>
+	                <td>${timeEntry.value.fcstTime}</td>
+	                <td id = "weatherIcon_${timeLoop}"></td>
+	                <td>${timeEntry.value.pop}</td>
+	                <td>${timeEntry.value.rn1}</td>
+	                <td>${timeEntry.value.tmp}</td>
+	                <td>${timeEntry.value.reh}</td>
+	                <td>${timeEntry.value.wsd}</td>
+	                <td>${timeEntry.value.wav}</td>
+	            </tr>
+	            <c:set var="timeLoop" value="${timeLoop + 1}"/> <!-- timeLoop 업데이트 -->
+	        </c:forEach>
+	    </table>
+	    <br><br>
+	</c:if>
+	</c:forEach>
+</c:if>
+
 
 <script src="./resources/js/sea_weatherEmoticon.js"></script>
 <script>
@@ -156,47 +162,59 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <div>
 <h1>지난 해 오늘의 날씨</h1>
-<c:forEach var="wthrmap" items="${dataListMap}">
-<!-- 출력 내용 -->
-    <h2>${wthrmap.key}</h2>
-     <table border="1">
-        <tr>
-            <td>평균 기온</td>
-            <td>${wthrmap.value.avgTa}</td>
-        </tr>
-        <tr>
-            <td>최저 기온</td>
-            <td>${wthrmap.value.minTa}</td>
-        </tr>
-        <tr>
-            <td>최고 기온</td>
-            <td>${wthrmap.value.maxTa}</td>
-        </tr>
-        <tr>
-            <td>평균 풍속</td>
-            <td>${wthrmap.value.avgWs}</td>
-        </tr>
-        <tr>
-            <td>평균 상대습도</td>
-            <td>${wthrmap.value.avgRhm}</td>
-        </tr>
-        <tr>
-            <td>평균 전운량</td>
-            <td>${wthrmap.value.avgTca}</td>
-        </tr>
-        <tr>
-            <td>작년 이 시간의 파고</td>
-            <td>${wthrmap.value.wh}</td>
-        </tr>
-        <%-- ptySet이 null이 아닐 때 해당 리스트 항목도 추가 --%>
-        <c:if test="${wthrmap.value.ptySet ne null}">
-            <tr>
-                <td>강수 형태</td>
-                <td>${wthrmap.value.ptySet}</td>
-            </tr>
-        </c:if>
-    </table>
-</c:forEach>
+
+<c:if test="${empty dataListMap}">
+    현재 API 오류로 지난 해의 날씨 정보를 띄울 수 없습니다. 새로고침을 시도하시거나, 일정 시간이 지난 후 다시 페이지에 방문해주세요.
+</c:if>
+
+<c:if test="${not empty dataListMap}">
+    <c:forEach var="wthrmap" items="${dataListMap}">
+	<!-- 출력 내용 -->
+	    <h2>${wthrmap.key}</h2>
+	     <table border="1">
+	        <tr>
+	            <td>평균 기온</td>
+	            <td>${wthrmap.value.avgTa}</td>
+	        </tr>
+	        <tr>
+	            <td>최저 기온</td>
+	            <td>${wthrmap.value.minTa}</td>
+	        </tr>
+	        <tr>
+	            <td>최고 기온</td>
+	            <td>${wthrmap.value.maxTa}</td>
+	        </tr>
+	        <tr>
+	            <td>평균 풍속</td>
+	            <td>${wthrmap.value.avgWs}</td>
+	        </tr>
+	        <tr>
+	            <td>평균 상대습도</td>
+	            <td>${wthrmap.value.avgRhm}</td>
+	        </tr>
+	        <tr>
+	            <td>평균 전운량</td>
+	            <td>${wthrmap.value.avgTca}</td>
+	        </tr>
+	        <tr>
+	            <td>작년 이 시간의 파고</td>
+	            <td>${wthrmap.value.wh}</td>
+	        </tr>
+	        <%-- ptySet이 null이 아닐 때 해당 리스트 항목도 추가 --%>
+	        <c:if test="${wthrmap.value.ptySet ne null}">
+	            <tr>
+	                <td>강수 형태</td>
+	                <td>
+	                <c:forEach var="pty" items="${wthrmap.value.ptySet}">
+					    <span>${pty}</span>
+					</c:forEach>
+					</td>
+	            </tr>
+	        </c:if>
+	    </table>
+	</c:forEach>
+</c:if>
+
 </div>
 
 <br><br>
@@ -227,14 +245,22 @@ document.addEventListener("DOMContentLoaded", function() {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.json(); // 서버로부터 JSON 형식의 응답을 받음
+            return response.text(); ;
         })
         .then(data => {
-            console.log(data); // 서버로부터 받은 응답 출력
-            displayWeatherDataList(data);
+        	try {
+                // JSON 형식으로 파싱
+                var jsonData = JSON.parse(data);
+                console.log(jsonData); // 서버로부터 받은 JSON 데이터 출력
+                displayWeatherDataList(jsonData);
+            } catch (error) {
+                // JSON 파싱 실패 시
+            	alert("종관기상관측 API 오류로 결과를 출력할 수 없습니다.");
+            }
         })
         .catch(error => {
             console.error('Error:', error);
+            alert("종관기상관측 API 오류로 결과를 출력할 수 없습니다.");
         });
     }
     

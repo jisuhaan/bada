@@ -1,6 +1,7 @@
 package com.ezen.bada.weathers;
 
 public class Bada_tw_DTO {
+	// 수온, 파고 담은 DTO
 
 	String record_time;
 	String water_temp;

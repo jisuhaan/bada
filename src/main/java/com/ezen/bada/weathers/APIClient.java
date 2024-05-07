@@ -27,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.NodeList;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -77,9 +78,9 @@ public class APIClient {
 		        URL url = new URL(urlBuilder.toString());
 		        HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		        con.setRequestMethod("GET");
-		        // Socket Timeout Exception 오류 방지 위하여 Timeout 설정 (20초로 설정)
-		        con.setConnectTimeout(20000); // 연결 시간 초과 설정 (20초)
-		        con.setReadTimeout(20000); // 읽기 시간 초과 설정 (20초)
+		        // Socket Timeout Exception 오류 방지 위하여 Timeout 설정
+		        con.setConnectTimeout(15000); // 연결 시간 초과 설정 (15초)
+		        con.setReadTimeout(15000); // 읽기 시간 초과 설정 (15초)
 		        
 		        // 서버로부터 응답을 받아오기 위해 BufferedReader를 사용
 		        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
@@ -124,11 +125,13 @@ public class APIClient {
     }
 
 
-	public UltraSrtFcstBeach_DTO getUltraSrtFcstBeach_API(int beach_num, String currentDateString, String setToThirtyMinutes) {
-		UltraSrtFcstBeach_DTO dto = null;
-		String text = null;
-		Map<String, Object> result = new HashMap<>();
-    	// API 호출
+    public UltraSrtFcstBeach_DTO getUltraSrtFcstBeach_API(int beach_num, String currentDateString, String setToThirtyMinutes) {
+        UltraSrtFcstBeach_DTO dto = null;
+        String text = null;
+        Map<String, Object> result = new HashMap<>();
+        final int maxRetries = 3; // 최대 재시도 횟수
+
+        // API 호출
         String url = "http://apis.data.go.kr/1360000/BeachInfoservice/getUltraSrtFcstBeach"; /*URL*/
         String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; 
 
@@ -142,40 +145,65 @@ public class APIClient {
         params.put("base_time", setToThirtyMinutes);
         params.put("beach_num", beach_num);
 
-        // API 호출
-        try {
-        	text = getApi(url, params);
-        	if(text!=null) {
-        		System.out.println("초단기 API 호출 결과: " + text);
-                
-                JsonNode rootNode = objectMapper.readTree(text);
-                JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
-                
-                String fcstDate = itemNode.get(0).path("fcstDate").asText();
-                String fcstTime = itemNode.get(0).path("fcstTime").asText();
-                
-                
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("fcstTime", fcstTime);
-                jsonObject.put("fcstDate", fcstDate);
-                for(JsonNode item : itemNode) {
-                	if(item.path("fcstTime").asText().equals(fcstTime)) {
-                		// 1. 맵에 저장하기
-                		result.put(item.path("category").asText(), item.path("fcstValue").asText());
-                		// 2. json으로 저장하기
-                		jsonObject.put(item.path("category").asText(), item.path("fcstValue").asText());
-                	}
+        // 최대 재시도 횟수만큼 반복
+        for (int retry = 0; retry < maxRetries; retry++) {
+            try {
+                // API 호출
+                text = getApi(url, params);
+                if (text != null) {
+                    System.out.println("초단기 API 호출 결과: " + text);
+
+                    
+                    JsonNode rootNode = objectMapper.readTree(text);
+                    JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
+                    
+                    String fcstDate = itemNode.get(0).path("fcstDate").asText();
+                    String fcstTime = itemNode.get(0).path("fcstTime").asText();
+                    
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("fcstTime", fcstTime);
+                    jsonObject.put("fcstDate", fcstDate);
+                    for(JsonNode item : itemNode) {
+                        if(item.path("fcstTime").asText().equals(fcstTime)) {
+                            // 1. 맵에 저장하기
+                            result.put(item.path("category").asText(), item.path("fcstValue").asText());
+                            // 2. json으로 저장하기
+                            jsonObject.put(item.path("category").asText(), item.path("fcstValue").asText());
+                        }
+                    }
+                    System.out.println(jsonObject.toString());
+                    dto = objectMapper.readValue(jsonObject.toString(), UltraSrtFcstBeach_DTO.class);
+                    System.out.println("초단기 최근 시간 dto : "+dto.getFcstTime());
+                    break; // 성공적으로 API 호출 및 처리를 완료하면 반복문 종료
                 }
-                System.out.println(jsonObject.toString());
-                dto = objectMapper.readValue(jsonObject.toString(), UltraSrtFcstBeach_DTO.class);
-                System.out.println("초단기 최근 시간 dto : "+dto.getFcstTime());
-        	}
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (JsonParseException e) {
+                // JsonParseException 발생 시 재시도
+                e.printStackTrace();
+                if (retry < maxRetries - 1) {
+                    // 최대 재시도 횟수를 초과하지 않았을 경우에만 다시 시도
+                	System.out.println("JSon이 아닌 형식의 데이터가 들어옴. 재시작 "+(retry+1)+"번째");
+                    continue;
+                } else {
+                    // 최대 재시도 횟수를 초과한 경우에는 그냥 null 반환
+                    return null;
+                }
+            } catch (Exception e) {
+                // 기타 예외 발생 시 로깅
+                e.printStackTrace();
+                if (retry < maxRetries - 1) {
+                    // 최대 재시도 횟수를 초과하지 않았을 경우에만 다시 시도
+                	System.out.println("기타 예외 발생. 재시작 "+(retry+1)+"번째");
+                    continue;
+                } else {
+                    // 최대 재시도 횟수를 초과한 경우에는 그냥 null 반환
+                    return null;
+                }
+            }
         }
         return dto;
-		
-	}
+    }
+
+
 
     public String getVilageFcstBeach_API(int beach_num, String getday, String basetime, int day) {
     	int nor = 290*day;
@@ -238,116 +266,174 @@ public class APIClient {
 	}
 	
 	public String getTwBuoyBeach_API(int beach_num, String searchTime) {
-		String tw = null;
-		String text = null;
-		
-    	// API 호출
-        String url = "http://apis.data.go.kr/1360000/BeachInfoservice/getTwBuoyBeach"; /*URL*/
-        String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; 
+	    String tw = null;
+	    String text = null;
+	    final int maxRetries = 3; // 최대 재시도 횟수
+	    
+	    // API 호출
+	    String url = "http://apis.data.go.kr/1360000/BeachInfoservice/getTwBuoyBeach"; /*URL*/
+	    String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; 
 
-        // 파라미터 맵 구성
-        Map<String, Object> params = new HashMap<>();
-        params.put("dataType", "JSON");
-        params.put("searchTime", searchTime);
-        params.put("beach_num", beach_num);
-        params.put("serviceKey", serviceKey);
+	    // 파라미터 맵 구성
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("dataType", "JSON");
+	    params.put("searchTime", searchTime);
+	    params.put("beach_num", beach_num);
+	    params.put("serviceKey", serviceKey);
 
-        // API 호출
-        try {
-        	text = getApi(url, params);
-            
-            JsonNode rootNode = objectMapper.readTree(text);
-            // tm과 tw 추출
-            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item").get(0);
-            String tm = itemNode.path("tm").asText();
-            tw = itemNode.path("tw").asText();
-            
-            System.out.println("수온 측정 시간 tm: " + tm);
-            System.out.println("수온 tw: " + tw);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return tw + "°C";
+	    // 최대 재시도 횟수만큼 반복
+	    for (int retry = 0; retry < maxRetries; retry++) {
+	        try {
+	            text = getApi(url, params);
+	            
+	            JsonNode rootNode = objectMapper.readTree(text);
+	            // tm과 tw 추출
+	            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item").get(0);
+	            String tm = itemNode.path("tm").asText();
+	            tw = itemNode.path("tw").asText();
+	            
+	            System.out.println("수온 측정 시간 tm: " + tm);
+	            System.out.println("수온 tw: " + tw);
+	            break; // 성공적으로 API 호출 및 처리를 완료하면 반복문 종료
+	        } catch (JsonParseException e) {
+	            // JSON 파싱 예외 처리
+	            e.printStackTrace();
+	            if (retry < maxRetries - 1) {
+	                // 최대 재시도 횟수를 초과하지 않았을 경우에만 다시 시도
+	            	System.out.println("JSon이 아닌 형식의 데이터가 들어옴. 재시작 "+(retry+1)+"번째");
+	                continue;
+	            } else {
+	                // 최대 재시도 횟수를 초과한 경우에는 그냥 null 반환
+	                return null;
+	            }
+	        } catch (IOException e) {
+	            // IO 예외 처리
+	            e.printStackTrace();
+	            if (retry < maxRetries - 1) {
+	                // 최대 재시도 횟수를 초과하지 않았을 경우에만 다시 시도
+	                continue;
+	            } else {
+	                // 최대 재시도 횟수를 초과한 경우에는 그냥 null 반환
+	                return null;
+	            }
+	        }
+	    }
+	    return tw + "°C";
 	}
+
 	
 	// 파고
 	public String getWhBuoyBeach_API(int beach_num, String searchTime) {
-		String wh = null;
-		String text = null;
-		
-    	// API 호출
-        String url = "http://apis.data.go.kr/1360000/BeachInfoservice/getWhBuoyBeach"; /*URL*/
-        String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; 
+	    String wh = null;
+	    String text = null;
+	    final int maxRetries = 3; // 최대 재시도 횟수
+	    
+	    // API 호출
+	    String url = "http://apis.data.go.kr/1360000/BeachInfoservice/getWhBuoyBeach"; /*URL*/
+	    String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; 
 
-        // 파라미터 맵 구성
-        Map<String, Object> params = new HashMap<>();
-        params.put("dataType", "JSON");
-        params.put("searchTime", searchTime);
-        params.put("beach_num", beach_num);
-        params.put("serviceKey", serviceKey);
+	    // 파라미터 맵 구성
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("dataType", "JSON");
+	    params.put("searchTime", searchTime);
+	    params.put("beach_num", beach_num);
+	    params.put("serviceKey", serviceKey);
 
-        // API 호출
-        try {
-        	text = getApi(url, params);
-            
-            JsonNode rootNode = objectMapper.readTree(text);
-            // tm과 tw 추출
-            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item").get(0);
-            String tm = itemNode.path("tm").asText();
-            wh = itemNode.path("wh").asText();
-            
-            System.out.println("파고 측정 시간 tm: " + tm);
-            System.out.println("파고 wh: " + wh);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return wh;
+	    // 최대 재시도 횟수만큼 반복
+	    for (int retry = 0; retry < maxRetries; retry++) {
+	        try {
+	            text = getApi(url, params);
+	            
+	            JsonNode rootNode = objectMapper.readTree(text);
+	            // tm과 wh 추출
+	            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item").get(0);
+	            String tm = itemNode.path("tm").asText();
+	            wh = itemNode.path("wh").asText();
+	            
+	            System.out.println("파고 측정 시간 tm: " + tm);
+	            System.out.println("파고 wh: " + wh);
+	            break; // 성공적으로 API 호출 및 처리를 완료하면 반복문 종료
+	        } catch (JsonParseException e) {
+	            // JSON 파싱 예외 처리
+	            e.printStackTrace();
+	            if (retry < maxRetries - 1) {
+	                // 최대 재시도 횟수를 초과하지 않았을 경우에만 다시 시도
+	            	System.out.println("JSon이 아닌 형식의 데이터가 들어옴. 재시작 "+(retry+1)+"번째");
+	                continue;
+	            } else {
+	                // 최대 재시도 횟수를 초과한 경우에는 그냥 null 반환
+	                return null;
+	            }
+	        } catch (IOException e) {
+	            // IO 예외 처리
+	            e.printStackTrace();
+	            if (retry < maxRetries - 1) {
+	                // 최대 재시도 횟수를 초과하지 않았을 경우에만 다시 시도
+	                continue;
+	            } else {
+	                // 최대 재시도 횟수를 초과한 경우에는 그냥 null 반환
+	                return null;
+	            }
+	        }
+	    }
+	    return wh;
 	}
 	
+	// 기상 특보 코드 조회
 	public List<Map<String, String>> getWeatherWarning_API(String stnId) {
-    	// API 호출
-        String url = "http://apis.data.go.kr/1360000/WthrWrnInfoService/getPwnCd"; /*URL*/
-        String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; 
+	    // API 호출
+	    String url = "http://apis.data.go.kr/1360000/WthrWrnInfoService/getPwnCd"; /*URL*/
+	    String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; 
 
-        // 파라미터 맵 구성
-        Map<String, Object> params = new HashMap<>();
-        params.put("dataType", "JSON");
-        params.put("numOfRows", 100);
-        params.put("pageNo", 1);
-        params.put("stnId", stnId); // 지점은 String
-        params.put("serviceKey", serviceKey);
+	    // 파라미터 맵 구성
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("dataType", "JSON");
+	    params.put("numOfRows", 100);
+	    params.put("pageNo", 1);
+	    params.put("stnId", stnId); // 지점은 String
+	    params.put("serviceKey", serviceKey);
 
-        // API 호출
-        List<Map<String, String>> itemList = new ArrayList<Map<String, String>>();
-        try {
-        	String text = getApi(url, params);
-            System.out.println("기온 특보 API 호출 결과: " + text);
-        
-            JsonNode rootNode = objectMapper.readTree(text);
-            // tm과 tw 추출
-            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
-            for (JsonNode node : itemNode) {
-                Map<String, String> itemMap = new HashMap<>();
-                String areaName = node.path("areaName").asText();
-                String warnVar = convertWarnVar(node.path("warnVar").asText());
-                String warnStress = convertWarnStress(node.path("warnStress").asText());
-                String command = convertCommand(node.path("command").asText());
-                
-                itemMap.put("areaName", areaName);
-                itemMap.put("warnVar", warnVar);
-                itemMap.put("warnStress", warnStress);
-                itemMap.put("command", command);
-                itemList.add(itemMap);
-            }
-            System.out.println(itemList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        return itemList;
-		
+	    // API 호출
+	    List<Map<String, String>> itemList = new ArrayList<Map<String, String>>();
+	    final int maxRetries = 3; // 최대 재시도 횟수
+	    for (int retry = 0; retry < maxRetries; retry++) {
+	        try {
+	            String text = getApi(url, params);
+	            System.out.println("기온 특보 API 호출 결과: " + text);
+	        
+	            JsonNode rootNode = objectMapper.readTree(text);
+	            // tm과 tw 추출
+	            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
+	            for (JsonNode node : itemNode) {
+	                Map<String, String> itemMap = new HashMap<>();
+	                String areaName = node.path("areaName").asText();
+	                String warnVar = convertWarnVar(node.path("warnVar").asText());
+	                String warnStress = convertWarnStress(node.path("warnStress").asText());
+	                String command = convertCommand(node.path("command").asText());
+	                
+	                itemMap.put("areaName", areaName);
+	                itemMap.put("warnVar", warnVar);
+	                itemMap.put("warnStress", warnStress);
+	                itemMap.put("command", command);
+	                itemList.add(itemMap);
+	            }
+	            System.out.println(itemList);
+	            break; // 성공적으로 API 호출 및 처리를 완료하면 반복문 종료
+	        } catch (Exception e) {
+	            // IO 예외 처리
+	            e.printStackTrace();
+	            if (retry < maxRetries - 1) {
+	                // 최대 재시도 횟수를 초과하지 않았을 경우에만 다시 시도
+	                continue;
+	            } else {
+	                // 최대 재시도 횟수를 초과한 경우에는 그냥 null 반환
+	                return null;
+	            }
+	        }
+	    }
+	    return itemList;
 	}
-	
+
 	// 기상 특보 당장의 현황
 	public List<String> getWthrWrnMsg_API(int stnId) {
 	    // API 호출
@@ -365,180 +451,218 @@ public class APIClient {
 	    // API 호출
 	    String itemresult = null;
 	    List<String> alerts = new ArrayList<>();
-	    try {
-	        String text = getApi(url, params);
-	        System.out.println("기온 특보 API 호출 결과: " + text);
-	    
-	        JsonNode rootNode = objectMapper.readTree(text);
-	        // 결과 코드 확인. 정상이면 00, 데이터가 없으면 03
-	        JsonNode headerNode = rootNode.path("response").path("header");
-	        String resultCode = headerNode.path("resultCode").asText();
-	        if (resultCode.equals("00")) {
-	            // 현황 문장 뽑아오기
-	            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item").get(0).path("t6");
-	            itemresult = itemNode.toString();
-	            String[] words = itemresult.split(" ");
-	            for (String word : words) {
-	                if (word.contains("주의보")) {
-	                    alerts.add(word);
+	    final int maxRetries = 3; // 최대 재시도 횟수
+	    for (int retry = 0; retry < maxRetries; retry++) {
+	        try {
+	            String text = getApi(url, params);
+	            System.out.println("기온 특보 API 호출 결과: " + text);
+	        
+	            JsonNode rootNode = objectMapper.readTree(text);
+	            // 결과 코드 확인. 정상이면 00, 데이터가 없으면 03
+	            JsonNode headerNode = rootNode.path("response").path("header");
+	            String resultCode = headerNode.path("resultCode").asText();
+	            if (resultCode.equals("00")) {
+	                // 현황 문장 뽑아오기
+	                JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item").get(0).path("t6");
+	                itemresult = itemNode.toString();
+	                String[] words = itemresult.split(" ");
+	                for (String word : words) {
+	                    if (word.contains("주의보")) {
+	                        alerts.add(word);
+	                    }
 	                }
+	                System.out.println(words);
 	            }
-	            System.out.println(words);
+	            break; // 성공적으로 API 호출 및 처리를 완료하면 반복문 종료
+	        } catch (Exception e) {
+	            // IO 예외 처리
+	            e.printStackTrace();
+	            if (retry < maxRetries - 1) {
+	                // 최대 재시도 횟수를 초과하지 않았을 경우에만 다시 시도
+	                continue;
+	            } else {
+	                // 최대 재시도 횟수를 초과한 경우에는 그냥 null 반환
+	                return null;
+	            }
 	        }
-	    } catch (IOException e) {
-	        e.printStackTrace();
 	    }
-	    
 	    return alerts;
 	}
 
-	
 	// 다른 연도의 기상 정보를 검색해오는 API
 	public getWthrDataList_DTO getWthrDataList_API(int stnIds, String currentDateString) {
-    	// API 호출
-        String url = "http://apis.data.go.kr/1360000/AsosDalyInfoService/getWthrDataList"; /*URL*/
-        String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; 
+	    // API 호출
+	    String url = "http://apis.data.go.kr/1360000/AsosDalyInfoService/getWthrDataList"; /*URL*/
+	    String serviceKey = "QWzzzAb/UIqP2aANBL1yVlNW3plkWGVz5RX3OJRiMV9J+licoY1Dffo51/i5HTDfU00ZpDy2E4/ASt2FgLknaA=="; 
 
-        // 파라미터 맵 구성
-        Map<String, Object> params = new HashMap<>();
-        params.put("dataType", "JSON");
-        params.put("numOfRows", 10);
-        params.put("pageNo", 1);
-        params.put("dataCd", "ASOS");
-        params.put("dateCd", "DAY");
-        params.put("startDt", currentDateString);
-        params.put("endDt", currentDateString);
-        params.put("stnIds", stnIds);
-        params.put("serviceKey", serviceKey);
+	    // 파라미터 맵 구성
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("dataType", "JSON");
+	    params.put("numOfRows", 10);
+	    params.put("pageNo", 1);
+	    params.put("dataCd", "ASOS");
+	    params.put("dateCd", "DAY");
+	    params.put("startDt", currentDateString);
+	    params.put("endDt", currentDateString);
+	    params.put("stnIds", stnIds);
+	    params.put("serviceKey", serviceKey);
 
-        // API 호출
-        getWthrDataList_DTO dto = null;
-        try {
-        	String text = getApi(url, params);        
-            JsonNode rootNode = objectMapper.readTree(text);
-            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item").get(0);
-//            System.out.println("다른 해의 기상 정보 API 호출 결과: " + itemNode);
-            
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            dto = objectMapper.readValue(itemNode.toString(), getWthrDataList_DTO.class);
-            String data = dto.getIscs();
-            dto.setAvgTca(convertavgTca(Double.parseDouble(dto.getAvgTca())));
-            if(data==null || data.equals("") || data.isEmpty()) {}
-            else {
-	            Set<String> dataSet = new HashSet<>();
-	            Pattern pattern = Pattern.compile("\\{([^\\(\\)\\{\\}0-9a-zA-Z]+)\\}"); // 중괄호 안에 숫자, 영어가 포함 안 된 항목
-	            Matcher matcher = pattern.matcher(data);
-	            while (matcher.find()) {
-	                dataSet.add(matcher.group(1));
+	    // API 호출
+	    getWthrDataList_DTO dto = null;
+	    final int maxRetries = 3; // 최대 재시도 횟수
+	    for (int retry = 0; retry < maxRetries; retry++) {
+	        try {
+	            String text = getApi(url, params);        
+	            JsonNode rootNode = objectMapper.readTree(text);
+	            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item").get(0);
+	            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	            dto = objectMapper.readValue(itemNode.toString(), getWthrDataList_DTO.class);
+	            String data = dto.getIscs();
+	            dto.setAvgTca(convertavgTca(Double.parseDouble(dto.getAvgTca())));
+	            if(data==null || data.equals("") || data.isEmpty()) {}
+	            else {
+	                Set<String> dataSet = new HashSet<>();
+	                Pattern pattern = Pattern.compile("\\{([^\\(\\)\\{\\}0-9a-zA-Z]+)\\}"); // 중괄호 안에 숫자, 영어가 포함 안 된 항목
+	                Matcher matcher = pattern.matcher(data);
+	                while (matcher.find()) {
+	                    dataSet.add(matcher.group(1));
+	                }
+	                dto.setPtySet(dataSet);
 	            }
-	            dto.setPtySet(dataSet);
-            }
-            
-            System.out.println(dto.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-		return dto;
-		
+	            System.out.println(dto.toString());
+	            break; // 성공적으로 API 호출 및 처리를 완료하면 반복문 종료
+	        } catch (Exception e) {
+	            // IO 예외 처리
+	            e.printStackTrace();
+	            if (retry < maxRetries - 1) {
+	                // 최대 재시도 횟수를 초과하지 않았을 경우에만 다시 시도
+	                continue;
+	            } else {
+	                // 최대 재시도 횟수를 초과한 경우에는 그냥 null 반환
+	                return null;
+	            }
+	        }
+	    }
+	    return dto;
 	}
 
 	// 당일의 최저, 최고 기온을 구하는 메소드 
 	public Bada_tmx_n_DTO get_bada_tmx_n(int beach_num, String getYesterday, String basetime) {
-		String text = getVilageFcstBeach_API(beach_num, DateDAO.getYesterdayDateString(), basetime, 1);
-		Bada_tmx_n_DTO dto = null;
-		JsonNode rootNode;
-		try {
-			rootNode = objectMapper.readTree(text);
-			JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
-	        
-	        JSONObject jsonObject = new JSONObject();
-	        
-	        for (JsonNode item : itemNode) {
-	            String category = item.path("category").asText();
-	            if (category.equals("TMN") || category.equals("TMX")) {
-	            	jsonObject.put(item.path("category").asText(), item.path("fcstValue").asText()); 
+	    String text = getVilageFcstBeach_API(beach_num, DateDAO.getYesterdayDateString(), basetime, 1);
+	    Bada_tmx_n_DTO dto = null;
+	    JsonNode rootNode;
+	    final int maxRetries = 3; // 최대 재시도 횟수
+	    for (int retry = 0; retry < maxRetries; retry++) {
+	        try {
+	            rootNode = objectMapper.readTree(text);
+	            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
+	            JSONObject jsonObject = new JSONObject();
+	            for (JsonNode item : itemNode) {
+	                String category = item.path("category").asText();
+	                if (category.equals("TMN") || category.equals("TMX")) {
+	                    jsonObject.put(item.path("category").asText(), item.path("fcstValue").asText()); 
+	                }
+	            }   
+	            dto = objectMapper.readValue(jsonObject.toString(), Bada_tmx_n_DTO.class);
+	            break; // 성공적으로 API 호출 및 처리를 완료하면 반복문 종료
+	        } catch (JsonParseException e) {
+	            // IO 예외 처리
+	            e.printStackTrace();
+	            if (retry < maxRetries - 1) {
+	                // 최대 재시도 횟수를 초과하지 않았을 경우에만 다시 시도
+	                continue;
+	            } else {
+	                // 최대 재시도 횟수를 초과한 경우에는 그냥 null 반환
+	                return null;
 	            }
-	        }   
-	        dto = objectMapper.readValue(jsonObject.toString(), Bada_tmx_n_DTO.class);
-	        
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return dto;
+	        } catch (JsonMappingException e) {
+	            // JSON 매핑 예외 처리
+	            e.printStackTrace();
+	        } catch (JsonProcessingException e) {
+	            // JSON 처리 예외 처리
+	            e.printStackTrace();
+	        } 
+	    }
+	    return dto;
 	}
-	
+
 	// 현재 시간부터 모레의 날씨 정보까지 가져와서 리스트화하기 -> 자세히 보기
 	public Map<String, Map<String, VilageFcstBeach_DTO>> getWeatherForecast(int beach_num, String getCurrentDateString, String basetime) {
-		
-		// 최종!! 날짜와 시간 별로 구분된 데이터를 그룹화하는 맵 + LinkedHashMap으로 순서 유지
-        Map<String, Map<String, VilageFcstBeach_DTO>> groupedData = new LinkedHashMap<>();
-        VilageFcstBeach_DTO dto = null;
-        
-		try {
-			// 요청 api의 String 결과
-			String text = getVilageFcstBeach_API(beach_num, getCurrentDateString, basetime, 3);
-			if (text != null) {
-				JsonNode rootNode = objectMapper.readTree(text);
-				JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
+	    // 최종!! 날짜와 시간 별로 구분된 데이터를 그룹화하는 맵 + LinkedHashMap으로 순서 유지
+	    Map<String, Map<String, VilageFcstBeach_DTO>> groupedData = new LinkedHashMap<>();
+	    VilageFcstBeach_DTO dto = null;
+	    final int maxRetries = 3; // 최대 재시도 횟수
+	    for (int retry = 0; retry < maxRetries; retry++) {
+	        try {
+	            // 요청 api의 String 결과
+	            String text = getVilageFcstBeach_API(beach_num, getCurrentDateString, basetime, 3);
+	            if (text != null) {
+	                JsonNode rootNode = objectMapper.readTree(text);
+	                JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item");
 
-				// 날짜를 기준으로 데이터를 그룹화하는 맵 + LinkedHashMap으로 순서 유지
-	            Map<String, List<JsonNode>> dateGroupedData = new LinkedHashMap<>();
-				// 날자 기준 데이터를 그룹화
-	            for (JsonNode item : itemNode) {
-	                String fcstDate = item.get("fcstDate").asText();
-	                dateGroupedData.putIfAbsent(fcstDate, new ArrayList<>()); // groupedData에 해당 키가 존재하지 않으면 새로운 리스트를 만들고, 아니라면 null을 반환
-	                dateGroupedData.get(fcstDate).add(item);
-	            }
-	            for(String key : dateGroupedData.keySet()) { // dateGroupedData의 키 값(날짜 정보들) 세트로 반복
-	            	List<JsonNode> itemList = dateGroupedData.get(key); // 키의 밸류값을 가져옴(날짜 별로 저장된 jsonnode 모음)
-	            	// 시간을 기준으로 노드를 한 번 더 그룹화하는 맵 + 순서 유지
-	            	Map<String, List<JsonNode>> timeGroupedData = new LinkedHashMap<>();
-	            	// 시간 별로 node 묶어주기
-	            	for (JsonNode node : itemList) {
-	                    String fcstTime = node.get("fcstTime").asText();
-	                    timeGroupedData.putIfAbsent(fcstTime, new ArrayList<>());
-	                    timeGroupedData.get(fcstTime).add(node);
+	                // 날짜를 기준으로 데이터를 그룹화하는 맵 + LinkedHashMap으로 순서 유지
+	                Map<String, List<JsonNode>> dateGroupedData = new LinkedHashMap<>();
+	                // 날자 기준 데이터를 그룹화
+	                for (JsonNode item : itemNode) {
+	                    String fcstDate = item.get("fcstDate").asText();
+	                    dateGroupedData.putIfAbsent(fcstDate, new ArrayList<>()); // groupedData에 해당 키가 존재하지 않으면 새로운 리스트를 만들고, 아니라면 null을 반환
+	                    dateGroupedData.get(fcstDate).add(item);
 	                }
-	                
-	            	// 시간 별 쌍을 저장할 map 만들어주기
-	            	Map<String, VilageFcstBeach_DTO> timeObjectData = new LinkedHashMap<>();
-	            	// 시간 별로 category랑 value 쌍 만들어주기
-	                for(String time : timeGroupedData.keySet()) {
-	                	
-	                	JSONObject jsonObject = new JSONObject();
-	                	jsonObject.put("fcstTime", time);
-	                    jsonObject.put("fcstDate", key);
-	                    
-	                	for(JsonNode item : timeGroupedData.get(time)) {
-	                    	jsonObject.put(item.path("category").asText(), item.path("fcstValue").asText());
+	                for(String key : dateGroupedData.keySet()) { // dateGroupedData의 키 값(날짜 정보들) 세트로 반복
+	                    List<JsonNode> itemList = dateGroupedData.get(key); // 키의 밸류값을 가져옴(날짜 별로 저장된 jsonnode 모음)
+	                    // 시간을 기준으로 노드를 한 번 더 그룹화하는 맵 + 순서 유지
+	                    Map<String, List<JsonNode>> timeGroupedData = new LinkedHashMap<>();
+	                    // 시간 별로 node 묶어주기
+	                    for (JsonNode node : itemList) {
+	                        String fcstTime = node.get("fcstTime").asText();
+	                        timeGroupedData.putIfAbsent(fcstTime, new ArrayList<>());
+	                        timeGroupedData.get(fcstTime).add(node);
 	                    }
-	                	// 오류 방지 차원
-	                	objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-	                	dto = objectMapper.readValue(jsonObject.toString(), VilageFcstBeach_DTO.class);
-	        	        System.out.println("jsonObject: " + jsonObject);
-	        	        timeObjectData.put(time, dto);
+	                    
+	                    // 시간 별 쌍을 저장할 map 만들어주기
+	                    Map<String, VilageFcstBeach_DTO> timeObjectData = new LinkedHashMap<>();
+	                    // 시간 별로 category랑 value 쌍 만들어주기
+	                    for(String time : timeGroupedData.keySet()) {
+	                        
+	                        JSONObject jsonObject = new JSONObject();
+	                        jsonObject.put("fcstTime", time);
+	                        jsonObject.put("fcstDate", key);
+	                        
+	                        for(JsonNode item : timeGroupedData.get(time)) {
+	                            jsonObject.put(item.path("category").asText(), item.path("fcstValue").asText());
+	                        }
+	                        // 오류 방지 차원
+	                        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	                        dto = objectMapper.readValue(jsonObject.toString(), VilageFcstBeach_DTO.class);
+	                        System.out.println("jsonObject: " + jsonObject);
+	                        timeObjectData.put(time, dto);
+	                    }
+	                    
+	                    groupedData.put(key, timeObjectData);
 	                }
-	                
-	                groupedData.put(key, timeObjectData);
-//	                System.out.println(key+"일의 groupedData: "+groupedData.get(key));
 	            }
-			}
-            
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return groupedData;
+	            break; // 성공적으로 API 호출 및 처리를 완료하면 반복문 종료
+	        } catch (JsonParseException e) {
+	            // IO 예외 처리
+	            e.printStackTrace();
+	            if (retry < maxRetries - 1) {
+	                // 최대 재시도 횟수를 초과하지 않았을 경우에만 다시 시도
+	                continue;
+	            } else {
+	                // 최대 재시도 횟수를 초과한 경우에는 그냥 null 반환
+	                return null;
+	            }
+	        } catch (JsonMappingException e) {
+	            // JSON 매핑 예외 처리
+	            e.printStackTrace();
+	        } catch (JsonProcessingException e) {
+	            // JSON 처리 예외 처리
+	            e.printStackTrace();
+	        } 
+	    }
+	    return groupedData;
 	}
-	
+
 	// xml을 파싱하는 메소드
 	public String parseXml(String xmlString, String keyword) {
 		try {
@@ -566,39 +690,6 @@ public class APIClient {
             e.printStackTrace();
         }
 		return null;
-    }
-	
-	public void getstnIdXml() {
-	  try {
-            // XML 데이터를 가져올 URL
-            URL url = new URL("https://apihub.kma.go.kr/api/typ01/url/stn_inf.php?inf=SFC&help=1&authKey=r3dQ86BKQbi3UPOgSnG4iw");
-            InputStream inputStream = url.openStream();
-
-            // XML 파서 설정
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            
-            // XML 파서를 이용하여 InputStream으로부터 Document 객체 생성
-            Document document = builder.parse(inputStream);
-
-            // XML에서 STN_KO와 STN_EN 추출
-            NodeList nodeList = document.getElementsByTagName("item");
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Node node = nodeList.item(i);
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
-                    String stnKo = element.getElementsByTagName("stn_ko").item(0).getTextContent();
-                    String stnEn = element.getElementsByTagName("stn_en").item(0).getTextContent();
-                    
-                    // 추출한 데이터 출력
-                    System.out.println("STN_KO: " + stnKo);
-                    System.out.println("STN_EN: " + stnEn);
-                    System.out.println("----------------------");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 	
 	private String convertavgTca(double avgTca) {
@@ -667,14 +758,15 @@ public class APIClient {
         }
     }
 
-    public String calculateWeatherIndex(String sky, String rain, double wind, double wave) {
-    	double rn1 = 
-                rain.equals("강수없음") ? 0 : 
-                rain.equals("1mm 미만") ? 0.5 : 
-                rain.equals("50mm 이상") ? 50 : 
-                Double.parseDouble(rain.substring(0, rain.length() - 2));
-    	int score = 0;
+    public String calculateWeatherIndex(String sky, String rain, double wind, double wave, List<String> resultString) {
+        double rn1 = 
+        		rain.equals("강수없음") ? 0 : 
+        		rain.equals("1mm 미만") ? 0.5 : 
+        		rain.equals("50mm 이상") ? 50 : 
+        		Double.parseDouble(rain.substring(0, rain.length() - 2));
 
+    	int score = 0;
+    	
         for (int i = 0; i < 1; i++) { // 한 번만 반복
             // 하늘 상태에 따른 점수 계산
             if (sky.equals("1")) {
@@ -700,13 +792,13 @@ public class APIClient {
             }
             System.out.println("강수량점수: "+score);
             // 바람에 따른 점수 계산
-            if (wind <=3) {
+            if (wind < 1.6) {
                 score += 5;
-            } else if (wind < 5) {
+            } else if (wind < 3.4) {
                 score += 4;
-            } else if (wind < 9) {
+            } else if (wind < 5.5) {
                 score += 3;
-            } else if (wind < 14) {
+            } else if (wind < 8) {
                 score += 2;
             } else {
                 score = 0;
@@ -731,6 +823,23 @@ public class APIClient {
         System.out.println("총점수: "+score);
         // 최종 날씨 지수 계산
         String weatherIndex = convertToChoiceFormat(score);
+        
+        // 특보 현황에 따라 바다 여행 지수 반환 결정
+    	if(!resultString.isEmpty() || resultString != null) {
+        	for(String wrn : resultString) {
+        		weatherIndex = 
+    				wrn.contains("풍랑") ? "매우 나빠" : 
+					wrn.contains("강풍") ? "매우 나빠" : 
+					wrn.equals("폭염주의보") ? "나빠" :
+					wrn.equals("폭염경보") ? "매우 나빠" : 
+					wrn.contains("호우") ? "매우 나빠" : 
+					wrn.contains("대설") ? "매우 나빠" : 
+					wrn.contains("한파") ? "매우 나빠" : 
+					wrn.contains("폭풍해일") ? "매우 나빠" : 									
+					wrn.contains("태풍") ? "매우 나빠" : 	
+						weatherIndex;
+        	}
+        }
         return weatherIndex;
     }
 
@@ -740,15 +849,15 @@ public class APIClient {
         String result = "";
 
         if (score >= 19) {
-            result = "매우 좋음";
+            result = "매우 좋아";
         } else if (score >= 15) {
-            result = "좋음";
+            result = "좋아";
         } else if (score >= 11) {
-            result = "보통";
+            result = "그저그래";
         } else if (score >= 7) {
-            result = "나쁨";
+            result = "나빠";
         } else {
-            result = "매우 나쁨";
+            result = "매우 나빠";
         }
 
         return result;

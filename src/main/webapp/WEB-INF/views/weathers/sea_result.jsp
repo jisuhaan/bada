@@ -160,6 +160,7 @@ if(hs.getAttribute("loginstate")==null){
       <div class="today_container">
          <div id="clock_by_hour"></div>
          <div class="name_beach">${bdt.beach_name}의</div>
+         
          <div class="todays now1 hidden">
             <div class="weather nowing">
                <span id="today_text">현재 날씨는</span><br>
@@ -169,21 +170,23 @@ if(hs.getAttribute("loginstate")==null){
                <span id="today_text">현재 기온은</span><br>
                <div class="temperature_text"><span id="nowTemperature">${bldt.ultraSrtFcstBeach_dto.t1h}</span>&nbsp;<img src="./resources/image/forecast_celsius.gif" width="50px"></div>
             </div>
-        	 <c:if test="${bldt.ultraSrtFcstBeach_dto.rn1 ne '강수없음'}">
+
+          <c:if test="${bldt.ultraSrtFcstBeach_dto.rn1 ne '강수없음'}">
             <div class="weather nowing">
                <span id="today_text">시간당 강수</span><br>
                <div class="etc_text"><img src="./resources/image/forecast_umbrella.gif" width="50px">&nbsp;
-	               <c:choose>
-	               <c:when test="${fn:length(bldt.ultraSrtFcstBeach_dto.rn1)<4}">
-	               		<span id="hour_rain">${bldt.ultraSrtFcstBeach_dto.rn1}</span>
-	               </c:when>
-	               <c:otherwise>
-	               		<span id="hour_rain2">${bldt.ultraSrtFcstBeach_dto.rn1}</span>
-	               </c:otherwise>
-	               </c:choose>
+                  <c:choose>
+                  <c:when test="${fn:length(bldt.ultraSrtFcstBeach_dto.rn1)<4}">
+                        <span id="hour_rain">${bldt.ultraSrtFcstBeach_dto.rn1}</span>
+                  </c:when>
+                  <c:otherwise>
+                        <span id="hour_rain2">${bldt.ultraSrtFcstBeach_dto.rn1}</span>
+                  </c:otherwise>
+                  </c:choose>
                </div>
             </div>
-        	</c:if>
+          </c:if>
+
          </div>
          <div class="todays now2 hidden">
             <div class="weather tempt">
@@ -214,7 +217,8 @@ if(hs.getAttribute("loginstate")==null){
                <div class="sun_text"><img src="./resources/image/forecast_sunset.gif" width="50px">&nbsp;<span id="sunset"></span></div>
             </div>
          </div>
-      <div class="todays now4 hidden">
+
+         <div class="todays now4 hidden">
          <c:if test="${warningString ne '없음'}">
             <div class="weather nowing cast">
                <span id="today_text">발표된 특보</span><br>

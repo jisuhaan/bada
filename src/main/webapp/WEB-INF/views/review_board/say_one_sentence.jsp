@@ -57,8 +57,8 @@
         
         .loginplz {border: 0; width: 99%; background: #ddd; border-radius: 5px; height: 60px; padding-left: 5px; box-sizing: border-box; margin-top: 5px; text-align: center; line-height: 60px;}
 
-		.chat_wrap .inner .header{border: 0; width: 79%; background: #F8F8FF; border-radius: 3px; height: 40px; box-sizing: border-box; text-align: center; padding-top: 10px; display: inline-block; vertical-align: middle;}
-		select#sort_loc{border:0; width:20%;background:#ddd; border-radius:5px; height:40px; padding-left:5px; box-sizing:border-box; display: inline-block; vertical-align: middle;}
+		.chat_wrap .inner .header{z-index: 1; position: sticky; top: 0; border: 0; width: 79%; background: #F8F8FF; border-radius: 3px; height: 40px; box-sizing: border-box; text-align: center; padding-top: 10px; display: inline-block; vertical-align: middle;}
+		select#sort_loc{z-index: 1; position: sticky; top: 0; border:0; width:20%;background:#ddd; border-radius:5px; height:40px; padding-left:5px; box-sizing:border-box; display: inline-block; vertical-align: middle;}
 		.chat_wrap .inner .header h2{margin: 0; font-size: 20px; }		
 		
         input[type="text"]{border:0; width:74%;background:#FFFFFF; border-radius:5px; height:40px; padding-left:5px; box-sizing:border-box; margin-top:5px; }
@@ -67,7 +67,7 @@
     </style>
     
     <script type="text/javascript">
-$(document).ready(function() {
+	$(document).ready(function() {
     $('#sort_loc').change(function() {
         var selectedLoc = $(this).val(); // sort_loc에서 선택된 값
 

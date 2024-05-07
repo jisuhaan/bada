@@ -90,7 +90,7 @@ function bbti_select(bbti) {
 	
 	if(!id || id.trim() === ''){
 		
-		var bbti_join = confirm("아직 로그인을 안 하셨네요! 로그인하시겠어요? (로그인하면 bbti 정보가 자동으로 저장된답니다! 해당 페이지에서 회원가입을 하셔도 저장됩니다!)");
+		var bbti_join = confirm("아직 로그인을 안 하셨네요. 로그인하시겠어요? (로그인하면 bbti 정보가 자동으로 저장됩니다! 해당 페이지에서 회원가입을 하셔도 저장됩니다!)");
 		
 		if(bbti_join){
 			window.location.href="login_with?bbti="+bbti;
@@ -114,24 +114,24 @@ function bbti_select(bbti) {
             success:function(result){
             	
             	if(result=='ok'){
-	                alert("bbti가 성공적으로 저장되었어요. 메인으로 이동할게요!");
+	                alert("bbti가 성공적으로 저장되었어요. 메인으로 이동합니다.");
 	                window.location.href = './';
             	}
             	
             	else{
-            		var conf2 = confirm("이미 테스트하신적이 있네요! bbti 정보를 현재 결과로 덮어쓸까요?");
+            		var conf2 = confirm("이미 테스트하신 적이 있네요. bbti 정보를 현재 결과로 덮어쓸까요?");
             		if(conf2){
             			window.location.href="bbti_list_save?id="+id+"&bbti="+bbti;
             		}
             		else{
-            			alert("기존 정보를 유지합니다! 메인으로 돌아갈게요.");
+            			alert("기존 정보를 유지하고, 메인으로 돌아갑니다.");
 		                window.location.href = './';
             		}
             	}
             	
             },
             error: function(){
-                alert("데이터 전송 과정에 에러가 발생했습니다!");
+                alert("데이터 전송 과정에 에러가 발생했습니다.");
             }
 	            				
 		});

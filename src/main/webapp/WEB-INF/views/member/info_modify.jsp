@@ -27,7 +27,7 @@ $(document).ready(function() {
     $("#emailcheck").click(function() {
         email = $('#email').val();
         if (email === originalEmail) {
-            alert('이메일 변경이 없습니다.');
+            alert('이메일이 변경되지 않았습니다.');
             email_check = true;
         } else {
             $.ajax({
@@ -57,7 +57,7 @@ $(document).ready(function() {
         e.preventDefault();
         
         if(!email_check) {
-        	alert('이메일 중복확인이 필요합니다.');
+        	alert('이메일 중복 확인이 필요합니다.');
         	return false;
         }
         
@@ -118,7 +118,7 @@ $(document).ready(function() {
                 },
                 success: function(result) {
                     if(result == "yes") {
-                    	alert("회원정보 수정 완료!");
+                    	alert("회원정보가 수정되었습니다.");
                         document.forms["modify_form"].submit();
                     } else {
                         alert("비밀번호가 일치하지 않습니다.");
@@ -154,13 +154,13 @@ $(document).ready(function() {
 		<br>
 		<div class="form_title">&nbsp;비밀번호</div>
 		<div class="join_input">
-		<input type="password" name="pw" value="${info.pw}" id="pw" placeholder="영어 소문자와 숫자를 포함해 6-20자" required>
+		<input type="password" name="pw" value="${info.pw}" id="pw" placeholder="영어 소문자와 숫자를 포함해 6-20자로 입력해주세요." required>
 		<input type="hidden" name="original_pw" value="${info.pw}">
 		</div>
 		<br>
 		 <div class="form_title">&nbsp;비밀번호 확인</div>
 		<div class="join_input">
-		<input type="password" id="pw2" placeholder="비밀번호를 한 번 더 써주세요." required>
+		<input type="password" id="pw2" placeholder="비밀번호를 한 번 더 입력해 주세요." required>
 		</div>
 		<br>
 		 <div class="form_title">&nbsp;닉네임</div>

@@ -35,7 +35,7 @@
    select * from (
    select rownum rn, A.* from(  
    select id, name, review_num, TO_CHAR(write_day, 'YYYY-MM-DD')write_day, visit_day, review_title,
-   hits,recommend, reply from bada_user_review order by write_day desc)A)
+   hits,recommend, reply from bada_user_review order by review_num desc)A)
    where rn between #{start} AND #{end}
 </select>
 <select id="page_review_listout_popular" resultType="com.ezen.bada.review.AllBoardDTO">

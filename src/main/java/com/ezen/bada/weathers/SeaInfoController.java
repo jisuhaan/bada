@@ -39,10 +39,8 @@ public class SeaInfoController {
 		
 		String city = request.getParameter("city");
 		Service ss = sqlsession.getMapper(Service.class);
-		System.out.println("시군이름은? : "+city);
 		
 		ArrayList<Bada_info_DTO> list = ss.getcitybeach(city);
-		System.out.println("시군 바다리스트 : "+list);
 		mo.addAttribute("list",list);
 		
 		return "search_city";	
@@ -54,14 +52,12 @@ public class SeaInfoController {
 	public String sea_info2(String area) throws JsonProcessingException {
 	   
 		Service ss = sqlsession.getMapper(Service.class);
-		System.out.println("지역 뽑혀왔니? : "+area);
 		   
 		List<Bada_default_DTO> badalist;
 		   
 		if(area.equals("부울")) { 
 			String area1 = "부산";
 			String area2 = "울산";
-			System.out.println("area1 : "+area1+", area2 : "+area2);
 			badalist = ss.getbadalist2(area1,area2);   
 		}
 		   
@@ -77,9 +73,6 @@ public class SeaInfoController {
 		   
 		ObjectMapper om =  new ObjectMapper();
 		String bada_list = om.writeValueAsString(badalist);
-			  
-		System.out.println("바다리스트 뽑혀왔니? : "+badalist);
-		System.out.println("json화 되었니? : "+bada_list);
 		
 		return bada_list;
    }
@@ -98,7 +91,6 @@ public class SeaInfoController {
 		
 		//해변코드로 db에 마련된 위도경도를 불러옵니다.
 		mo.addAttribute("bdt",bdt);
-		System.out.println("불러와진 해변이름 : "+bdt.getBeach_name());
 		
 		// Bada_default_DTO -> Bada_list 테이블에서 특정 해수욕장 정보 가져오기
 		Bada_default_DTO bldt = ss.get_Beach_list_data(beach_code); 
@@ -107,7 +99,6 @@ public class SeaInfoController {
 		
 		//해시태그 베스트 3
 		List<String> hashtags = ss.gethashtags(beach_code);
-		System.out.println("가져온 hashtags = " + hashtags);
 		mo.addAttribute("hashtags",hashtags);
 		
 	    // API 호출
@@ -235,18 +226,16 @@ public class SeaInfoController {
 	}
 	
 	
-	//지은 메인 서치바 진행중..
+	//메인 서치바
 	@ResponseBody
 	@RequestMapping(value = "main_search")
 	public String main_search(HttpServletRequest request) {
 		
 		String area = request.getParameter("area");
-		System.out.println("area 가져왔니? : "+area);
 		String result = null;
 		Service ss = sqlsession.getMapper(Service.class);
 		
 		String category = ss.searchwhere(area);
-		System.out.println("area 카테고리 : "+category);
 		
 		if(category.equals("state")) {
 			result=area;
@@ -257,8 +246,7 @@ public class SeaInfoController {
 		else if(category.equals("")||category==null) {
 			result="no";
 		}
-		
-		
+				
 		return result;
 	}
 }

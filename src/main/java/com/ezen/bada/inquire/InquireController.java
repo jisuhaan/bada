@@ -27,19 +27,14 @@ import com.ezen.bada.member.MemberDTO;
 
 
 
-
-
 @Controller
 public class InquireController {
-	
 	
 	
 	@Autowired
 	SqlSession sqlsession;
 	   
 	String imagepath="C:\\coding\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
-	
-	
 	
 	
 	
@@ -97,7 +92,7 @@ public class InquireController {
 		String secret_pw = mul.getParameter("secret_pw");
 		
 		MultipartFile mf1=mul.getFile("pic1");
-		System.out.println("널이어야 하는데?"+mf1);
+		
 		if(mf1 != null && !mf1.isEmpty()) {
 			pic1=mf1.getOriginalFilename();
 			pic1=filesave1(pic1, mf1.getBytes());
@@ -131,13 +126,6 @@ public class InquireController {
 			pic5=filesave5(pic5, mf5.getBytes());
 			}
 		else {pic5="nope";}
-	    
-		System.out.println("각종 정보: "+title+category+name+id+content+secret+secret_pw);
-	    System.out.println("첫 번째 사진:" + pic1);
-	    System.out.println("두 번째 사진:" + pic2);
-	    System.out.println("세 번째 사진:" + pic3);
-	    System.out.println("네 번째 사진:" + pic4);
-	    System.out.println("다섯 번째 사진:" + pic5);
 	    
 	    if(secret.equals("n")) {secret_pw="free";}
 
@@ -213,13 +201,10 @@ public class InquireController {
 	    else if(cntPerPage==null) {
 	       cntPerPage="5";
 	    }      
-	    System.out.println("현재 페이지 : "+nowPage); // 어디에 있냐에 따라 다름
-	    System.out.println("페이지 당 레코드 수 : "+cntPerPage); // 5개
 	    
 	    // 3) 전체 게시글 수 DB에서 구해오기
 	    Service ss = sqlsession.getMapper(Service.class);
 	    int total=ss.inquire_list_total();
-	    System.out.println("총 레코드의 개수 : "+total);
 	     
 	    // 생성자로 나머지 페이지 처리에 필요한 필드값들도 모두 계산
 	    // 3가지 인수 넣어주기
@@ -238,7 +223,6 @@ public class InquireController {
 	    
 	    ArrayList<InquireDTO2> list2=ss.inquire_best3();
 		mo.addAttribute("list2", list2);
-		System.out.println("베스트글 확인용: "+list2);
 		
 	    return "inquire_listout";
     }
@@ -275,7 +259,6 @@ public class InquireController {
 		//댓글 출력
 		ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
 		mo.addAttribute("list", list);
-		System.out.println("디티오 확인"+list);
 		
 		return "inquire_detail";
 	}
@@ -292,7 +275,6 @@ public class InquireController {
 		String value=request.getParameter("search_value");
 		String category=request.getParameter("category");
 		String i_date=request.getParameter("i_date");
-		System.out.println("서치 키워드: "+keyword+"  서치값: "+value+"   카테고리: "+category+"   날짜: "+i_date);
 		Service ss = sqlsession.getMapper(Service.class);
 		ArrayList<InquireDTO> list;
 	      
@@ -309,7 +291,6 @@ public class InquireController {
 	            list=ss.inquire_search_out4(keyword, value, category, i_date);
 	         }//내부 else문 끝
 	      
-	      System.out.println(list);
 	      
 	    mo.addAttribute("list", list);
 	    
@@ -360,7 +341,6 @@ public class InquireController {
 	public String inquire_modify(HttpServletRequest request, Model mo) {
 
 	     int inquire_num = Integer.parseInt(request.getParameter("inquire_num"));
-	     System.out.println("문의 수정 확인 : "+inquire_num);
 	     Service ss = sqlsession.getMapper(Service.class);
 	     
 	     InquireDTO dto = ss.inquire_modify_view(inquire_num);
@@ -455,8 +435,6 @@ public class InquireController {
 		int inquire_num=Integer.parseInt(request.getParameter("inquire_num"));
 		String content=request.getParameter("content");
 		Service ss=sqlsession.getMapper(Service.class);
-		
-		System.out.println("확인용: "+inquire_num+content);
 		  
 		//댓글 저장
 		ss.inquire_reply_save(inquire_num, content, inquire_num);
@@ -464,8 +442,7 @@ public class InquireController {
 		//댓글 출력
 		ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
 		mo.addAttribute("list", list);
-		System.out.println("디티오 확인"+list);
-		
+	
 		//해당 글에 답 여부(댓글 갯수) 수정
 		int reply_count=0;
 		reply_count= ss.inquire_reply_count(inquire_num);
@@ -496,7 +473,6 @@ public class InquireController {
 		 
 		ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
 		mo.addAttribute("list", list);
-		System.out.println("디티오 확인"+list);
 	     
 	   //해당 문의글의 답 여부(댓글 갯수) 수정
 		int reply_count=0;
@@ -522,15 +498,13 @@ public class InquireController {
 	    int inquire_reply_num = Integer.parseInt(request.getParameter("inquire_reply_num"));
 	  	int inquire_num = Integer.parseInt(request.getParameter("inquire_num"));
 	  	String newcontent = request.getParameter("newcontent");
-	  	
-	    System.out.println("문의 답변 수정 확인1 : "+inquire_num + "문의 답변 수정 확인2 : "+inquire_reply_num);
+	  	 
 	    Service ss = sqlsession.getMapper(Service.class);
 	    
 	    ss.inquire_reply_modify(newcontent, inquire_reply_num);
 	    
 	    ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
 		mo.addAttribute("list", list);
-		System.out.println("디티오 확인"+list);
 		
 		//문의글 디테일에 가져가는 정보
 		InquireDTO dto=ss.inquire_detail(inquire_num);
@@ -606,19 +580,13 @@ public class InquireController {
         String category = request.getParameter("category");
         String content = request.getParameter("content");
         
-        System.out.println("체크 1: "+id);
-        System.out.println("체크 2: "+ban_inquire_num);
-        System.out.println("체크 3: "+category);
-        System.out.println("체크 4: "+content);
-
         Service ss=sqlsession.getMapper(Service.class);
         String inquire_check="";
         String result="";
         inquire_check=ss.inquire_ban_check(id, ban_inquire_num, category, content); //동일한 사람이 동일한 글을 동일한 사유로 여러번 신고할 수 없도록 중복 방지
-        System.out.println("가져온 신고글 제목: "+inquire_check);
+        
         if (inquire_check==null) {result="ok";}
         else {result="nope";}
-        System.out.println("결과 "+result);
         
         return result;
 	}
@@ -679,13 +647,10 @@ public class InquireController {
 	    else if(cntPerPage==null) {
 	       cntPerPage="5";
 	    }      
-	    System.out.println("현재 페이지 : "+nowPage); // 어디에 있냐에 따라 다름
-	    System.out.println("페이지 당 레코드 수 : "+cntPerPage); // 5개
 	    
 	    // 3) 전체 게시글 수 DB에서 구해오기
 	    Service ss = sqlsession.getMapper(Service.class);
 	    int total=ss.inquire_ban_list_total();
-	    System.out.println("총 레코드의 개수 : "+total);
 	     
 	    // 생성자로 나머지 페이지 처리에 필요한 필드값들도 모두 계산
 	    // 3가지 인수 넣어주기
@@ -830,13 +795,6 @@ public class InquireController {
 			pic5=filesavee5(pic5, mf5.getBytes());
 			}
 		else {pic5="nope";}
-	    
-		System.out.println("각종 정보: "+title+category+name+id+email+content);
-	    System.out.println("첫 번째 사진:" + pic1);
-	    System.out.println("두 번째 사진:" + pic2);
-	    System.out.println("세 번째 사진:" + pic3);
-	    System.out.println("네 번째 사진:" + pic4);
-	    System.out.println("다섯 번째 사진:" + pic5);
 
 	    Service ss = sqlsession.getMapper(Service.class);
 	    ss.inquire_personal_save(title, name, id, email, category, content, pic1, pic2, pic3, pic4, pic5);
@@ -908,13 +866,10 @@ public class InquireController {
 	    else if(cntPerPage==null) {
 	       cntPerPage="5";
 	    }      
-	    System.out.println("현재 페이지 : "+nowPage); // 어디에 있냐에 따라 다름
-	    System.out.println("페이지 당 레코드 수 : "+cntPerPage); // 5개
 	    
 	    // 3) 전체 게시글 수 DB에서 구해오기
 	    Service ss = sqlsession.getMapper(Service.class);
 	    int total_personal=ss.inquire_list_total_personal();
-	    System.out.println("총 레코드의 개수 : "+total_personal);
 	     
 	    // 생성자로 나머지 페이지 처리에 필요한 필드값들도 모두 계산
 	    // 3가지 인수 넣어주기

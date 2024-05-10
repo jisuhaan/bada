@@ -92,6 +92,15 @@
     text-align: center; /* 텍스트 중앙 정렬 */
 }
 
+.action-item .img-container {
+    height: 100px; /* 이미지 컨테이너 높이 동일 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* 너비 100% */
+}
+
+
 /* 아래쪽의 버튼들 */
 .action-button {
     background-color: #CDE4F2;
@@ -116,5 +125,25 @@
   	display: flex;
   	justify-content: center;
   	align-items: center;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1); /* 원래 크기 */
+    }
+    50% {
+        transform: scale(1.1); /* 10% 더 커짐 */
+    }
+    100% {
+        transform: scale(1); /* 다시 원래 크기 */
+    }
+}
+
+.pulse-animation {
+	width: 200px;  /* 이미지 너비 고정 */
+    height: 130px; /* 이미지 높이 고정 */
+    object-fit: contain;
+    animation: pulse 2s infinite; /* 애니메이션 지속시간 2초, 무한 반복 */
+    transition: transform 0.5s ease-in-out; /* 부드러운 변형을 위한 트랜지션 설정 */
 }
 

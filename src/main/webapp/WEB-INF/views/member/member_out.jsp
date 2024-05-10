@@ -63,7 +63,7 @@
 					</c:choose>
 		        </td>
 		        <td colspan="2" align="center">
-		        	<a href="member_detail?user_number=${m.user_number}"><input type="button" value="상세 정보 확인"></a>
+		        	<input type="button" value="상세 정보 확인" class="btn" onclick="window.location.href='member_detail?user_number=${m.user_number}'">
 		        </td>
 		      </tr>
 		      </c:forEach>

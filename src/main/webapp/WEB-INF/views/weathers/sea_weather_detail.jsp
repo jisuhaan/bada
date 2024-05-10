@@ -4,87 +4,99 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="${pageContext.request.contextPath}/resources/css/sea_result.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/resources/css/slide.css" rel="stylesheet" type="text/css">
-<meta charset="UTF-8">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
-    var beach_code = ${beach_code};
-</script>
-<script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", function() {
-        // 월 입력 요소
-        var monthInput = document.getElementById("beachMonth");
-        // 일 입력 요소
-        var dayInput = document.getElementById("beachDay");
-        // 현재 연도 가져오기
-        var currentYear = new Date().getFullYear();
-
-        // 월이 변경될 때 이벤트 처리
-        monthInput.addEventListener("change", function() {
-            // 선택한 월 가져오기
-            var selectedMonth = parseInt(monthInput.value);
-            // 선택한 월에 따라 해당 월의 일수 계산
-            var daysInMonth = new Date(currentYear, selectedMonth, 0).getDate();
-            // 일의 최대값을 월에 따라 변경
-            dayInput.max = daysInMonth;
-        });
-     	
-        // 달 입력 필드의 값이 변경될 때 이벤트 처리
-        dayInput.addEventListener("input", function() {
-            // 입력된 값이 min/max 범위를 벗어나면 수정
-            if (parseInt(dayInput.value) < parseInt(dayInput.min)) {
-                dayInput.value = dayInput.min;
-            } else if (parseInt(dayInput.value) > parseInt(dayInput.max)) {
-                dayInput.value = dayInput.max;
-            }
-        });
-        
-     	// 일자 입력 필드의 값이 변경되는 이벤트 발생 시 처리
-        monthInput.addEventListener("input", function() {
-            // 사용자가 입력한 값이 최대값을 초과하는지 확인
-            if (parseInt(monthInput.value) > parseInt(monthInput.max)) {
-                // 최대값으로 변경
-                monthInput.value = monthInput.max;
-            }
-        });
-    });
-</script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("#searchBtn").click(function() {
-            // 월 입력 요소
-            var monthInput = parseInt($("#beachMonth").val());
-            // 일 입력 요소
-            var dayInput = parseInt($("#beachDay").val());
-            // 현재 연도 가져오기
-            var currentYear = new Date().getFullYear();
-            
-            if (isNaN(monthInput) || monthInput < 1 || monthInput > 12) {
-                alert("월을 올바르게 입력해주세요 (1에서 12 사이).");
-                return;
-            }
-            
-            var maxDay = parseInt($("#beachDay").attr("max"));
-            
-            if (isNaN(dayInput) || dayInput < 1 || dayInput > maxDay) {
-                alert("일을 올바르게 입력해주세요 (1에서 " + maxDay + " 사이).");
-                return;
-            }
-            
-            getWthrDataList(monthInput, dayInput, currentYear, beach_code);
-            alert("지난 바다 날씨 검색을 시작합니다.");
-        });
-    });
-</script>
-<title>Insert title here</title>
-
-<style type="text/css">
-	.hidden {
-	    display: none;
-	}
-</style>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="${pageContext.request.contextPath}/resources/css/sea_result.css" rel="stylesheet" type="text/css">
+	<link href="${pageContext.request.contextPath}/resources/css/slide.css" rel="stylesheet" type="text/css">
+	<meta charset="UTF-8">
+	
+	<!-- ECharts library -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.2.1/dist/echarts.min.js"></script>
+    <style>
+        /* Optional: Add styling to the chart container */
+        #temperature-chart {
+            width: 800px;
+            height: 400px;
+            margin: 0 auto;
+        }
+    </style>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script>
+	    var beach_code = ${beach_code};
+	</script>
+	<script type="text/javascript">
+	    document.addEventListener("DOMContentLoaded", function() {
+	        // 월 입력 요소
+	        var monthInput = document.getElementById("beachMonth");
+	        // 일 입력 요소
+	        var dayInput = document.getElementById("beachDay");
+	        // 현재 연도 가져오기
+	        var currentYear = new Date().getFullYear();
+	
+	        // 월이 변경될 때 이벤트 처리
+	        monthInput.addEventListener("change", function() {
+	            // 선택한 월 가져오기
+	            var selectedMonth = parseInt(monthInput.value);
+	            // 선택한 월에 따라 해당 월의 일수 계산
+	            var daysInMonth = new Date(currentYear, selectedMonth, 0).getDate();
+	            // 일의 최대값을 월에 따라 변경
+	            dayInput.max = daysInMonth;
+	        });
+	     	
+	        // 달 입력 필드의 값이 변경될 때 이벤트 처리
+	        dayInput.addEventListener("input", function() {
+	            // 입력된 값이 min/max 범위를 벗어나면 수정
+	            if (parseInt(dayInput.value) < parseInt(dayInput.min)) {
+	                dayInput.value = dayInput.min;
+	            } else if (parseInt(dayInput.value) > parseInt(dayInput.max)) {
+	                dayInput.value = dayInput.max;
+	            }
+	        });
+	        
+	     	// 일자 입력 필드의 값이 변경되는 이벤트 발생 시 처리
+	        monthInput.addEventListener("input", function() {
+	            // 사용자가 입력한 값이 최대값을 초과하는지 확인
+	            if (parseInt(monthInput.value) > parseInt(monthInput.max)) {
+	                // 최대값으로 변경
+	                monthInput.value = monthInput.max;
+	            }
+	        });
+	    });
+	</script>
+	<script type="text/javascript">
+	    $(document).ready(function() {
+	        $("#searchBtn").click(function() {
+	            // 월 입력 요소
+	            var monthInput = parseInt($("#beachMonth").val());
+	            // 일 입력 요소
+	            var dayInput = parseInt($("#beachDay").val());
+	            // 현재 연도 가져오기
+	            var currentYear = new Date().getFullYear();
+	            
+	            if (isNaN(monthInput) || monthInput < 1 || monthInput > 12) {
+	                alert("월을 올바르게 입력해주세요 (1에서 12 사이).");
+	                return;
+	            }
+	            
+	            var maxDay = parseInt($("#beachDay").attr("max"));
+	            
+	            if (isNaN(dayInput) || dayInput < 1 || dayInput > maxDay) {
+	                alert("일을 올바르게 입력해주세요 (1에서 " + maxDay + " 사이).");
+	                return;
+	            }
+	            
+	            getWthrDataList(monthInput, dayInput, currentYear, beach_code);
+	            alert("지난 바다 날씨 검색을 시작합니다.");
+	        });
+	    });
+	</script>
+	<title>Insert title here</title>
+	
+	<style type="text/css">
+		.hidden {
+		    display: none;
+		}
+	</style>
 
 </head>
 <body>
@@ -98,6 +110,9 @@
 </c:if>
 
 <c:if test="${not empty groupedData}">
+	<!-- 차트 컨테이너 -->
+    <div id="temperature-chart"></div>
+    
     <c:set var="timeLoop" value="0"/>
 	<c:forEach var="dateEntry" items="${groupedData}" varStatus="loop">
 	<c:if test="${loop.index lt 3}">
@@ -138,6 +153,44 @@
 	</c:forEach>
 </c:if>
 
+<script>
+        // 자바스크립트 코드로 기온 차트를 생성합니다.
+        document.addEventListener("DOMContentLoaded", function() {
+            // JSP에서 기온 데이터를 가져와 자바스크립트 객체로 변환합니다.
+            var temperatureData = ${temperatureData}; // temperatureData가 JSON 문자열이라고 가정합니다.
+
+            // 시간과 기온 데이터를 추출합니다.
+            var times = Object.keys(temperatureData);
+            var temperatures = Object.values(temperatureData);
+
+            // ECharts 인스턴스를 초기화합니다.
+            var chart = echarts.init(document.getElementById('temperature-chart'));
+
+            // 차트 옵션을 설정합니다.
+            var options = {
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: '{b0}: {c0}°C' // 툴팁 형식
+                },
+                xAxis: {
+                    type: 'category',
+                    data: times // 시간 데이터
+                },
+                yAxis: {
+                    type: 'value',
+                    name: '기온 (°C)' // Y축 레이블
+                },
+                series: [{
+                    data: temperatures, // 기온 데이터
+                    type: 'line',
+                    smooth: true // 부드러운 선
+                }]
+            };
+
+            // 옵션을 설정하고 차트를 렌더링합니다.
+            chart.setOption(options);
+        });
+    </script>
 
 <script src="./resources/js/sea_weatherEmoticon.js"></script>
 <script>

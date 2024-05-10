@@ -158,8 +158,14 @@ if(hs.getAttribute("loginstate")==null){
       <div id="beach_name">날씨 정보 요약</div>
       
       <div class="today_container">
+         <c:if test="${not empty errorMessage}">
+         	<div>현재 기상 API 연결이 불안정합니다.</div>
+         </c:if>
          <div id="clock_by_hour"></div>
-         <div class="name_beach">${bdt.beach_name}의</div>
+         <div class="name_beach">
+         	<c:if test="${empty travelIndex}">오늘 ${bdt.beach_name}의 날씨는</c:if>
+         	<c:if test="${not empty travelIndex}">오늘 ${bdt.beach_name}은 바다 여행 가기 ${travelIndex}요</c:if>
+         </div>
          
          <div class="todays now1 hidden">
             <div class="weather nowing">

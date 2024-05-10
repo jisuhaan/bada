@@ -34,7 +34,7 @@ public class InquireController {
 	@Autowired
 	SqlSession sqlsession;
 	   
-	String imagepath="C:\\coding\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
+	String imagepath="C:\\이젠디지탈12\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
 	
 	
 	

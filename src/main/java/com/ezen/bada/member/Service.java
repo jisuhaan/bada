@@ -56,7 +56,7 @@ public interface Service {
 	
 	MemberDTO lookpw(String id, String email);
    
-	ArrayList<MemberDTO> member_detail_out(int user_number);
+	MemberDTO member_detail_out(int user_number);
 
 	
 

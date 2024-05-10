@@ -1,0 +1,76 @@
+@charset "UTF-8";
+
+    .my_post_table {
+    	margin:0 auto;
+        width: 110%; 
+        display: flex;
+	    justify-content: space-between;
+	    align-items: center;
+	    flex-wrap: wrap;
+	    margin-top: 50px;
+	    font-size: 14px;
+    }
+    
+    .content-container{
+    	width:48%;
+    	margin: 0 auto;
+    	display: flex;
+    	flex-direction:column;
+    	justify-content: center;
+    	align-items: center;
+    	min-height: 400px; /* 최소 높이 설정 */
+    }
+    
+    .table-title {
+    	width: 200px;
+    	margin: 10px auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        margin-bottom: 15px;
+        padding: 10px;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .table-container {
+    	width:100%;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        padding: 20px;
+        height: auto; /* 높이를 자동으로 조정하지 않고 */
+    	min-height: 250px; /* 최소 높이 설정 */
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    td {
+    	text-align: center;
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+    }
+	
+	th:last-child {
+		border-top: 1px solid darkgray;
+	}
+    
+    th {
+    	text-align: center;
+        background-color: #f0f0f0;
+    }
+    
+    .table-container:last-child {
+        margin-bottom: 0;
+    }
+    
+    .ellipsis {
+	    max-width: 150px;
+	    overflow: hidden;
+	    white-space: nowrap;
+	    text-overflow: ellipsis;
+	}

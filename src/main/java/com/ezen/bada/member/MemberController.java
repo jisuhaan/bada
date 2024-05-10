@@ -155,7 +155,7 @@ public class MemberController {
       int user_number = Integer.parseInt(request.getParameter("user_number"));
       
       Service ss=sqlsession.getMapper(Service.class);
-      ArrayList<MemberDTO> list=ss.member_detail_out(user_number);
+      MemberDTO list = ss.member_detail_out(user_number);
       mo.addAttribute("list", list);
       
       return "member_detail";
@@ -199,7 +199,7 @@ public class MemberController {
       int user_number = Integer.parseInt(request.getParameter("user_number"));
       
       Service ss=sqlsession.getMapper(Service.class);
-      ArrayList<MemberDTO> list=ss.member_detail_out(user_number);
+      MemberDTO list = ss.member_detail_out(user_number);
       mo.addAttribute("list", list);
       
       return "member_modify_view";
@@ -404,7 +404,7 @@ public class MemberController {
          hs.setAttribute("loginid", id);
          hs.setAttribute("pw", pw);
          hs.setAttribute("position", logincount);
-         hs.setMaxInactiveInterval(600);
+         hs.setMaxInactiveInterval(3600);
          
          if(!bbti.equals("")) {
         	 ss.insertbbti(bbti, id);
@@ -416,10 +416,7 @@ public class MemberController {
       return result;
    }
    
-   
-   
-   
-   
+
    //로그아웃 메소드
    @RequestMapping(value = "/logout")
    public String logout(HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -441,78 +438,91 @@ public class MemberController {
    }
    
    
-   
-   
-   
    //마이페이지 창
    @RequestMapping(value = "/mypage")
-   public String mypage_post(HttpServletRequest request, PageDTO dto, Model mo) {
+   public String mypage_post(HttpServletRequest request, HttpServletResponse response, PageDTO dto, Model mo) throws IOException {
 	   
-	  String loginid = (String) request.getSession().getAttribute("loginid");
+	  HttpSession hs = request.getSession();
 	   
-	  Service ss = sqlsession.getMapper(Service.class);
-	   // 리뷰페이징처리
-	  String nowPage=request.getParameter("nowPage");
-      String cntPerPage=request.getParameter("cntPerPage");
-
-		int total1=ss.my_review_total(loginid);
-
-        if(nowPage==null && cntPerPage == null) {
-  
-       	 nowPage="1";                              
-         cntPerPage="5";
-
-        }
-        else if(nowPage==null) {
-           nowPage="1";
-        }
-        else if(cntPerPage==null) {
-           cntPerPage="5";
-        }
-		
-        dto=new PageDTO(total1,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
-        mo.addAttribute("paging",dto);
-        mo.addAttribute("list1",ss.my_review(dto.getStart(), dto.getEnd(),loginid));
-        
-        // 문의 페이징 처리
-        
-        String nowPage2=request.getParameter("nowPage2");
-        String cntPerPage2=request.getParameter("cntPerPage2");
-        
-        int total2=ss.inquire_total(loginid);
-        
-        if(nowPage2==null && cntPerPage2 == null) {
-        	  
-          	nowPage2="1";                              
-            cntPerPage2="5";
-
-           }
-           else if(nowPage2==null) {
-              nowPage2="1";
-           }
-           else if(cntPerPage2==null) {
-              cntPerPage2="5";
-           }
-        
-        PageDTO i_dto = new PageDTO(total2, Integer.parseInt(nowPage2), Integer.parseInt(cntPerPage2));
-        mo.addAttribute("paging_i", i_dto);
-        mo.addAttribute("list2", ss.my_inquire(i_dto.getStart(), i_dto.getEnd(), loginid));
-	   
-        MemberDTO result = ss.myinfo_main(loginid);
-        
-        int total3=ss.bookmark_total(loginid);
-        
-        mo.addAttribute("info", result);
-        mo.addAttribute("review", total1);
-        mo.addAttribute("inquire", total2);
-        mo.addAttribute("bookmark", total3);
-        
-	return "mypage";   
+	  if(hs.getAttribute("loginstate")==null||hs.getAttribute("loginid")==null) {
+		  
+	      response.setCharacterEncoding("UTF-8");
+	      response.setContentType("text/html; charset=UTF-8");
+	      PrintWriter out = response.getWriter();
+	      out.print("<script type='text/javascript'> alert('로그인이 필요한 기능입니다!'); window.location.replace('login')");
+	      out.print("</script>");
+		 
+		  
+		  return null;
+		  
+	  }
+	  else {
+		  
+		  String loginid = (String) request.getSession().getAttribute("loginid");
+		   
+		  Service ss = sqlsession.getMapper(Service.class);
+		   // 리뷰페이징처리
+		  String nowPage=request.getParameter("nowPage");
+	      String cntPerPage=request.getParameter("cntPerPage");
+	
+			int total1=ss.my_review_total(loginid);
+	
+	        if(nowPage==null && cntPerPage == null) {
+	  
+	       	 nowPage="1";                              
+	         cntPerPage="5";
+	
+	        }
+	        else if(nowPage==null) {
+	           nowPage="1";
+	        }
+	        else if(cntPerPage==null) {
+	           cntPerPage="5";
+	        }
+			
+	        dto=new PageDTO(total1,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+	        mo.addAttribute("paging",dto);
+	        mo.addAttribute("list1",ss.my_review(dto.getStart(), dto.getEnd(),loginid));
+	        
+	        // 문의 페이징 처리
+	        
+	        String nowPage2=request.getParameter("nowPage2");
+	        String cntPerPage2=request.getParameter("cntPerPage2");
+	        
+	        int total2=ss.inquire_total(loginid);
+	        
+	        if(nowPage2==null && cntPerPage2 == null) {
+	        	  
+	          	nowPage2="1";                              
+	            cntPerPage2="5";
+	
+	           }
+	           else if(nowPage2==null) {
+	              nowPage2="1";
+	           }
+	           else if(cntPerPage2==null) {
+	              cntPerPage2="5";
+	           }
+	        
+	        PageDTO i_dto = new PageDTO(total2, Integer.parseInt(nowPage2), Integer.parseInt(cntPerPage2));
+	        mo.addAttribute("paging_i", i_dto);
+	        mo.addAttribute("list2", ss.my_inquire(i_dto.getStart(), i_dto.getEnd(), loginid));
+		   
+	        MemberDTO result = ss.myinfo_main(loginid);
+	        
+	        int total3=ss.bookmark_total(loginid);
+	        
+	        mo.addAttribute("info", result);
+	        mo.addAttribute("review", total1);
+	        mo.addAttribute("inquire", total2);
+	        mo.addAttribute("bookmark", total3);
+	        
+	        return "mypage";
+	        
+	  }
+           
    }
-   
-   
-   
-   
+
    
    //마이페이지에서 회원 정보 수정 입력창
    @RequestMapping(value = "/info_modify")
@@ -574,9 +584,7 @@ public class MemberController {
            return result; 
        } 
    }
-   
-   
-   
+    
    
    
    //탈퇴하기
@@ -595,9 +603,7 @@ public class MemberController {
 
       return "main";
    }
-   
-   
-   
+
    
    
    //마이페이지에서 내가 쓴 문의글을 확인
@@ -617,14 +623,14 @@ public class MemberController {
 	       
 	  	 nowPage="1";
 	                                                    
-	  	 cntPerPage="20";
+	  	 cntPerPage="5";
 	   
 	   }
 	   else if(nowPage==null) {
 	      nowPage="1";
 	   }
 	   else if(cntPerPage==null) {
-	      cntPerPage="20";
+	      cntPerPage="5";
 	   }
 		
 	   dto=new PageDTO(my_require_total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
@@ -656,14 +662,14 @@ public class MemberController {
            
       	 nowPage="1";
                                                             
-        cntPerPage="20";
+        cntPerPage="5";
        
        }
        else if(nowPage==null) {
           nowPage="1";
        }
        else if(cntPerPage==null) {
-          cntPerPage="20";
+          cntPerPage="5";
        }
 		
        dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
@@ -689,8 +695,6 @@ public class MemberController {
    
    
    
-   
-   
    //bbti 파트
    //회원 가입 후 bbti 테스트로 이동하는 경우
    @RequestMapping(value = "/member_try_bbti")
@@ -702,9 +706,7 @@ public class MemberController {
       return "member_try_bbti";
    }
    
-   
-   
-   
+
    
    //bbti값 저장하기
    @ResponseBody
@@ -773,11 +775,10 @@ public class MemberController {
 		out.print("</script>");
 		out.flush();
 	   
-	return null;
+		return null;
+	
    }
-   
-   
-   
+  
    
    
    //회원의 bbti 리스트
@@ -792,8 +793,6 @@ public class MemberController {
    
    
    
-   
-   
    //bbti 정보를 갖고 회원가입을 할 경우
    @RequestMapping(value = "/join_with")
    public String bbti3(HttpServletRequest request, Model mo) {
@@ -801,7 +800,7 @@ public class MemberController {
 	   String bbti = request.getParameter("bbti");
 	   mo.addAttribute("bbti",bbti);
 	   
-	return "member_join";
+	   return "member_join";
    }
    
    
@@ -813,12 +812,10 @@ public class MemberController {
 	   String bbti = request.getParameter("bbti");
 	   mo.addAttribute("bbti",bbti);
 	   
-	return "login";
+	   return "login";
    }
    
-   
-   
-   
+    
    
    //마이페이지에서 bbti를 확인할 시 내 bbti 정보가 있는지 확인
    @ResponseBody

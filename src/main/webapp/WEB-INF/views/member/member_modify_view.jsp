@@ -149,8 +149,7 @@
 <div class="memberform">
 	
 	<form action="member_admin_check" method="post">
-	<c:forEach items="${list}" var="li">
-	<input type="hidden" name="user_number" id="user_number" value="${li.user_number}">
+	<input type="hidden" name="user_number" id="user_number" value="${list.user_number}">
 		
 		<div class="form_text">
 		회원정보 수정
@@ -158,12 +157,12 @@
 		<br><hr><br>
 		<div class="form_title">&nbsp;아이디</div>
 		<div class="join_input">
-		<input type="text" name="id" id="id" value="${li.id}" readonly>
+		<input type="text" name="id" id="id" value="${list.id}" readonly>
 		</div>
 		<br>
 	    <div class="form_title">&nbsp;비밀번호</div>
 	    <div class="join_input">
-	    <input type="password" name="pw" value="${li.pw}" id="pw" placeholder="영어 소문자와 숫자를 포함해 6-20자" required>
+	    <input type="password" name="pw" value="${list.pw}" id="pw" placeholder="영어 소문자와 숫자를 포함해 6-20자" required>
 	    </div>
 	    <br>
 		 <div class="form_title">&nbsp;비밀번호 확인</div>
@@ -173,29 +172,29 @@
 		<br>
 		 <div class="form_title">&nbsp;닉네임</div>
 		<div class="join_input">
-		<input type="text" id="name" value="${li.name}" placeholder="닉네임을 입력해주세요." required>
+		<input type="text" id="name" value="${list.name}" placeholder="닉네임을 입력해주세요." required>
 		</div>
 		<br>
 		 <div class="form_title">&nbsp;이메일</div>
 		<div class="join_input">
-		<input type="text" id="email" value="${li.email}" placeholder="이메일을 ----@--.- 형식으로 입력해주세요." required>
+		<input type="text" id="email" value="${list.email}" placeholder="이메일을 ----@--.- 형식으로 입력해주세요." required>
 		<input type="button" value="중복 확인" id="emailcheck" class="btn_1">
 		</div>
 		<br>
 		<div class="join_radio">
 		<div class="form_title">&nbsp;성별</div>
 		<label for="male" class="radio_btn">
-		<input type="radio" name="gender" value="male" id="male" <c:if test="${li.gender eq 'male'}">checked</c:if>>
+		<input type="radio" name="gender" value="male" id="male" <c:if test="${list.gender eq 'male'}">checked</c:if>>
 		<span class="on"></span>
 		남성
 		</label>
 		<label for="female" class="radio_btn">
-		<input type="radio" name="gender" value="female" id="female" <c:if test="${li.gender eq 'female'}">checked</c:if>>
+		<input type="radio" name="gender" value="female" id="female" <c:if test="${list.gender eq 'female'}">checked</c:if>>
 		<span class="on"></span>
 		여성
 		</label>
 		<label for="other" class="radio_btn">
-		<input type="radio" name="gender" value="other" id="other" <c:if test="${li.gender eq 'other'}">checked</c:if>>
+		<input type="radio" name="gender" value="other" id="other" <c:if test="${list.gender eq 'other'}">checked</c:if>>
 		<span class="on"></span>
 		기타(밝히고 싶지 않음 외)
 		</label>
@@ -205,20 +204,19 @@
 		<div class="join_select">
 		<select id="age" required>
 		    <option value="">나이대를 선택해주세요.</option>
-		    <option value="10" <c:if test="${li.age eq 10}">selected</c:if>>10대 이하</option>
-		    <option value="20" <c:if test="${li.age eq 20}">selected</c:if>>20대</option>
-		    <option value="30" <c:if test="${li.age eq 30}">selected</c:if>>30대</option>
-		    <option value="40" <c:if test="${li.age eq 40}">selected</c:if>>40대</option>
-		    <option value="50" <c:if test="${li.age eq 50}">selected</c:if>>50대</option>
-		    <option value="60" <c:if test="${li.age eq 60}">selected</c:if>>60대 이상</option>
+		    <option value="10" <c:if test="${list.age eq 10}">selected</c:if>>10대 이하</option>
+		    <option value="20" <c:if test="${list.age eq 20}">selected</c:if>>20대</option>
+		    <option value="30" <c:if test="${list.age eq 30}">selected</c:if>>30대</option>
+		    <option value="40" <c:if test="${list.age eq 40}">selected</c:if>>40대</option>
+		    <option value="50" <c:if test="${list.age eq 50}">selected</c:if>>50대</option>
+		    <option value="60" <c:if test="${list.age eq 60}">selected</c:if>>60대 이상</option>
 		</select>
 		</div>
 		<br><hr><br>
 		<div class="submit_btns">
 		<button id="submitBtn" class="btn_2"><span id="btn_text">수정하기</span></button>
-		<button onclick="location.href='member_out'"class="btn_2 backbtn"><span id="btn_text">돌아가기</span></button>
+		<button onclick="window.location.href='member_out'"class="btn_2 backbtn"><span id="btn_text">돌아가기</span></button>
      	</div>                   	        
-	    </c:forEach>
 	  </form>  
 	</div>
 

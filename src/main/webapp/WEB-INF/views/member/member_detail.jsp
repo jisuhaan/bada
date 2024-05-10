@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/list.s/jquery/3.3.1/jquery.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("#memberdel").click(function(){
@@ -50,50 +50,93 @@
 		});
 	</script>
 
+<style type="text/css">
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+container{
+	margin: 0 auto;
+	margin-top: 100px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+table {
+	margin-top: 100px;
+	border-collapse: collapse;
+	border-spacing: 0;
+	border:1px solid gray;
+	width: 400px;
+	background-color: #F1F1F1;
+	font-family: 'Pretendard-Regular';
+	font-size: 16px;
+}
+
+th {
+	padding:5px;
+	border-bottom: 1px solid gray;
+	background-color: #B3B3B3;
+}
+
+td {
+	padding:5px; 
+	text-align: center;
+	vertical-align: middle;
+	border-bottom: 1px solid gray;
+}
+
+</style>
 
 </head>
 <body>
 
 <c:choose>
-	<c:when test="${loginstate==true && position=='admin'}">
+<c:when test="${loginstate==true && position=='admin'}">
 
-	<div style="text-align: center;">
-		<c:forEach items="${list}" var="li">
-	    <table border="1" width="600" align="center">
+	<div class="container">
+	    <table class="detail_table">
+	    	<tr>
+	    		<th colspan="2">회원정보</th>
+	    	</tr>
 	        <tr>
 	        	<th>일련번호</th>
-	        	<td>${li.user_number}</td> 
+	        	<td>${list.user_number}</td> 
 	        </tr>
 	        <tr>
 	        	<th>아이디</th>
 	        	<td>
-	        	${li.id}
-	        	 <input type="hidden" name="id" id="id" value="${li.id}" readonly>
+	        	${list.id}
+	        	 <input type="hidden" name="id" id="id" value="${list.id}" readonly>
 	        	</td> 
 	        </tr>
 	        <tr>
 	        	<th>패스워드</th>
-	        	<td>${li.pw}</td> 
+	        	<td>${list.pw}</td> 
 	        </tr>
    	        <tr>
 	        	<th>권한</th>
-	        	<td>${li.role}</td> 
+	        	<td>${list.role}</td> 
 	        </tr>
 	       	<tr>
 	        	<th>닉네임</th>
-	        	<td>${li.name}</td> 
+	        	<td>${list.name}</td> 
 	        </tr>
 	       	<tr>
 	        	<th>이메일</th>
-	        	<td>${li.email}</td> 
+	        	<td>${list.email}</td> 
 	        </tr>
 	       	<tr>
 	        	<th>성별</th>
 	        	<td>
 		        	<c:choose>
-						    <c:when test="${li.gender == 'male'}">남성</c:when>
-						    <c:when test="${li.gender == 'female'}">여성</c:when>
-						    <c:when test="${li.gender == 'other'}">밝히고 싶지 않음(기타)</c:when>
+						    <c:when test="${list.gender == 'male'}">남성</c:when>
+						    <c:when test="${list.gender == 'female'}">여성</c:when>
+						    <c:when test="${list.gender == 'other'}">밝히고 싶지 않음(기타)</c:when>
 					</c:choose>
 		        </td> 
 	        </tr>	   
@@ -101,12 +144,12 @@
 	        	<th>연령대</th>
 	        	<td>
 		        	<c:choose>
-						    <c:when test="${li.age == 10}">10대 이하</c:when>
-						    <c:when test="${li.age == 20}">20대</c:when>
-						    <c:when test="${li.age == 30}">30대</c:when>
-						    <c:when test="${li.age == 40}">40대</c:when>
-						    <c:when test="${li.age == 50}">50대</c:when>
-						    <c:when test="${li.age == 60}">60대 이상</c:when>
+						    <c:when test="${list.age == 10}">10대 이하</c:when>
+						    <c:when test="${list.age == 20}">20대</c:when>
+						    <c:when test="${list.age == 30}">30대</c:when>
+						    <c:when test="${list.age == 40}">40대</c:when>
+						    <c:when test="${list.age == 50}">50대</c:when>
+						    <c:when test="${list.age == 60}">60대 이상</c:when>
 					</c:choose>
 		        </td>
 	        </tr>		
@@ -114,33 +157,30 @@
 	        	<th>bbti</th>
 	        	<td>
 	        	<c:choose>
-						    <c:when test="${empty li.bbti}">미정</c:when>
-						    <c:when test="${li.bbti == 'EAF'}">EAF::해운대</c:when>
-						    <c:when test="${li.bbti == 'EAN'}">EAN::양양</c:when>
-						    <c:when test="${li.bbti == 'EPF'}">EPF::월미도</c:when>
-						    <c:when test="${li.bbti == 'EPN'}">EPN::다대포</c:when>
-						    <c:when test="${li.bbti == 'IAF'}">IAF::서귀포</c:when>
-						    <c:when test="${li.bbti == 'IAN'}">IAN::제부도</c:when>
-						    <c:when test="${li.bbti == 'IPF'}">IPF::여수밤바다</c:when>
-						    <c:when test="${li.bbti == 'IPN'}">IPN::독도</c:when>
+						    <c:when test="${empty list.bbti}">미정</c:when>
+						    <c:when test="${list.bbti == 'EAF'}">EAF::해운대</c:when>
+						    <c:when test="${list.bbti == 'EAN'}">EAN::양양</c:when>
+						    <c:when test="${list.bbti == 'EPF'}">EPF::월미도</c:when>
+						    <c:when test="${list.bbti == 'EPN'}">EPN::다대포</c:when>
+						    <c:when test="${list.bbti == 'IAF'}">IAF::서귀포</c:when>
+						    <c:when test="${list.bbti == 'IAN'}">IAN::제부도</c:when>
+						    <c:when test="${list.bbti == 'IPF'}">IPF::여수밤바다</c:when>
+						    <c:when test="${list.bbti == 'IPN'}">IPN::독도</c:when>
 				</c:choose>
 	        	</td>
 	        </tr>	
 	       	<tr>
-	        	<td colspan="2" align="center">
-	        		<input type="button" value="삭제" id="memberdel" class="btn">&nbsp;/
-      	 			<button type="button" class="btn" onclick="location.href='member_modify_view?user_number=${li.user_number}'">수정</button>
-      			</td>
+	        	<th colspan="2" align="center">
+	        		<input type="button" value="수정" class="btn" onclick="window.location.href='member_modify_view?user_number=${list.user_number}'">
+	        		<input type="button" value="삭제" id="memberdel" class="btn">
+	        		<input type="button" value="목록으로" class="btn" onclick="window.location.href='member_out'">
+      			</th>
 	        </tr>	        	                     	        
 	    </table>
-	    </c:forEach>
 	</div>
-
-    <div style="text-align: center;"><a href="member_out">목록으로</a></div>
     
-    </c:when>
-    
-    <c:otherwise>
+</c:when>   
+<c:otherwise>
 	
 		<script>
 			window.onload = function() {
@@ -149,7 +189,7 @@
 			};
 	    </script>
 	    
-	</c:otherwise>
+</c:otherwise>
 </c:choose>
 </body>
 </html>

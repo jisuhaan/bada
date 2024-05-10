@@ -23,8 +23,11 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.ibatis.session.SqlSession;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.w3c.dom.NodeList;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -46,6 +49,9 @@ import java.io.StringReader;
 
 //디코딩된 서비스 키를 사용하고, 이를 메소드에서 인코딩 해주는 게 오류 해결의 핵심!!
 public class APIClient {
+	@Autowired
+    SqlSession sqlsession;
+	
 	ObjectMapper objectMapper = new ObjectMapper();
 	
 	
@@ -862,6 +868,5 @@ public class APIClient {
 
         return result;
     }
-
 
 }

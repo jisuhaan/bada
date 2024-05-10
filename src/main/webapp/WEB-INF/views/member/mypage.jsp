@@ -95,11 +95,13 @@ function mybbti(id){
         <div class="action-item">
         	<img src="./resources/image_bbti/${info.bbti}.png"
         		 onerror="this.onerror=null; this.src='./resources/image_bbti/NOBBTI.png'"
-        	 	 width="160px" height="130px">
+        	 	 width="200px" height="130px" class="pulse-animation">
             <button type="button" class="action-button" onclick="mybbti('${info.id}')">나의 BBTI</button>
         </div>
         <div class="action-item">
-        	<img src="./resources/image/my_bookmark.png" width="100px" height="100px">
+        <div class="img-container">
+        	<img src="./resources/image/my_bookmark.png" width="80px" height="80px">
+        	</div>
         	<p><strong>나의 북마크 <span class="number-text">${bookmark}</span>건!</strong></p>
             <button type="button" class="action-button" onclick="location.href='my_favorite'">북마크 바다</button>
         </div>

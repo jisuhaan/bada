@@ -7,82 +7,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link href="${pageContext.request.contextPath}/resources/css/my_post.css" rel="stylesheet" type="text/css">
 <title>바라는 바다 :: 나의 게시글</title>
-<style>
-
-    .my_post_table {
-    	margin:0 auto;
-        width: 110%; 
-        display: flex;
-	    justify-content: space-between;
-	    align-items: center;
-	    flex-wrap: wrap;
-	    margin-top: 50px;
-	    font-size: 14px;
-    }
-    
-    .content-container{
-    	width:48%;
-    	margin: 0 auto;
-    	display: flex;
-    	flex-direction:column;
-    	justify-content: center;
-    	align-items: center;
-    }
-    
-    .table-title {
-    	width: 200px;
-    	margin: 10px auto;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        margin-bottom: 15px;
-        padding: 10px;
-        text-align: center;
-        position: relative;
-        z-index: 2;
-    }
-    
-    .table-container {
-    	width:100%;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        padding: 20px;
-    }
-    
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    
-    td {
-    	text-align: center;
-        padding: 8px;
-        border-bottom: 1px solid #ddd;
-    }
-	
-	th:last-child {
-		border-top: 1px solid darkgray;
-	}
-    
-    th {
-    	text-align: center;
-        background-color: #f0f0f0;
-    }
-    
-    .table-container:last-child {
-        margin-bottom: 0;
-    }
-    
-    .ellipsis {
-	    max-width: 150px;
-	    overflow: hidden;
-	    white-space: nowrap;
-	    text-overflow: ellipsis;
-	}
-    
-</style>
 
 </head>
 <body>
@@ -121,7 +47,7 @@
 		   <th colspan="5" style="text-align: center;  border: none; background-color: transparent;">
 		   
 		   <c:if test="${paging.startPage!=1 }">
-		      <a href="my_post?nowPage=${paging.startPage-1 }&cntPerPage=${paging.cntPerPage}&nowPage2=${paging_i.nowPage}">◀</a>
+		      <a href="mypage?nowPage=${paging.startPage-1 }&cntPerPage=${paging.cntPerPage}&nowPage2=${paging_i.nowPage}">◀</a>
 		      
 		   </c:if>   
 		   
@@ -135,7 +61,7 @@
 		            
 		            
 		            <c:when test="${p != paging.nowPage }">
-		               <a href="my_post?nowPage=${p}&cntPerPage=${paging.cntPerPage}&nowPage2=${paging_i.nowPage}">${p}</a>
+		               <a href="mypage?nowPage=${p}&cntPerPage=${paging.cntPerPage}&nowPage2=${paging_i.nowPage}">${p}</a>
 		            </c:when> 
 		              
 		         </c:choose>
@@ -143,7 +69,7 @@
 		     
 		      <c:if test="${paging.endPage != paging.lastPage}">
 		      <!-- 끝 페이지가 마지막 페이지가 아니라면 -->
-		      <a href="my_post?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage }&nowPage2=${paging_i.nowPage}">▶</a>
+		      <a href="mypage?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage }&nowPage2=${paging_i.nowPage}">▶</a>
 		   </c:if>
 		   
 		   </th>
@@ -156,7 +82,7 @@
             </div>
             </div>
             
-      <div class="content-container">
+   <div class="content-container">
    <div class="table-title">나의 문의 현황</div>     
    <div class="table-container">      
 	<table class="my_inquire" border="1" width="1000px">
@@ -190,7 +116,7 @@
 		   <th colspan="5" style="text-align: center;  border: none; background-color: transparent;">
 		   
 		   <c:if test="${paging_i.startPage!=1 }">
-		      <a href="my_post?nowPage2=${paging_i.startPage-1 }&cntPerPage2=${paging_i.cntPerPage}&nowPage=${paging.nowPage}">◀</a>
+		      <a href="mypage?nowPage2=${paging_i.startPage-1 }&cntPerPage2=${paging_i.cntPerPage}&nowPage=${paging.nowPage}">◀</a>
 		      
 		   </c:if>   
 		   
@@ -204,7 +130,7 @@
 		            
 		            
 		            <c:when test="${p != paging_i.nowPage }">
-		               <a href="my_post?nowPage2=${p}&cntPerPage2=${paging_i.cntPerPage}&nowPage=${paging.nowPage}">${p}</a>
+		               <a href="mypage?nowPage2=${p}&cntPerPage2=${paging_i.cntPerPage}&nowPage=${paging.nowPage}">${p}</a>
 		            </c:when> 
 		              
 		         </c:choose>
@@ -212,7 +138,7 @@
 		     
 		      <c:if test="${paging_i.endPage != paging_i.lastPage}">
 		      <!-- 끝 페이지가 마지막 페이지가 아니라면 -->
-		      <a href="my_post?nowPage2=${paging_i.endPage+1}&cntPerPage2=${paging_i.cntPerPage }&nowPage=${paging.nowPage}">▶</a>
+		      <a href="mypage?nowPage2=${paging_i.endPage+1}&cntPerPage2=${paging_i.cntPerPage }&nowPage=${paging.nowPage}">▶</a>
 		   </c:if>
 		   
 		   </th>

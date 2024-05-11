@@ -164,7 +164,12 @@ if(hs.getAttribute("loginstate")==null){
          <div id="clock_by_hour"></div>
          <div class="name_beach">
          	<c:if test="${empty travelIndex}">오늘 ${bdt.beach_name}의 날씨는</c:if>
-         	<c:if test="${not empty travelIndex}">오늘 ${bdt.beach_name}은 바다 여행 가기 ${travelIndex}요</c:if>
+         	<c:if test="${not empty travelIndex}">오늘 ${bdt.beach_name}은
+         	<div class="bada_status">
+         	<span id="bada_status">바다 여행 가기 ${travelIndex}요</span>
+         	</div>
+         	</c:if>
+         	
          </div>
          
          <div class="todays now1 hidden">

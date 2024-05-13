@@ -71,22 +71,19 @@
               <div class="box-title">바다레코드</div>
               <div class="news-flex-box">
                 <div class="news-box">
+                <c:forEach items="${list2}" var="rr" varStatus="loop">            
                   <div class="news-row">
-                    <div class="news-category category-pic">리뷰1위</div>
-                    <div class="news-title">나중에1위계산</div>
+					<c:choose>
+						<c:when test="${loop.index % 2 == 0}">
+						<div class="news-category category-post">리뷰${loop.index + 1}위</div>
+						</c:when>
+						<c:otherwise>
+						<div class="news-category category-pic">리뷰${loop.index + 1}위</div>
+						</c:otherwise>
+					</c:choose>
+                    <div class="news-title">${rr}</div>
                   </div>
-                  <div class="news-row">
-                    <div class="news-category category-post">리뷰2위</div>
-                    <div class="news-title">나중에2위계산</div>
-                  </div>
-                  <div class="news-row">
-                    <div class="news-category category-pic">리뷰3위</div>
-                    <div class="news-title">나중에3위계산</div>
-                  </div>
-                  <div class="news-row">
-                  <div class="news-category category-post">리뷰4위</div>
-                    <div class="news-title">나중에4위계산</div>
-                  </div>
+                </c:forEach>
                 </div>
                 <div class="update-box">
                   <div class="menu-row">

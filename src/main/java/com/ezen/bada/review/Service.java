@@ -204,6 +204,8 @@ public interface Service {
 
 	int area_result_count(String area);
 
+	ArrayList<String> getbestreviewer();
+
 
 
 }

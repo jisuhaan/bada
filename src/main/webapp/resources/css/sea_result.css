@@ -52,6 +52,7 @@ body {
 	display: flex;
 	justify-content:center;
 	align-items:center;
+	gap:30px;
 	text-align:center;
 	flex-direction:row;
 	box-sizing: border-box;
@@ -254,9 +255,29 @@ body {
 
 .name_beach{
 	display: block;
+	justify-content:center;
+	align-items:center;
+	gap:10px;
 	text-align: center;
 	font-size: 32px;
 	font-family: 'DOSGothic';
+}
+
+.bada_status {
+	display: block;
+	justify-content: center;
+	align-items: center;
+	width:300px;
+	height:40px;
+	background-color: #CDE4F2;
+}
+
+#bada_status {
+	width:100%;
+	font-size: 28px;
+	font-family: 'DOSGothic';
+	text-align: center;
+	font-weight: 600;
 }
 
 .todays {

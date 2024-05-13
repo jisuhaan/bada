@@ -496,6 +496,19 @@ ORDER BY CASE WHEN area = '전국' THEN 1 ELSE 0 END, area
 
 </select>
 
+<select id="getbestreviewer" resultType="String">
+<![CDATA[ SELECT name
+FROM (
+    SELECT name,
+           COUNT(review_num) AS count_review, 
+           SUM(recommend) AS recommend, 
+           SUM(hits) AS hits,
+           RANK() OVER (ORDER BY COUNT(review_num) DESC, SUM(recommend) DESC, SUM(hits) DESC) AS rank
+    FROM bada_user_review
+    GROUP BY name
+) 
+WHERE rank <= 5 ]]>
+</select>
 
 <!-- 관리자 권한으로 나도 한마디를 삭제함 -->
 <delete id="one_delete">

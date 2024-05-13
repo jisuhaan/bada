@@ -174,6 +174,10 @@ public class ReviewController {
 		
 		mo.addAttribute("list", list);
 		
+		//리뷰많이쓴사람 가져오기 (1~5위)
+		ArrayList<String> list2 = ss.getbestreviewer();
+		mo.addAttribute("list2", list2);
+		
 		//한마디 가져오기
 		ArrayList<OneDTO> olist = ss.getonesentence(area);
 		mo.addAttribute("olist", olist);

@@ -12,12 +12,22 @@
 	<!-- ECharts library -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.2.1/dist/echarts.min.js"></script>
     <style>
-        /* Optional: Add styling to the chart container */
-        #temperature-chart {
-            width: 800px;
-            height: 400px;
-            margin: 0 auto;
-        }
+        
+        .chart-container {
+		    width: 800px; /* 부모 요소 너비의 800px로 설정하여 가로 스크롤을 생성 */
+		    overflow-x: auto; /* 넘치는 부분을 가로 스크롤로 표시 */
+		    white-space: nowrap; /* 차트 요소들이 한 줄에 표시되도록 설정 */
+		}
+		
+		.chart {
+			padding: 0; /* 양옆 여백 없애기 */
+			width: 2500px; /* 예시로 설정한 차트의 가로 길이 */
+		    height: 300px; /* 예시로 설정한 차트의 세로 길이 */
+		    background-color: lightgray; /* 예시로 설정한 차트의 배경색 */
+		    display: inline-block; /* 차트 요소를 한 줄에 표시 */
+		}
+
+		        
     </style>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -111,7 +121,10 @@
 
 <c:if test="${not empty groupedData}">
 	<!-- 차트 컨테이너 -->
-    <div id="temperature-chart"></div>
+	<div class="chart-container">
+	    <div id="temperature-chart" class="chart"></div>
+	</div>
+
     
     <c:set var="timeLoop" value="0"/>
 	<c:forEach var="dateEntry" items="${groupedData}" varStatus="loop">
@@ -154,34 +167,94 @@
 </c:if>
 
 <script>
+	function getTemperatureArray() {
+	    var getWeatherForecastMap = ${ForecastMapJson};
+	    var temperatureList = [];
+	
+	    var loopCount = 0;
+	
+	    // 바깥 루프를 제어하기 위한 카운터
+	    for (var date in getWeatherForecastMap) {
+	        if (loopCount >= 3) {
+	            break;
+	        }
+	        loopCount++;
+	
+	        var timeMap = getWeatherForecastMap[date];
+	        for (var time in timeMap) {
+	            temperatureList.push(timeMap[time]["TMP"]);
+	        }
+	    }
+	    console.log("삼봉 해수욕장의 기온 배열 : " + temperatureList);
+	    console.log("삼봉 해수욕장의 기온 배열 사이즈 : " + temperatureList.length);
+	    // 사이즈에서 -48+1 하면 다음날
+	    // 사이즈에서 -24+1 하면 모레
+	    return temperatureList;
+	}
+	
+	function getTimeArray() {
+	    var getWeatherForecastMap = ${ForecastMapJson};
+	    var timeList = [];
+	
+	    var loopCount = 0;
+	
+	    // 바깥 루프를 제어하기 위한 카운터
+	    for (var date in getWeatherForecastMap) {
+	        if (loopCount >= 3) {
+	            break;
+	        }
+	        loopCount++;
+	
+	        var timeMap = getWeatherForecastMap[date];
+	        for (var time in timeMap) {
+	        	timeList.push(timeMap[time]["fcstTime"]);
+	        }
+	    }
+	    return timeList;
+	}
+
         // 자바스크립트 코드로 기온 차트를 생성합니다.
         document.addEventListener("DOMContentLoaded", function() {
-            // JSP에서 기온 데이터를 가져와 자바스크립트 객체로 변환합니다.
-            var temperatureData = ${temperatureData}; // temperatureData가 JSON 문자열이라고 가정합니다.
-
-            // 시간과 기온 데이터를 추출합니다.
-            var times = Object.keys(temperatureData);
-            var temperatures = Object.values(temperatureData);
-
             // ECharts 인스턴스를 초기화합니다.
             var chart = echarts.init(document.getElementById('temperature-chart'));
 
             // 차트 옵션을 설정합니다.
             var options = {
                 tooltip: {
-                    trigger: 'axis',
-                    formatter: '{b0}: {c0}°C' // 툴팁 형식
+                    trigger: 'item',
+                    position: function (point, params, dom, rect, size) {
+                    	  var x = 150; // x 좌표 조절
+                    	  var y = 50; // y 좌표 조절
+                   	   console.log(point[0])
+                   	   if(point[0]<510){
+                   	      	return [point[0], point[1] - y];
+                    	   } else if (point[0]>510){
+                    	     	return [point[0]-x, point[1] - y];
+                    	   }
+                    },
+                    formatter: function(params) {
+                        // params에는 현재 데이터 포인트의 정보가 포함되어 있습니다.
+                        var temperature = params.value; // 현재 데이터 포인트의 기온
+                        return '기온: ' + temperature + '°C'; // 툴팁 형식 설정
+                    }
                 },
+                grid: {
+           		    left: '1%',
+           		    right: '4%',
+           		    bottom: '10%',
+           		    top: '10%',
+           		    containLabel: true
+           		},
                 xAxis: {
                     type: 'category',
-                    data: times // 시간 데이터
+                    data: getTimeArray() // 시간 데이터
                 },
                 yAxis: {
                     type: 'value',
                     name: '기온 (°C)' // Y축 레이블
                 },
                 series: [{
-                    data: temperatures, // 기온 데이터
+                    data: getTemperatureArray(), // 기온 데이터
                     type: 'line',
                     smooth: true // 부드러운 선
                 }]

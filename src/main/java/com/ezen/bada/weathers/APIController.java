@@ -78,19 +78,20 @@ public class APIController {
     
 
 	@RequestMapping(value = "/sea_weather_detail")
-	public String sea_weather_detail(HttpServletRequest request, Model mo, @RequestParam("beach_code") int beach_code) {
+	public String sea_weather_detail(HttpServletRequest request, Model mo, @RequestParam("beach_code") int beach_code) throws JsonProcessingException {
 		// 지난 해 바다 날씨 검색할 때 beach_code 필요 
 		mo.addAttribute("beach_code",beach_code);
 		
 		APIClient apiClient = new APIClient();
 		// 3일치 가져오기
 		Map<String, Map<String, VilageFcstBeach_DTO>> getWeatherForecastMap = apiClient.getWeatherForecast(beach_code, DateDAO.setForecastDate().get("date"), DateDAO.setForecastDate().get("time"));
-		
+
 		if (getWeatherForecastMap.isEmpty()) {
 		    // 맵이 비어 있는 경우
 			mo.addAttribute("errorMessage","단기 예보 API 응답 없음");
-		} else {
-		    // 맵이 비어 있지 않은 경우
+		} else {// 맵이 비어 있지 않은 경우
+			String json = objectMapper.writeValueAsString(getWeatherForecastMap);
+			mo.addAttribute("ForecastMapJson",json);
 			mo.addAttribute("groupedData",getWeatherForecastMap);
 		}
 		// 3개년치 가져오기

@@ -51,7 +51,7 @@
                 <c:choose>
                 <c:when test="${id ne '*badalove123*'}">
                    <a href="#">--------</a>
-                     <a href="my_post?loginid=${id}">마이 페이지</a>
+                     <a href="mypage?loginid=${id}">마이 페이지</a>
                      <a href="#">--------</a>
                 </c:when>
                 <c:otherwise>

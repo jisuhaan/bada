@@ -64,8 +64,8 @@
 	
 .profile-action button, additional-actions button {
     padding: 10px 20px;
-    background-color: blue;
-    color: white;
+    background-color: #fbe7c1;
+    color: black;
     border: none;
     border-radius: 4px;
     cursor: pointer;

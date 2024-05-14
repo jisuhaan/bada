@@ -905,6 +905,14 @@ public class MemberController {
 	   return "my_bbti";
    }
    
+
+   // null값의 입력에 대비한 예외처리 메소드
+	private void showAlertAndRedirect(HttpServletResponse response, String message) throws IOException {
+	    response.setContentType("text/html;charset=UTF-8");
+	    PrintWriter out = response.getWriter();
+	    out.println("<script>alert('" + message + "'); history.back();</script>");
+	    out.flush();
+	}
    
 	private void sessionExpired(HttpServletResponse response, String message) throws IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -912,7 +920,6 @@ public class MemberController {
 		PrintWriter out = response.getWriter();
 		out.print("<script type='text/javascript'> alert('"+message+"'); window.location.replace('login');");
 		out.print("</script>");
-
 	}
 	
 	private void SaveError(HttpServletResponse response) throws IOException {
@@ -925,6 +932,5 @@ public class MemberController {
 	    out.print("</script>");
 	    out.flush();
 	}
-   
 
 }

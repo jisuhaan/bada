@@ -169,7 +169,7 @@ public class MemberController {
    @RequestMapping(value = "/member_delete", method = RequestMethod.POST)
    public void memberdelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
       
-      String id = request.getParameter("id");
+        String id = request.getParameter("id");
         String admin_pw=request.getParameter("admin_pw");
         
         Service ss=sqlsession.getMapper(Service.class);
@@ -211,7 +211,7 @@ public class MemberController {
    @RequestMapping(value = "/member_admin_check", method = RequestMethod.POST)
    public void memberadmincheck(HttpServletRequest request, HttpServletResponse response) throws IOException {
       
-      String id = request.getParameter("id");
+     	String id = request.getParameter("id");
         String pw = request.getParameter("pw");
         String name = request.getParameter("name");
         String email = request.getParameter("email");
@@ -357,28 +357,28 @@ public class MemberController {
    
    
    //비밀번호 찾기를 시도하는 경우
-   @ResponseBody
-   @RequestMapping(value = "/look_pw",method = RequestMethod.POST , produces = "application/json;charset=UTF-8")
-   public String look2(HttpServletRequest request, HttpServletResponse response) {
-	   
-	   String id = request.getParameter("id");
-	   String email = request.getParameter("email");
+	@ResponseBody
+	@RequestMapping(value = "/look_pw", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public String look2(HttpServletRequest request, HttpServletResponse response) {
 
-	   Service ss = sqlsession.getMapper(Service.class);
-	   MemberDTO result = ss.lookpw(id,email);
-     
-	   JSONObject returnObj = new JSONObject();
-      
-	   try {
-		   returnObj.put("name", result.getName());
-		   returnObj.put("pw", result.getPw());
-	   } catch (NullPointerException e) {
-        
-       returnObj.put("error", "해당 회원정보로 가입된 회원이 없습니다.");
-     }
-      
-      return returnObj.toString();
-  }
+		String id = request.getParameter("id");
+		String email = request.getParameter("email");
+
+		Service ss = sqlsession.getMapper(Service.class);
+		MemberDTO result = ss.lookpw(id, email);
+
+		JSONObject returnObj = new JSONObject();
+
+		try {
+			returnObj.put("name", result.getName());
+			returnObj.put("pw", result.getPw());
+		} catch (NullPointerException e) {
+
+			returnObj.put("error", "해당 회원정보로 가입된 회원이 없습니다.");
+		}
+
+		return returnObj.toString();
+	}
    
    
    
@@ -442,135 +442,140 @@ public class MemberController {
    @RequestMapping(value = "/mypage")
    public String mypage_post(HttpServletRequest request, HttpServletResponse response, PageDTO dto, Model mo) throws IOException {
 	   
-	  HttpSession hs = request.getSession();
-	   
-	  if(hs.getAttribute("loginstate")==null||hs.getAttribute("loginid")==null) {
-		  
-	      response.setCharacterEncoding("UTF-8");
-	      response.setContentType("text/html; charset=UTF-8");
-	      PrintWriter out = response.getWriter();
-	      out.print("<script type='text/javascript'> alert('로그인이 필요한 기능입니다!'); window.location.replace('login')");
-	      out.print("</script>");
-		 
-		  
-		  return null;
-		  
-	  }
-	  else {
-		  
-		  String loginid = (String) request.getSession().getAttribute("loginid");
-		   
-		  Service ss = sqlsession.getMapper(Service.class);
-		   // 리뷰페이징처리
-		  String nowPage=request.getParameter("nowPage");
-	      String cntPerPage=request.getParameter("cntPerPage");
-	
-			int total1=ss.my_review_total(loginid);
-	
-	        if(nowPage==null && cntPerPage == null) {
-	  
-	       	 nowPage="1";                              
-	         cntPerPage="5";
-	
-	        }
-	        else if(nowPage==null) {
-	           nowPage="1";
-	        }
-	        else if(cntPerPage==null) {
-	           cntPerPage="5";
-	        }
-			
-	        dto=new PageDTO(total1,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
-	        mo.addAttribute("paging",dto);
-	        mo.addAttribute("list1",ss.my_review(dto.getStart(), dto.getEnd(),loginid));
-	        
-	        // 문의 페이징 처리
-	        
-	        String nowPage2=request.getParameter("nowPage2");
-	        String cntPerPage2=request.getParameter("cntPerPage2");
-	        
-	        int total2=ss.inquire_total(loginid);
-	        
-	        if(nowPage2==null && cntPerPage2 == null) {
-	        	  
-	          	nowPage2="1";                              
-	            cntPerPage2="5";
-	
-	           }
-	           else if(nowPage2==null) {
-	              nowPage2="1";
-	           }
-	           else if(cntPerPage2==null) {
-	              cntPerPage2="5";
-	           }
-	        
-	        PageDTO i_dto = new PageDTO(total2, Integer.parseInt(nowPage2), Integer.parseInt(cntPerPage2));
-	        mo.addAttribute("paging_i", i_dto);
-	        mo.addAttribute("list2", ss.my_inquire(i_dto.getStart(), i_dto.getEnd(), loginid));
-		   
-	        MemberDTO result = ss.myinfo_main(loginid);
-	        
-	        int total3=ss.bookmark_total(loginid);
-	        
-	        mo.addAttribute("info", result);
-	        mo.addAttribute("review", total1);
-	        mo.addAttribute("inquire", total2);
-	        mo.addAttribute("bookmark", total3);
-	        
-	        return "mypage";
-	        
-	  }
+		HttpSession hs = request.getSession();
+
+		if (hs.getAttribute("loginstate") == null || hs.getAttribute("loginid") == null) {
+
+			sessionExpired(response, "로그인이 필요한 기능입니다");
+
+			return null;
+
+		} else {
+
+			String loginid = (String) request.getSession().getAttribute("loginid");
+
+			Service ss = sqlsession.getMapper(Service.class);
+			// 리뷰페이징처리
+			String nowPage = request.getParameter("nowPage");
+			String cntPerPage = request.getParameter("cntPerPage");
+
+			int total1 = ss.my_review_total(loginid);
+
+			if (nowPage == null && cntPerPage == null) {
+
+				nowPage = "1";
+				cntPerPage = "5";
+
+			} else if (nowPage == null) {
+				nowPage = "1";
+			} else if (cntPerPage == null) {
+				cntPerPage = "5";
+			}
+
+			dto = new PageDTO(total1, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+			mo.addAttribute("paging", dto);
+			mo.addAttribute("list1", ss.my_review(dto.getStart(), dto.getEnd(), loginid));
+
+			// 문의 페이징 처리
+
+			String nowPage2 = request.getParameter("nowPage2");
+			String cntPerPage2 = request.getParameter("cntPerPage2");
+
+			int total2 = ss.inquire_total(loginid);
+
+			if (nowPage2 == null && cntPerPage2 == null) {
+
+				nowPage2 = "1";
+				cntPerPage2 = "5";
+
+			} else if (nowPage2 == null) {
+				nowPage2 = "1";
+			} else if (cntPerPage2 == null) {
+				cntPerPage2 = "5";
+			}
+
+			PageDTO i_dto = new PageDTO(total2, Integer.parseInt(nowPage2), Integer.parseInt(cntPerPage2));
+			mo.addAttribute("paging_i", i_dto);
+			mo.addAttribute("list2", ss.my_inquire(i_dto.getStart(), i_dto.getEnd(), loginid));
+
+			MemberDTO result = ss.myinfo_main(loginid);
+
+			int total3 = ss.bookmark_total(loginid);
+
+			mo.addAttribute("info", result);
+			mo.addAttribute("review", total1);
+			mo.addAttribute("inquire", total2);
+			mo.addAttribute("bookmark", total3);
+
+			return "mypage";
+
+		}
            
    }
 
    
    //마이페이지에서 회원 정보 수정 입력창
    @RequestMapping(value = "/info_modify")
-   public String mypage_modi1(HttpServletRequest request, Model mo) {
+   public String mypage_modi1(HttpServletRequest request, HttpServletResponse response, Model mo) throws IOException {
       
-     String loginid = (String) request.getSession().getAttribute("loginid");
-     Service ss = sqlsession.getMapper(Service.class);
-     MemberDTO myinfo = ss.myinfo_modify(loginid);
-     mo.addAttribute("info", myinfo);
+		HttpSession hs = request.getSession();
 
-      return "info_modify";
+		if (hs.getAttribute("loginstate") == null || hs.getAttribute("loginid") == null) {
+
+			sessionExpired(response, "로그인이 필요한 기능입니다");
+
+			return null;
+
+		} else {
+
+			String loginid = (String) request.getSession().getAttribute("loginid");
+			Service ss = sqlsession.getMapper(Service.class);
+			MemberDTO myinfo = ss.myinfo_modify(loginid);
+			mo.addAttribute("info", myinfo);
+
+			return "info_modify";
+
+		}
    }
    
    
    
    //마이페이지에서 회원정보 수정 저장
    @RequestMapping(value = "/infomodi_save" , method = RequestMethod.POST)
-   public String mypage_modi2(HttpServletRequest request) {
+   public String mypage_modi2(HttpServletRequest request, HttpServletResponse response) throws IOException {
       
        String id = request.getParameter("id");
        String email = request.getParameter("email");
        String gender = request.getParameter("gender");
        String name = request.getParameter("name");
-       int age = Integer.parseInt(request.getParameter("age"));
-       
        String pw = request.getParameter("pw");
        String original_pw = request.getParameter("original_pw");
        
+       if (id == null || email == null || gender == null || name == null || (pw != null && pw.isEmpty())) {
+           SaveError(response);
+           return null;
+       }
+
        if (pw != null && !pw.equals(original_pw)) {
            // 비밀번호 변경시
            Service service = sqlsession.getMapper(Service.class);
-           service.update_info(id, pw, email, gender, age, name);
+           service.update_info(id, pw, email, gender, Integer.parseInt(request.getParameter("age")), name);
        } else {
            // 비밀번호 미변경시
            Service service = sqlsession.getMapper(Service.class);
-           service.update_no_pw(email, gender, age, name, id);
+           service.update_no_pw(email, gender, Integer.parseInt(request.getParameter("age")), name, id);
        }
      
-      return "main";
+       	return "main";
+      
    }
    
    //비밀번호 변경 시 검증 메소드
    @ResponseBody
    @RequestMapping(value = "/checkPassword", method = RequestMethod.POST)
    public String checkPassword(HttpServletRequest request) {
+	   
        String password = request.getParameter("password");
-       
-       
        String loginid = (String) request.getSession().getAttribute("loginid");
        Service service = sqlsession.getMapper(Service.class);
        String real_pw = service.verify_Password(loginid);
@@ -587,10 +592,11 @@ public class MemberController {
     
    
    
-   //탈퇴하기
+	// 탈퇴하기
    @RequestMapping(value = "/quit")
-   public String my3(HttpServletRequest request) {
-         HttpSession hs=request.getSession();
+   public String my3(HttpServletRequest request, HttpServletResponse response) throws IOException {
+         
+	   	 HttpSession hs=request.getSession();
          String loginid = (String) request.getSession().getAttribute("loginid");
          Service service = sqlsession.getMapper(Service.class);
          service.quit_member(loginid);
@@ -602,13 +608,24 @@ public class MemberController {
          hs.removeAttribute("position");
 
       return "main";
+		  
    }
 
    
    
    //마이페이지에서 내가 쓴 문의글을 확인
    @RequestMapping(value = "my_require")
-   public String my_require(HttpServletRequest request, Model mo, PageDTO dto) {
+   public String my_require(HttpServletRequest request, HttpServletResponse response, Model mo, PageDTO dto) throws IOException {
+	   
+	   HttpSession hs = request.getSession();
+	   
+		  if(hs.getAttribute("loginstate")==null||hs.getAttribute("loginid")==null) {
+			  
+			  sessionExpired(response,"로그인이 필요한 기능입니다");
+			  
+			  return null;
+			  
+		  } else {
 	   
 	   String loginid = (String) request.getSession().getAttribute("loginid");
 	   
@@ -641,14 +658,28 @@ public class MemberController {
 	   mo.addAttribute("list2", list2);
       
 	   return "my_require";
+		  
+		 }
+		  
    }
    
    
    
    //마이페이지에서 내가 쓴 리뷰를 확인
    @RequestMapping(value = "my_review")
-	public String my_review(HttpServletRequest request, PageDTO dto, Model mo) {
+	public String my_review(HttpServletRequest request, HttpServletResponse response, PageDTO dto, Model mo) throws IOException {
 		
+	   
+	   HttpSession hs = request.getSession();
+	   
+		  if(hs.getAttribute("loginstate")==null||hs.getAttribute("loginid")==null) {
+			  
+			  sessionExpired(response,"로그인이 필요한 기능입니다");
+			 
+			  return null;
+			  
+		  } else {
+	   
 	   String loginid = (String) request.getSession().getAttribute("loginid");
 	   String nowPage=request.getParameter("nowPage");
 
@@ -677,20 +708,32 @@ public class MemberController {
        mo.addAttribute("list",ss.my_review(dto.getStart(), dto.getEnd(),loginid));
 
 		return "my_review";
+		  }
 	}
    
    
    
    //마이페이지에서 내 북마크를 확인
    @RequestMapping(value = "my_favorite")
-   public String my_favorite(HttpServletRequest request, Model mo) {
+   public String my_favorite(HttpServletRequest request, HttpServletResponse response, Model mo) throws IOException {
 	   
-	String loginid = (String) request.getSession().getAttribute("loginid");
-	Service ss = sqlsession.getMapper(Service.class);
-	ArrayList<AllBoardDTO> list = ss.my_favorite(loginid);
-	mo.addAttribute("list", list);
+	   	HttpSession hs = request.getSession();
 	   
-	return "my_favorite";
+		  if(hs.getAttribute("loginstate")==null||hs.getAttribute("loginid")==null) {
+			  
+			  sessionExpired(response,"로그인이 필요한 기능입니다");
+			 
+			  return null;
+			  
+		  } else {
+	   
+			String loginid = (String) request.getSession().getAttribute("loginid");
+			Service ss = sqlsession.getMapper(Service.class);
+			ArrayList<AllBoardDTO> list = ss.my_favorite(loginid);
+			mo.addAttribute("list", list);
+			   
+			return "my_favorite";
+		  }
    }
    
    
@@ -737,6 +780,12 @@ public class MemberController {
 	   
 	   String id = request.getParameter("id").trim();
 	   String bbti = request.getParameter("bbti");
+	   
+	   if (id == null || bbti == null) {
+	        SaveError(response);
+	        return null;
+	    }
+	   
 	   Service ss = sqlsession.getMapper(Service.class);
 	   
 	   response.setCharacterEncoding("UTF-8");
@@ -756,14 +805,20 @@ public class MemberController {
    
    
    
-   //bbti흫 저장
+   //bbti 저장
    @RequestMapping(value = "/bbti_list_save")
    public String bbti5(HttpServletRequest request, HttpServletResponse response) throws IOException {
 	   
 	   String id = request.getParameter("id");
 	   String bbti = request.getParameter("bbti");
+	   
+	   if (id == null || bbti == null) {
+	        SaveError(response);
+	        return null;
+	    }
 	   Service ss = sqlsession.getMapper(Service.class);
 	   
+	   try {
 	   response.setCharacterEncoding("UTF-8");
 	   response.setContentType("text/html; charset=UTF-8");
 	   PrintWriter out = response.getWriter();
@@ -774,6 +829,9 @@ public class MemberController {
 		out.print("window.location.href='./';");
 		out.print("</script>");
 		out.flush();
+	   } catch (Exception e) {
+	     SaveError(response);
+	   }
 	   
 		return null;
 	
@@ -781,16 +839,15 @@ public class MemberController {
   
    
    
-   //회원의 bbti 리스트
-   @RequestMapping(value = "/bbti_list")
-   public String bbti4(HttpServletRequest request, Model mo) {
-	   
-	   String id = request.getParameter("id");
-	   mo.addAttribute("id",id);
-	   
-	return "bbti_list";
-   }
-   
+	// 회원의 bbti 리스트
+	@RequestMapping(value = "/bbti_list")
+	public String bbti4(HttpServletRequest request, Model mo) {
+
+		String id = request.getParameter("id");
+		mo.addAttribute("id", id);
+
+		return "bbti_list";
+	}
    
    
    //bbti 정보를 갖고 회원가입을 할 경우
@@ -848,6 +905,26 @@ public class MemberController {
 	   return "my_bbti";
    }
    
+   
+	private void sessionExpired(HttpServletResponse response, String message) throws IOException {
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.print("<script type='text/javascript'> alert('"+message+"'); window.location.replace('login');");
+		out.print("</script>");
+
+	}
+	
+	private void SaveError(HttpServletResponse response) throws IOException {
+	    response.setCharacterEncoding("UTF-8");
+	    response.setContentType("text/html; charset=UTF-8");
+	    PrintWriter out = response.getWriter();
+	    out.print("<script type='text/javascript'>");  
+	    out.print("alert('오류로 인해 저장이 어렵습니다. 다시 시도해주세요.');");
+	    out.print("history.back();");
+	    out.print("</script>");
+	    out.flush();
+	}
    
 
 }

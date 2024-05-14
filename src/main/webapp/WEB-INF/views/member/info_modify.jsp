@@ -134,6 +134,36 @@ $(document).ready(function() {
     };
 });
 
+function confirm_quit() {
+    var user_check = confirm("정말 탈퇴하시겠습니까?");
+    
+    if (user_check) {
+        var password = prompt("비밀번호를 입력해주세요.");
+        
+        if (password !== null && password !== "") {
+
+            $.ajax({
+                type: "POST",
+                url: "checkPassword", // 서버의 비밀번호 검증 및 회원 탈퇴 처리 경로
+                data: { password: password },
+                success: function(result) {
+                    if (result === "yes") {
+                        alert("회원 탈퇴가 완료되었습니다.");
+                        window.location.href = 'quit'; // 로그아웃 및 로그인 페이지로 이동
+                    } else {
+                        alert("비밀번호가 일치하지 않습니다.");
+                    }
+                },
+                error: function() {
+                    alert("오류가 발생했습니다. 새로고침 후 다시 시도해주세요.");
+                }
+            });
+        } else {
+            alert("비밀번호 입력이 취소되었습니다.");
+        }
+    }
+}
+
 </script>
 <script>console.log("${info.gender}");</script>
 </head>
@@ -211,6 +241,9 @@ $(document).ready(function() {
 	<button onclick="location.href='member_out'"class="btn_2 backbtn"><span id="btn_text">돌아가기</span></button>
 	</div>
 	</form>
+		<div class="quit_link">
+    		<a onclick="confirm_quit()">회원탈퇴</a>
+		</div>
 </div>
 
 </body>

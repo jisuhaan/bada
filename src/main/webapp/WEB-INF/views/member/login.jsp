@@ -102,8 +102,6 @@ $(document).ready(function(){
     	
     	var bbti = $("#bbti").val();
     	
-    	console.log("bbti값 있나? : "+bbti);
-    	
     	if(bbti.trim()===""||bbti==null){
     		window.location.href="member_join";
     	}

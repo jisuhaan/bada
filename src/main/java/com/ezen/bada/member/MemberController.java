@@ -849,5 +849,15 @@ public class MemberController {
    }
    
    
+   
+   // null값의 입력에 대비한 예외처리 메소드
+	private void showAlertAndRedirect(HttpServletResponse response, String message) throws IOException {
+	    response.setContentType("text/html;charset=UTF-8");
+	    PrintWriter out = response.getWriter();
+	    out.println("<script>alert('" + message + "'); history.back();</script>");
+	    out.flush();
+	}
+   
+   
 
 }

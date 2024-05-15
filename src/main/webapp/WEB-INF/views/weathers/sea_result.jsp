@@ -159,7 +159,7 @@ if(hs.getAttribute("loginstate")==null){
       
       <div class="today_container">
          <c:if test="${not empty errorMessage}">
-         	<div>현재 기상 API 연결이 불안정합니다.</div>
+         	<div id="api_warning">현재 기상 API 연결이 불안정합니다.</div>
          </c:if>
          <div id="clock_by_hour"></div>
          <div class="name_beach">

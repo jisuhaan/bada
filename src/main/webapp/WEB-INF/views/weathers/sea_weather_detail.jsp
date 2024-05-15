@@ -58,6 +58,7 @@
         });
      	
         document.querySelector('.box0').classList.remove('hidden');
+        document.querySelector('.fcstoday').style.backgroundColor = '#CDE4F2';
         
     });
 </script>
@@ -88,6 +89,20 @@
         });
     });
 </script>
+<script type="text/javascript">
+	function changeColor(selected){
+		
+		var categories = document.querySelectorAll('.fcsbtn');
+		
+	    categories.forEach(function(category) {
+	        // 모든 카테고리 박스의 배경색을 투명으로 설정
+	        category.style.backgroundColor = 'transparent';
+	    });
+	    // 선택된 카테고리의 배경색을 노란색으로 설정
+	    selected.style.backgroundColor = '#CDE4F2';
+	    
+	}
+</script>
 <title>Insert title here</title>
 
 </head>
@@ -108,9 +123,9 @@
 		
 		<c:if test="${not empty groupedData}">
 		<div class="forecast_btn">
-			<div class="fcsbtn fcstoday">오늘</div>
-			<div class="fcsbtn fcsnextday">내일</div>
-			<div class="fcsbtn fcsdayafttommorrow">모레</div>
+			<div class="fcsbtn fcstoday" onclick="changeColor(this)">오늘</div>
+			<div class="fcsbtn fcsnextday" onclick="changeColor(this)">내일</div>
+			<div class="fcsbtn fcsdayafttommorrow" onclick="changeColor(this)">모레</div>
 		</div>
 		<div class="forecast_div">
 			<ul id="table_label">
@@ -290,7 +305,7 @@
 	        <input type="number" id="beachDay" name="beachDay" min="1" max="31"> 일 &nbsp;
 	        <button id="searchBtn" class="btn2">검색</button>
 	    </div>
-	    <div id="weather-info-list" style="margin-top: 20px;"></div>
+	    <div id="weather-info-list"></div>
 	</div>
 	
 	
@@ -347,22 +362,56 @@
 	    data.forEach(function(weather) {
 	        // 날씨 정보를 보여줄 HTML 요소 생성
 	        var weatherInfoElement = document.createElement("div");
-	        weatherInfoElement.innerHTML = '<h4>날짜: ' + weather.tm + '</h4>' +
-	                                       '<p>평균 기온: ' + weather.avgTa + '</p>' +
-	                                       '<p>최저 기온: ' + weather.minTa + '</p>' +
-	                                       '<p>최고 기온: ' + weather.maxTa + '</p>' +
-	                                       '<p>평균 풍속: ' + weather.avgWs + '</p>' +
-	                                       '<p>평균 상대습도: ' + weather.avgRhm + '</p>' +
-	                                       '<p>평균 전운량: ' + weather.avgTca + '</p>' +
-	                                       '<p>이 시간의 파고: ' + weather.wh + '</p>';
+	        var table = document.createElement("table");
+	        table.classList.add("otheryear_table");
 	        
-	       // ptySet이 null이 아닐 때 해당 리스트 항목도 추가
-	       if (weather.ptySet != null) {
-	           weatherInfoElement.innerHTML += '<p>ptySet: ' + weather.ptySet + '</p>';
-	       }
-	       weatherInfoElement.innerHTML += '<br>';
-	        // 생성한 요소를 화면에 추가
-	        weatherInfoDiv.appendChild(weatherInfoElement);
+	        //테이블 추가
+			var row = document.createElement("tr");
+        	var th = document.createElement("th");
+        	th.setAttribute("colspan", "2");
+            th.textContent = weather.tm;
+            row.appendChild(th);
+            table.appendChild(row);
+
+            row = document.createElement("tr");
+            row.innerHTML = '<th>평균 기온</th><td>' + weather.avgTa + '</td>';
+            table.appendChild(row);
+
+            row = document.createElement("tr");
+            row.innerHTML = '<th>최저 기온</th><td>' + weather.minTa + '</td>';
+            table.appendChild(row);
+
+            row = document.createElement("tr");
+            row.innerHTML = '<th>최고 기온</th><td>' + weather.maxTa + '</td>';
+            table.appendChild(row);
+
+            row = document.createElement("tr");
+            row.innerHTML = '<th>평균 풍속</th><td>' + weather.avgWs + '</td>';
+            table.appendChild(row);
+
+            row = document.createElement("tr");
+            row.innerHTML = '<th>평균 습도</th><td>' + weather.avgRhm + '</td>';
+            table.appendChild(row);
+
+            row = document.createElement("tr");
+            row.innerHTML = '<th>평균 전운량</th><td>' + weather.avgTca + '</td>';
+            table.appendChild(row);
+
+            row = document.createElement("tr");
+            row.innerHTML = '<th>이 시간의 파고</th><td>' + weather.wh + '</td>';
+            table.appendChild(row);
+
+            // ptySet이 null이 아닐 때 해당 리스트 항목도 추가
+            if (weather.ptySet != null) {
+                row = document.createElement("tr");
+                row.innerHTML = '<th>날씨 상태</th><td>' + weather.ptySet + '</td>';
+                table.appendChild(row);
+            }
+
+            // 테이블을 div에 추가
+            weatherInfoElement.appendChild(table);
+            // 생성한 요소를 화면에 추가
+            weatherInfoDiv.appendChild(weatherInfoElement);
 	    });
 	}
 

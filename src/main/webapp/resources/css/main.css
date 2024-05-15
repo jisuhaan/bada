@@ -14,12 +14,6 @@
     font-style: normal;
 }
 
-@font-face {
-    font-family: 'TTHakgyoansimMonggeulmonggeulR';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimMonggeulmonggeulR.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
 
 
 /* 데스크탑 사이즈 */
@@ -67,7 +61,7 @@
 	border: 5px solid #1B70A6;
 	border-radius: 8px;
 	padding: 10px 12px;
-	font-family: 'TTHakgyoansimMonggeulmonggeulR';
+	font-family: 'Pretendard-Regular';
 	font-size: 30px;
 	text-align: center;
 	color: #1B70A6;

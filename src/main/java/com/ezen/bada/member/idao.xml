@@ -241,4 +241,31 @@ from. (정)지수 -->
    select count(*) from bada_user_review where rec_id LIKE '%' || #{param1} || '%'
 </select>
 
+<select id="getDistance" resultType="com.ezen.bada.member.BadaSuggestDTO">
+	WITH calculated_distances AS (
+	    SELECT 
+	        b.beach_code, 
+	        b.beach, 
+	        b.latitude, 
+	        b.longitude, 
+	        round(DISTNACE_WGS84(#{param1}, #{param2}, b.latitude, b.longitude),1) AS distance
+	    FROM 
+	        bada_list b
+	)
+	SELECT 
+	    beach_code, 
+	    beach, 
+	    latitude, 
+	    longitude, 
+	    distance
+	FROM 
+	    calculated_distances
+	WHERE 
+	    distance = (SELECT MIN(distance) FROM calculated_distances)
+</select>
+
+<select id="getname" resultType="String">
+	select name from bada_user where id=#{param1}
+</select>
+
 </mapper>

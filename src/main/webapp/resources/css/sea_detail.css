@@ -1,0 +1,298 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'YEONGJU';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2403@1.0/YEONGJUSeonbiTTF.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ownglyph_meetme-Rg';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/Ownglyph_meetme-Rg.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DOSGothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/DOSGothic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+li a {
+	display: block;
+}
+
+a {
+	text-decoration: none;
+}
+
+/* 데스크탑 사이즈 */	
+
+.container {
+	width:1200px;
+	position:relative;
+	display: flex;
+	flex-direction:column;
+	justify-content:center;
+	align-items:center;
+	gap:30px;
+	text-align:center;
+	border: 1px solid gray;
+	border-radius:10px;
+	box-shadow: 2px 2px 2px gray;
+	background-color: white;
+	padding:30px;
+}
+
+#main_title {
+	width:100%;
+	height:50px;
+	text-align: center;
+	font-family: 'DOSGothic';
+	font-size: 40px;
+	font-weight: 600;
+	color: #1b70a6;
+	text-shadow: 1px 1px 1px black;
+}
+
+.forecast_container {
+	width:1000px;
+	height:450px;
+	display: flex;
+	flex-direction:column;
+	gap:40px;
+	justify-content: center;
+	align-items: center;
+	background-color: #F1F1F1;
+	box-shadow: 2px 2px 2px gray;
+	padding:20px;
+}
+
+#titles {
+	width:100%;
+	height:50px;
+	text-align: center;
+	font-family: 'DOSGothic';
+	font-size: 32px;
+	font-weight: 600;
+	vertical-align: middle;
+}
+
+.forecasts {
+	display:flex;
+	flex-direction:column;
+	gap:20px;
+	justify-content: center;
+	align-items: center;
+}
+
+.forecast_btn {
+	width:100%;
+	display:flex;
+	justify-content: flex-start;
+	align-items: center;
+	padding-left: 30px;
+}
+
+.fcsbtn {
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	width:80px;
+	height:40px;
+	background-color: #f1f1f1;
+	border: 1px solid black;
+	cursor: pointer;
+	text-align: center;
+	font-family: 'DOSGothic';
+	font-weight: 600;
+	
+}
+
+.fcsbtn:hover {
+	background-color: #cde4f2;
+}
+
+.forecast_div {
+	width: 950px;
+	margin: 0 auto;
+	padding:10px;
+	display:flex;
+	justify-content:flex-start;
+	align-items:center;
+	gap:10px;
+}
+
+#table_label {
+	width:120px;
+	height:210px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap:3px;
+}
+
+#table_label > li {
+	height:20px;
+	font-family:'DOSGothic';
+	font-size: 16px;
+	font-weight:600;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.forecast_box{
+	width:780px;
+	height:240px;
+	display:flex;
+	justify-content:flex-start;
+	align-items:center;
+	gap:5px;
+	overflow-x: auto; /* 넘치는 부분을 가로 스크롤로 표시 */
+	white-space: nowrap; /* 차트 요소들이 한 줄에 표시되도록 설정 */
+	background-color: white;
+	padding:10px;
+}
+
+.forecast_box > ul {
+	width:120px !important;
+	padding:5px;
+	font-family:'DOSGothic';
+	font-size: 20px;
+	word-spacing: 0.5px;	 
+}
+
+.forecast_box > li {
+	width:100%;
+	height:30px !important;
+}
+
+#li_smallsize {
+	font-size: 16px;
+}
+
+.chart-container {
+	width: 800px; /* 부모 요소 너비의 800px로 설정하여 가로 스크롤을 생성 */
+	overflow-x: auto; /* 넘치는 부분을 가로 스크롤로 표시 */
+	white-space: nowrap; /* 차트 요소들이 한 줄에 표시되도록 설정 */
+}
+
+.chart {
+	padding: 0; /* 양옆 여백 없애기 */
+	width: 2500px; /* 예시로 설정한 차트의 가로 길이 */
+	height: 300px; /* 예시로 설정한 차트의 세로 길이 */
+	background-color: lightgray; /* 예시로 설정한 차트의 배경색 */
+	display: inline-block; /* 차트 요소를 한 줄에 표시 */
+}
+
+.hidden {
+    display: none;
+}
+
+.otheryear_container {
+	width:1000px;
+	height:400px;
+	display: flex;
+	flex-direction:column;
+	gap:20px;
+	justify-content: center;
+	align-items: center;
+	background-color: #F1F1F1;
+	box-shadow: 2px 2px 2px gray;
+	padding:20px;
+}
+
+.otheryear_table {
+	border-collapse: collapse;
+	border: 1px solid gray;
+	width: 300px;
+	font-family:'DOSGothic';
+	font-size: 18px;
+	word-spacing: 0.5px;	
+}
+
+.otheryear_table th {
+	background-color: lightgray;
+	border-right: 1px solid gray;
+	padding:5px;
+	width:200px;
+}
+
+.otheryear_table tr:first-child th {
+	background-color: gray;
+	border-bottom: 1px solid gray;
+	padding:5px;
+}
+
+.otheryear_table td {
+	background-color: white;
+	text-align: center;
+	vertical-align: middle;
+	padding:5px;
+}
+
+.contents {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap:20px;
+}
+
+.year_table {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap:10px;
+}
+
+#ptylist {
+	font-size: 14px;
+}
+
+.another_container {
+	width:1000px;
+	display: flex;
+	flex-direction:column;
+	gap:20px;
+	justify-content: center;
+	align-items: center;
+	background-color: #F1F1F1;
+	box-shadow: 2px 2px 2px gray;
+	padding:20px;
+}
+
+input[type=number] {
+	width: 80px;
+	height: 40px;
+	border: 1px solid gray;
+	font-family: 'Pretendard-Regular';
+	font-size: 16px;
+	font-weight: 600;
+	padding:5px;
+}
+
+#weather-info-list{
+	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap:20px;
+}
+
+#weather-info-list > div {
+
+}

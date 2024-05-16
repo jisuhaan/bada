@@ -112,6 +112,12 @@ public interface Service {
 
 	int bookmark_total(String loginid);
 
+	BadaSuggestDTO getDistance(long myLatitude, long myLongitude);
+
+	BadaSuggestDTO getDistance(double myLatitude, double myLongitude);
+
+	String getname(String id);
+
 
 	
 

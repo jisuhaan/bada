@@ -15,6 +15,5 @@
 		<put-attribute name="title" value="바라는 바다! :: 메인화면"/>
 		<put-attribute name="body" value="/WEB-INF/views/main.jsp"/>
 	</definition>
-
 	
 </tiles-definitions>

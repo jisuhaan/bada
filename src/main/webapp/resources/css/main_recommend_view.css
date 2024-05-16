@@ -58,11 +58,12 @@
 }
 
 .review_title h3 {
-	font-family: 'YEONGJU';
-	font-size: 32px;
+	font-family: 'DOSGothic';
+	font-size: 28px;
 	font-weight: 600;
 	background-color: #CDE4F2;
 	text-align: center;
+	word-spacing: 0.5px;
 }
 
 /* 카드 자동 스라이더 효과 */

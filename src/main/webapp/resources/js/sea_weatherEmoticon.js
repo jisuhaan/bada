@@ -82,7 +82,7 @@ function weatherEmoticon(sky, pty, hour, month, w, h) {
     // 이미지 HTML 생성
     let imgHTML = '<img src="' + imgSrc + '" alt="' + title + '" title="' + title + '" width="' + width + '" height="' + height + '"/>';
 
-    // 타이틀과 함께 이미지 HTML 반환
-    return imgHTML + '&nbsp;<span id="weather_title">' + title + '</span>';
+    //이미지 HTML 반환
+    return imgHTML;
 
 }

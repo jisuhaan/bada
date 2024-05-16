@@ -61,6 +61,10 @@ public class ReviewController {
 			
 			if(loginstate) {
 				String loginid = (String) hs.getAttribute("loginid");
+				if (loginid == null || loginid.isEmpty()) {
+			        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+			        return null;
+			    }
 				MemberDTO dto = ss.input_info(loginid);
 				List<BeachDTO> beachList = ss.getBeachList();
 				mo.addAttribute("dto", dto);
@@ -81,17 +85,53 @@ public class ReviewController {
 	
 	//리뷰 저장
 	@RequestMapping(value = "review_save", method = RequestMethod.POST)
-	public String review2(MultipartHttpServletRequest mul) throws IOException {
+	public String review2(MultipartHttpServletRequest mul, HttpServletResponse response) throws IOException {
 
 		String id = mul.getParameter("id");
+		if (id == null || id.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String name = mul.getParameter("name");
+		if (name == null || name.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String visit_day = mul.getParameter("visit_day");
+		if (visit_day == null || visit_day.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String beach_code = mul.getParameter("beach");
+		if (beach_code == null || beach_code.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String review_title = mul.getParameter("review_title");
+		if (review_title == null || review_title.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String review_contents = mul.getParameter("review_contents");
+		if (review_contents == null || review_contents.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String review_score = mul.getParameter("review_score");
+		if (review_score == null || review_score.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String hashtags = mul.getParameter("hashtags");
+		if (hashtags == null || hashtags.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String re_visit = mul.getParameter("re_visit");
+		if (re_visit == null || re_visit.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		
 		MultipartFile tf = mul.getFile("thumb_nail");
 		String t_name;
@@ -135,9 +175,13 @@ public class ReviewController {
 
 	//리뷰 페이지의 가장 첫 번째 페이지(미니 홈페이지 ver)
 	@RequestMapping(value = "bada_review")
-	public String review3(HttpServletRequest request, Model mo) {
+	public String review3(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
 		
 		String area = request.getParameter("area");
+		if (area == null || area.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		mo.addAttribute("area",area);
 		//아이디,닉네임 넣기
 		HttpSession hs = request.getSession();
@@ -147,6 +191,10 @@ public class ReviewController {
 		
 		if(hs.getAttribute("loginid")!=null) {
 			id = (String) hs.getAttribute("loginid");
+			if (id == null || id.isEmpty()) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 			name = ss.getnickname(id);
 		}
 		else {
@@ -165,7 +213,15 @@ public class ReviewController {
 		}
 		else if(area.equals("경기인천")||area.equals("부산울산")) {
 			String area1 = area.substring(0,2);
+			if (area1 == null || area1.isEmpty()) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 			String area2 = area.substring(2);
+			if (area2 == null || area2.isEmpty()) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 			list = ss.picknewrec6in2area(area1,area2);
 		}
 		else {
@@ -276,9 +332,19 @@ public class ReviewController {
 
 	//리뷰 디테일(리뷰 상세 보기)
 	@RequestMapping(value = "review_detail")
-	public String review4(HttpServletRequest request, Model mo) {
+	public String review4(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
 		
-		int review_num = Integer.parseInt(request.getParameter("review_num"));
+		int review_num;
+		try {
+			review_num = Integer.parseInt(request.getParameter("review_num"));
+		    } catch (NumberFormatException e) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		    if (review_num == 0) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 		Service ss = sqlsession.getMapper(Service.class);
 		ss.hit_up(review_num);
 		
@@ -308,6 +374,10 @@ public class ReviewController {
 		 // 댓글에 id 불러오기 //
 		 HttpSession hs = request.getSession();
 		 String loginid = (String) hs.getAttribute("loginid");
+		 if (loginid == null || loginid.isEmpty()) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 		 mo.addAttribute("loginid", loginid);
 		 
 		 ArrayList<ReplyDTO> reply = ss.reply_show(review_num);
@@ -320,9 +390,19 @@ public class ReviewController {
 	
 	//리뷰를 삭제할 시
 	@RequestMapping(value = "review_delete")
-	public String review_delete(HttpServletRequest request) {
+	public String review_delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-	     int review_num = Integer.parseInt(request.getParameter("review_num"));
+	     int review_num;
+	     try {
+	    	 review_num = Integer.parseInt(request.getParameter("review_num"));
+		    } catch (NumberFormatException e) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		    if (review_num == 0) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 	     Service ss = sqlsession.getMapper(Service.class);
 	     
 	     AllBoardDTO boardDTO = ss.all_photo(review_num);
@@ -347,9 +427,19 @@ public class ReviewController {
 
 	//리뷰를 수정할 시
 	@RequestMapping(value = "review_change")
-	public String review_change(HttpServletRequest request, Model mo) {
+	public String review_change(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
 
-	     int review_num = Integer.parseInt(request.getParameter("review_num"));
+	     int review_num;
+	     try {
+	    	 review_num = Integer.parseInt(request.getParameter("review_num"));
+		    } catch (NumberFormatException e) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		    if (review_num == 0) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 	     Service ss = sqlsession.getMapper(Service.class);
 	     
 	     AllBoardDTO dto = ss.change_view(review_num);
@@ -365,16 +455,54 @@ public class ReviewController {
 	
 	//리뷰를 수정해서 다시 저장
 	@RequestMapping(value = "review_change_save", method = RequestMethod.POST)
-	public String review_change_save(MultipartHttpServletRequest mul) throws IllegalStateException, IOException {
+	public String review_change_save(MultipartHttpServletRequest mul, HttpServletResponse response) throws IllegalStateException, IOException {
 
-		int review_num = Integer.parseInt(mul.getParameter("review_num"));
+		int review_num;
+		try {
+			review_num = Integer.parseInt(mul.getParameter("review_num"));
+		    } catch (NumberFormatException e) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		    if (review_num == 0) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 		String visit_day = mul.getParameter("visit_day");
+		if (visit_day == null || visit_day.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String beach_code = mul.getParameter("beach");
+		if (beach_code == null || beach_code.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String review_title = mul.getParameter("review_title");
+		if (review_title == null || review_title.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String review_contents = mul.getParameter("review_contents");
+		if (review_contents == null || review_contents.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String review_score = mul.getParameter("review_score");
+		if (review_score == null || review_score.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String hashtags = mul.getParameter("hashtags");
+		if (hashtags == null || hashtags.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String re_visit = mul.getParameter("re_visit");
+		if (re_visit == null || re_visit.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		
 		Service ss = sqlsession.getMapper(Service.class);
 		
@@ -634,12 +762,26 @@ public class ReviewController {
 	
 	
 	
-	//리뷰 주천하기를 누를 시
+	//리뷰 추천하기를 누를 시
 	@RequestMapping(value = "review_recommend")
-	public String recommend(HttpServletRequest request, Model mo) {
+	public String recommend(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
 
-		int review_num=Integer.parseInt(request.getParameter("review_num"));
+		int review_num;
+		try {
+			review_num = Integer.parseInt(request.getParameter("review_num"));
+		    } catch (NumberFormatException e) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		    if (review_num == 0) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 		String loginid=request.getParameter("loginid");
+		if (loginid == null || loginid.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		
 		Service ss=sqlsession.getMapper(Service.class);
 		// 추천 중복체크 확인
@@ -691,10 +833,24 @@ public class ReviewController {
 	
 	//신고 기능
 	@RequestMapping(value = "review_report_view")
-	public String report(HttpServletRequest request, Model mo) {
+	public String report(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
 
-		int review_num=Integer.parseInt(request.getParameter("review_num"));
+		int review_num;
+		try {
+			review_num = Integer.parseInt(request.getParameter("review_num"));
+		    } catch (NumberFormatException e) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		    if (review_num == 0) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 		String loginid=request.getParameter("loginid");
+		if (loginid == null || loginid.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		
 		Service ss=sqlsession.getMapper(Service.class);
 		MemberDTO mdto = ss.input_info(loginid);
@@ -709,11 +865,29 @@ public class ReviewController {
 	//리뷰 신고 할 시 중복 방지
 	@ResponseBody
 	@RequestMapping(value = "review_ban_check", method = RequestMethod.POST)
-	public String inquire_ban_check(HttpServletRequest request) throws IOException {
+	public String inquire_ban_check(HttpServletRequest request, HttpServletResponse response) throws IOException {
   
 		String id = request.getParameter("id");
+		if (id == null || id.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		int ban_review_num=Integer.parseInt(request.getParameter("ban_review_num"));
+		try {
+			ban_review_num = Integer.parseInt(request.getParameter("ban_review_num"));
+		    } catch (NumberFormatException e) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		    if (ban_review_num == 0) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 		String category = request.getParameter("category");
+		if (category == null || category.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		
 		Service ss=sqlsession.getMapper(Service.class);
 		String inquire_check="";
@@ -758,10 +932,24 @@ public class ReviewController {
 	
 	// 신고된 글 자세히 보기
 	@RequestMapping(value = "review_ban_detail")
-	public String ban_review_detail(HttpServletRequest request, Model mo) {
+	public String ban_review_detail(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
 	
-		int ban_review_num = Integer.parseInt(request.getParameter("ban_review_num"));
+		int ban_review_num;
+		try {
+			ban_review_num = Integer.parseInt(request.getParameter("ban_review_num"));
+		    } catch (NumberFormatException e) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		    if (ban_review_num == 0) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 		String ban_id=request.getParameter("ban_id");
+		if (ban_id == null || ban_id.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		
 		Service ss=sqlsession.getMapper(Service.class);
 
@@ -780,9 +968,19 @@ public class ReviewController {
 	   
 	//신고 내역 삭제
 	@RequestMapping(value="review_ban_delete")
-    public String review_ban_delete(HttpServletRequest request) {
+    public String review_ban_delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
-		int review_report_num=Integer.parseInt(request.getParameter("review_report_num"));
+		int review_report_num;
+		try {
+			review_report_num = Integer.parseInt(request.getParameter("review_report_num"));
+		    } catch (NumberFormatException e) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		    if (review_report_num == 0) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 		
 		Service ss=sqlsession.getMapper(Service.class);
 		ss.review_ban_delete(review_report_num);
@@ -795,11 +993,25 @@ public class ReviewController {
 	//리뷰 댓글 저장
 	@ResponseBody
 	@RequestMapping(value = "reply_save", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-    public String review_comment(HttpServletRequest request) {
+    public String review_comment(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
-        int review_num = Integer.parseInt(request.getParameter("review_num"));
+        int review_num;
+        try {
+        	review_num = Integer.parseInt(request.getParameter("review_num"));
+		    } catch (NumberFormatException e) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		    if (review_num == 0) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
         String loginid = request.getParameter("loginid").trim();
         String reply = request.getParameter("reply");
+        if (reply == null || reply.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
         
         Service ss = sqlsession.getMapper(Service.class);
         
@@ -824,14 +1036,34 @@ public class ReviewController {
 	//댓글 삭제하는 기능
 	@ResponseBody
 	@RequestMapping(value = "delete_reply")
-	public String reply_delete(HttpServletRequest request) throws IOException {
+	public String reply_delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
   
 		JSONObject obj = new JSONObject();
   
 	    try {
 	    	
-			int reply_num = Integer.parseInt(request.getParameter("reply_num"));
-			int review_num = Integer.parseInt(request.getParameter("review_num"));
+			int reply_num;
+			try {
+				reply_num = Integer.parseInt(request.getParameter("reply_num"));
+			    } catch (NumberFormatException e) {
+			        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+			        return null;
+			    }
+			    if (reply_num == 0) {
+			        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+			        return null;
+			    }
+			int review_num;
+			try {
+				review_num = Integer.parseInt(request.getParameter("review_num"));
+			    } catch (NumberFormatException e) {
+			        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+			        return null;
+			    }
+			    if (review_num == 0) {
+			        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+			        return null;
+			    }
 			Service ss = sqlsession.getMapper(Service.class);
 			ss.reply_delete(reply_num); // 댓글테이블 댓글 삭제
 			ss.reply_minus(review_num); // user_review 테이블 reply count -
@@ -851,14 +1083,28 @@ public class ReviewController {
 	//댓글 수정하는 기능
 	@ResponseBody
 	@RequestMapping(value = "modify_reply")
-	public String reply_modify(HttpServletRequest request) throws IOException {
+	public String reply_modify(HttpServletRequest request, HttpServletResponse response) throws IOException {
       
 	  	JSONObject obj = new JSONObject();
 	  
 	    try {
 	    	
 	        int reply_num = Integer.parseInt(request.getParameter("reply_num"));
+	        try {
+	        	reply_num = Integer.parseInt(request.getParameter("reply_num"));
+			    } catch (NumberFormatException e) {
+			        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+			        return null;
+			    }
+			    if (reply_num == 0) {
+			        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+			        return null;
+			    }
 	        String modi_reply = request.getParameter("reply");
+	        if (modi_reply == null || modi_reply.isEmpty()) {
+		        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 
 	        Service ss = sqlsession.getMapper(Service.class);
 	        ss.reply_modify(reply_num,modi_reply);
@@ -882,15 +1128,56 @@ public class ReviewController {
 	//댓글 신고
 	@ResponseBody
 	@RequestMapping(value = "report_reply" , method = RequestMethod.POST)
-	public String report_reply(HttpServletRequest request) throws IOException {
+	public String report_reply(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
-		int reply_num = Integer.parseInt(request.getParameter("reply_num"));
-		int review_num = Integer.parseInt(request.getParameter("review_num"));
+		int reply_num;
+		try {
+			reply_num = Integer.parseInt(request.getParameter("reply_num"));
+		    } catch (NumberFormatException e) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		    if (reply_num == 0) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		int review_num;
+		try {
+			review_num = Integer.parseInt(request.getParameter("review_num"));
+		    } catch (NumberFormatException e) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		    if (review_num == 0) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 		String id = request.getParameter("reporter_id");
+		if (id == null || id.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String ban_id = request.getParameter("reply_id");
+		if (ban_id == null || ban_id.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String reply_contents = request.getParameter("reply_content");
+		if (reply_contents == null || reply_contents.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String reason = request.getParameter("reason");
+		if (reason == null || reason.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String detail = request.getParameter("detail");
+		if (detail == null || detail.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
+		
 		String result="";
 			  
 		Service ss = sqlsession.getMapper(Service.class);
@@ -943,9 +1230,19 @@ public class ReviewController {
 	
 	//댓글 신고 내역 삭제
 	@RequestMapping(value="/reply_ban_delete")
-	public String reply_ban_delete(HttpServletRequest request) {
+	public String reply_ban_delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
 		int review_reply_ban_num=Integer.parseInt(request.getParameter("review_reply_ban_num"));
+		try {
+			review_reply_ban_num = Integer.parseInt(request.getParameter("inquire_num"));
+		    } catch (NumberFormatException e) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		    if (review_reply_ban_num == 0) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 		
 		Service ss=sqlsession.getMapper(Service.class);
 		ss.reply_ban_delete(review_reply_ban_num);
@@ -958,13 +1255,51 @@ public class ReviewController {
 	public String inquire_ban_save(HttpServletRequest request, HttpServletResponse response, Model mo) throws IOException {
 	      
 		String title = request.getParameter("title");
+		if (title == null || title.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String name = request.getParameter("name");
+		if (name == null || name.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String id = request.getParameter("id");
-		int ban_review_num=Integer.parseInt(request.getParameter("ban_review_num"));
+		if (id == null || id.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
+		int ban_review_num;
+		try {
+			ban_review_num = Integer.parseInt(request.getParameter("ban_review_num"));
+		    } catch (NumberFormatException e) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		    if (ban_review_num == 0) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 		String ban_name = request.getParameter("ban_name");
+		if (ban_name == null || ban_name.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String ban_id = request.getParameter("ban_id");
+		if (ban_id == null || ban_id.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String category = request.getParameter("category");
+		if (category == null || category.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String content = request.getParameter("content");
+		if (content == null || content.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		
 		Service ss=sqlsession.getMapper(Service.class);
 		int user_num=ss.user_num(ban_id);
@@ -1000,6 +1335,10 @@ public class ReviewController {
 	    } else {
 	        // 로그인한 경우에는 사용자 정보와 함께 채팅 내역을 가져옴
 	        String loginid = (String) hs.getAttribute("loginid");
+	        if (loginid == null || loginid.isEmpty()) {
+		        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 	        MemberDTO dto = ss.input_info(loginid);
 	        mo.addAttribute("dto", dto);
 
@@ -1014,11 +1353,23 @@ public class ReviewController {
 	
 	//나도 한마디 입력 후 저장, 그리고 다시 출력
 	@RequestMapping(value = "/say_one_save", method = RequestMethod.POST)
-	public String say_one_save(HttpServletRequest request, Model mo, HttpServletResponse response) {
+	public String say_one_save(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
 	
 		String loc = request.getParameter("loc");
+		if (loc == null || loc.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		String id = request.getParameter("id");
+		if (id == null || id.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 	    String name = request.getParameter("name");
+	    if (name == null || name.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 	    String content = request.getParameter("content");
 	    
 	    Service ss = sqlsession.getMapper(Service.class);
@@ -1047,9 +1398,19 @@ public class ReviewController {
 
 	//관리자 또는 유저가 나도 한마디를 삭제하는 경우
 	@RequestMapping(value = "one_delete")
-	public String one_delete(HttpServletRequest request, Model mo, HttpServletResponse response) {
+	public String one_delete(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
 
-		int one_num = Integer.parseInt(request.getParameter("one_num"));
+		int one_num;
+		try {
+			one_num = Integer.parseInt(request.getParameter("one_num"));
+		    } catch (NumberFormatException e) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		    if (one_num == 0) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 		 
 		Service ss = sqlsession.getMapper(Service.class);
 		HttpSession hs = request.getSession();
@@ -1073,10 +1434,24 @@ public class ReviewController {
 	//나도 한마디 채팅이 신고된 경우
 	@ResponseBody
 	@RequestMapping(value = "one_ban")
-	public String one_ban(HttpServletRequest request, Model mo, HttpServletResponse response) {
+	public String one_ban(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
 
-		int ban_one_num = Integer.parseInt(request.getParameter("one_num")); //신고당한 채팅 번호
+		int ban_one_num; //신고당한 채팅 번호
+		try {
+			ban_one_num = Integer.parseInt(request.getParameter("ban_one_num"));
+		    } catch (NumberFormatException e) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		    if (ban_one_num == 0) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 		String id=request.getParameter("id"); //신고한 사람의 아이디
+		if (id == null || id.isEmpty()) {
+	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+	        return null;
+	    }
 		 
 		Service ss = sqlsession.getMapper(Service.class);
 		HttpSession hs = request.getSession();
@@ -1146,14 +1521,34 @@ public class ReviewController {
 		  	  
 	//관리자 권한에서 신고 내역 삭제
 	@RequestMapping(value="one_ban_delete")
-	public String one_ban_delete(HttpServletRequest request) {
+	public String one_ban_delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
-		int one_ban_num=Integer.parseInt(request.getParameter("one_ban_num"));
+		int one_ban_num;
+		try {
+			one_ban_num = Integer.parseInt(request.getParameter("one_ban_num"));
+		    } catch (NumberFormatException e) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		    if (one_ban_num == 0) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
 		
 		Service ss=sqlsession.getMapper(Service.class);
 		ss.one_ban_delete(one_ban_num);
 		
 		return "redirect:/one_ban_listout";
     }
+	
+	
+	
+	//호출되는 예외처리 메소드
+	private void showAlertAndRedirect(HttpServletResponse response, String message) throws IOException {
+       response.setContentType("text/html;charset=UTF-8");
+       PrintWriter out = response.getWriter();
+       out.println("<script>alert('" + message + "'); history.back();</script>");
+       out.flush();
+   }
 		
 }

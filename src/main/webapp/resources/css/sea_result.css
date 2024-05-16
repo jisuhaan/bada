@@ -245,6 +245,16 @@ body {
 	gap: 30px;
 }
 
+#api_warning{
+	font-family: 'Pretendard-Regular';
+	font-size: 20px;
+	font-weight:600;
+	text-align: center;
+	vertical-align: middle;
+	background-color:#e63229;
+	color:white;
+}
+
 #clock_by_hour{
 	display: block;
 	text-align: center;
@@ -254,27 +264,29 @@ body {
 }
 
 .name_beach{
-	display: block;
+	display: flex;
+	flex-direction:column;
 	justify-content:center;
 	align-items:center;
-	gap:10px;
+	gap:15px;
 	text-align: center;
 	font-size: 32px;
 	font-family: 'DOSGothic';
 }
 
 .bada_status {
-	display: block;
+	display: flex;
 	justify-content: center;
 	align-items: center;
 	width:300px;
 	height:40px;
 	background-color: #CDE4F2;
+	text-align: center;
 }
 
 #bada_status {
 	width:100%;
-	font-size: 28px;
+	font-size: 22px;
 	font-family: 'DOSGothic';
 	text-align: center;
 	font-weight: 600;

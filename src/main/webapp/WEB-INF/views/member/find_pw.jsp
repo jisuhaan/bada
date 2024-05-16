@@ -6,53 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>비밀번호 찾기</title>
-<style type="text/css">
-
-    .main-container {
-        width: 300px;
-        height: 330px;
-        margin: 120px auto;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
-    
-    #id {
-     	margin-top: 30px;
-    }
-
-    #id,#email,#search_pw {
-        width: 90%;
-        padding: 10px;
-        margin: 10px auto;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-sizing: border-box;
-    }
-
-    button {
-        background-color: #0047ab;
-        margin-top: 15px;
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #00337f;
-    }
-
-	#search_id {
-		margin-top: 5px;
-        float: left;
-    }
-    
-    #login {
-    	margin-top: 5px;
-        float: right;
-    }
-
-</style>
+<link href="${pageContext.request.contextPath}/resources/css/find_pw.css" rel="stylesheet" type="text/css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">

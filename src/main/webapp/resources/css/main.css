@@ -14,12 +14,6 @@
     font-style: normal;
 }
 
-@font-face {
-    font-family: 'TTHakgyoansimMonggeulmonggeulR';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimMonggeulmonggeulR.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
 
 
 /* 데스크탑 사이즈 */
@@ -29,7 +23,7 @@
 	width:1200px;
 	padding:50px;
 	height:1000px;
-	background-color:rgba(255,255,255,1);
+	background-color:rgba(255,255,255,0.9);
 	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
@@ -67,8 +61,8 @@
 	border: 5px solid #1B70A6;
 	border-radius: 8px;
 	padding: 10px 12px;
-	font-family: 'TTHakgyoansimMonggeulmonggeulR';
-	font-size: 30px;
+	font-family: 'Pretendard-Regular';
+	font-size: 24px;
 	text-align: center;
 	color: #1B70A6;
 }
@@ -82,10 +76,9 @@
 
 .main_left {
 	margin:0 auto;
-	width: 50%;
+	width: 48%;
 	height:90%;
 	float:left;
-	background-color: white;
 	align-items: center;
 	text-align : center;
 }
@@ -93,7 +86,7 @@
 .main_right {
 	display:flex;
 	flex-direction:column;
-	width: 50%;
+	width: 48%;
 	height:100%;
 	float:right;
 	justify-content: center;
@@ -140,13 +133,4 @@
 	text-align: center;
 	width:100%;
 	height:500px;
-}
-
-
-/* 태블릿 이하 사이즈 */
-
-@media only screen and (max-width: 768px) {
-
-
-	
 }

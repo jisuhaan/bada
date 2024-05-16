@@ -26,15 +26,17 @@ if(hs.getAttribute("loginstate")==null){
 		<img src ="./resources/image/로고 9-1.png" width="300px">
 	</div>
 	
+	<div class="container">
+	
 	<div class="main_search">
 		<input type="text" name="area" id="area" placeholder="도·시·군을 뺀 지역명 입력 ex)강원, 강릉, 부산..">&nbsp;
 		<a href="#" onclick="search_area();"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #1B70A6;"></i></a>&nbsp;
 	</div>
 	
-	<div class="container">
-	
 	<div class="main_container">
-		<div class="main_left"><a href="#" onclick="window.open('member_try_bbti?id=${loginid}','BBTI 테스트','width=610,height=810,resizable=no,scrollbars=no,menubar=no')">BBTI 테스트</a></div>
+		<div class="main_left">
+			<jsp:include page="main_suggest_view.jsp" />
+		</div>
 		<div class="main_right">
 			<div class="main_right_top">
 			

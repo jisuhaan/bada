@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+.container {
+	max-width: 1000px;
+	margin: auto;
+	padding: 20px;
+}
+
+.board-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 20px;
+}
+
+th {
+	padding-bottom: 40px;
+}
+
+.notice-box {
+	margin-top: 20px;
+	background-color: white;
+	border-radius: 10px;
+	border: 1px solid #ccc;
+	padding: 15px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	text-align: left;
+	word-wrap: break-word; /* 자동 줄바꿈을 위해 추가 */
+	overflow-wrap: break-word; /* 긴 단어도 줄바꿈 처리 */
+}
+
+.contact-info {
+	text-align: center; /* 중앙 정렬 */
+	padding: 20px;
+	font-size: 0.9em;
+	border-top: 1px solid #ccc; /* 상단에 일직선의 줄 추가 */
+	margin-top: 30px;
+
+}

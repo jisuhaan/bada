@@ -334,57 +334,64 @@ public class ReviewController {
 	@RequestMapping(value = "review_detail")
 	public String review4(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
 		
-		int review_num;
 		try {
-			review_num = Integer.parseInt(request.getParameter("review_num"));
+			
+			int review_num = Integer.parseInt(request.getParameter("review_num"));
+			
+			 if (review_num == 0) {
+			        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+			        return null;
+			 }
+			 
+			Service ss = sqlsession.getMapper(Service.class);
+			ss.hit_up(review_num);
+			
+			AllBoardDTO dto = ss.review_detail(review_num);
+			mo.addAttribute("dto", dto);
+			
+			String beach = ss.beach_name(review_num);
+			mo.addAttribute("beach", beach);
+			
+			List<String> gallery = new ArrayList<String>();
+			
+			if (!"no".equals(dto.getThumbnail())){gallery.add(dto.getThumbnail());}
+			
+			for (int i = 1; i <= 5; i++) {
+			  try {
+				   String photoName = (String) AllBoardDTO .class.getMethod("getPhoto" + i).invoke(dto);
+				   if (!"no".equals(photoName)) {
+					   gallery.add(photoName);
+			            }
+			  } catch (Exception e) {
+			            e.printStackTrace();
+			  }
+			}
+			    
+			 mo.addAttribute("gallery", gallery);
+			 
+			 // 댓글에 id 불러오기 //
+			 HttpSession hs = request.getSession();
+			 
+			 if(hs.getAttribute("loginid")!=null) {
+				 
+				 String loginid = (String) hs.getAttribute("loginid");
+				 mo.addAttribute("loginid", loginid);
+				 
+			 }
+			 
+			 ArrayList<ReplyDTO> reply = ss.reply_show(review_num);
+			 
+			 mo.addAttribute("reply", reply);
+			 
+			 return "review_detail";
+			 
+			
 		    } catch (NumberFormatException e) {
 		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        
 		        return null;
 		    }
-		    if (review_num == 0) {
-		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
-		        return null;
-		    }
-		Service ss = sqlsession.getMapper(Service.class);
-		ss.hit_up(review_num);
-		
-		AllBoardDTO dto = ss.review_detail(review_num);
-		mo.addAttribute("dto", dto);
-		
-		String beach = ss.beach_name(review_num);
-		mo.addAttribute("beach", beach);
-		
-		List<String> gallery = new ArrayList<String>();
-		
-		if (!"no".equals(dto.getThumbnail())){gallery.add(dto.getThumbnail());}
-		
-		for (int i = 1; i <= 5; i++) {
-		  try {
-			   String photoName = (String) AllBoardDTO .class.getMethod("getPhoto" + i).invoke(dto);
-			   if (!"no".equals(photoName)) {
-				   gallery.add(photoName);
-		            }
-		        } catch (Exception e) {
-		            e.printStackTrace();
-		        }
-		    }
-		    
-		 mo.addAttribute("gallery", gallery);
-		 
-		 // 댓글에 id 불러오기 //
-		 HttpSession hs = request.getSession();
-		 String loginid = (String) hs.getAttribute("loginid");
-		 if (loginid == null || loginid.isEmpty()) {
-		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
-		        return null;
-		    }
-		 mo.addAttribute("loginid", loginid);
-		 
-		 ArrayList<ReplyDTO> reply = ss.reply_show(review_num);
-		 
-		 mo.addAttribute("reply", reply);
-
-		return "review_detail";
+		  
 	}
 	
 	

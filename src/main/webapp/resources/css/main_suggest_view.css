@@ -64,6 +64,17 @@
 	word-spacing: 0.5px;
 }
 
+#beachimg {
+	width:400px;
+	height:300px;
+}
+
+#beachimg > img {
+	width:400px;
+	height:300px;
+	object-fit:cover;
+}
+
 .suggest_switch {
 	display:flex;
 	justify-content:flex-start;

@@ -268,4 +268,99 @@ from. (정)지수 -->
 	select name from bada_user where id=#{param1}
 </select>
 
+<select id="getBbti" resultType="String">
+	select bbti from bada_user where id=#{param1}
+</select>
+
+<!-- 리뷰된 바다들 중에서 리뷰 2개 이상, 평균 별점 높은 바다 추천 -->
+<select id="getmanybada" resultType="com.ezen.bada.weathers.Bada_info_DTO">
+    <![CDATA[
+	SELECT *
+	FROM (
+	    SELECT bi.beach_code, bi.beach_name, bi.picture1, bi.address, bi.special
+	    FROM bada_info bi
+	    JOIN (
+	        SELECT bur.beach_code, AVG(bur.review_score) AS avg_score
+	        FROM bada_user_review bur
+	        GROUP BY bur.beach_code
+	        HAVING COUNT(bur.review_num) >= 2
+	        ORDER BY avg_score DESC
+	    ) reviewed_beaches
+	    ON bi.beach_code = reviewed_beaches.beach_code
+	    ORDER BY reviewed_beaches.avg_score DESC
+	)
+	WHERE ROWNUM = 1
+	]]>
+</select>
+
+
+<!-- 입력받은 bbti의 해시태그가 가장 많이 쓰인 바다 -->
+<select id="getbbtibesthash" resultType="String">
+    <![CDATA[
+        WITH hashtag_counts AS (
+            SELECT
+                bbti_code AS code,
+                regexp_substr(bbti_hashtags, '[^ ]+', 1, LEVEL) AS hashtag
+            FROM
+                bada_bbti
+            WHERE
+                bbti_code = #{param1}
+            CONNECT BY
+                LEVEL <= REGEXP_COUNT(bbti_hashtags, ' ') + 1
+                AND PRIOR bbti_code = bbti_code
+                AND PRIOR SYS_GUID() IS NOT NULL
+        ),
+        beach_hashtags AS (
+            SELECT
+                beach_code,
+                REGEXP_SUBSTR(concatenated_hashtags, '[^ ]+', 1, LEVEL) AS hashtag
+            FROM (
+                SELECT
+                    beach_code,
+                    LISTAGG(hashtag, ' ') WITHIN GROUP (ORDER BY hashtag) AS concatenated_hashtags
+                FROM
+                    bada_user_review
+                GROUP BY
+                    beach_code
+            )
+            CONNECT BY
+                LEVEL <= REGEXP_COUNT(concatenated_hashtags, ' ') + 1
+                AND PRIOR beach_code = beach_code
+                AND PRIOR SYS_GUID() IS NOT NULL
+                AND LEVEL <= 1000
+        ),
+        matching_counts AS (
+            SELECT
+                hc.code AS bbti_code,
+                bh.beach_code,
+                COUNT(*) AS matching_hashtags_count
+            FROM
+                beach_hashtags bh
+                JOIN hashtag_counts hc ON bh.hashtag = hc.hashtag
+            GROUP BY
+                hc.code,
+                bh.beach_code
+        ),
+        ranked_beaches AS (
+            SELECT
+                bbti_code,
+                beach_code,
+                matching_hashtags_count,
+                ROW_NUMBER() OVER (PARTITION BY bbti_code ORDER BY matching_hashtags_count DESC) AS rank
+            FROM
+                matching_counts
+        )
+        SELECT
+            beach_code
+        FROM
+            ranked_beaches
+        WHERE
+            rank = 1
+    ]]>
+</select>
+
+<select id="getbbtibada" resultType="com.ezen.bada.weathers.Bada_info_DTO">
+	select * from bada_info where beach_code = #{param1}
+</select>
+
 </mapper>

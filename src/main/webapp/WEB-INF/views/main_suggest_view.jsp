@@ -17,31 +17,53 @@ $(document).ready(function(){
 	
 	var isLocationEnabled = false;
 	
-	 var idElement = $("#id");
-	    if(idElement.length > 0){
-	        var id = idElement.val();
-	        if(id.trim() == "" || id == null){
-	            // AJAX 요청 등 필요한 작업 수행
-	            $.ajax({
-	                url: "default_view", 
-	                type: "GET", 
-	                dataType: "json",
-	                success: function(response) {
-	                    console.log("결과 가져오기 성공");
-	                    console.log(response);
-	              
-	                    $("#beachname").text('여기서 가장 가까운 바다는 <span id="beachname">'+beach+'</span>(으)로');
-	                    $("#distance").text('직선거리 <span id="beachdistance">'+distance+'km</span>에 위치해있어요!');
-	                },
-	                error: function(xhr, status, error) {
-	                    console.error('ajax오류 : '+error); 
-	                }
-	            });
-	        }
-	    } else {
-	        console.error("#id 요소를 찾을 수 없습니다.");
-	    }
-	
+	var id = $("#id").val();
+	console.log("아이디값 : " + id);
+        
+        if(id==null){
+        	
+        	console.error("비로그인 회원입니다.");
+	        $.ajax({
+                url: "default_view2", 
+                type: "GET",
+                dataType: "json",
+                success: function(response) {
+                    console.log("비회원 유저 기본 추천 가져오기 성공");
+                    console.log(response);
+                    
+                    $(".default_suggest").show();
+              
+                    $("#d_beachname").html('<input type="hidden" name="beach_code" id="beach_code" value="'+response.beach_code+'" ><span id="beach1">'+response.beach_name+'</span>');
+                    $("#beachimg").html('<img src="./resources/image/'+response.picture1+'">');
+                },
+                error: function(xhr, status, error) {
+                    console.error('ajax오류 : '+error); 
+                }
+            });
+        	
+    	}
+        else {
+        
+        $.ajax({
+               url: "default_view", 
+               type: "GET",
+               data: {"id":id},
+               dataType: "json",
+               success: function(response) {
+                   console.log("로그인 유저 기본 추천 가져오기 성공");
+                   console.log(response);
+             	
+                   $(".default_suggest").show();
+                   
+                   $("#d_beachname").html('<input type="hidden" name="beach_code" id="beach_code" value="'+response.beach_code+'" ><span id="beachname">'+response.beach_name+'</span>');
+                   $("#beachimg").html('<img src="./resources/image/'+response.picture1+'">');
+               },
+               error: function(xhr, status, error) {
+                   console.error('ajax오류 : '+error); 
+               }
+           });
+        
+    	}
 });
 
 </script>
@@ -107,6 +129,7 @@ $("input[type='checkbox']").click(function(){
     if ($(this).is(":checked")) {
         // 체크박스가 체크된 경우
         $("p").toggle();
+        $(".location_suggest").show();
         isLocationEnabled = true;
         myLocation(); // 위치 정보 가져오기
     } else {
@@ -115,6 +138,8 @@ $("input[type='checkbox']").click(function(){
         $("p").toggle();
         // 위치 정보를 가져오지 않음
         $(".location_suggest").hide();
+        $(".default_suggest").show();
+        
         
     }
 });
@@ -150,6 +175,7 @@ function myLocation() {
                     console.log(response);
                     beach_code = response.beach_code;
                     beach = response.beach;
+                    console.log("바다이름:"+beach);
                     distance = response.distance.toFixed(1);
                     
                     $(".default_suggest").hide();

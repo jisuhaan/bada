@@ -8,6 +8,7 @@ import com.ezen.bada.inquire.InquireDTO;
 import com.ezen.bada.inquire.InquireDTO2;
 import com.ezen.bada.review.AllBoardDTO;
 import com.ezen.bada.review.BeachDTO;
+import com.ezen.bada.weathers.Bada_info_DTO;
 
 
 public interface Service {
@@ -117,6 +118,14 @@ public interface Service {
 	BadaSuggestDTO getDistance(double myLatitude, double myLongitude);
 
 	String getname(String id);
+
+	String getBbti(String id);
+
+	Bada_info_DTO getmanybada();
+
+	String getbbtibesthash(String bbti);
+
+	Bada_info_DTO getbbtibada(String best_code);
 
 
 	

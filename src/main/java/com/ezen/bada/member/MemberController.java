@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ezen.bada.inquire.InquireDTO2;
 import com.ezen.bada.review.AllBoardDTO;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ezen.bada.weathers.Bada_info_DTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 
 
@@ -302,7 +303,10 @@ public class MemberController {
       return "member_out";
    }
    
-
+   
+   
+   
+   
    //로그인 + 마이페이지 파트
    //로그인창으로 이동
    @RequestMapping(value = "/login")
@@ -378,7 +382,7 @@ public class MemberController {
 		return returnObj.toString();
 	}
    
-  
+   
    
    //로그인한 상태를 저장
    @ResponseBody
@@ -414,6 +418,7 @@ public class MemberController {
       return result;
    }
    
+
 
    //로그아웃 메소드
    @RequestMapping(value = "/logout")
@@ -902,7 +907,7 @@ public class MemberController {
 	   
 	   return "my_bbti";
    }
-   
+
    //메인화면 거리순 추천
    	@ResponseBody
 	@RequestMapping(value = "/distance_view", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
@@ -924,6 +929,62 @@ public class MemberController {
 
 	    return jsonList;
 	}
+   	
+   	//메인화면 기본 추천(로그인 유저 ver.)
+   	@ResponseBody
+   	@RequestMapping(value = "/default_view", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+   	public String default_view1(HttpServletRequest request) {
+   		
+   		Service ss = sqlsession.getMapper(Service.class);
+   		
+   		String id = request.getParameter("id");
+   		String bbti = ss.getBbti(id);
+   		
+   		Bada_info_DTO bidto = new Bada_info_DTO();
+   		
+   		//bbti값이 없으면 리뷰 수 많은 바다 추천
+   		if(bbti==null||bbti=="") {
+   			bidto = ss.getmanybada();
+   		}
+   		//bbti값이 존재하면 bbti 기반 추천
+   		else {
+   			String best_code = ss.getbbtibesthash(bbti);
+   			System.out.println("베스트바다 : "+best_code);
+   			bidto = ss.getbbtibada(best_code);
+   		}
+   		
+   		ObjectMapper mapper = new ObjectMapper();
+   		String jsonList2 = "";
+	    try {
+	        jsonList2 = mapper.writeValueAsString(bidto);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+   		
+   		return jsonList2;
+   	}
+   	
+   	//비로그인 유저 ver.
+   	@ResponseBody
+   	@RequestMapping(value = "/default_view2", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+   	public String default_view2(HttpServletRequest request) {
+   		
+   		Service ss = sqlsession.getMapper(Service.class);
+   		
+   		Bada_info_DTO bidto = ss.getmanybada();
+   		
+   		System.out.println("베스트바다 : "+bidto);
+   			
+   		ObjectMapper mapper = new ObjectMapper();
+   		String jsonList1 = "";
+	    try {
+	        jsonList1 = mapper.writeValueAsString(bidto);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+   		
+   		return jsonList1;
+   	}
    
 
    // null값의 입력에 대비한 예외처리 메소드

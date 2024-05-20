@@ -601,11 +601,13 @@ public class ReviewController {
 		String search = request.getParameter("search");
 		String nowPage = request.getParameter("nowPage");
 		String cntPerPage = request.getParameter("cntPerPage");
-  
+		Service ss = sqlsession.getMapper(Service.class);
+		String beach_code = "";
+		
 		if (nowPage == null || cntPerPage == null) {
 			nowPage = "1";
 			cntPerPage = "20";
-			}
+		}
   
 		if ("vdate".equals(category) || "wdate".equals(category)) {
 			String year = request.getParameter("year");
@@ -618,14 +620,20 @@ public class ReviewController {
 			} else if (year != null && !year.isEmpty()) {
 				search = year; // "2024"
 			} else if (month != null && !month.isEmpty()) {search = month;}
-	     }
-	      
-	    Service ss = sqlsession.getMapper(Service.class);
-	      
+	    }
+		
+		if(category.equals("beach_name")) {
+			category = "beach_code";	
+			beach_code = ss.findbeachcode(search);
+			search = beach_code;
+			System.out.println("카테고리 : "+category+", 해변코드 : "+beach_code );
+		}
+	    
 	    int total = ss.search_result_count(category, search);
+	    System.out.println("리뷰갯수"+total);
 	    PageDTO dto = new PageDTO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-	    ArrayList<AllBoardDTO> list = ss.search_result(category,search, dto.getStart(), dto.getEnd());
-
+	    ArrayList<AllBoardDTO> list2 = ss.search_result(category,search, dto.getStart(), dto.getEnd());
+	    System.out.println("리뷰들어왔니? : "+list2);
 	    StringBuilder sb = new StringBuilder();
 	    sb.append("<table class='board-table'>");
 	    sb.append("<thead><tr>");
@@ -639,7 +647,7 @@ public class ReviewController {
 	    sb.append("</tr></thead>");
 	    sb.append("<tbody>");
 
-	    for (AllBoardDTO item : list) {
+	    for(AllBoardDTO item:list2) {
 	    	sb.append("<tr>");
 	        sb.append("<td>").append(item.getReview_num()).append("</td>");
 	        sb.append("<td class='text_title'><a href='review_detail?review_num=").append(item.getReview_num()).append("'>")
@@ -680,7 +688,10 @@ public class ReviewController {
 	    sb.append("</tr>");
 	    sb.append("</tbody></table>"); 
 	    
+	    System.out.println(sb.toString());
+	    
 	    return sb.toString();
+
 	   }
 		
 		

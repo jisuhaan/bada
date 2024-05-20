@@ -1,6 +1,7 @@
 package com.ezen.bada.member;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -121,13 +122,16 @@ public interface Service {
 
 	String getBbti(String id);
 
-	Bada_info_DTO getmanybada();
+	BadaSuggestDTO getmanybada();
 
 	String getbbtibesthash(String bbti);
 
-	Bada_info_DTO getbbtibada(String best_code);
+	BadaSuggestDTO getbbtibada(String best_code);
 
+	double getavgscore(int beach_code);
 
-	
+	int getreviewcnt(int beach_code);
+
+	List<String> get3hash(int beach_code);
 
 }

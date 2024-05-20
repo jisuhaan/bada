@@ -265,6 +265,10 @@
             <when test="param1 == 'name'">
                 name LIKE '%' || #{param2}  || '%'
             </when>
+            <!-- 바다명(바다코드) 검색 -->
+            <when test="param1 == 'beach_code'">
+                beach_code LIKE '%' || #{param2}  || '%'
+            </when>
            
  			<!-- 방문시기 검색 -->
             <when test="param1 == 'vdate' and param2 != '2020'">
@@ -286,8 +290,10 @@
     </where>
 </select>
 
-
-
+<!-- 바다이름으로 코드 서치 -->
+<select id="findbeachcode" resultType="String">
+	select beach_code from bada_list where beach like '%' || #{param1}  || '%'
+</select>
 <!-- 회원일련번호 -->
 <select id="user_num" resultType="Integer">
 	select user_number from bada_user where ID = #{param1}

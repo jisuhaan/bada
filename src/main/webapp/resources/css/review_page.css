@@ -42,6 +42,16 @@ body {
 	display:flex;
 	justify-content:center;
 	align-items:center;
+	gap:10px;
+}
+
+.search-window {
+	width:100%;
+	display: flex;
+	justify-content: center;
+	gap:100px;
+	align-items: center;
+	padding: 15px;
 }
 
 table {
@@ -63,46 +73,64 @@ section.notice {
 	text-align: center;
 }
 
-#board-search .search-window {
-	padding: 15px;
-}
-
-#board-search .search-window .area_select {
-	position: relative;
+.area_select {
+	width:200px;
+	display:flex;
+	justify-content:flex-start;
+	align-items:center;
+	text-align:left;
 	padding: 10px;
 	margin: 0 auto;
-	width: 30%;
 	float: left;
-	font-size:16px;
+	font-size:18px;
 }
 
 .area_select select {
 	width:100px;
 	height:32px;
-	font-size:14px;
+	font-size:18px;
 	border-radius: 5px;
 }
 
-#board-search .search-window .search-wrap {
+.sort-options{
+	display:flex;
+	justify-content:flex-start;
+	align-items:center;
+	gap:10px;
+	width:300px;
+	height:32px;
+	font-size:18px;
+}
+.search-form {
+	width:500px;
+}
+
+.search-wrap {
+	width:500px;
 	position: relative;
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
 	margin: 0 auto;
-	width: 40%;
 	float: right;
 }
 
 .search-wrap select {
 	width:100px;
 	height:32px;
-	font-size:14px;
+	font-size:18px;
 	border-radius: 5px;
+	float:left;
 }
 
-#board-search .search-window .search-wrap input {
+.search-wrap input {
 	height: 32px;
-	width: 70%;
-	font-size: 14px;
+	width: 300px;
+	font-size: 18px;
 	padding: 7px 14px;
 	border: 1px solid #1c1c1c;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 #board-search .search-window .search-wrap input:focus {
   border-color: #1b70a6;
@@ -110,11 +138,8 @@ section.notice {
   border-width: 1px;
 }
 #board-search .search-window .search-wrap .btn {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
   width: 108px;
+  height: 32px;
   padding: 0;
   font-size: 16px;
 }

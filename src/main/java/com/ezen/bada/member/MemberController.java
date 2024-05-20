@@ -3,6 +3,8 @@ package com.ezen.bada.member;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -919,11 +921,17 @@ public class MemberController {
 		BadaSuggestDTO bdto = ss.getDistance(myLatitude,myLongitude);
         // ObjectMapper를 사용하여 DTO 객체를 JSON으로 변환하여 반환
 		System.out.println("도출된 해수욕장의 dto위도"+bdto.getLatitude()+", dto경도"+bdto.getLongitude());
+        double avgscore = ss.getavgscore(bdto.getBeach_code());
+        int reviewsu = ss.getreviewcnt(bdto.getBeach_code());
+        List<String> hashtags = ss.get3hash(bdto.getBeach_code());
+        bdto.setAvgscore(avgscore);
+        bdto.setReviewsu(reviewsu);
+        bdto.setHashtags(hashtags);
 	    ObjectMapper mapper = new ObjectMapper();
 	    String jsonList = "";
 	    try {
-	        jsonList = mapper.writeValueAsString(bdto);
-	    } catch (Exception e) {
+	    	jsonList = mapper.writeValueAsString(bdto);
+        } catch (Exception e) {
 	        e.printStackTrace();
 	    }
 
@@ -940,23 +948,29 @@ public class MemberController {
    		String id = request.getParameter("id");
    		String bbti = ss.getBbti(id);
    		
-   		Bada_info_DTO bidto = new Bada_info_DTO();
+   		BadaSuggestDTO bdto = new BadaSuggestDTO();
    		
    		//bbti값이 없으면 리뷰 수 많은 바다 추천
    		if(bbti==null||bbti=="") {
-   			bidto = ss.getmanybada();
+   			bdto = ss.getmanybada();
    		}
    		//bbti값이 존재하면 bbti 기반 추천
    		else {
    			String best_code = ss.getbbtibesthash(bbti);
-   			System.out.println("베스트바다 : "+best_code);
-   			bidto = ss.getbbtibada(best_code);
+   			bdto = ss.getbbtibada(best_code);
    		}
+   		
+        double avgscore = ss.getavgscore(bdto.getBeach_code());
+        int reviewsu = ss.getreviewcnt(bdto.getBeach_code());
+        List<String> hashtags = ss.get3hash(bdto.getBeach_code());
+        bdto.setAvgscore(avgscore);
+        bdto.setReviewsu(reviewsu);
+        bdto.setHashtags(hashtags);
    		
    		ObjectMapper mapper = new ObjectMapper();
    		String jsonList2 = "";
 	    try {
-	        jsonList2 = mapper.writeValueAsString(bidto);
+	        jsonList2 = mapper.writeValueAsString(bdto);
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
@@ -971,14 +985,18 @@ public class MemberController {
    		
    		Service ss = sqlsession.getMapper(Service.class);
    		
-   		Bada_info_DTO bidto = ss.getmanybada();
-   		
-   		System.out.println("베스트바다 : "+bidto);
+   		BadaSuggestDTO bdto = ss.getmanybada();
+        double avgscore = ss.getavgscore(bdto.getBeach_code());
+        int reviewsu = ss.getreviewcnt(bdto.getBeach_code());
+        List<String> hashtags = ss.get3hash(bdto.getBeach_code());
+        bdto.setAvgscore(avgscore);
+        bdto.setReviewsu(reviewsu);
+        bdto.setHashtags(hashtags);
    			
    		ObjectMapper mapper = new ObjectMapper();
    		String jsonList1 = "";
 	    try {
-	        jsonList1 = mapper.writeValueAsString(bidto);
+	        jsonList1 = mapper.writeValueAsString(bdto);
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
@@ -986,7 +1004,6 @@ public class MemberController {
    		return jsonList1;
    	}
    
-
    // null값의 입력에 대비한 예외처리 메소드
 	private void showAlertAndRedirect(HttpServletResponse response, String message) throws IOException {
 	    response.setContentType("text/html;charset=UTF-8");

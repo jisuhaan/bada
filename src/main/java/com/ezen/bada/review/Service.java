@@ -206,6 +206,8 @@ public interface Service {
 
 	ArrayList<String> getbestreviewer();
 
+	String findbeachcode(String search);
+
 
 
 }

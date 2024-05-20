@@ -1,11 +1,17 @@
 package com.ezen.bada.member;
 
+import java.util.List;
+
 public class BadaSuggestDTO {
 	
 	int beach_code;
-	String beach;
+	String beach,picture1;
 	double latitude,longitude,distance;
-	
+	double avgscore;
+	int reviewsu;
+	List<String> hashtags;
+
+
 	public BadaSuggestDTO() {}
 
 	public int getBeach_code() {
@@ -46,6 +52,38 @@ public class BadaSuggestDTO {
 
 	public void setDistance(double distance) {
 		this.distance = distance;
+	}
+
+	public String getPicture1() {
+		return picture1;
+	}
+
+	public void setPicture1(String picture1) {
+		this.picture1 = picture1;
+	}
+
+	public double getAvgscore() {
+		return avgscore;
+	}
+
+	public void setAvgscore(double avgscore) {
+		this.avgscore = avgscore;
+	}
+
+	public int getReviewsu() {
+		return reviewsu;
+	}
+
+	public void setReviewsu(int reviewsu) {
+		this.reviewsu = reviewsu;
+	}
+
+	public List<String> getHashtags() {
+		return hashtags;
+	}
+
+	public void setHashtags(List<String> hashtags) {
+		this.hashtags = hashtags;
 	}
 
 }

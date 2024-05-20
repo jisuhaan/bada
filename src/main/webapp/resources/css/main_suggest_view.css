@@ -38,6 +38,15 @@
 	gap:20px;
 }
 
+.default_suggest,
+.location_suggest {
+	display: flex;
+	flex-direction:column;
+	justify-content: center;
+	align-items: center;
+	gap:20px;
+}
+
 #titles {
 	font-family: 'DOSGothic';
 	font-size: 28px;
@@ -47,16 +56,34 @@
 	word-spacing: 0.5px;
 }
 
-#beachname,
-#distance {
+#d_beachname,
+#beachname {
+	font-family: 'DOSGothic';
+	color: black;
+	font-size:24px;
+	word-spacing: 0.5px;
+	font-weight: 600;
+}
+
+#beachname2,
+#distance,
+.review_score {
 	font-family: 'DOSGothic';
 	color: black;
 	font-size:18px;
 	word-spacing: 0.5px;
 }
 
+.review_score {
+	margin-bottom: 20px;
+}
+
 #beach,
-#beachdistance {
+#beachdistance,
+#review,
+#score,
+#review2,
+#score2 {
 	font-family: 'DOSGothic';
 	color: #1B70A6;
 	font-size:24px;
@@ -64,15 +91,83 @@
 	word-spacing: 0.5px;
 }
 
-#beachimg {
-	width:400px;
-	height:300px;
+#beachimg,
+#beachimg2 {
+	width:95%;
+	height:250px;
+	box-shadow: 2px 2px 2px 2px gray;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
-#beachimg > img {
-	width:400px;
-	height:300px;
+#beachimg > img,
+#beachimg2 > img {
+	margin:0 auto;
+	width:97%;
+	height:95%;
 	object-fit:cover;
+}
+
+#hashtags,
+#hashtags2 {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap:15px;
+}
+
+.hash{
+	width: 135px;
+	height:30px;
+	border: 1px solid #CDE4F2;
+	border-radius:40px;
+	background-color:#CDE4F2;
+	font-family: 'DOSGothic';
+	font-weight:600;
+	font-size: 16px;
+	text-align: center;
+	vertical-align: middle;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.see_details {
+	display: flex;
+	flex-direction:column;
+	align-items: center;
+	justify-content: center;
+	gap:15px;
+}
+
+#detail_text{
+	font-family: 'DOSGothic';
+	font-size:24px;
+	font-weight: 600;
+	word-spacing: 0.5px;
+	margin-bottom: 20px;	
+}
+
+.detailbtn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-sizing:border-box;
+	width:300px;
+	height:50px;
+	border : 5px dashed #1b70a6;
+	border-radius: 15px;
+	box-shadow: 2px 2px 2px gray;
+	cursor: pointer;
+	text-align: center;
+}
+
+#btntext{
+	font-family: 'DOSGothic';
+	font-size:20px;
+	font-weight: 600;
+	text-align: center;
 }
 
 .suggest_switch {

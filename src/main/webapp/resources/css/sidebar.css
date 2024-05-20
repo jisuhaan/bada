@@ -1,5 +1,5 @@
 /* GOOGLE FONTS */
-@import url("https://fonts.googleapis.com/css2?family=Jua&display=swap")
+@import url("https://fonts.googleapis.com/css2?family=Jua&display=swap");
 
 @font-face {
     font-family: 'Pretendard-Regular';
@@ -11,19 +11,15 @@
 /* VARIABLES CSS */
 :root {
     --nav--width: 92px;
-
-    /* Colores */
+    --nav--expanded-width: 300px; /* Expanded width for the sidebar */
+    --nav--collapsed-width: 20px; /* Collapsed width for the sidebar */
     --first-color: #48B0D9;
     --bg-color: #1B70A6;
     --sub-color: #CDE4F2;
     --white-color: #F1F1F1;
-
-    /* Fuente y tipografia */
     --body-font: 'Jua', 'Pretendard-Regular';
     --normal-font-size: 1.3rem;
     --small-font-size: 1rem;
-
-    /* z index */
     --z-fixed: 100;
 }
 
@@ -35,10 +31,10 @@
 body {
     position: relative;
     margin: 0;
-    padding: 2rem 0 0 6.75rem;
+    padding: 2rem 0 0 0;
     font-family: var(--body-font);
     font-size: var(--normal-font-size);
-    transition: .5s;
+    transition: padding-left .5s;
 }
 
 h1 {
@@ -56,13 +52,18 @@ ul {
     position: fixed;
     top: 0;
     left: 0;
-    width: var(--nav--width);
+    width: var(--nav--collapsed-width);
     height: 100vh;
-    background-color: var(--bg-color);
-    color: var(--white-color);
-    padding: 1.5rem 1.5rem 2rem;
-    transition: width .5s;
+    background: url('../image/sidebarimg-01.png') no-repeat left center/cover;
+    transition: width .5s, background-position .5s;
     z-index: var(--z-fixed);
+    opacity: 0; /* Initially hide the sidebar */
+}
+
+.l-navbar.expander {
+    width: var(--nav--expanded-width);
+    background-position: left center;
+    opacity: 1; /* Show the sidebar when expanded */
 }
 
 /* NAV */
@@ -72,6 +73,7 @@ ul {
     flex-direction: column;
     justify-content: space-between;
     overflow: hidden;
+    transition: opacity .5s;
 }
 
 .nav__brand {
@@ -80,9 +82,13 @@ ul {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
+    gap:30px;
 }
 
 .nav__toggle {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
     font-size: 1.25rem;
     padding: .75rem;
     cursor: pointer;
@@ -106,6 +112,11 @@ ul {
     cursor: pointer;
 }
 
+.l-navbar.expander .nav__link,
+.l-navbar.expander .nav__brand {
+    opacity: 1; /* Show the links and brand when expanded */
+}
+
 .nav__link:hover {
     background-color: var(--first-color);
 }
@@ -115,19 +126,7 @@ ul {
 }
 
 .nav_name {
-    font-size: var(--small-font-size);
-}
-
-/* Expander menu */
-.expander {
-    width: calc(var(--nav--width) + 12rem);
-}
-
-/* Add padding body*/
-
-/* Active links menu */
-.active {
-    background-color: var(--first-color);
+    font-size:1.5rem;
 }
 
 /* COLLAPSE */
@@ -137,7 +136,7 @@ ul {
 
 .collapse__link {
     justify-self: flex-end;
-    transition: .5;
+    transition: .5s;
 }
 
 .collapse__menu {
@@ -147,7 +146,7 @@ ul {
 
 .collapse__sublink {
     color: var(--sub-color);
-    font-size: var(--small-font-size);
+    font-size: 1.2rem;
     white-space: nowrap;
     overflow: hidden; /* 텍스트가 넘치는 경우에 대비하여 가려지도록 설정 */
     text-overflow: ellipsis; /* 텍스트가 넘치는 경우 말줄임표로 표시되도록 설정 */
@@ -166,4 +165,11 @@ ul {
 .rotate {
     transform: rotate(180deg);
     transition: .5s;
+}
+
+/* HOVER EFFECT */
+.l-navbar:hover {
+    width: var(--nav--expanded-width);
+    background-position: left center;
+    opacity: 1; /* Show the sidebar when hovered */
 }

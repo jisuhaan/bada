@@ -34,14 +34,20 @@ $(document).ready(function() {
 	
 
     $('#search-form').submit(function(event) {
-        event.preventDefault(); 
+        event.preventDefault();
         var form_data = $(this).serialize();
         $.ajax({
             type: "POST",
             url: "review_search",
             data: form_data,
+            dataType: "html",
             success: function(response) {
-            	$('#board-list').html(response); // 여기가 문제 인거 같은데
+            	alert("입력하신 검색어를 포함한 리뷰를 찾는 중입니다.");
+                $('#board-list').html(response);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error);
+                alert("검색 결과를 불러오는데 실패했습니다.");
             }
         });
     });
@@ -127,7 +133,7 @@ function toggleContent(id) {
         <div class="container">
             <div class="search-window">
             <div class="area_select">
-            지역선택 : 
+            	<span>지역선택&nbsp;</span> 
         		<select name="area" id="area">
         			<option value="전체" selected>전체</option>
         			<option value="강원" id="강원">강원</option>
@@ -143,44 +149,46 @@ function toggleContent(id) {
         			<option value="충북" id="충북">충북</option>
         		</select>
         	</div>
-                <form id="search-form">
-                    <div class="search-wrap">
-                    	<select name="search_category">
-                    		<option value="title">제목</option>
-                    		<option value="intext">내용</option>
-                    		<option value="name">작성자명</option>
-                    		<option value="vdate">방문시기</option>
-                    		<option value="wdate">작성일자</option>
-                    	</select>
-                        <label for="search" class="blind">검색</label>
-                        <input id="search" type="search" name="search" placeholder="검색어를 입력해주세요." value="">
-                        
-                        <select id="year" name="year" style="display:none;">
-						    <option value="" selected>연도 선택!</option>
-						    <option value="2020">2021년 이전</option>
-							    <c:forEach begin="2021" end="${currentYear}" var="year">
-							        <option value="${year}">${year}년</option>
-							    </c:forEach>
-						</select>
-						
-						<select id="month" name="month" style="display:none;">
-						    <option value="">월 선택</option>
-							    <c:forEach begin="1" end="12" var="month">
-							        <option value="${month}">${month}월</option>
-							    </c:forEach>
-						</select>
- 
-                        <button type="submit" class="btn btn-dark">검색</button>
-                    </div>
-                </form>
+        	    
+		    <div class="sort-options">
+		    <label>정렬 방식</label>&nbsp;&nbsp;
+		    <a href="review_page?sort=latest">최신순</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="review_page?sort=popular">추천순</a>
+			</div>
+			
+			<form id="search-form">
+			<div class="search-wrap">
+				<select name="search_category">
+					<option value="title">제목</option>
+					<option value="intext">내용</option>
+					<option value="beach_name">바다이름</option>
+					<option value="name">작성자명</option>
+					<option value="vdate">방문시기</option>
+					<option value="wdate">작성일자</option>
+				</select>
+				<label for="search" class="blind">검색</label>
+				<input id="search" type="search" name="search" placeholder="검색어를 입력해주세요." value="">
+				        
+				<select id="year" name="year" style="display:none;">
+				<option value="" selected>연도 선택!</option>
+				<option value="2020">2021년 이전</option>
+				<c:forEach begin="2021" end="${currentYear}" var="year">
+				<option value="${year}">${year}년</option>
+				</c:forEach>
+				</select>
+				
+				<select id="month" name="month" style="display:none;">
+				<option value="">월 선택</option>
+				 <c:forEach begin="1" end="12" var="month">
+				<option value="${month}">${month}월</option>
+				</c:forEach>
+				</select>
+				
+				<button type="submit" class="btn btn-dark">검색</button>
+			</div>
+			</form>
             </div>
         </div>
     </div>
-    
-    <div class="sort-options">
-    <label>정렬 방식:</label>&nbsp;&nbsp;
-    <a href="review_page?sort=latest">최신순</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="review_page?sort=popular">추천순</a>
-</div>
    
    <div id="board-intro">
         <div class="container">

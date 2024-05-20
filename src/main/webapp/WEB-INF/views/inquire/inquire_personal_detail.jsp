@@ -196,6 +196,18 @@ textarea {
     font-size: 16px;
 }
 </style>
+
+<script src="./resources/js/loading.js"></script>
+<script type="text/javascript">
+    function submitForm() {
+    	showLoadingPage();
+        // 폼 요소 가져오기
+        var form = document.getElementById("InquirePersonalDetailForm");
+        
+        // 폼 제출
+        form.submit();
+    }
+    </script>
 </head>
 
 <body>
@@ -205,7 +217,7 @@ textarea {
 
 <div class="container">
 
-<form action="inquire_personal_reply" method="post">
+<form id="InquirePersonalDetailForm" action="inquire_personal_reply" method="post">
 
 <table class="detail_table">
 	<tr>
@@ -331,7 +343,7 @@ textarea {
 		<input type="hidden" name="tf" id="tf" value="${dto.tf}">
 		<div class="inq_rep">
 		<textarea cols="50" rows="5" name="reply" id="reply" placeholder="${dto.email}(으)로 답을 한 번 더 전송합니다." required></textarea>
-		<input type="submit" value="추가전송" class="btn2">
+		<input type="button" value="추가전송" class="btn2" onclick="submitForm()">
 		</div>
 		</td>
 		</c:when>
@@ -348,7 +360,7 @@ textarea {
 		<input type="hidden" name="content" id="content" value="${dto.content}">
 		<input type="hidden" name="tf" id="tf" value="${dto.tf}">
 		<textarea cols="50" rows="5" name="reply" id="reply" placeholder="${dto.email}(으)로 답을 전송합니다." required></textarea>
-		<input type="submit" value="답변하기" class="btn2">
+		<input type="button" value="답변하기" class="btn2" onclick="submitForm()">
 		</div>
 		</td>
 		</c:otherwise>
@@ -395,6 +407,10 @@ function confirmDeleteip(ip_num ) {
 }
 </script>
 	
+<!-- 로딩 페이지 -->
+<div id="loading" style="display: none;">
+    <jsp:include page="../loading.jsp"/>
+</div>
 	
 </body>
 </html>

@@ -14,7 +14,9 @@
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <script src="./resources/js/sea_weatherEmoticon.js"></script>
+<script src="./resources/js/loading.js"></script>
 <script type="text/javascript">
+
 document.addEventListener("DOMContentLoaded", function() {
     var fcstDate = ${bldt.ultraSrtFcstBeach_dto.fcstDate};
     var fcstTime = ${bldt.ultraSrtFcstBeach_dto.fcstTime};
@@ -39,13 +41,6 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 </head>
 <body>
-
-<%
-HttpSession hs = request.getSession();
-if(hs.getAttribute("loginstate")==null){
-	hs.setAttribute("loginstate", false);
-}
-%>
 
 <div class="result_container">
 
@@ -271,7 +266,7 @@ if(hs.getAttribute("loginstate")==null){
       </div>
       
       <br><br>
-      <div class="sea_detail" onclick="window.location.href='sea_weather_detail?beach_code=${bdt.beach_code}'">
+      <div class="sea_detail" onclick="moveToWeatherDetailPage(${bdt.beach_code})">
          <img alt="" src="./resources/image/forecast_detail.png" width="40px">
          <span id="detail_text">자세히 보기 →</span>
       </div>
@@ -289,6 +284,11 @@ if(hs.getAttribute("loginstate")==null){
 </div>
 
 <script src="./resources/js/clockmain.js"></script>
+
+<!-- 로딩 페이지 -->
+<div id="loading" style="display: none;">
+    <jsp:include page="../loading.jsp"/>
+</div>
 
 </body>
 </html>

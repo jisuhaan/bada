@@ -8,6 +8,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/sea_info.css" rel="stylesheet" type="text/css">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="./resources/js/loading.js"></script>
 <script type="text/javascript">
 
 $(document).ready(function(){
@@ -22,6 +23,11 @@ $(document).ready(function(){
         showarea(area);
         localStorage.removeItem('area');
     }
+	
+	// popstate 이벤트를 감지하여 처리하는 함수를 등록합니다.
+    window.addEventListener('popstate', function(event) {
+        hideLoadingPage();
+    });
 });
 
 function showarea(area){
@@ -45,14 +51,14 @@ $.ajax({
     	   
            if(response.length > 0){
         	  
-        	  for(var i = 0; i < response.length; i++) {
-                  badalist += "<div id='beaches'><a href='sea_result?beach_code=" + response[i].beach_code + "'>" +response[i].beach + "</a></div><br>";
-              }
+        	   for(var i = 0; i < response.length; i++) {
+        		    badalist += "<div id='beaches'><span style='cursor: pointer;' onclick=\"moveToSeaResultPage('" + response[i].beach_code + "')\">" + response[i].beach + "</span></div><br>";
+        		}
         	  
         	  badalist += "</div>"
 
               $('#badalist_container').html(badalist);
-               
+        	  hideLoadingPage(); 
            } else {
         	   
         	  $('#badalist_container').html('<p id="no_beach">이 지역의 해수욕장 데이터는<br>아직 준비되지 않았어요 ㅠ.ㅠ</p><br><br><p id="inquire_link"><a href="./inquire_input">☞ 해수욕장 추천하기 ☜</a></p>');
@@ -70,6 +76,7 @@ $.ajax({
 </script>
 </head>
 <body>
+
 <div class="container">
 
 <div class="sea_main_left">
@@ -145,6 +152,12 @@ $.ajax({
 
 </div>
 <script src="./resources/js/sea_map.js"></script>
+
+
+<!-- 로딩 페이지 -->
+<div id="loading" style="display: none;">
+    <jsp:include page="../loading.jsp"/>
+</div>
 
 </body>
 </html>

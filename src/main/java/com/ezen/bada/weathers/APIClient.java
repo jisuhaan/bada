@@ -10,6 +10,8 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.ChoiceFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -668,6 +670,42 @@ public class APIClient {
 	    }
 	    return groupedData;
 	}
+	
+	// 3개년치 정보 가져오기
+	public Map<String, getWthrDataList_DTO> getThreeYearWeatherForecast(int pointcode, int beach_code) {
+		Map<String, getWthrDataList_DTO> getWthrDataListMap = new LinkedHashMap<String, getWthrDataList_DTO>();		
+		for (int i = 1; i < 4; i++) {
+	        String setStringDate = LocalDate.now().minusYears(i).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+	        getWthrDataList_DTO gdto = getWthrDataList_API(pointcode, setStringDate);
+	        String wh = getWhBuoyBeach_API(beach_code, (setStringDate + DateDAO.getCurrentTime()));
+	        System.out.println("파고는? " + wh);
+	        gdto.setWh(wh);
+	        getWthrDataListMap.put(setStringDate, gdto);
+	    }
+		return getWthrDataListMap;
+	}
+	
+	// 3개년 날씨 정보 검색하기
+	public List<getWthrDataList_DTO> searchThreeYearWeatherForecast(int beach_code, int pointcode, String monthInput, String dayInput, int setYear) {
+		List<getWthrDataList_DTO> list = new ArrayList<getWthrDataList_DTO>();
+		
+		if (Integer.parseInt(monthInput + dayInput) >= Integer.parseInt(DateDAO.getCurrentDateString().substring(4))) {
+            setYear = setYear - 1;
+        }
+
+        for (int i = 0; i < 3; i++) {
+            System.out.println((i + 1) + "번째 시도");
+            String setStringYear = String.valueOf(setYear);
+            getWthrDataList_DTO gdto = getWthrDataList_API(pointcode, setStringYear + monthInput + dayInput);
+            String wh = getWhBuoyBeach_API(pointcode, (setStringYear + monthInput + dayInput + DateDAO.getCurrentTime()));
+            System.out.println("파고는? " + wh);
+            gdto.setWh(wh);
+            list.add(gdto);
+            setYear = setYear - 1;
+        }
+		return list;
+	}
+
 
 	// xml을 파싱하는 메소드
 	public String parseXml(String xmlString, String keyword) {

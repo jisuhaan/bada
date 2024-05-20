@@ -15,6 +15,7 @@
 	<link href="${pageContext.request.contextPath}/resources/css/inquire_input.css" rel="stylesheet" type="text/css">
 	<title>바라는 바다! :: 1:1 문의 작성</title>
     
+	<script src="./resources/js/loading.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -38,7 +39,16 @@
         });
     </script>
     
-    
+    <script type="text/javascript">
+    function submitForm() {
+    	showLoadingPage();
+        // 폼 요소 가져오기
+        var form = document.getElementById("InquirePersonalForm");
+        
+        // 폼 제출
+        form.submit();
+    }
+    </script>
 </head>
 
 
@@ -131,7 +141,7 @@
 	</div>       
 
 		<div class="list_buttons">
-			<input type="submit" value="전송하기" class="btn2">
+			<input type="button" value="전송하기" class="btn2" onclick="submitForm()">
 			<input type="button" value="돌아가기" class="btn2" onclick="window.location.href='main'">
 		</div>	
 	</div>
@@ -157,6 +167,10 @@
 	    }
 	</script>
 	
+<!-- 로딩 페이지 -->
+<div id="loading" style="display: none;">
+    <jsp:include page="../loading.jsp"/>
+</div>
 	
 </body>
 

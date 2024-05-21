@@ -8,8 +8,8 @@ public class EmailSender {
 
 	//sendEmail1: 문의가 접수되었다는 메일을 보내는 메소드
     public static void sendEmail1(String name, String recipientEmail, String title, String category, String content) {
-        final String username = "ezen.bada@gmail.com"; // 저희 지메일
-        final String password = "sozi xbns ptqf sozn"; // 계정 비밀번호가 아니라 앱암호라고 뭐 생성하는 거...
+        final String username = "ezen.bada@gmail.com";
+        final String password = "sozi xbns ptqf sozn";
 
         // SMTP 서버 설정
         Properties props = new Properties();
@@ -44,7 +44,6 @@ public class EmailSender {
             // 이메일 전송
             Transport.send(message);
 
-            System.out.println("문의 접수 이메일 전송 완료");
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -55,8 +54,8 @@ public class EmailSender {
     
   //sendEmail2: 문의에 대한 답장을 보내는 메소드
     public static void sendEmail2(String name, String recipientEmail, String title, String category, String content, String reply) {
-        final String username = "ezen.bada@gmail.com"; // 저희 지메일
-        final String password = "sozi xbns ptqf sozn"; // 계정 비밀번호가 아니라 앱암호라고 뭐 생성하는 거...
+        final String username = "ezen.bada@gmail.com";
+        final String password = "sozi xbns ptqf sozn";
 
         // SMTP 서버 설정
         Properties props = new Properties();
@@ -92,7 +91,6 @@ public class EmailSender {
             // 이메일 전송
             Transport.send(message);
 
-            System.out.println("문의 답변 이메일 전송 완료");
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);

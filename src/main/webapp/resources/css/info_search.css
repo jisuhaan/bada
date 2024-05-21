@@ -1,0 +1,161 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ownglyph_meetme-Rg';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/Ownglyph_meetme-Rg.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+.logo {
+    margin-bottom: 50px;
+    margin-top: 110px;
+    text-align: center;
+}
+
+.tab-container {
+    display: flex;
+    justify-content: center;
+    width: 400px;
+    font-size: 1.2rem;
+    font-family: 'Pretendard-Regular';
+    border-radius: 10px 10px 0 0;
+    border-bottom: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tab {
+    flex: 1;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background-color: #0CABC0;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: bold;
+    border-bottom: none;
+    text-align: center;
+}
+
+.tab.active {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #0CABC0;
+}
+
+#tab-id {
+    border-top-right-radius: 0;
+}
+
+#tab-pw {
+    border-top-left-radius: 0;
+}
+
+.tab + .tab {
+    border-left: none;
+}
+
+.tab-content {
+    display: none;
+}
+
+.main-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px 20px;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 400px;
+    font-family: 'Pretendard-Regular';
+}
+
+h2 {
+    font-size: 35px;
+    font-family: 'Ownglyph_meetme-Rg';
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: #0CABC0;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    line-height: normal;
+}
+
+button:hover {
+    background-color: #227ea2;
+}
+
+#login {
+    background-color: #ffb426;
+}
+
+#login:hover {
+    background-color: darkorange;
+}
+
+#join {
+    background-color: #0EA06F;
+}
+
+#join:hover {
+    background-color: darkgreen;
+}
+
+.link_text {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#join,
+#login,
+#find_id {
+    color: #white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#join:hover,
+#login:hover,
+#find_id:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}

@@ -226,7 +226,11 @@
             <when test="param1 == 'name'">
                 name LIKE '%' || #{param2}  || '%'
             </when>
-           
+            <!-- 바다이름 검색 --> 
+            <when test="param1 == 'beach_code'">
+             	beach_code = #{param2}
+            </when> 
+
  			<!-- 방문시기 검색 -->
             <when test="param1 == 'vdate' and param2 != '2020'">
                 visit_day LIKE #{param2} || '%'
@@ -267,7 +271,7 @@
             </when>
             <!-- 바다명(바다코드) 검색 -->
             <when test="param1 == 'beach_code'">
-                beach_code LIKE '%' || #{param2}  || '%'
+                beach_code = #{param2}
             </when>
            
  			<!-- 방문시기 검색 -->

@@ -6,78 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="${pageContext.request.contextPath}/resources/css/ranking_page.css" rel="stylesheet" type="text/css">
     <title>연말 결산 페이지</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        .ranking-list {
-            margin-top: 20px;
-        }
-
-        .ranking-item {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .ranking-item:last-child {
-            border-bottom: none;
-        }
-
-        .ranking-item h3 {
-            margin-top: 5px;
-            margin-bottom: 10px;
-            color: #555;
-        }
-
-        .ranking-item p {
-            margin: 5px 0;
-            color: #777;
-        }
-
-        .ranking-item .rank {
-            font-size: 24px;
-            font-weight: bold;
-            color: #ff5733;
-        }
-        .card {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            padding: 20px;
-        }
-
-        .card-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .card-content {
-            color: #777;
-        }
-        
-    </style>
     <script src="./resources/js/loading.js"></script>
 </head>
 <body>

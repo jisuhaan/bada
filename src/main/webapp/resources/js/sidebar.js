@@ -37,6 +37,34 @@ collapseToggles.forEach(collapseToggle => {
     });
 });
 
+/* HOVER TO SHOW COLLAPSE MENU */
+const parentLinks = document.querySelectorAll('.nav__link.collapse');
+
+parentLinks.forEach(parentLink => {
+    parentLink.addEventListener('mouseenter', function() {
+        const currentMenu = this.querySelector('.collapse__menu');
+        if (currentMenu) {
+            collapseMenus.forEach(menu => {
+                if (menu !== currentMenu) {
+                    menu.classList.remove('showCollapse');
+                    menu.parentElement.classList.remove('fixed');
+                }
+            });
+            currentMenu.classList.add('showCollapse');
+            this.classList.add('fixed');
+        }
+    });
+
+    parentLink.addEventListener('mouseleave', function() {
+        const currentMenu = this.querySelector('.collapse__menu');
+        if (currentMenu) {
+            currentMenu.classList.remove('showCollapse');
+            this.classList.remove('fixed');
+        }
+    });
+});
+
+
 
 // 작은 방향 버튼에 대한 이벤트 처리
 collapseLinks.forEach(collapseLink => {

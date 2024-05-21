@@ -543,7 +543,7 @@ public class ReviewController {
 		    ss.review_modify(review_num,visit_day,review_title,review_contents,
 		    				review_score,hashtags,beach_code,re_visit);
 		    
-		      return "redirect:/review_all_page";
+		      return "redirect:/review_detail?review_num="+ review_num;
 		   }
 	
 	

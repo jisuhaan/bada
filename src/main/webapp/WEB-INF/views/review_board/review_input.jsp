@@ -16,7 +16,6 @@
 
 <div id="container_title">리뷰작성</div>
 
-
 <form id="review_form" action="review_save" method="post" enctype="multipart/form-data">
 
 <div class="listbox writer">
@@ -58,10 +57,12 @@
 <div class="listbox addphoto">
 <div class="pic_add">
 <div id="list_title">사진(최대 5장)</div>
-<input type="file" name="pic1" id="pic1" class="btn">
-<button type="button" onclick="addPicField()" class="btn"> + </button>
-</div>
-<div id="pic_pack"></div>
+	<div class="photofiles">
+	<input type="file" name="pic1" id="pic1" class="btn">
+	<div id="pic_pack"></div>
+	</div>
+	<button type="button" onclick="addPicField()" class="btn"> + </button>
+	</div>
 </div>
 
 
@@ -120,7 +121,8 @@
 <br><hr><br>
 <div class="listbox btns">   
 	<input type="submit" value="전송" class="btn2">
-	<input type="reset" value="취소" class="btn2">
+	<input type="reset" value="리셋" class="btn2">
+	<input type="button" value="돌아가기" class="btn2 goback" onclick="history.go(-1)">
 </div>
 			
 </form>

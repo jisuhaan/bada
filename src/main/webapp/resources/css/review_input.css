@@ -74,13 +74,35 @@ hr {
 	gap:20px;
 }
 
-#pic_pack {
+#photo_input {
 	display: flex;
-	padding-left:170px;
+	justify-content: flex-start;
+	align-items: center;
+	gap:20px;
+}
+
+.photofiles {
+	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: center;
-	gap:5px;
+	align-items: flex-start;
+	gap:10px;
+}
+
+#pic_pack {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	gap:10px;
+}
+
+#existing_photos{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	gap:10px;
 }
 
 .contents {
@@ -266,12 +288,14 @@ input[type=radio]:checked + label {
 }
 
 input[type=submit],
-input[type=reset] {
+input[type=reset],
+.goback {
 	width:100px;
 	height:40px;
 }
 
 input[type=submit],
-input[type=reset]:hover {
+input[type=reset],
+.goback:hover {
 	cursor: pointer;
 }

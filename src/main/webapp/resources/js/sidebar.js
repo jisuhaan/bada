@@ -23,8 +23,8 @@ collapseToggles.forEach(collapseToggle => {
     collapseToggle.addEventListener('click', function(event) {
         event.preventDefault(); // Prevent default action for the collapse button
 
-        const currentMenu = this.nextElementSibling;
-        if (currentMenu.classList.contains('collapse__menu')) {
+        const currentMenu = this.parentNode.querySelector('.collapse__menu');
+        if (currentMenu) {
             collapseMenus.forEach(menu => {
                 if (menu !== currentMenu) {
                     menu.classList.remove('showCollapse');
@@ -57,28 +57,10 @@ parentLinks.forEach(parentLink => {
 
     parentLink.addEventListener('mouseleave', function() {
         const currentMenu = this.querySelector('.collapse__menu');
-        if (currentMenu) {
+        if (currentMenu && !this.classList.contains('fixed')) {
             currentMenu.classList.remove('showCollapse');
             this.classList.remove('fixed');
         }
-    });
-});
-
-
-
-// 작은 방향 버튼에 대한 이벤트 처리
-collapseLinks.forEach(collapseLink => {
-    collapseLink.addEventListener('click', function(event) {
-        event.preventDefault();
-        const parentMenu = this.parentNode.querySelector('.collapse__menu');
-        collapseMenus.forEach(menu => {
-            if (menu !== parentMenu) {
-                menu.classList.remove('showCollapse');
-                menu.parentElement.classList.remove('fixed');
-            }
-        });
-        parentMenu.classList.toggle('showCollapse');
-        this.parentElement.classList.toggle('fixed');
     });
 });
 

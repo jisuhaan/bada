@@ -68,6 +68,7 @@
 		FROM
 		(SELECT
 		    bb.bbti_name as bbti,
+		    bu.bbti as bbti_code,
 		    COUNT(*) as count,
 		    rank() OVER (ORDER BY  COUNT(*) DESC) as rank
 		FROM bada_user bu

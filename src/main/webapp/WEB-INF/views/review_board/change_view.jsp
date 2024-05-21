@@ -215,76 +215,113 @@ function checkDate() {
 	
 // 해시태그영역
 
-document.addEventListener("DOMContentLoaded", function() {
-    var hashtagBoxes = document.querySelectorAll('.hashtag-box');
+$(document).ready(function() {
+      // 초기 해시태그 설정
+      choice_tags = '${dto.hashtag}'.split(' ').filter(tag => tag);
+  
+      // 선택된 해시태그 표시
+      update_Hashtag();
+  
+      $('.category').click(function() {
+          var category = $(this).data('category');
+          show_hashtags(category);
+      });
+  
+      $(document).on('click', '.hashtag', function() {
+          var hashtag = $(this).text();
+          if ($(this).hasClass('selected')) {
+              // 해시태그 선택 해제
+              $(this).removeClass('selected');
+              choice_tags = choice_tags.filter(function(value) {
+                  return value !== hashtag;
+              });
+          } else {
+              // 새 해시태그 선택
+              if (choice_tags.length < 6) {
+                  $(this).addClass('selected');
+                  choice_tags.push(hashtag);
+              } else {
+                  alert('해시태그는 최대 6개까지 선택 가능합니다.');
+              }
+          }
+          update_Hashtag();
+      });
+  
+      function show_hashtags(category) {
+          var hashtags = get_tag(category);
+          var dropdown = $('.hashtag-dropdown').empty().show();
+          $.each(hashtags, function(index, hashtag) {
+              var div = $('<div/>', {
+                  text: hashtag,
+                  class: 'hashtag'
+              }).appendTo(dropdown);
+  
+              if (choice_tags.indexOf(hashtag) !== -1) {
+                  div.addClass('selected');
+              }
+          });
+      }
+  
+      function get_tag(category) {
+          var hashtags = {
+              "누구와": ["#가족", "#연인", "#혼자", "#친구", "#반려동물"],
+              "편의시설": ["#대중교통", "#자차필요", "#번화가"],
+              "바다": ["#에메랄드바다", "#백사장", "#고운모래", "#갯벌"],
+              "액티비티": ["#스쿠버다이빙", "#서핑", "#물놀이", "#바다낚시", "#캠핑"],
+              "풍경": ["#핫플", "#감성", "#사람이적어요", "#이국적", "#인생샷", "#일출맛집", "#전망대", "#항구"]
+          };
+          return hashtags[category];
+      }
+  
+      function update_Hashtag() {
+          $('#hashtags').val(choice_tags.join(' '));
+          display_tags();
+      }
+  
+      function display_tags() {
+          var tags_Area = $('#selected-tags');
+          tags_Area.empty(); // 이전 표시 내용 초기화
+          choice_tags.forEach(function(tag) {
+              $('<span/>', {
+                  text: tag,
+                  class: 'selected-tag'
+              }).appendTo(tags_Area);
+          });
+      }
+      
+   display_tags();
 
-    function Hashtag_Input() {
-        var selectedHashtags = document.querySelectorAll('.hashtag-box.selected');
-        var hashtagsValue = Array.from(selectedHashtags).map(function(box) {
-            return box.getAttribute('data-value');
-        }).join(' ');
-        document.getElementById('hashtags').value = hashtagsValue;
-    }
-
-    hashtagBoxes.forEach(function(box) {
-        box.addEventListener('click', function() {
-            // 선택된 박스의 수 확인
-            var selectedBoxes = document.querySelectorAll('.hashtag-box.selected');
-            if (!box.classList.contains('selected') && selectedBoxes.length >= 3) {
-                alert('최대 3개까지만 선택할 수 있습니다.');
-                return;
-            }
-
-            // 박스의 선택 상태를 토글
-            box.classList.toggle('selected');
-            
-            Hashtag_Input();
-        });
-    });
-    
-// 해시태그 수정 기본세팅
-var hashtagsValue = document.getElementById('hashtags').value;
-if (hashtagsValue) {
-    var selectedTags = hashtagsValue.split(' '); 
-    hashtagBoxes.forEach(function(box) {
-        if (selectedTags.includes(box.getAttribute('data-value'))) {
-            box.classList.add('selected'); // db저장 해시태그 박스 선택된 상태 표시
-        }
-    });
-}
-    
-
+});   
+   
     // 재방문 의사 선택 기능
-    var visitBoxes = document.querySelectorAll('.visit-box');
-    visitBoxes.forEach(function(box) {
-        box.addEventListener('click', function() {
-            // 다른 박스의 선택 해제
-            visitBoxes.forEach(function(otherBox) {
-                otherBox.classList.remove('selected');
-            });
-            
-            // 현재 박스의 선택 상태를 설정
-            box.classList.add('selected');
-            document.getElementById('re_visit_input').value = box.getAttribute('data-value');
+var visitBoxes = document.querySelectorAll('.visit-box');
+visitBoxes.forEach(function(box) {
+    box.addEventListener('click', function() {
+        // 다른 박스의 선택 해제
+        visitBoxes.forEach(function(otherBox) {
+            otherBox.classList.remove('selected');
         });
+        
+        // 현재 박스의 선택 상태를 설정
+        box.classList.add('selected');
+        document.getElementById('re_visit_input').value = box.getAttribute('data-value');
     });
-    
-    // 재방문 의사 상태 기본설정
-    var reVisitValue = document.getElementById('re_visit_input').value;
-    if (reVisitValue) {
-        var visitBoxes = document.querySelectorAll('.visit-box');
-        visitBoxes.forEach(function(box) {
-            if (box.getAttribute('data-value') === reVisitValue) {
-                box.classList.add('selected'); // dto저장 재방문 의사 박스를 선택된 상태로 표시
-            }
-        });
-    }	    
-    
 });
 
-document.getElementById('review_form').onsubmit = function() {
-	    
-		
+// 재방문 의사 상태 기본설정
+var reVisitValue = document.getElementById('re_visit_input').value;
+if (reVisitValue) {
+    var visitBoxes = document.querySelectorAll('.visit-box');
+    visitBoxes.forEach(function(box) {
+        if (box.getAttribute('data-value') === reVisitValue) {
+            box.classList.add('selected'); // dto저장 재방문 의사 박스를 선택된 상태로 표시
+        }
+    });
+}	    
+    
+
+document.getElementById('review_change_form').onsubmit = function() {
+	    		
     // 별점 유효성 검사
     var reviewScoreSelected = document.querySelector('input[name="review_score"]:checked');
     if (!reviewScoreSelected) {

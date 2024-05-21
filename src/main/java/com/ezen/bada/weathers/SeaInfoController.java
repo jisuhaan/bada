@@ -1,9 +1,9 @@
 package com.ezen.bada.weathers;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -95,6 +95,30 @@ public class SeaInfoController {
 		
 		//해변코드로 db에 마련된 해변정보(주소, 설명 등)들을 불러옵니다.
 		Bada_info_DTO bdt = ss.getbeachinfo(beach_code);
+		
+		//해변코드로 db에 마련된 개폐장정보를 가져오고 attribute
+		Date currentDate = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMdd");
+        String dateString = sdf.format(currentDate);
+        int currentDateInt = Integer.parseInt(dateString);
+        System.out.println("현재날짜"+currentDateInt);
+        
+        String startday = ss.startday(beach_code);
+        int startd = Integer.parseInt(startday);
+        String endday = ss.endday(beach_code);
+        int endd = Integer.parseInt(endday);
+        String openstate= "";
+        
+        if (currentDateInt >= startd && currentDateInt <= endd) {
+            // 개장중
+        	openstate = "개장중";
+        } else {
+            // 개장전
+        	openstate = "개장전";
+        }
+        mo.addAttribute("openstate",openstate);
+        System.out.println("개장여부"+openstate);
+		
 		
 		//해변코드로 db에 마련된 위도경도를 불러옵니다.
 		mo.addAttribute("bdt",bdt);
@@ -219,7 +243,7 @@ public class SeaInfoController {
         mo.addAttribute("errorMessage", errorMessage);
     }
 	
-	//지은 메인 서치바 진행중..
+	//메인 서치바
 	@ResponseBody
 	@RequestMapping(value = "main_search")
 	public String main_search(HttpServletRequest request) {

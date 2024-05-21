@@ -159,6 +159,22 @@ hr {
 	display:flex;
 	justify-content: center;
 	align-items: center;
+	gap:20px;
+}
+
+#photo_input {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	gap:20px;
+}
+
+.photofiles {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	gap:10px;
 }
 
 #pic_pack {
@@ -167,6 +183,14 @@ hr {
 	justify-content: center;
 	align-items: center;
 	gap:5px;
+}
+
+#existing_photos{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	gap:10px;
 }
 
 .list_buttons {

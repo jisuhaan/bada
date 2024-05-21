@@ -21,72 +21,91 @@
         }
     }
 </script>
+<style type="text/css">
+
+#search {
+	font-family: 'Pretendard-Regular';
+	font-size: 15px;
+	padding:10px;
+	width: 330px;
+	height: 30px;
+	background-color: #f1f1f1;
+	border: 0;
+	box-shadow: 2px 2px 2px gray;
+	margin: 5px 0px 5px 0px;
+}
+
+input[type=date]{
+	font-family: 'Pretendard-Regular';
+	font-size: 15px;
+	padding:10px;
+	width: 250px;
+	height: 30px;
+	background-color: #f1f1f1;
+	border: 0;
+	box-shadow: 2px 2px 2px gray;
+	margin: 5px 0px 5px 0px;
+}
+
+</style>
 
 </head>
 
 <body>
 
-  <div class="page-title">
-        <div class="container">
-            <h3>문의 게시판</h3>
-        </div>
-    </div>
 
 <!-- 아마 div나 span 이름이 내용이랑 안 맞을 텐데 나중에 css 적용하실 때 편하시라고 이전의 member_search 그대로 가져다 썼어요 -->
 	
 <div class="search_form">
-<form action="inquire_search" method="post" name="searchform">
-	<div class="search_logo">
-	</div>
-	<br>
-	<div class="search_contents">
-	<div class="search_select">
-	<span class="search_title">검색어</span>
-	</div>
-	
-	<form id="search-form">
-                    <div class="search-wrap">
-	<select name="search_keyword" required="required">
-		<option value="name">회원 닉네임</option>
-		<option value="title">문의글 제목</option>
-		<option value="content">문의 내용</option>
-	</select>
-	</div>
-	</form>
-	
-	<input id="search" type="search" name="search_value" required="required" placeholder="검색어를 입력해주세요.">
-	
-	<div class="search_select">
-	<span class="search_title">문의 카테고리</span>
-	
-	<select name="category">
-		<optgroup label="문의사항">
-			<option value="">선택 안 함</option>
-			<option value="계정 정보 문의">계정 정보 문의</option>
-			<option value="바다 정보 문의">바다 정보 문의</option>
-			<option value="홈페이지 기능 문의">홈페이지 기능 문의</option>
-			<option value="기타 문의">기타 문의</option>
-		</optgroup>
-		<optgroup label="바다 추천">
-			<option value="새로운 바다 추천">새로운 바다 추천</option>
-		</optgroup>
-	</select>
-	
-	<br>
+	<form action="inquire_search" method="post" name="searchform">
+
+		<div class="search_contents">
+		<div class="search_select">
+		<span class="search_title">검색어</span>
+		</div>
 		
-	<span class="search_title">작성일자</span>
-	
-	<input type="date" name="i_date" onchange="setFormattedDate()">
-	</div>
-	<br>
-	<div class="buttons">
-	<button class="btn_2" onclick="document.forms['searchform'].submit();">
-	<span id="btn_text">검색하기</span>
-	</button>
-	</div>
-	</div>
-	
-</form>
+		<form id="search-form">
+	    <div class="search-wrap2">
+			<select name="search_keyword" required="required">
+				<option value="name">회원 닉네임</option>
+				<option value="title">문의글 제목</option>
+				<option value="content">문의 내용</option>
+			</select>
+		</div>
+		</form>
+		
+		<input id="search" type="search" name="search_value" required="required" placeholder="검색어를 입력해주세요.">
+		
+		<div class="search_select">
+			<span class="search_title">문의 카테고리</span>
+			
+			<select name="category">
+				<optgroup label="문의사항">
+					<option value="">선택 안 함</option>
+					<option value="계정 정보 문의">계정 정보 문의</option>
+					<option value="바다 정보 문의">바다 정보 문의</option>
+					<option value="홈페이지 기능 문의">홈페이지 기능 문의</option>
+					<option value="기타 문의">기타 문의</option>
+				</optgroup>
+				<optgroup label="바다 추천">
+					<option value="새로운 바다 추천">새로운 바다 추천</option>
+				</optgroup>
+			</select>
+			
+			<br>
+				
+			<span class="search_title">작성일자</span>
+			
+			<input type="date" name="i_date" onchange="setFormattedDate()">
+		</div>
+		<br>
+		<div class="buttons">
+		<button class="btn_2" onclick="document.forms['searchform'].submit();">
+		<span id="btn_text">검색하기</span>
+		</button>
+		</div>
+		</div>
+	</form>	
 </div>
 </body>
 

@@ -29,5 +29,9 @@ public interface Service {
 
 	List<String> gethashtags(int beach_code);
 
+	String endday(int beach_code);
+
+	String startday(int beach_code);
+
 
 }

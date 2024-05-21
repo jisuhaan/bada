@@ -48,7 +48,17 @@ document.addEventListener("DOMContentLoaded", function() {
       <div class="sea_result_left_top">
       <div class="info_box">
       <br>
-      <span id="beach_name">${bdt.beach_name}</span>
+      <div class="title_line">
+	      <div id="beach_name">${bdt.beach_name}</div>
+	      <div id="openstate"><span>${openstate}</span></div>
+	      <c:if test="${openstate == '개장중'}">
+	      	<style>
+	      		#openstate {
+					background-color: #48B0D9;	      		
+	      		}
+	      	</style>
+	      </c:if>
+      </div>
       <br>
       <div class="info_detail">   
          <div class="info_slider">

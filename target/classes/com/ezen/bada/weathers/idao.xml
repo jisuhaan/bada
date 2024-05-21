@@ -79,5 +79,22 @@
 		WHERE ROWNUM <= 3
  	]]>
 	</select>
+	
+	<!-- 개장날짜 -->
+	<select id="startday" resultType="String">
+		SELECT uu.bada_open 
+		FROM bada_use_period uu
+		JOIN bada_info ii ON uu.bada_name = ii.beach_name
+		WHERE ii.beach_code = #{param1}
+	</select>
+	
+	<!-- 폐장날짜 -->
+	<select id="endday" resultType="String">
+		SELECT uu.bada_close 
+		FROM bada_use_period uu
+		JOIN bada_info ii ON uu.bada_name = ii.beach_name
+		WHERE ii.beach_code = #{param1}
+	
+	</select>
 
 </mapper>

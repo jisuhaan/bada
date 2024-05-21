@@ -131,16 +131,16 @@
 		</c:when>
 		<c:otherwise>
 			<div class="action_btns">
-				<div class="update_btn">
-					<img src="./resources/image/modify_icon.png" width="20px" class="like_icon" onclick="window.location.href='inquire_modify?inquire_num=${dto.inquire_num}'">
+				<div class="update_btn" onclick="window.location.href='inquire_modify?inquire_num=${dto.inquire_num}'">
+					<img src="./resources/image/modify_icon.png" width="20px" class="like_icon">
 					<span>수정</span>
 				</div>
-				<div class="delete_btn">
-					<img src="./resources/image/delete_icon.png" width="20px" class="report_icon" onclick="confirmDelete('${dto.inquire_num}')">
+				<div class="delete_btn" onclick="confirmDelete('${dto.inquire_num}')">
+					<img src="./resources/image/delete_icon.png" width="20px" class="report_icon" >
 					<span>삭제</span>
 				</div>
-				<div class="list_btn">
-					<img src="./resources/image/icon_tolist.png" width="20px" class="report_icon" onclick="window.location.href='inquire_listout?sort=latest'">
+				<div class="list_btn" onclick="window.location.href='inquire_listout?sort=latest'">
+					<img src="./resources/image/icon_tolist.png" width="20px" class="report_icon">
 					<span>목록으로</span>
 				</div>
 			</div>

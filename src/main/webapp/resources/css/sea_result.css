@@ -93,6 +93,34 @@ body {
 	z-index: 1;
 }
 
+.title_line{
+	width:100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#openstate{
+	font-family: 'DOSGothic';
+	font-size:20px;
+	font-weight:600;
+	position:absolute;
+	left:450px;
+	z-index:1;
+	float: right;
+	width:100px;
+	height:40px;
+	border: none;
+	border-radius:10px;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding:10px;
+	background-color: #e8584a;
+	box-shadow: 2px 2px 2px gray;
+}
+
 .info_detail {
 	display: flex;
 	flex-direction: column;
@@ -112,8 +140,9 @@ body {
 }
 
 #beach_name{
-   font-family: 'Ownglyph_meetme-Rg';
-   font-size: 40px;
+	width:70%;
+	font-family: 'Ownglyph_meetme-Rg';
+	font-size: 40px;
 }
 
 .info_slider {

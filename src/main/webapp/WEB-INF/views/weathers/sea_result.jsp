@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var sky = parseInt(${bldt.ultraSrtFcstBeach_dto.sky});
     var pty = parseInt(${bldt.ultraSrtFcstBeach_dto.pty});
     console.log(weatherEmoticon(sky, pty, hour, month));
-    document.getElementById("weatherIcon").innerHTML = weatherEmoticon(sky, pty, hour, month, 50, 50);
+    document.getElementById("weatherIcon").innerHTML = weatherEmoticonWithTitle(sky, pty, hour, month, 50, 50);
   
     const elements = document.querySelectorAll('.todays');
     elements.forEach((element, index) => {

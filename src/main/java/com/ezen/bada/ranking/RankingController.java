@@ -37,7 +37,7 @@ public class RankingController {
 		System.out.println(reviewCountlist.size());
 		for(int i=0;i<reviewCountlist.size();i++) {
 			Bada_info_DTO bdt = service.getbeachinfo(viewCountlist.get(i).getBeach_code());
-			viewCountlist.get(i).setBdt(bdt);
+			reviewCountlist.get(i).setBdt(bdt);
 		}
 		
 		// 리뷰 별점이 높은 바다 top3
@@ -45,7 +45,7 @@ public class RankingController {
 		System.out.println(reviewScorelist.size());
 		for(int i=0;i<reviewScorelist.size();i++) {
 			Bada_info_DTO bdt = service.getbeachinfo(viewCountlist.get(i).getBeach_code());
-			viewCountlist.get(i).setBdt(bdt);
+			reviewScorelist.get(i).setBdt(bdt);
 		}
 		
 		// 재방문 의사가 높은 바다 top3
@@ -53,7 +53,7 @@ public class RankingController {
 		System.out.println(re_visitlist.size());
 		for(int i=0;i<re_visitlist.size();i++) {
 			Bada_info_DTO bdt = service.getbeachinfo(viewCountlist.get(i).getBeach_code());
-			viewCountlist.get(i).setBdt(bdt);
+			re_visitlist.get(i).setBdt(bdt);
 		}
 		
 		// 최다 bbti top3
@@ -67,7 +67,7 @@ public class RankingController {
 		List<RankingHashtagDTO> tophashtaglist = ss.hashtagTopThree();
 		System.out.println(tophashtaglist.size());
 		for(int i=0;i<tophashtaglist.size();i++) {
-			System.out.println("두 번째 해시태그: "+tophashtaglist.get(i).getSecond_used_beach());
+			System.out.println("두 번째 사진: "+tophashtaglist.get(i).getSecond_used_beach_picture());
 		}
 		
 		mo.addAttribute("viewCountlist", viewCountlist);

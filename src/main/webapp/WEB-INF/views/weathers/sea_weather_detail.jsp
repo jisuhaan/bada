@@ -219,9 +219,11 @@
                      <tr>
                          <th>강수 형태</th>
                          <td>
-                         <c:forEach var="pty" items="${wthrmap.value.ptySet}">
-                         <span id="ptylist">${pty}</span>
-                     </c:forEach>
+                         <c:forEach var="pty" items="${wthrmap.value.ptySet}" varStatus="loop">
+						    <span id="ptylist">${fn:trim(pty)}<c:if test="${not loop.last}">,</c:if>
+						    </span>
+						</c:forEach>
+
                      </td>
                      </tr>
                  </c:if>
@@ -343,8 +345,9 @@
 
             // ptySet이 null이 아닐 때 해당 리스트 항목도 추가
             if (weather.ptySet != null) {
+            	const ptyListStr = weather.ptySet.join(", ");
                 row = document.createElement("tr");
-                row.innerHTML = '<th>날씨 상태</th><td><span id="ptylist">' + weather.ptySet + '</span></td>';
+                row.innerHTML = '<th>날씨 상태</th><td><span id="ptylist">' + ptyListStr + '</span></td>';
                 table.appendChild(row);
             }
 

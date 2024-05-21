@@ -2,14 +2,20 @@ package com.ezen.bada.ranking;
 
 public class RankingHashtagDTO {
 	String hashtag;
+	
 	String most_used_beach;
 	String most_used_beach_code;
+	String most_used_beach_picture;
 	int max_hashtag_count;
+	
 	String second_used_beach;
 	String second_used_beach_code;
+	String second_used_beach_picture;
 	int second_hashtag_count;
+	
 	String third_used_beach;
 	String third_used_beach_code;
+	String third_used_beach_picture;
 	int third_hashtag_count;
 	
 	public RankingHashtagDTO() {
@@ -17,19 +23,24 @@ public class RankingHashtagDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public RankingHashtagDTO(String hashtag, String most_used_beach, String most_used_beach_code, int max_hashtag_count,
-			String second_used_beach, String second_used_beach_code, int second_hashtag_count, String third_used_beach,
-			String third_used_beach_code, int third_hashtag_count) {
+	public RankingHashtagDTO(String hashtag, String most_used_beach, String most_used_beach_code,
+			String most_used_beach_picture, int max_hashtag_count, String second_used_beach,
+			String second_used_beach_code, String second_used_beach_picture, int second_hashtag_count,
+			String third_used_beach, String third_used_beach_code, String third_used_beach_picture,
+			int third_hashtag_count) {
 		super();
 		this.hashtag = hashtag;
 		this.most_used_beach = most_used_beach;
 		this.most_used_beach_code = most_used_beach_code;
+		this.most_used_beach_picture = most_used_beach_picture;
 		this.max_hashtag_count = max_hashtag_count;
 		this.second_used_beach = second_used_beach;
 		this.second_used_beach_code = second_used_beach_code;
+		this.second_used_beach_picture = second_used_beach_picture;
 		this.second_hashtag_count = second_hashtag_count;
 		this.third_used_beach = third_used_beach;
 		this.third_used_beach_code = third_used_beach_code;
+		this.third_used_beach_picture = third_used_beach_picture;
 		this.third_hashtag_count = third_hashtag_count;
 	}
 
@@ -57,6 +68,14 @@ public class RankingHashtagDTO {
 		this.most_used_beach_code = most_used_beach_code;
 	}
 
+	public String getMost_used_beach_picture() {
+		return most_used_beach_picture;
+	}
+
+	public void setMost_used_beach_picture(String most_used_beach_picture) {
+		this.most_used_beach_picture = most_used_beach_picture;
+	}
+
 	public int getMax_hashtag_count() {
 		return max_hashtag_count;
 	}
@@ -79,6 +98,14 @@ public class RankingHashtagDTO {
 
 	public void setSecond_used_beach_code(String second_used_beach_code) {
 		this.second_used_beach_code = second_used_beach_code;
+	}
+
+	public String getSecond_used_beach_picture() {
+		return second_used_beach_picture;
+	}
+
+	public void setSecond_used_beach_picture(String second_used_beach_picture) {
+		this.second_used_beach_picture = second_used_beach_picture;
 	}
 
 	public int getSecond_hashtag_count() {
@@ -105,6 +132,14 @@ public class RankingHashtagDTO {
 		this.third_used_beach_code = third_used_beach_code;
 	}
 
+	public String getThird_used_beach_picture() {
+		return third_used_beach_picture;
+	}
+
+	public void setThird_used_beach_picture(String third_used_beach_picture) {
+		this.third_used_beach_picture = third_used_beach_picture;
+	}
+
 	public int getThird_hashtag_count() {
 		return third_hashtag_count;
 	}
@@ -116,12 +151,13 @@ public class RankingHashtagDTO {
 	@Override
 	public String toString() {
 		return "RankingHashtagDTO [hashtag=" + hashtag + ", most_used_beach=" + most_used_beach
-				+ ", most_used_beach_code=" + most_used_beach_code + ", max_hashtag_count=" + max_hashtag_count
-				+ ", second_used_beach=" + second_used_beach + ", second_used_beach_code=" + second_used_beach_code
-				+ ", second_hashtag_count=" + second_hashtag_count + ", third_used_beach=" + third_used_beach
-				+ ", third_used_beach_code=" + third_used_beach_code + ", third_hashtag_count=" + third_hashtag_count
-				+ "]";
+				+ ", most_used_beach_code=" + most_used_beach_code + ", most_used_beach_picture="
+				+ most_used_beach_picture + ", max_hashtag_count=" + max_hashtag_count + ", second_used_beach="
+				+ second_used_beach + ", second_used_beach_code=" + second_used_beach_code
+				+ ", second_used_beach_picture=" + second_used_beach_picture + ", second_hashtag_count="
+				+ second_hashtag_count + ", third_used_beach=" + third_used_beach + ", third_used_beach_code="
+				+ third_used_beach_code + ", third_used_beach_picture=" + third_used_beach_picture
+				+ ", third_hashtag_count=" + third_hashtag_count + "]";
 	}
-	
 
 }

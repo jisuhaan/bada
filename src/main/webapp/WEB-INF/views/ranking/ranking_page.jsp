@@ -20,15 +20,15 @@
     	<div class="rankbox bestviewed">
     	<div id="rank_title">가장 궁금한 바다는</div>
     		<div class="bestviewed_no1">
-    			<div id="thumbnail best1img"><img src="./resources/image/${viewCountlist[0].picture1}"></div>
+    			<div id="thumbnail best1img"><img src="./resources/image/${viewCountlist[0].picture}"></div>
     			<div id="awardtitle best1title">${viewCountlist[0].beach}</div>
     		</div>
     		<div class="bestviewed_no2">
-    			<div id="thumbnail best2img"><img src="./resources/image/${viewCountlist[0].picture2}"></div>
+    			<div id="thumbnail best2img"><img src="./resources/image/${viewCountlist[1].picture}"></div>
     			<div id="awardtitle best3title">${viewCountlist[1].beach}</div>
     		</div>
     		<div class="bestviewed_no3">
-    			<div id="thumbnail best3img"><img src="./resources/image/${viewCountlist[0].picture3}"></div>
+    			<div id="thumbnail best3img"><img src="./resources/image/${viewCountlist[2].picture}"></div>
     			<div id="awardtitle best3title">${viewCountlist[2].beach}</div>
     		</div>
     		<div class="awards">
@@ -39,15 +39,15 @@
     	<div class="rankbox mostreviewed">
     	<div id="rank_title">후기 단골 맛집 바다는</div>
     		<div class="mostreviewed_no1">
-    			<div id="thumbnail best1img"><img src="./resources/image/${reviewCountlist[0].picture1}"></div>
+    			<div id="thumbnail best1img"><img src="./resources/image/${reviewCountlist[0].picture}"></div>
     			<div id="awardtitle best1title">${reviewCountlist[0].beach}</div>
     		</div>
     		<div class="mostreviewed_no2">
-    			<div id="thumbnail best2img"><img src="./resources/image/${reviewCountlist[1].picture1}"></div>
+    			<div id="thumbnail best2img"><img src="./resources/image/${reviewCountlist[1].picture}"></div>
     			<div id="awardtitle best3title">${reviewCountlist[1].beach}</div>
     		</div>
     		<div class="mostreviewed_no3">
-    			<div id="thumbnail best3img"><img src="./resources/image/${reviewCountlist[2].picture1}"></div>
+    			<div id="thumbnail best3img"><img src="./resources/image/${reviewCountlist[2].picture}"></div>
     			<div id="awardtitle best3title">${reviewCountlist[2].beach}</div>
     		</div>
     		<div class="awards">
@@ -58,15 +58,15 @@
     	<div class="rankbox bestscored">
     	<div id="rank_title">별이 많이 뜬 바다는</div>
     		<div class="bestscored_no1">
-    			<div id="thumbnail best1img"><img src="./resources/image/${reviewScorelist[0].picture1}"></div>
+    			<div id="thumbnail best1img"><img src="./resources/image/${reviewScorelist[0].picture}"></div>
     			<div id="awardtitle best1title">${reviewScorelist[0].beach}</div>
     		</div>
     		<div class="bestscored_no2">
-    			<div id="thumbnail best2img"><img src="./resources/image/${reviewScorelist[1].picture1}"></div>
+    			<div id="thumbnail best2img"><img src="./resources/image/${reviewScorelist[1].picture}"></div>
     			<div id="awardtitle best3title">${reviewScorelist[1].beach}</div>
     		</div>
     		<div class="bestscored_no3">
-    			<div id="thumbnail best3img"><img src="./resources/image/${reviewScorelist[2].picture1}"></div>
+    			<div id="thumbnail best3img"><img src="./resources/image/${reviewScorelist[2].picture}"></div>
     			<div id="awardtitle best3title">${reviewScorelist[2].beach}</div>
     		</div>
     		<div class="awards">
@@ -77,15 +77,15 @@
     	<div class="rankbox revisit">
     	<div id="rank_title">또 가고 싶은 바다는</div>
     		<div class="revisit_no1">
-    			<div id="thumbnail best1img"><img src="./resources/image/${re_visitlist[0].picture1}"></div>
+    			<div id="thumbnail best1img"><img src="./resources/image/${re_visitlist[0].picture}"></div>
     			<div id="awardtitle best1title">${re_visitlist[0].beach}</div>
     		</div>
     		<div class="revisit_no2">
-    			<div id="thumbnail best2img"><img src="./resources/image/${re_visitlist[1].picture1}"></div>
+    			<div id="thumbnail best2img"><img src="./resources/image/${re_visitlist[1].picture}"></div>
     			<div id="awardtitle best3title">${re_visitlist[1].beach}</div>
     		</div>
     		<div class="revisit_no3">
-    			<div id="thumbnail best3img"><img src="./resources/image/${re_visitlist[2].picture1}"></div>
+    			<div id="thumbnail best3img"><img src="./resources/image/${re_visitlist[2].picture}"></div>
     			<div id="awardtitle best3title">${re_visitlist[2].beach}</div>
     		</div>
     		<div class="awards">

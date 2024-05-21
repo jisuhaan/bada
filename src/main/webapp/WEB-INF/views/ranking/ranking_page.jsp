@@ -76,7 +76,9 @@
         .card-content {
             color: #777;
         }
+        
     </style>
+    <script src="./resources/js/loading.js"></script>
 </head>
 <body>
     <div class="container">
@@ -86,7 +88,7 @@
                 <div class="rank">1</div>
                 <h3>바라는바다 유저들이 많이 찾은 바다</h3>
                 <c:forEach var="vcl" items="${viewCountlist}" varStatus="vclloop">
-				    <a href="sea_result?beach_code=${vcl.beach_code}" class="card-link">
+				    <a href="#" onclick="moveToSeaResultPage(${vcl.beach_code})" class="card-link">
 				        <div class="card">
 				            <div class="card-content">
 				                <p>${vclloop.index + 1}. ${vcl.beach}</p>
@@ -99,7 +101,7 @@
                 <div class="rank">2</div>
                 <h3>후기 맛집 바다</h3>
                 <c:forEach var="rcl" items="${reviewCountlist}" varStatus="rclloop">
-				    <a href="sea_result?beach_code=${rcl.beach_code}" class="card-link">
+				    <a href="#" onclick="moveToSeaResultPage(${rcl.beach_code})" class="card-link">
 				        <div class="card">
 				            <div class="card-content">
 				                <p>${rclloop.index + 1}. ${rcl.beach}</p>
@@ -112,7 +114,7 @@
                 <div class="rank">3</div>
                 <h3>리뷰 별점 높은 바다</h3>
                 <c:forEach var="rsl" items="${reviewScorelist}" varStatus="rslloop">
-				    <a href="sea_result?beach_code=${rsl.beach_code}" class="card-link">
+				    <a href="#" onclick="moveToSeaResultPage(${rsl.beach_code})" class="card-link">
 				        <div class="card">
 				            <div class="card-content">
 				                <p>${rslloop.index + 1}. ${rsl.beach}</p>
@@ -125,7 +127,7 @@
                 <div class="rank">4</div>
                 <h3>재방문 의사가 높은 바다</h3>
                 <c:forEach var="rvl" items="${re_visitlist}" varStatus="rvlloop">
-				    <a href="sea_result?beach_code=${rvl.beach_code}" class="card-link">
+				    <a href="#" onclick="moveToSeaResultPage(${rvl.beach_code})" class="card-link">
 				        <div class="card">
 				            <div class="card-content">
 				                <p>${rvlloop.index + 1}. ${rvl.beach}</p>
@@ -141,6 +143,7 @@
                 <div class="card">
                     <div class="card-content">
                         <p>${bbloop.index + 1}. ${bb.bbti}</p>
+                        <img id="bbti-popup-image" src="${pageContext.request.contextPath}/resources/image_bbti/bbti_result_${bb.bbti_code}.png" alt="BBTI 결과 이미지" style="width:500px">
                     </div>
                 </div>
             </c:forEach>
@@ -153,12 +156,12 @@
                     <div class="card-content">
 	                	<p class="card-title">${ht.hashtag}</p>
 	                	<p>
-	                	<span>${ht.most_used_beach}</span>
+	                	<span><a href="#" onclick="moveToSeaResultPage(${ht.most_used_beach_code})">${ht.most_used_beach}</a></span>
 	                	<c:if test="${not empty ht.second_used_beach}">
-	                	<span>, ${ht.second_used_beach}</span>
+	                	<span>, <a href="#" onclick="moveToSeaResultPage(${ht.second_used_beach_code})">${ht.second_used_beach}</a></span>
 	                	</c:if>
 	                	<c:if test="${not empty ht.third_used_beach}">
-	                	<span>, ${ht.third_used_beach}</span>
+	                	<span>, <a href="#" onclick="moveToSeaResultPage(${ht.third_used_beach_code})">${ht.third_used_beach}</a></span>
 	                	</c:if>
 	                	</p>
                   </div>
@@ -167,5 +170,9 @@
             </div>
         </div>
     </div>
+<!-- 로딩 페이지 -->
+<div id="loading" style="display: none;">
+    <jsp:include page="../loading.jsp"/>
+</div>    
 </body>
 </html>

@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>바다 검색 결과</title>
+<script src="./resources/js/loading.js"></script>
 <style type="text/css">
 
 @font-face {
@@ -120,8 +121,7 @@
 <img alt="" src="./resources/image/dlvpDzohdp_20230531151658.jpg" width="600px" height="800px">
 	<c:forEach items="${list}" var="aa">
 	
-		<div class="beach_button" onclick="alert('바다 정보를 보러갈게요! 로딩에는 시간이 조금 걸리니 기다려주세요!'); window.opener.location.href='sea_result?beach_code=${aa.beach_code}';
-		setTimeout(function() { self.close(); }, 2000)">
+		<div class="beach_button" onclick="alert('바다 정보를 보러갈게요! 로딩에는 시간이 조금 걸리니 기다려주세요!'); moveToSeaResultPage(${aa.beach_code})">
 		<img alt="" src="./resources/image/Surfboard-01.png" width="450px">
 			<div class="infomation">
 				<div class="beach_name">${aa.beach_name}</div>
@@ -131,6 +131,10 @@
 		
 	</c:forEach>
 	
+</div>
+<!-- 로딩 페이지 -->
+<div id="loading" style="display: none;">
+    <jsp:include page="./loading.jsp"/>
 </div>
 </body>
 </html>

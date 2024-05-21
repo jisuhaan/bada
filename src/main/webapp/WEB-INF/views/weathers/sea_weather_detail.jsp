@@ -344,7 +344,7 @@
             // ptySet이 null이 아닐 때 해당 리스트 항목도 추가
             if (weather.ptySet != null) {
                 row = document.createElement("tr");
-                row.innerHTML = '<th>날씨 상태</th><td>' + weather.ptySet + '</td>';
+                row.innerHTML = '<th>날씨 상태</th><td><span id="ptylist">' + weather.ptySet + '</span></td>';
                 table.appendChild(row);
             }
 

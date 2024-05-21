@@ -10,19 +10,17 @@
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <link href="${pageContext.request.contextPath}/resources/css/sidebar.css" rel="stylesheet" type="text/css">
 <title>Insert title here</title>
-<style type="text/css">
-
-</style>
 </head>
 <body id="body-pd">
 <div class="l-navbar" id="navbar">
     <div class="nav_background">
         <nav class="nav">
             <div>
-                <div class="nav__brand">
-                    <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="nav__logo"><img src="./resources/image/로고 9-2.png" width="50px"></a>
-                </div>
+            
+				<div class="nav__brand">
+				    <img src="./resources/image/로고 9-2.png" class="nav__toggle" id="nav-toggle" width="100px">
+				</div>
+
                 <div class="nav__list">
                     <a href="./" class="nav__link active">
                         <ion-icon name="home-outline" class="nav__icon"></ion-icon>

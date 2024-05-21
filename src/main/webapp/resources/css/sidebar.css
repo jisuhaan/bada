@@ -12,12 +12,11 @@
 :root {
     --nav--width: 92px;
     --nav--expanded-width: 300px; /* Expanded width for the sidebar */
-    --nav--collapsed-width: 20px; /* Collapsed width for the sidebar */
     --first-color: #48B0D9;
     --bg-color: #1B70A6;
     --sub-color: #CDE4F2;
     --white-color: #F1F1F1;
-    --body-font: 'Jua', 'Pretendard-Regular';
+    --body-font: 'Pretendard-Regular';
     --normal-font-size: 1.3rem;
     --small-font-size: 1rem;
     --z-fixed: 100;
@@ -51,19 +50,37 @@ ul {
 .l-navbar {
     position: fixed;
     top: 0;
-    left: 0;
-    width: var(--nav--collapsed-width);
+    left: -250px; /* Initial position partially off screen */
+    width: var(--nav--expanded-width);
     height: 100vh;
     background: url('../image/sidebarimg-01.png') no-repeat left center/cover;
-    transition: width .5s, background-position .5s;
+    transition: left .5s, width .5s, background-position .5s;
     z-index: var(--z-fixed);
-    opacity: 0; /* Initially hide the sidebar */
+    font-family: 'Jua';
 }
 
-.l-navbar.expander {
-    width: var(--nav--expanded-width);
-    background-position: left center;
-    opacity: 1; /* Show the sidebar when expanded */
+/* Show the toggle button */
+.nav__toggle {
+    position: absolute;
+    top: 1rem;
+    left: 250px; /* Adjust to be at the edge of the screen */
+    font-size: 2.5rem; /* Increase the size */
+    padding: 1.5rem; /* Increase the padding */
+    cursor: pointer;
+    z-index: var(--z-fixed);
+    transition: left .5s;
+}
+
+.l-navbar.expander .nav__toggle {
+    left: var(--nav--expanded-width); /* Adjust the position when sidebar is expanded */
+}
+
+.l-navbar:hover {
+    left: 0; /* Slide the sidebar in from the left */
+}
+
+.l-navbar:hover ~ .nav__toggle {
+    left: var(--nav--expanded-width); /* Adjust the position of the toggle button when sidebar is expanded */
 }
 
 /* NAV */
@@ -83,15 +100,6 @@ ul {
     align-items: center;
     margin-bottom: 2rem;
     gap:30px;
-}
-
-.nav__toggle {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    font-size: 1.25rem;
-    padding: .75rem;
-    cursor: pointer;
 }
 
 .nav__logo {
@@ -148,8 +156,8 @@ ul {
     color: var(--sub-color);
     font-size: 1.2rem;
     white-space: nowrap;
-    overflow: hidden; /* 텍스트가 넘치는 경우에 대비하여 가려지도록 설정 */
-    text-overflow: ellipsis; /* 텍스트가 넘치는 경우 말줄임표로 표시되도록 설정 */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .collapse__sublink:hover {
@@ -167,9 +175,22 @@ ul {
     transition: .5s;
 }
 
-/* HOVER EFFECT */
-.l-navbar:hover {
-    width: var(--nav--expanded-width);
-    background-position: left center;
-    opacity: 1; /* Show the sidebar when hovered */
+/* Opened and fixed state for sub-menu */
+.fixed .showCollapse {
+    display: block;
 }
+
+
+/* HOVER EFFECT */
+.l-navbar:hover .nav__toggle {
+    left: var(--nav--expanded-width);
+}
+
+.l-navbar.fixed {
+    left: 0; /* Sidebar fixed in expanded position */
+}
+
+.l-navbar.fixed ~ .nav__toggle {
+    left: var(--nav--expanded-width);
+}
+

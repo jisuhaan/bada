@@ -6,7 +6,7 @@ const showMenu = (toggleId, navbarId, bodyId) => {
 
     if (toggle && navbar) {
         toggle.addEventListener('click', () => {
-            navbar.classList.toggle('expander');
+            navbar.classList.toggle('fixed'); // Sidebar stays fixed when toggled
             bodypadding.classList.toggle('body-pd');
         });
     }
@@ -14,61 +14,43 @@ const showMenu = (toggleId, navbarId, bodyId) => {
 
 showMenu('nav-toggle', 'navbar', 'body-pd');
 
-/* LINK ACTIVE */
-const linkColor = document.querySelectorAll('.nav__link');
-
-function colorLink() {
-    linkColor.forEach(l => l.classList.remove('active'));
-    this.classList.add('active');
-}
-
-linkColor.forEach(l => l.addEventListener('click', colorLink));
-
-
 /* COLLAPSE MENU */
-const parentLinks = document.querySelectorAll('.nav__link');
+const collapseToggles = document.querySelectorAll('.collapse__link');
 const collapseMenus = document.querySelectorAll('.collapse__menu');
 
-parentLinks.forEach((parentLink, index) => {
-    parentLink.addEventListener('mouseenter', function() {
+// Toggle collapse menu on button click
+collapseToggles.forEach(collapseToggle => {
+    collapseToggle.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default action for the collapse button
+
         const currentMenu = this.nextElementSibling;
         if (currentMenu.classList.contains('collapse__menu')) {
             collapseMenus.forEach(menu => {
-                menu.classList.remove('showCollapse');
+                if (menu !== currentMenu) {
+                    menu.classList.remove('showCollapse');
+                    menu.parentElement.classList.remove('fixed');
+                }
             });
-            currentMenu.classList.add('showCollapse');
-        } else {
-            collapseMenus.forEach(menu => {
-                menu.classList.remove('showCollapse');
-            });
+            currentMenu.classList.toggle('showCollapse');
+            this.parentElement.classList.toggle('fixed');
         }
-    });
-
-    parentLink.addEventListener('mouseleave', function() {
-        collapseMenus.forEach(menu => {
-            menu.classList.remove('showCollapse');
-        });
     });
 });
 
-// 작은 방향 버튼에 대한 이벤트 처리
-const collapseLinks = document.querySelectorAll('.collapse__link');
 
+// 작은 방향 버튼에 대한 이벤트 처리
 collapseLinks.forEach(collapseLink => {
-    collapseLink.addEventListener('mouseenter', function() {
+    collapseLink.addEventListener('click', function(event) {
+        event.preventDefault();
         const parentMenu = this.parentNode.querySelector('.collapse__menu');
         collapseMenus.forEach(menu => {
             if (menu !== parentMenu) {
                 menu.classList.remove('showCollapse');
+                menu.parentElement.classList.remove('fixed');
             }
         });
-        parentMenu.classList.add('showCollapse');
-    });
-
-    collapseLink.addEventListener('mouseleave', function() {
-        collapseMenus.forEach(menu => {
-            menu.classList.remove('showCollapse');
-        });
+        parentMenu.classList.toggle('showCollapse');
+        this.parentElement.classList.toggle('fixed');
     });
 });
 
@@ -76,10 +58,16 @@ collapseLinks.forEach(collapseLink => {
 /* HOVER TO EXPAND */
 const navbar = document.getElementById('navbar');
 navbar.addEventListener('mouseenter', () => {
-    navbar.classList.add('expander');
-    document.getElementById('body-pd').classList.add('body-pd');
+    if (!navbar.classList.contains('fixed')) {
+        navbar.classList.add('expander');
+        document.getElementById('body-pd').classList.add('body-pd');
+        document.getElementById('nav-toggle').classList.add('toggle-move');
+    }
 });
 navbar.addEventListener('mouseleave', () => {
-    navbar.classList.remove('expander');
-    document.getElementById('body-pd').classList.remove('body-pd');
+    if (!navbar.classList.contains('fixed')) {
+        navbar.classList.remove('expander');
+        document.getElementById('body-pd').classList.remove('body-pd');
+        document.getElementById('nav-toggle').classList.remove('toggle-move');
+    }
 });

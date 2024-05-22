@@ -79,6 +79,35 @@ hr {
 	width: 100%;
 }
 
+.no1,
+.no2,
+.no3 {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap:5px;
+}
+
+.thumbnail {
+	width:150px;
+	height:150px;
+	border:none;
+	box-shadow: 2px 2px 2px gray;
+	border-radius: 50%;
+}
+
+.thumbnail > img {
+	width:150px;
+	height:150px;
+	border:none;
+	object-fit: cover;
+	overflow: hidden;
+	border-radius: 50%;
+}
+
+
+
 .ranking-item {
     padding: 10px;
     border-bottom: 1px solid #eee;

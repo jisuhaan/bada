@@ -71,12 +71,13 @@
                 <c:if test="${position=='admin'}">
                     <div class="nav__link collapse">
                         <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">회원관리</span>
-                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+                        <span class="nav_name">&nbsp;회원관리</span>
+                        
                         <ul class="collapse__menu">
-                            <a href="member_join" class="collapse__sublink">회원입력</a>
+                            <a href="member_join" class="collapse__sublink">회원입력</a><br>
                             <a href="member_out" class="collapse__sublink">회원목록</a>
                         </ul>
+                        
                     </div>
                 </c:if>
                 <c:choose>

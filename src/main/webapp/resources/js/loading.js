@@ -3,6 +3,7 @@ window.addEventListener('pageshow', function(event) {
     if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
         // 뒤로 가기 또는 페이지 복원 시 로딩 이미지를 숨깁니다.
         document.getElementById('loading').style.display = 'none';
+        window.location.reload();
     }
 });
 

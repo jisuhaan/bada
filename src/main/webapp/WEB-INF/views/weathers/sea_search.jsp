@@ -89,7 +89,7 @@
     <div id="weather-info2" style="margin-top: 20px;"></div>
     <div id="weather-info2" style="margin-top: 20px;"></div>
     
-    
+    <a href="pythonBBTI">파이썬</a>
     <script type="text/javascript">
     function getWthrDataList(monthInput, dayInput, currentYear, beach_code) {
         var requestData = {

@@ -2,6 +2,7 @@ package com.ezen.bada.weathers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public interface Service {
 

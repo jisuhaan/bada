@@ -33,7 +33,7 @@
 
                     <div class="nav__link collapse">
                      <ion-icon name="heart-circle-outline" class="nav__icon"></ion-icon>
-                     <span class="nav_name">리뷰, 바다!</span>
+                     <span class="nav_name">&nbsp;리뷰, 바다!</span>
 
                         <ul class="collapse__menu">
                             <a href="bada_review?area=전국" class="collapse__sublink">바다리뷰</a>
@@ -53,7 +53,7 @@
 
                     <div class="nav__link collapse">
                         <ion-icon name="people-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">문의, 바다!</span>
+                        <span class="nav_name">&nbsp;문의, 바다!</span>
 
                         <ul class="collapse__menu">
                             <a href="notice_event" class="collapse__sublink">공지/이벤트</a>

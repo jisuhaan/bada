@@ -49,7 +49,7 @@
 		font-size: 72px;
 	}
 	
-	img{
+	.bbti_image{
 		width:400px;
 	}
 	
@@ -155,37 +155,37 @@ function bbti_select(bbti) {
 			<img src="./resources/image_bbti/bbti_selectthis.png" onclick="bbti_select('EAF')" class="bbti_selector">
 		</div>
 		<div class="row rline2">
-			<img src="./resources/image_bbti/bbti_result_EAN.png">
+			<img src="./resources/image_bbti/bbti_result_EAN.png" class="bbti_image">
 			<img src="./resources/image_bbti/bbti_selectthis.png" onclick="bbti_select('EAN')" class="bbti_selector">
 		</div>
 	</div>
 	<div class="col cline2">
 		<div class="row rline1">
-			<img src="./resources/image_bbti/bbti_result_EPF.png">
+			<img src="./resources/image_bbti/bbti_result_EPF.png" class="bbti_image">
 			<img src="./resources/image_bbti/bbti_selectthis.png" onclick="bbti_select('EPF')" class="bbti_selector">
 		</div>
 		<div class="row rline2">
-			<img src="./resources/image_bbti/bbti_result_EPN.png">
+			<img src="./resources/image_bbti/bbti_result_EPN.png" class="bbti_image">
 			<img src="./resources/image_bbti/bbti_selectthis.png" onclick="bbti_select('EPN')" class="bbti_selector">
 		</div>
 	</div>
 	<div class="col cline3">
 		<div class="row rline1">
-			<img src="./resources/image_bbti/bbti_result_IAF.png">
+			<img src="./resources/image_bbti/bbti_result_IAF.png" class="bbti_image">
 			<img src="./resources/image_bbti/bbti_selectthis.png" onclick="bbti_select('IAF')" class="bbti_selector">
 		</div>
 		<div class="row rline2">
-			<img src="./resources/image_bbti/bbti_result_IAN.png">
+			<img src="./resources/image_bbti/bbti_result_IAN.png" class="bbti_image">
 			<img src="./resources/image_bbti/bbti_selectthis.png" onclick="bbti_select('IAN')" class="bbti_selector">
 		</div>
 	</div>
 	<div class="col cline4">
 		<div class="row rline1">
-			<img src="./resources/image_bbti/bbti_result_IPF.png">
+			<img src="./resources/image_bbti/bbti_result_IPF.png" class="bbti_image">
 			<img src="./resources/image_bbti/bbti_selectthis.png" onclick="bbti_select('IPF')" class="bbti_selector">
 		</div>
 		<div class="row rline2">
-			<img src="./resources/image_bbti/bbti_result_IPN.png">
+			<img src="./resources/image_bbti/bbti_result_IPN.png" class="bbti_image">
 			<img src="./resources/image_bbti/bbti_selectthis.png" onclick="bbti_select('IPN')" class="bbti_selector">
 		</div>
 	</div>

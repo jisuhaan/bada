@@ -34,7 +34,7 @@ public class ReviewController {
 	@Autowired
 	SqlSession sqlsession;
 	
-	String image_path="C:\\이젠디지탈12\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
+	String image_path="C:\\이젠디지털12\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
 	
 	
 	
@@ -406,6 +406,7 @@ public class ReviewController {
 		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
 		        return null;
 		    }
+	     
 		    if (review_num == 0) {
 		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
 		        return null;
@@ -428,7 +429,7 @@ public class ReviewController {
 	     ss.review_delete(review_num);
 	     ss.review_comment_delete(review_num);
 
-      return "redirect:/bada_review";
+      return "redirect:/review_all_page";
       }
 	
 

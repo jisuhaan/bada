@@ -124,7 +124,7 @@ function toggleContent(id) {
 <section class="notice">
   <div class="page-title">
         <div class="container">
-            <h3>리뷰게시판</h3>
+            <h3>바라는 바다 리뷰</h3>
         </div>
     </div>
 

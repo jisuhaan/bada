@@ -322,12 +322,7 @@ public class MemberController {
    @RequestMapping(value = "/info_search")
    public String search_login() {return "info_search";}
 
-   
-   
-   //아이디 찾기를 선택한 경우
-   @RequestMapping(value = "/find_id")
-   public String find1() {return "find_id";}
-   
+
    
    
    //아이디 찾기를 시도하는 경우
@@ -351,12 +346,6 @@ public class MemberController {
 
       return returnObj.toString();
   }
-   
-   
-   
-   //비밀번호 찾기를 선택한 경우
-   @RequestMapping(value = "/find_pw")
-   public String find2() {return "find_pw";}
    
    
    

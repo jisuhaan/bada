@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -77,10 +78,13 @@
 	</div>
 </div>
 
+<c:set var="cleanContents" value="${fn:replace(dto.review_contents, '<br>', '')}" />
+<c:set var="trimmedContents" value="${fn:trim(cleanContents)}" />
+
 <div class="listbox contents">
 <div id="list_title">내용</div>
 <div id="list_contents">
-<textarea cols="60" rows="30" name="review_contents" id="review_contents" required >${dto.review_contents }</textarea>
+	<textarea cols="60" rows="30" name="review_contents" id="review_contents" required>${trimmedContents}</textarea>
 </div>
 </div>
 

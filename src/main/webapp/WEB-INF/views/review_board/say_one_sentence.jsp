@@ -102,7 +102,7 @@ function confirm_one_Ban(one_num, id) {
     if (confirm('채팅을 신고하시겠습니까?')) {
         // AJAX를 사용하여 서버에 요청을 보내고, 성공적으로 처리되면 알림창을 표시합니다.
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'one_ban?one_num=' + one_num + '&id=' + id, true);
+        xhr.open('GET', 'one_ban?ban_one_num=' + one_num + '&id=' + id, true);
         xhr.onload = function() {
             if (xhr.status === 200) {
                 alert('신고가 완료되었습니다.');

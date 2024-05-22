@@ -46,12 +46,12 @@ document.addEventListener('DOMContentLoaded', function() {
 	    var categories = document.querySelectorAll('.category-box');
 	    
 	    categories.forEach(function(category) {
-	        // 모든 카테고리 박스의 배경색을 투명으로 설정
-	        category.style.backgroundColor = 'transparent';
+	        // 모든 카테고리 박스의 배경색을 노랑색으로 설정
+	        category.style.backgroundColor = '#FFD545';
 	    });
-	    // 선택된 카테고리의 배경색을 노란색으로 설정
-	    selected.style.backgroundColor = '#FFD545';
-	    
+	    // 선택된 카테고리의 배경색을 투명색 설정
+	    selected.style.backgroundColor = 'transparent';
+	   
 	}
 	
 	document.querySelectorAll('.category-box').forEach(function(box) {
@@ -140,6 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="content">
         아직 <a href="" onclick="window.open('member_try_bbti?id=${loginid}','BBTI 테스트','width=610,height=810,resizable=no,scrollbars=no,menubar=no')">bbti</a> 하지 않으셨다면 지금 바로 나의 <a href="" onclick="window.open('member_try_bbti?id=${loginid}','BBTI 테스트','width=610,height=810,resizable=no,scrollbars=no,menubar=no')">bbti</a> 확인하시고 상품 받아가세요!
     </div>
+    <img src="./resources/image/main_banner_1.png" width="630px" onclick="window.open('member_try_bbti?id=${loginid}','BBTI 테스트','width=610,height=810,resizable=no,scrollbars=no,menubar=no')">
     <div class="actions">
     <label style="cursor: pointer;">
     <input type="checkbox" id="hide-popup">오늘 하루동안 보지 않기

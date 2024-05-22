@@ -2,6 +2,14 @@
 
 
 @font-face {
+  font-family: "NeoDunggeunmo";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.3/NeoDunggeunmo.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
     font-family: 'YEONGJU';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2403@1.0/YEONGJUSeonbiTTF.woff2') format('woff2');
     font-weight: normal;
@@ -37,6 +45,7 @@ body {
 	padding:0;
 }
 
+
 .review_container {
 	body:1200px;
 	display:flex;
@@ -66,7 +75,7 @@ section.notice {
 	margin-bottom: 60px;
 }
 .page-title h3 {
-	font-family: 'Pretendard-Regular';
+	font-family: 'NeoDunggeunmo';
 	font-size: 28px;
 	color: #1c1c1c;
 	font-weight: 400;

@@ -667,9 +667,10 @@ public class APIClient {
 	            // JSON 처리 예외 처리
 	            e.printStackTrace();
 	        } 
-	    }
+	    }   
 	    return groupedData;
 	}
+	
 	
 	// 3개년치 정보 가져오기
 	public Map<String, getWthrDataList_DTO> getThreeYearWeatherForecast(int pointcode, int beach_code) {

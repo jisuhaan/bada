@@ -1,5 +1,6 @@
 package com.ezen.bada.ranking;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ezen.bada.ranking.Service;
 import com.ezen.bada.weathers.Bada_info_DTO;
@@ -67,6 +69,19 @@ public class RankingController {
 		mo.addAttribute("tophashtaglist", tophashtaglist);
 		
 		return "ranking_page";
+	}
+	
+	@RequestMapping("/pythonBBTI")
+	public String pythonBBTI() throws IOException, InterruptedException {
+	    String path; // 실행될 파이썬 파일의 경로 설정
+	    ProcessBuilder processBuilder; // 실행 객체
+	    path = "C:\\이젠디지털12\\spring\\bada\\bada_bbtiOut.py";
+	    processBuilder=new ProcessBuilder("python",path);
+	    processBuilder.redirectErrorStream(true);
+	    Process process=processBuilder.start();
+	    int result=process.waitFor(); // 0이면 성공, 나머지는 실패
+
+	    return "redirect:/ranking_page";
 	}
 	
 }

@@ -44,7 +44,7 @@
 
 <div class="container">
 
-<div id="main_title">${choicebeach.beach} : 날씨 정보</div>
+<div id="main_title">${beachname} : 날씨 정보</div>
 
 <div class="forecast_container">
 

@@ -54,6 +54,21 @@
     margin-bottom: 50px;
 }
 
+.rankbox_container {
+    position: relative;
+    width: 600px; /* awards 이미지 너비와 맞추기 */
+}
+
+.awards {
+    position: relative;
+    z-index: 1;
+}
+
+.awards > img {
+	width:600px;
+	object-fit:cover;
+}
+
 .ranking-list {
     display: flex;
     flex-direction: column;
@@ -63,20 +78,20 @@
 }
 
 .rankbox {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	gap:40px;
-}
-
-.awards > img {
-	width:600px;
-	object-fit:cover;
-}
-
-hr {
+	position: absolute;
+	z-index: 2;
+	top:0;
+	left:0;
 	width: 100%;
+	height:200px;
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+	top:50px;
+}
+
+.bestview {
+	top:50px;
 }
 
 .no1,
@@ -86,68 +101,51 @@ hr {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	gap:5px;
+	margin: 0 -80px; /* 좌우 간격을 위해 margin 추가 */
+}
+
+.no1 {
+	position: absolute;
+	bottom: 90px; /* 시상대 높이에 맞춰 조정 */
+}
+
+.no2 {
+	position: absolute;
+	bottom: 40px; /* 시상대 높이에 맞춰 조정 */
+	left: calc(50% - 150px); /* 시상대 너비에 맞춰 조정 */
+}
+
+.no3 {
+	position: absolute;
+	bottom: 20px; /* 시상대 높이에 맞춰 조정 */
+	right: calc(50% - 150px); /* 시상대 너비에 맞춰 조정 */
+}
+
+.awardtitle {
+	font-family: 'DOSGothic';
+	font-size: 20px;
+	font-weight: 600;
+	word-spacing: 0.5px;
+}
+
+hr {
+	width: 100%;
 }
 
 .thumbnail {
-	width:150px;
-	height:150px;
+	width:130px;
+	height:130px;
 	border:none;
 	box-shadow: 2px 2px 2px gray;
 	border-radius: 50%;
 }
 
 .thumbnail > img {
-	width:150px;
-	height:150px;
+	width:130px;
+	height:130px;
 	border:none;
 	object-fit: cover;
 	overflow: hidden;
 	border-radius: 50%;
 }
 
-
-
-.ranking-item {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-}
-
-.ranking-item:last-child {
-    border-bottom: none;
-}
-
-.ranking-item h3 {
-    margin-top: 5px;
-    margin-bottom: 10px;
-    color: #555;
-}
-
-.ranking-item p {
-    margin: 5px 0;
-    color: #777;
-}
-
-.ranking-item .rank {
-    font-size: 24px;
-    font-weight: bold;
-    color: #ff5733;
-}
-.card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    padding: 20px;
-}
-
-.card-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.card-content {
-    color: #777;
-}

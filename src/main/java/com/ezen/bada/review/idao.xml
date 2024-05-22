@@ -544,7 +544,7 @@ WHERE rank <= 5 ]]>
 
 <!-- 신고당한 아이디로 신고당한 사람의 닉네임을 가져옴 -->
 <select id="find_ban_user_name" resultType="String">
-	select user_number from bada_user where id=#{param1}
+	select name from bada_user where id=#{param1}
 </select>
 
 <!-- 신고를 위해 신고당한 한마디의 번호로부터 신고당한 한마디의 내용을 가져옴 -->

@@ -36,11 +36,11 @@
                      <span class="nav_name">&nbsp;리뷰, 바다!</span>
 
                         <ul class="collapse__menu">
-                            <a href="bada_review?area=전국" class="collapse__sublink">바다리뷰</a>
-                            <a href="review_input" class="collapse__sublink">리뷰작성</a>
-                            <a href="say_one_sentence"  class="collapse__sublink">바닷속외침</a>
+                            <a href="bada_review?area=전국" class="collapse__sublink">바다리뷰</a><br>
+                            <a href="review_input" class="collapse__sublink">리뷰작성</a><br>
+                            <a href="say_one_sentence"  class="collapse__sublink">바닷속외침</a><br>
                             <c:if test="${position=='admin'}">
-                            <a href="review_ban_listout" class="collapse__sublink">게시물/댓글 신고 내역</a>
+                            <a href="review_ban_listout" class="collapse__sublink">리뷰 신고내역</a>
                             </c:if>       
                         </ul>
                    
@@ -61,8 +61,8 @@
                             <a href="inquire_input" class="collapse__sublink">문의글작성</a>
                             <a href="inquire_personal_view" class="collapse__sublink">1:1문의</a>
                             <c:if test="${position=='admin'}">
-                            <a href="inquire_ban_listout" class="collapse__sublink">문의 신고 내역</a>
-                            <a href="inquire_personal_out" class="collapse__sublink">1:1문의내역</a>
+                            <a href="inquire_ban_listout" class="collapse__sublink">문의 신고내역</a>
+                            <a href="inquire_personal_out" class="collapse__sublink">1:1 문의내역</a>
                             </c:if>
                         </ul>
                     </div>

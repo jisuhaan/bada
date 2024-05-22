@@ -42,21 +42,35 @@
 	flex-direction:column;
 	justify-content:center;
 	align-items:center;
-	gap:50px;
+	gap:40px;
 }
 
-#container_title {
+.container_title {
+	display:flex;
+	flex-direction:column;
+	gap:30px;
     text-align: center;
     color: #1c1c1c;
     font-family: 'DOSGothic';
-    font-size: 40px;
+    font-size: 24px;
     font-weight: 600;
-    margin-bottom: 50px;
+    color:darkgray;
+    margin-bottom: 100px;
 }
 
 .rankbox_container {
     position: relative;
     width: 600px; /* awards 이미지 너비와 맞추기 */
+}
+
+#rank_title {
+	text-align: center;
+    color: #1c1c1c;
+    font-family: 'DOSGothic';
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 20px;
+	
 }
 
 .awards {
@@ -87,10 +101,6 @@
 	display: flex;
 	justify-content: center;
 	align-items: flex-end;
-	top:50px;
-}
-
-.bestview {
 	top:50px;
 }
 

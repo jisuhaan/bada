@@ -13,7 +13,10 @@
 <body>
 <div class="container">
 
-    <div id="container_title"><바라는 바다> 베스트 어워드</div>
+    <div class="container_title">
+    	<div id="title_logo"><img alt="" src="./resources/image/bestaward_logo.png" width="900px"></div>
+    	<div id="title_info">바라는 바다 속 다양한 순위를 살펴보세요!</div>
+    </div>
     
     <div class="ranking-list best3">
     	

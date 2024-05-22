@@ -26,7 +26,6 @@ public class RankingController {
 		
 		// 바라는 바다 유저들이 가장 많이 찾아 본 바다 top3 바다
 		List<RankingBeachDTO> viewCountlist = ss.viewTopThree();
-		System.out.println(viewCountlist.size());
 		for(int i=0;i<viewCountlist.size();i++) {
 			Bada_info_DTO bdt = service.getbeachinfo(viewCountlist.get(i).getBeach_code());
 			viewCountlist.get(i).setBdt(bdt);
@@ -42,7 +41,6 @@ public class RankingController {
 		
 		// 리뷰 별점이 높은 바다 top3
 		List<RankingBeachDTO> reviewScorelist = ss.reviewScoreTopThree();
-		System.out.println(reviewScorelist.size());
 		for(int i=0;i<reviewScorelist.size();i++) {
 			Bada_info_DTO bdt = service.getbeachinfo(viewCountlist.get(i).getBeach_code());
 			reviewScorelist.get(i).setBdt(bdt);
@@ -50,7 +48,6 @@ public class RankingController {
 		
 		// 재방문 의사가 높은 바다 top3
 		List<RankingBeachDTO> re_visitlist = ss.re_visitTopThree();
-		System.out.println(re_visitlist.size());
 		for(int i=0;i<re_visitlist.size();i++) {
 			Bada_info_DTO bdt = service.getbeachinfo(viewCountlist.get(i).getBeach_code());
 			re_visitlist.get(i).setBdt(bdt);
@@ -58,17 +55,9 @@ public class RankingController {
 		
 		// 최다 bbti top3
 		List<RankingBBTIDTO> topBBTIlist = ss.bbtiTopThree();
-		System.out.println(topBBTIlist.size());
-		for(int i=0;i<topBBTIlist.size();i++) {
-			System.out.println(topBBTIlist.get(i).getBbti());
-		}
 		
 		// 해시태그 별 추천 바다 top3
 		List<RankingHashtagDTO> tophashtaglist = ss.hashtagTopThree();
-		System.out.println(tophashtaglist.size());
-		for(int i=0;i<tophashtaglist.size();i++) {
-			System.out.println("두 번째 사진: "+tophashtaglist.get(i).getSecond_used_beach_picture());
-		}
 		
 		mo.addAttribute("viewCountlist", viewCountlist);
 		mo.addAttribute("reviewCountlist", reviewCountlist);

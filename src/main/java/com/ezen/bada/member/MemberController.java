@@ -725,6 +725,7 @@ public class MemberController {
 			Service ss = sqlsession.getMapper(Service.class);
 			ArrayList<AllBoardDTO> list = ss.my_favorite(loginid);
 			mo.addAttribute("list", list);
+			mo.addAttribute(loginid);
 			   
 			return "my_favorite";
 		  }

@@ -200,6 +200,7 @@ $("input[type='checkbox']").click(function(){
     if ($(this).is(":checked")) {
         // 체크박스가 체크된 경우
         $("p").toggle();
+        $(".default_suggest").hide();
         $(".location_suggest").show();
         isLocationEnabled = true;
         myLocation(); // 위치 정보 가져오기

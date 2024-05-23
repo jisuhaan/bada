@@ -21,7 +21,7 @@ function gogo(url) {
     <div class="grid-container">
         <c:forEach var="list" items="${list}">
             <div class="grid-item" onclick="gogo('review_detail?review_num=${list.review_num}')">
-                <img src="./resources/image_user/${list.thumbnail}">
+                <img src="./resources/image_user/${list.thumbnail}" id="f_thumbnail">
                 <div class="info-container">
                 
                 <div class="score">

@@ -21,10 +21,7 @@
 }
 
 body {
-	width:90%;
-	height:100%;
 	font-family: 'Pretendard-Regular';
-	margin:0 auto;
 }
 
 .login_video {
@@ -51,7 +48,8 @@ body {
 }
 
 .login_main {
-	margin-top:800px;
+	margin:0 auto;
+	margin-top:900px;
     width: 350px;
     height: 500px;
     display: block;

@@ -72,8 +72,12 @@ public class APIController {
 
 	@RequestMapping(value = "/sea_weather_detail")
 	public String sea_weather_detail(HttpServletRequest request, Model mo, @RequestParam("beach_code") int beach_code) throws JsonProcessingException {
+		Service ss = sqlsession.getMapper(Service.class);
+		
+		String beachname = ss.get_Beach_list_data(beach_code).getBeach();
 		// 지난 해 바다 날씨 검색할 때 beach_code 필요 
 		mo.addAttribute("beach_code",beach_code);
+		mo.addAttribute("beachname",beachname);
 		String errorMessage;
 		
 		APIClient apiClient = new APIClient();
@@ -83,6 +87,8 @@ public class APIController {
 			Map<String, Map<String, VilageFcstBeach_DTO>> getWeatherForecastMap = apiClient.getWeatherForecast(beach_code, DateDAO.setForecastDate().get("date"), DateDAO.setForecastDate().get("time"));
 
 			if (Objects.nonNull(getWeatherForecastMap) && !getWeatherForecastMap.isEmpty()) {
+				
+				// 1. 맵 jsp로 보내기
 				String json = objectMapper.writeValueAsString(getWeatherForecastMap);
 				mo.addAttribute("ForecastMapJson",json);
 				mo.addAttribute("groupedData",getWeatherForecastMap);
@@ -94,7 +100,6 @@ public class APIController {
 		
 		// 2. 3개년치 맵 가져오기
 		try {
-			Service ss = sqlsession.getMapper(Service.class);
 			int pointcode = ss.getPointcode(beach_code);
 			Map<String, getWthrDataList_DTO> getWthrDataListMap = apiClient.getThreeYearWeatherForecast(pointcode, beach_code);
 			mo.addAttribute("dataListMap", getWthrDataListMap);
@@ -103,9 +108,11 @@ public class APIController {
             handleAPIException(errorMessage, e, mo);
 		}
 		
+		
+		
 		return "sea_weather_detail";
 	}
-    
+   
 	@ResponseBody
 	@RequestMapping(value = "/getWthrDataList_DTO", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
 	public String getWthrDataList_DTO(@RequestBody String jsonDataString) {

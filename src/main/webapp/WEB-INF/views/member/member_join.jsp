@@ -41,6 +41,16 @@
                 alert("아이디를 입력해주세요.");
                 return;
             }
+            
+            var id = $("#id").val();
+            
+            // 아이디 유효성 검사
+            var idPattern = /^[a-zA-Z0-9]{6,20}$/;
+            
+            if(!idPattern.test(id)) {
+                alert("아이디는 영문, 숫자를 포함해 6자~20자 사이여야 합니다.");
+                return false;
+            }
 
             $.ajax({
                 type: "post",
@@ -126,7 +136,7 @@
        	    }
        	    
        	    if (idValid && emailValid){
-              var id = $("#id").val();
+              
               var pw = $("#pw").val();
               var pw2 = $("#pw2").val();
               var name = $("#name").val();
@@ -134,13 +144,6 @@
               var gender = $("input[name='gender']:checked").val();
               var age = $("#age option:selected").val();
       
-              // 아이디 유효성 검사
-              var idPattern = /^[a-zA-Z0-9]{6,20}$/;
-              
-              if(!idPattern.test(id)) {
-                  alert("아이디는 영문, 숫자를 포함해 6자~20자 사이여야 합니다.");
-                  return false;
-              }
       
               // 패스워드 유효성 검사
               var pwPattern = /^[a-zA-Z0-9]{6,20}$/;

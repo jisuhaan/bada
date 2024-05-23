@@ -25,7 +25,7 @@
     }
     
     .category-box {
-        background-color: transparent; /* 배경색은 투명 */
+        background-color: #FFD545; /* 배경색은 노랑 */
         height: 70px; /* 높이 설정 */
         margin-bottom: 20px; /* 박스 간의 여백 */
         cursor: pointer; /* 마우스 오버 시 커서 변경 */
@@ -52,7 +52,7 @@
     .flex-container {
         display: flex;
         height: 100px;
-        justify-content: space-between; /* 내용 사이의 여백을 동일하게 설정 */3
+        justify-content: space-between; /* 내용 사이의 여백을 동일하게 설정 */
         margin-top: 0;
     }    
 
@@ -105,7 +105,7 @@
 	}
 
 	.category-box:first-child {
-	    background-color: #FFD545; /* 공지사항 박스 초기 색상은 노란색 */
+	    background-color: transparent; /* 공지사항 박스 초기 색상은 투명색 */
 	}
 	
 	.notice-content .grid-container {
@@ -134,3 +134,5 @@
     transform: scale(1.05); /* 호버 시 약간 확대 */
     cursor: pointer;
   }	
+  
+  

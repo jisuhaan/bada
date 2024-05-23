@@ -23,7 +23,7 @@
     transform: scale(1.05); /* 호버 시 약간 확대 */
   }
 
-  img {
+  #f_thumbnail {
     width: 200px; /* 이미지 너비 */
     height: 180px; /* 이미지 높이 */
     object-fit: cover; /* 이미지 비율 유지하면서 채우기 */

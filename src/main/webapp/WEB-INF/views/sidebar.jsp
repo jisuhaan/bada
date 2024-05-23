@@ -33,19 +33,20 @@
 
                     <div class="nav__link collapse">
                      <ion-icon name="heart-circle-outline" class="nav__icon"></ion-icon>
-                     <span class="nav_name">리뷰, 바다!</span>
-
+                     <span class="nav_name">&nbsp;리뷰, 바다!</span>
+                     
                         <ul class="collapse__menu">
-                            <a href="bada_review?area=전국" class="collapse__sublink">바다리뷰</a>
-                            <a href="review_input" class="collapse__sublink">리뷰작성</a>
-                            <a href="say_one_sentence"  class="collapse__sublink">바닷속외침</a>
+                            <a href="bada_review?area=전국" class="collapse__sublink">바다리뷰</a><br>
+                            <a href="review_input" class="collapse__sublink">리뷰작성</a><br>
+                            <a href="say_one_sentence"  class="collapse__sublink">바닷속외침</a><br>
                             <c:if test="${position=='admin'}">
-                            <a href="review_ban_listout" class="collapse__sublink">게시물/댓글 신고 내역</a>
+                            <a href="review_ban_listout" class="collapse__sublink">리뷰 신고내역</a>
                             </c:if>       
                         </ul>
                    
                     </div>
-
+                     
+                     
                     <a href="ranking_page" class="nav__link">
                         <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
                         <span class="nav_name">순위, 바바!</span>
@@ -53,7 +54,7 @@
 
                     <div class="nav__link collapse">
                         <ion-icon name="people-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">문의, 바다!</span>
+                        <span class="nav_name">&nbsp;문의, 바다!</span>
 
                         <ul class="collapse__menu">
                             <a href="notice_event" class="collapse__sublink">공지/이벤트</a>
@@ -61,8 +62,8 @@
                             <a href="inquire_input" class="collapse__sublink">문의글작성</a>
                             <a href="inquire_personal_view" class="collapse__sublink">1:1문의</a>
                             <c:if test="${position=='admin'}">
-                            <a href="inquire_ban_listout" class="collapse__sublink">문의 신고 내역</a>
-                            <a href="inquire_personal_out" class="collapse__sublink">1:1문의내역</a>
+                            <a href="inquire_ban_listout" class="collapse__sublink">문의 신고내역</a>
+                            <a href="inquire_personal_out" class="collapse__sublink">1:1 문의내역</a>
                             </c:if>
                         </ul>
                     </div>
@@ -71,12 +72,13 @@
                 <c:if test="${position=='admin'}">
                     <div class="nav__link collapse">
                         <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">회원관리</span>
-                        <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+                        <span class="nav_name">&nbsp;회원관리</span>
+                        
                         <ul class="collapse__menu">
-                            <a href="member_join" class="collapse__sublink">회원입력</a>
+                            <a href="member_join" class="collapse__sublink">회원입력</a><br>
                             <a href="member_out" class="collapse__sublink">회원목록</a>
                         </ul>
+                        
                     </div>
                 </c:if>
                 <c:choose>

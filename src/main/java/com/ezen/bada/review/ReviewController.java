@@ -34,7 +34,7 @@ public class ReviewController {
 	@Autowired
 	SqlSession sqlsession;
 	
-	String image_path="C:\\이젠디지탈12\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
+	String image_path="C:\\이젠디지털12\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
 	
 	
 	
@@ -406,6 +406,7 @@ public class ReviewController {
 		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
 		        return null;
 		    }
+	     
 		    if (review_num == 0) {
 		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
 		        return null;
@@ -428,7 +429,7 @@ public class ReviewController {
 	     ss.review_delete(review_num);
 	     ss.review_comment_delete(review_num);
 
-      return "redirect:/bada_review";
+      return "redirect:/review_all_page";
       }
 	
 
@@ -1457,6 +1458,7 @@ public class ReviewController {
 		int ban_one_num; //신고당한 채팅 번호
 		try {
 			ban_one_num = Integer.parseInt(request.getParameter("ban_one_num"));
+			System.out.println("확인1 :"+ban_one_num);
 		    } catch (NumberFormatException e) {
 		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
 		        return null;
@@ -1466,6 +1468,7 @@ public class ReviewController {
 		        return null;
 		    }
 		String id=request.getParameter("id"); //신고한 사람의 아이디
+		System.out.println("확인1 :"+id);
 		if (id == null || id.isEmpty()) {
 	        showAlertAndRedirect(response, "오류로 인해 저장이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
 	        return null;
@@ -1476,14 +1479,20 @@ public class ReviewController {
 		response.setContentType("text/html; charset=UTF-8");
 		
 		int count_same_ban=ss.count_same_ban(ban_one_num, id); //중복 신고 방지를 위해 정보 가져옴
+		System.out.println("확인1 :"+count_same_ban);
 		
 		if(count_same_ban==0) { //중복신고가 아닌 경우
 		
 		String ban_id=ss.find_ban_user_id(ban_one_num); //신고당한 채팅에서 신고당한 유저의 아이디 가져옴
+		System.out.println("확인1 :"+ban_id);
 		int ban_user_num = ss.ban_user_num(ban_id); //신고당한 유저의 아이디로 신고당한 유저의 회원번호를 가져옴
+		System.out.println("확인2 :"+ban_user_num);
 		String ban_name=ss.find_ban_user_name(ban_id); //신고당한 유저의 아이디로 신고당한 유저의 닉네임을 가져옴
+		System.out.println("확인3 :"+ban_name);
 		String ban_content=ss.find_ban_content(ban_one_num); //신고당한 채팅 번호로 신고당한 채팅의 내용을 가져옴
+		System.out.println("확인4 :"+ban_content);
 		String name=ss.find_name(id); //신고한 사람의 아이디로 신고한 사람의 닉네임을 가져옴
+		System.out.println("확인5 :"+name);
 		 
 		ss.one_ban_save(id, name, ban_user_num, ban_id, ban_name, ban_content, ban_one_num); //신고 정보를 테이블에 저장함
 		 

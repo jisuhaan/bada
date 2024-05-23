@@ -57,12 +57,12 @@
 	</definition>
 	
 	<definition name="say_one_sentence" extends="baseLayout">
-		<put-attribute name="title" value="바라는 바다 :: 바다속의 외침"/>
+		<put-attribute name="title" value="바라는 바다 :: 나도 한마디"/>
 		<put-attribute name="body" value="/WEB-INF/views/review_board/say_one_sentence.jsp"/>
 	</definition>
 	
 	<definition name="one_ban_listout" extends="baseLayout">
-		<put-attribute name="title" value="바라는 바다 :: 관리자 채팅(바다속의 외침)신고 내역 확인"/>
+		<put-attribute name="title" value="바라는 바다 :: 관리자 채팅(나도 한마디)신고 내역 확인"/>
 		<put-attribute name="body" value="/WEB-INF/views/review_board/one_ban_listout.jsp"/>
 	</definition>
 	

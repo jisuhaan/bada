@@ -29,6 +29,11 @@
                     <a href="sea_info" class="nav__link" onclick="window.location.href='sea_info'">
                        <ion-icon name="map-outline" class="nav__icon"></ion-icon>
                        <span class="nav_name">추천, 바다!</span>
+                    </a>                                   
+                     
+                    <a href="ranking_page" class="nav__link">
+                        <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">순위, 바바!</span>
                     </a>
 
                     <div class="nav__link collapse">
@@ -45,12 +50,6 @@
                         </ul>
                    
                     </div>
-                     
-                     
-                    <a href="ranking_page" class="nav__link">
-                        <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">순위, 바바!</span>
-                    </a>
 
                     <div class="nav__link collapse">
                         <ion-icon name="people-outline" class="nav__icon"></ion-icon>

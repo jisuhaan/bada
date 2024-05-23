@@ -1,6 +1,6 @@
 function getWeatherImageAndTitle(sky, pty, hour, month) {
-    let imgSrc = "";
-    let title = "";
+    let imgSrc = "./resources/image/report_icon.png";
+    let title = "API 오류";
 
     const isDaytime = (6 <= hour && hour <= 18);
     const isSpring = (3 <= month && month <= 5);

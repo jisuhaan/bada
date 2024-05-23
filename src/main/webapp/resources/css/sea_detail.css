@@ -28,7 +28,15 @@
     font-style: normal;
 }
 
-
+#api_warning{
+	font-family: 'Pretendard-Regular';
+	font-size: 20px;
+	font-weight:600;
+	text-align: center;
+	vertical-align: middle;
+	background-color:#e63229;
+	color:white;
+}
 
 li a {
 	display: block;

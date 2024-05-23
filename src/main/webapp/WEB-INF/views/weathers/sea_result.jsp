@@ -163,9 +163,16 @@ document.addEventListener("DOMContentLoaded", function() {
       <div id="beach_name">날씨 정보 요약</div>
       
       <div class="today_container">
-         <c:if test="${not empty errorMessage}">
-         	<div id="api_warning">현재 기상 API 연결이 불안정합니다.</div>
-         </c:if>
+         <c:if test="${not empty errorMessage
+            or bldt.ultraSrtFcstBeach_dto.t1h eq '-'
+            or bldt.ultraSrtFcstBeach_dto.rn1 eq '-'
+            or bldt.bada_tmx_n_dto.tmx eq '-'
+            or bldt.bada_tmx_n_dto.tmn eq '-'
+            or bldt.bada_tw_dto.water_temp eq '-'
+            or bldt.bada_tw_dto.water_height eq '-'}">
+		    <div id="api_warning">현재 기상 API 연결이 불안정합니다.</div>
+		</c:if>
+
          <div id="clock_by_hour"></div>
          <div class="name_beach">
          	<c:if test="${empty travelIndex}">오늘 ${bdt.beach_name}의 날씨는</c:if>

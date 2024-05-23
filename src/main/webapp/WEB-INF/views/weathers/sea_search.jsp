@@ -10,6 +10,43 @@
 <script>
     var beach_code = 1;
 </script>
+<style type="text/css">
+.image-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.image-card {
+    width: 23%; /* 가로에 4개씩 담기 위한 너비 설정 */
+    margin-bottom: 20px; /* 이미지 카드 간의 간격 조절 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+    border-radius: 8px; /* 카드의 모서리를 둥글게 만듦 */
+}
+
+.image-wrapper {
+    width: 100%;
+    overflow: hidden;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.title {
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #f5f5f5; /* 카드의 타이틀 배경색 지정 */
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+</style>
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
         // 월 입력 요소
@@ -119,5 +156,91 @@
         });
     }
 </script>
+
+
+    <!-- 이미지 카드들 -->
+<div class="image-cards">
+    <div class="image-card">
+        <div class="image-wrapper">
+            <img src="./resources/image/날씨_비.gif" width="50" alt="비">
+        </div>
+        <div class="title">비</div>
+    </div>
+    <div class="image-card">
+        <div class="image-wrapper">
+            <img src="./resources/image/날씨_비와눈.png" width="50" alt="비와 눈">
+        </div>
+        <div class="title">비와 눈</div>
+    </div>
+    <div class="image-card">
+        <div class="image-wrapper">
+            <img src="./resources/image/날씨_눈.gif" width="50" alt="눈">
+        </div>
+        <div class="title">눈</div>
+    </div>
+    <div class="image-card">
+        <div class="image-wrapper">
+            <img src="./resources/image/날씨_소나기.gif" width="50" alt="소나기">
+        </div>
+        <div class="title">소나기</div>
+    </div>
+    <div class="image-card">
+        <div class="image-wrapper">
+            <img src="./resources/image/날씨_빗방울.gif" width="50" alt="빗방울">
+        </div>
+        <div class="title">빗방울</div>
+    </div>
+    <div class="image-card">
+        <div class="image-wrapper">
+            <img src="./resources/image/날씨_빗방울눈날림.png" width="50" alt="빗방울·눈날림">
+        </div>
+        <div class="title">빗방울·눈날림</div>
+    </div>
+    <div class="image-card">
+        <div class="image-wrapper">
+            <img src="./resources/image/날씨_눈날림.png" width="50" alt="눈날림">
+        </div>
+        <div class="title">눈날림</div>
+    </div>
+    <div class="image-card">
+        <div class="image-wrapper">
+            <img src="./resources/image/날씨_맑음_봄.gif" width="50" alt="맑음">
+        </div>
+        <div class="title">맑음</div>
+    </div>
+    <div class="image-card">
+        <div class="image-wrapper">
+            <img src="./resources/image/날씨_맑음_기본.gif" width="50" alt="맑음">
+        </div>
+        <div class="title">맑음</div>
+    </div>
+    <div class="image-card">
+        <div class="image-wrapper">
+            <img src="./resources/image/날씨_구름_낮.gif" width="50" alt="구름많음">
+        </div>
+        <div class="title">구름많음</div>
+    </div>
+    <div class="image-card">
+        <div class="image-wrapper">
+            <img src="./resources/image/날씨_흐림.gif" width="50" alt="흐림">
+        </div>
+        <div class="title">흐림</div>
+    </div>
+    <div class="image-card">
+        <div class="image-wrapper">
+            <img src="./resources/image/날씨_맑음_밤.gif" width="50" alt="맑음">
+        </div>
+        <div class="title">맑음</div>
+    </div>
+    <div class="image-card">
+        <div class="image-wrapper">
+            <img src="./resources/image/날씨_구름_밤.gif" width="50" alt="구름많음">
+        </div>
+        <div class="title">구름많음</div>
+    </div>
+</div>
+
+
+
 </body>
 </html>

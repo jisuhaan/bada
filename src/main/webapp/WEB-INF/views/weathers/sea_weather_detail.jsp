@@ -52,7 +52,8 @@
    
    <div class="contents forecasts">
       <c:if test="${empty groupedData}">
-          현재 API 오류로 단기 예보를 띄울 수 없습니다. 새로고침을 시도하시거나, 일정 시간이 지난 후 다시 페이지에 방문해주세요.
+          <div id="api_warning">현재 기상 API 연결이 불안정합니다.</div>
+          <div> 새로고침을 시도하시거나, 일정 시간이 지난 후 다시 페이지에 방문해주세요.</div>
       </c:if>
       
       <c:if test="${not empty groupedData}">
@@ -172,7 +173,8 @@
    <div class="contents otheryear">
    
       <c:if test="${empty dataListMap}">
-          현재 API 오류로 지난 해의 날씨 정보를 띄울 수 없습니다. 새로고침을 시도하시거나, 일정 시간이 지난 후 다시 페이지에 방문해주세요.
+          <div id="api_warning">현재 기상 API 연결이 불안정합니다.</div>
+          <div> 새로고침을 시도하시거나, 일정 시간이 지난 후 다시 페이지에 방문해주세요.</div>
       </c:if>
       
       <c:if test="${not empty dataListMap}">

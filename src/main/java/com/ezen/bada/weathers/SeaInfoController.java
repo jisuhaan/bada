@@ -149,12 +149,16 @@ public class SeaInfoController {
         String errorMessage;
 
         try {
-            bldt.setUltraSrtFcstBeach_dto(apiClient.getUltraSrtFcstBeach_API(beach_code, DateDAO.setToThirtyMinutes().get("date"), DateDAO.setToThirtyMinutes().get("time")));
+        	UltraSrtFcstBeach_DTO uldto = apiClient.getUltraSrtFcstBeach_API(beach_code, DateDAO.setToThirtyMinutes().get("date"), DateDAO.setToThirtyMinutes().get("time"));
+            bldt.setUltraSrtFcstBeach_dto(uldto);
         } catch (Exception e) {
             errorMessage = "초단기 예보를 가져오는 도중 오류가 발생했습니다";
             handleAPIException(errorMessage, e, mo);
-            bldt.setUltraSrtFcstBeach_dto(new UltraSrtFcstBeach_DTO("초단기 예보 API 응답 없음", "초단기 예보 API 응답 없음", "초단기 예보 API 응답 없음", "초단기 예보 API 응답 없음", "초단기 예보 API 응답 없음", "초단기 예보 API 응답 없음",
-                    "초단기 예보 API 응답 없음", "초단기 예보 API 응답 없음", "초단기 예보 API 응답 없음", "초단기 예보 API 응답 없음", "초단기 예보 API 응답 없음", "초단기 예보 API 응답 없음"));
+            bldt.setUltraSrtFcstBeach_dto(new UltraSrtFcstBeach_DTO(
+            		"-", "-", "-", 
+        	        "-", "-", "-",
+        	        "-", "-", "-", 
+        	        "-", "-", "-"));
         }
 
         try {
@@ -162,7 +166,7 @@ public class SeaInfoController {
         } catch (Exception e) {
             errorMessage = "단기 예보를 가져오는 도중 오류가 발생했습니다";
             handleAPIException(errorMessage, e, mo);
-            bldt.setBada_tmx_n_dto(new Bada_tmx_n_DTO("단기 예보 API 응답 없음", "단기 예보 API 응답 없음"));
+            bldt.setBada_tmx_n_dto(new Bada_tmx_n_DTO("-", "-"));
         }
 
         try {
@@ -170,7 +174,7 @@ public class SeaInfoController {
         } catch (Exception e) {
             errorMessage = "sunset과 sunrise를 가져오는 도중 오류가 발생했습니다";
             handleAPIException(errorMessage, e, mo);
-            bldt.setLc_rise_set_info_dto(new LC_Rise_Set_Info_DTO("한국천문연구원_출몰시각 API 응답 없음", "한국천문연구원_출몰시각 API 응답 없음"));
+            bldt.setLc_rise_set_info_dto(new LC_Rise_Set_Info_DTO("-", "-"));
         }
 
         Bada_tw_DTO twdto = new Bada_tw_DTO();
@@ -183,7 +187,7 @@ public class SeaInfoController {
         } catch (Exception e) {
             errorMessage = "현재 수온을 가져오는 도중 오류가 발생했습니다";
             handleAPIException(errorMessage, e, mo);
-            twdto.setWater_height("수온 API 응답 없음");
+            twdto.setWater_temp("-");
             bldt.setBada_tw_dto(twdto);
         }
 
@@ -194,7 +198,7 @@ public class SeaInfoController {
         } catch (Exception e) {
             errorMessage = "현재 파고를 가져오는 도중 오류가 발생했습니다";
             handleAPIException(errorMessage, e, mo);
-            twdto.setWater_height("파고 API 응답 없음");
+            twdto.setWater_height("-");
             bldt.setBada_tw_dto(twdto);
         }
 

@@ -29,10 +29,10 @@
 }
 
 .container {
-	width: 1200px;
+	width: 1100px;
 	margin: 0 auto;
 	margin-top:50px;
-	padding: 30px;
+	padding: 50px;
 	padding-top:40px;
 	padding-bottom:40px;
 	background-color: rgba(255,255,255,0.9);
@@ -175,6 +175,11 @@ hr {
 	justify-content: center;
 	align-items: center;
 	gap:50px;
+	margin-bottom: 50px;
+}
+
+.hashtaglist {
+	margin-top: -50px;
 }
 
 #list_contents {
@@ -277,3 +282,113 @@ hr {
     cursor: pointer;
 }
 
+.hashrank_container{
+	display: flex;
+	flex-direction:column;
+	justify-content: center;
+	align-items: center;
+	gap:50px;
+	margin-bottom: 50px;
+}
+
+.hash_info{
+	text-align: center;
+    color: darkgray;
+    font-family: 'DOSGothic';
+    font-size: 24px;
+    font-weight: 600;
+}
+
+#hash {
+	text-align: center;
+    color: #1b70a6;
+    font-family: 'DOSGothic';
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.hashtag_rank{
+	width:800px;
+	border: 1px solid gray;
+	border-radius:20px;
+	padding:20px;
+	background-color:white;
+	box-shadow:2px 2px 2px gray;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap:40px;
+}
+
+#hashimg2 {
+	width:1
+}
+
+.hash_r1,
+.hash_r2,
+.hash_r3 {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap:10px;
+	cursor: pointer;
+}
+
+.titlebox{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap:5px;
+}
+
+#title1,
+#title2,
+#title3 {
+	font-family: 'DOSGothic';
+	font-size: 20px;
+	font-weight: 600;
+	word-spacing: 0.5px;
+}
+
+#hashimg1,
+#hashimg2,
+#hashimg3 {
+	width:130px;
+	height:130px;
+	border:none;
+	box-shadow: 2px 2px 2px gray;
+	border-radius: 50%;
+}
+
+#hashimg1 > img, 
+#hashimg2 > img,
+#hashimg3 > img {
+	width:130px;
+	height:130px;
+	border:none;
+	object-fit: cover;
+	overflow: hidden;
+	border-radius: 50%;
+}
+
+.bbti_container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap:50px;
+}
+
+#graphContainer{
+	width:700px;
+	height:700px;
+	border: 1px solid gray;
+	background-color:white;
+	box-shadow:2px 2px 2px gray;
+}
+
+#graphContainer > img {
+	width:100%;
+	object-fit:cover;
+}

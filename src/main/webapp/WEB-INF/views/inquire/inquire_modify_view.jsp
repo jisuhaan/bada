@@ -49,7 +49,7 @@
 <body>
 
 <c:choose>
-<c:when test="${loginid == dto.name ||position == 'admin'}">
+<c:when test="${loginid == dto.id ||position == 'admin'}">
 
 <form id="inquire_modify_form" action="inquire_modify_save" method="post" enctype="multipart/form-data">
 		
@@ -176,7 +176,7 @@
 		<script>
 			window.onload = function() {
 			    alert("자신의 글만 수정할 수 있습니다!");
-			    window.location.href = "${pageContext.request.contextPath}/login";
+			    window.location.href = "${pageContext.request.contextPath}/inquire_listout";
 			};
 	    </script>
 	    

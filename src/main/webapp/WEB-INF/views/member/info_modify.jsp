@@ -237,8 +237,8 @@ function confirm_quit() {
 		</div>
 	<br><hr><br>
 	<div class="submit_btns">
-	<button id="submitBtn" class="btn_2"><span id="btn_text">수정하기</span></button>
-	<button onclick="location.href='member_out'"class="btn_2 backbtn"><span id="btn_text">돌아가기</span></button>
+    <button id="submitBtn" class="btn_2"><span id="btn_text">수정하기</span></button>
+    <button type="button" onclick="history.back()" class="btn_2 backbtn"><span id="btn_text">돌아가기</span></button>
 	</div>
 	</form>
 		<div class="quit_link">

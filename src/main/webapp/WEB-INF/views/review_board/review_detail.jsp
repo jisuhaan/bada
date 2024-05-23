@@ -107,8 +107,15 @@
 				<span>${dto.hits}</span>
 			</div>
 			<div class="button-container rec_btn" onclick="window.location.href='review_recommend?review_num=${dto.review_num}&loginid=${loginid}'">
-				<img src="./resources/image/icon_like.png" width="20px" class="like_icon">
-				<span>${dto.recommend}</span>
+				<c:choose>
+					<c:when test="${dto.recommend > 0}">
+						<img src="./resources/image/like_on.png" width="20px" class="like_icon recommended">
+					</c:when>
+					<c:otherwise>
+						<img src="./resources/image/icon_like.png" width="20px" class="like_icon">
+					</c:otherwise>
+				</c:choose>
+						<span>${dto.recommend}</span>
 			</div>
 			<c:if test="${loginid != dto.id}">
 			<div class="button-container rep_btn" onclick="window.open('review_report_view?review_num=${dto.review_num}&loginid=${loginid}','_blank','width=600px height=500px resizable=no scrollbar=no location=no toolbars=no')">

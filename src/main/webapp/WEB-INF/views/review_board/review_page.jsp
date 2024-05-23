@@ -33,21 +33,23 @@ $(document).ready(function() {
 	    });
 	
 
-    $('#search-form').submit(function(event) {
-        event.preventDefault();
-        var form_data = $(this).serialize();
-        $.ajax({
-            type: "POST",
-            url: "review_search",
-            data: form_data,
-            dataType: "html",
-            success: function(response) {
-            	alert("입력하신 검색어를 포함한 리뷰를 찾는 중입니다.");
-                $('#board-list').html(response);
-            },
-            error: function(xhr, status, error) {
-                console.error("Error: " + error);
-                alert("검색 결과를 불러오는데 실패했습니다.");
+	 $('#search-form').submit(function(event) {
+	        event.preventDefault(); // 검색 폼의 기본 동작인 페이지 이동을 막음
+	        
+	        var form_data = $(this).serialize();
+	        $.ajax({
+	            type: "POST",
+	            url: "review_search",
+	            data: form_data,
+	            dataType: "html",
+	            success: function(response) {
+	                alert("입력하신 검색어를 포함한 리뷰를 찾는 중입니다.");
+	                $('#board-list').html(response);
+	                
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("Error: " + error);
+	                alert("검색 결과를 불러오는데 실패했습니다.");
             }
         });
     });

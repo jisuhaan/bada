@@ -63,7 +63,7 @@ $(document).ready(function(){
               console.log(response);
            
               $(".default_suggest").show();
-              $("#d_beachname").html('<input type="hidden" name="beach_code" id="beach_code" value="'+response.beach_code+'" ><span id="beachname">'+response.beach+'</span>');
+              $("#d_beachname").html('<input type="hidden" name="beach_code" id="beach_code" value="'+response.beach_code+'" ><span id="beach1">'+response.beach+'</span>');
               $("#beachimg").html('<img src="./resources/image/'+response.picture1+'">');
               $("#review").html(response.reviewsu);
               $("#score").html(response.avgscore);
@@ -115,7 +115,7 @@ $(document).ready(function(){
                <span id="btntext">바다 정보 & 날씨</span>
                </div>
                <div class="detailbtn" id="reviewbtn">
-               <span id="btntext">바다 리뷰 검색</span>
+               <span id="btntext">리뷰 보러가기</span>
             </div>
          </div>
       </div>
@@ -134,7 +134,7 @@ $(document).ready(function(){
             <span id="btntext">바다 정보 & 날씨</span>
             </div>
             <div class="detailbtn" id="reviewbtn2">
-            <span id="btntext">바다 리뷰 검색</span>
+            <span id="btntext">리뷰 보러가기</span>
             </div>
          </div>
       </div>
@@ -164,7 +164,7 @@ $(document).ready(function(){
             <span id="btntext">바다 정보 & 날씨</span>
             </div>
             <div class="detailbtn" id="reviewbtn">
-            <span id="btntext">바다 리뷰 검색</span>
+            <span id="btntext">리뷰 보러가기</span>
             </div>
          </div>
    </div>
@@ -180,10 +180,10 @@ $(document).ready(function(){
          <div class="see_details">
             <div id="detail_text">▼ 자세히 보려면 ▼</div>
             <div class="detailbtn" id="infobtn2">
-            <span id="btntext">바다 안내와 날씨 보러가기</span>
+            <span id="btntext">바다 정보 & 날씨</span>
             </div>
             <div class="detailbtn" id="reviewbtn2">
-            <span id="btntext">리뷰 검색결과 보러가기</span>
+            <span id="btntext">리뷰 보러가기</span>
             </div>
          </div>
    </div>
@@ -284,7 +284,7 @@ function myLocation() {
    });
    
    $(document).on("click", "#reviewbtn2", function() {
-       showreview2();
+       showreview();
    });
    
    
@@ -295,21 +295,13 @@ function myLocation() {
    }
    
    function showreview() {
-       var beach_code = $("#beach_code").val();
-       alert("해당 바다 리뷰들을 보러 이동할게요! 잠시만 기다려주세요.");
-       window.location.href="#";
+       window.location.href="bada_review?area=전국";
    }
    
    function showbadainfo2() {
        var beach_code = $("#beach_code2").val();
        alert("바다 정보를 보러 이동할게요! 잠시만 기다려주세요.");
        moveToSeaResultPage(beach_code);
-   }
-   
-   function showreview2() {
-       var beach_code = $("#beach_code2").val();
-       alert("해당 바다 리뷰들을 보러 이동할게요! 잠시만 기다려주세요.");
-       window.location.href="#";
    }
 
 </script>

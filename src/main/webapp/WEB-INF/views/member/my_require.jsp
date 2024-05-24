@@ -103,7 +103,7 @@
          </c:forEach>
 
                <c:forEach items="${list}" var="l">
-               <tr class="notice_line">
+               <tr>
                   <td colspan="2">
                   <a href="to_inquire_detail?inquire_num=${l.inquire_num}">
                        <c:choose>

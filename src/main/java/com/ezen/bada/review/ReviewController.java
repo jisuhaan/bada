@@ -812,8 +812,7 @@ public class ReviewController {
 		        ss.unrecommend(loginid, review_num);
 		    }
 		 
-			AllBoardDTO dto=ss.review_detail(review_num);
-			mo.addAttribute("dto", dto);
+			ss.hitdown(review_num);
 	
 	      return "redirect:/review_detail?review_num="+review_num;
    }

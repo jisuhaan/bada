@@ -108,7 +108,7 @@
 			</div>
 			<div class="button-container rec_btn" onclick="window.location.href='review_recommend?review_num=${dto.review_num}&loginid=${loginid}'">
 				<c:choose>
-					<c:when test="${dto.recommend > 0}">
+					<c:when test="${dto.rec_id.contains(loginid)}">
 						<img src="./resources/image/like_on.png" width="20px" class="like_icon recommended">
 					</c:when>
 					<c:otherwise>
@@ -265,8 +265,8 @@ $(document).ready(function() {
                     	var new_html = '<div class="comment">' +
                         '<strong>' + data.loginid + '</strong><span class="comment-date"> (' + data.reply_day + ')</span>' +
                         '<p>' + data.reply + '</p>' +
-                        '<button type="button" class="reply_modify" data-reply_num="' + data.reply_num + '">수정</button> ' +
-                        '<button type="button" class="reply_delete" data-reply_num="' + data.reply_num + '">삭제</button>' +
+                        '<button type="button" class="btn reply_modify" data-reply_num="' + data.reply_num + '">수정</button> ' +
+                        '<button type="button" class="btn reply_delete" data-reply_num="' + data.reply_num + '">삭제</button>' +
                         '</div>';
 	                    $('.comments-list').append(new_html);
 	                    $('#reply').val('');
@@ -285,6 +285,7 @@ $(document).ready(function() {
             alert('댓글을 입력해주세요.');
         }
     });
+
     
    	$('.comments-container').on('click', '.reply_delete', function() {
         var reply_num = $(this).data('reply_num');
@@ -317,14 +318,14 @@ $(document).ready(function() {
    	
    	$('.comments-container').on('click', '.reply_modify', function() {
    	    var reply_num = $(this).data('reply_num');
-   	    var original_reply = $(this).closest('.comment').find('p').text().trim();
+   	    var original_reply = $(this).closest('.comment').find('.user_comments').text().trim();
    	    
    	 	$(this).siblings('button').hide();
    	    
-   	    var edit_monitor = '<br> <textarea class="reply-edit">' + original_reply + '</textarea>' +
-   	                   '<button type="button" class="reply-save" data-reply_num="' + reply_num + '">저장</button>';
+   	    var edit_monitor = '<textarea class="reply-edit">' + original_reply + '</textarea>' +
+        '<button type="button" class="btn reply-save" data-reply_num="' + reply_num + '">저장</button>';
    	    
-   	    $(this).closest('.comment').find('p').replaceWith(edit_monitor);
+   	    $(this).closest('.comment').find('.user_comments').replaceWith(edit_monitor);
    		$(this).hide();
    		
    	});
@@ -333,6 +334,8 @@ $(document).ready(function() {
    	    var reply_num = $(this).data('reply_num');
    	    var update_reply = $(this).prev('.reply-edit').val().trim();
    	    var review_num = $('#review_num').val();
+   	 	var $comment = $(this).closest('.comment');
+
 
    	    if(update_reply) {
    	        $.ajax({
@@ -347,14 +350,10 @@ $(document).ready(function() {
    	            success: function(data) {
    	                if(data.success) {
    	                    
-   	                    var update_html = '<div class="comment">' +
-                        	'<strong>' + data.id + '</strong><span class="comment-date"> (' + data.reply_day + ')</span>' +
-                       		'<p>' + update_reply + '</p>' +
-							'<button type="button" class="reply_modify" data-reply_num="' + reply_num + '">수정</button>' +
-                        	'<button type="button" class="reply_delete" data-reply_num="' + data.reply_num + '">삭제</button>' +
-                        	'</div>';
+   	                	$comment.find('.user_comments').text(update_reply);
+   	                	$comment.find('.reply-edit, .reply-save').remove();
+   	                	$comment.find('.reply_modify, .reply_delete').show();
    	                    
-   	                        $('button[data-reply_num="' + reply_num + '"]').closest('.comment').html(update_html);
    	                } else {
    	                    alert('댓글 수정 실패');
    	                }

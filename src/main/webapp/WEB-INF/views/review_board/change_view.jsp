@@ -78,7 +78,7 @@
 	</div>
 </div>
 
-<c:set var="cleanContents" value="${fn:replace(dto.review_contents, '<br>', '')}" />
+<c:set var="cleanContents" value="${fn:replace(dto.review_contents, '<br>', '&#10;')}" />
 <c:set var="trimmedContents" value="${fn:trim(cleanContents)}" />
 
 <div class="listbox contents">

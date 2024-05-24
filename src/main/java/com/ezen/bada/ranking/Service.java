@@ -14,6 +14,6 @@ public interface Service {
 
 	List<RankingBBTIDTO> bbtiTopThree();
 
-	List<RankingHashtagDTO> hashtagTopThree();
+	List<RankingHashtagDTO> hashtagTopThree(String hashtag);
 
 }

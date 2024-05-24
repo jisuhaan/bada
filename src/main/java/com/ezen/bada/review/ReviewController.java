@@ -34,7 +34,7 @@ public class ReviewController {
 	@Autowired
 	SqlSession sqlsession;
 	
-	String image_path="C:\\이젠디지털12\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
+	String image_path="C:\\이젠디지탈12\\spring\\bada\\src\\main\\webapp\\resources\\image_user";
 	
 	
 	
@@ -806,15 +806,14 @@ public class ReviewController {
 		// 추천 중복체크 확인
 		int rec_id=ss.review_rec_id(review_num, loginid);
 		
-		if(rec_id==0) {
-		ss.review_recommand(loginid, review_num);
-		AllBoardDTO dto=ss.review_detail(review_num);
-		mo.addAttribute("dto", dto);
-		}
-		
-		else {
+		 if (rec_id == 0) {
+		        ss.review_recommand(loginid, review_num);
+		    } else {
+		        ss.unrecommend(loginid, review_num);
+		    }
+		 
 			AllBoardDTO dto=ss.review_detail(review_num);
-			mo.addAttribute("dto", dto);}
+			mo.addAttribute("dto", dto);
 	
 	      return "redirect:/review_detail?review_num="+review_num;
    }
@@ -846,6 +845,35 @@ public class ReviewController {
 		    return jsonList;
 		}
 
+		//추천 취소
+		@RequestMapping(value = "review_unrecommend")
+		public String unrecommend(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		    int reviewNum;
+		    String userId;
+		    try {
+		        reviewNum = Integer.parseInt(request.getParameter("review_num"));
+		        userId = request.getParameter("user_id");
+		    } catch (NumberFormatException e) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+
+		    if (reviewNum == 0 || userId == null || userId.isEmpty()) {
+		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
+		        return null;
+		    }
+		    
+		    try {
+		        Service ss = sqlsession.getMapper(Service.class);
+		        ss.unrecommend(userId, reviewNum);
+		    } catch (Exception e) {
+		        showAlertAndRedirect(response, "오류가 발생했습니다. 다시 시도해 주세요.");
+		        return null;
+		    }
+
+
+		    return "redirect:/my_favorite";
+		}
 	
 	
 	

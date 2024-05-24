@@ -29,27 +29,27 @@
                     <a href="sea_info" class="nav__link" onclick="window.location.href='sea_info'">
                        <ion-icon name="map-outline" class="nav__icon"></ion-icon>
                        <span class="nav_name">추천, 바다!</span>
+                    </a>                                   
+                     
+                    <a href="ranking_page" class="nav__link">
+                        <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
+                        <span class="nav_name">순위, 바바!</span>
                     </a>
 
                     <div class="nav__link collapse">
                      <ion-icon name="heart-circle-outline" class="nav__icon"></ion-icon>
                      <span class="nav_name">&nbsp;리뷰, 바다!</span>
-
+                     
                         <ul class="collapse__menu">
                             <a href="bada_review?area=전국" class="collapse__sublink">바다리뷰</a><br>
                             <a href="review_input" class="collapse__sublink">리뷰작성</a><br>
-                            <a href="say_one_sentence"  class="collapse__sublink">바닷속외침</a><br>
+                            <a href="say_one_sentence"  class="collapse__sublink">나도 한마디</a><br>
                             <c:if test="${position=='admin'}">
                             <a href="review_ban_listout" class="collapse__sublink">리뷰 신고내역</a>
                             </c:if>       
                         </ul>
                    
                     </div>
-
-                    <a href="ranking_page" class="nav__link">
-                        <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
-                        <span class="nav_name">순위, 바바!</span>
-                    </a>
 
                     <div class="nav__link collapse">
                         <ion-icon name="people-outline" class="nav__icon"></ion-icon>
@@ -61,8 +61,8 @@
                             <a href="inquire_input" class="collapse__sublink">문의글작성</a>
                             <a href="inquire_personal_view" class="collapse__sublink">1:1문의</a>
                             <c:if test="${position=='admin'}">
-                            <a href="inquire_ban_listout" class="collapse__sublink">문의 신고내역</a>
                             <a href="inquire_personal_out" class="collapse__sublink">1:1 문의내역</a>
+                            <a href="inquire_ban_listout" class="collapse__sublink">문의 신고내역</a>
                             </c:if>
                         </ul>
                     </div>

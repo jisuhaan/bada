@@ -12,89 +12,129 @@
     <script src="./resources/js/loading.js"></script>
     <script type="text/javascript">
     
-    var choice_tags = [];
-    
-    $(document).ready(function() {
- 	   $('.category').click(function() {
- 	       var category = $(this).data('category');
- 	       show_hashtags(category);
- 	   });
-
- 	   $(document).on('click', '.hashtag', function() {
- 	       var hashtag = $(this).text();
- 	       if ($(this).hasClass('selected')) {
- 	           // 해시태그를 선택 해제
- 	           $(this).removeClass('selected');
- 	           choice_tags = choice_tags.filter(function(value) {
- 	               return value !== hashtag;
- 	           });
- 	       } else {
-	               $(this).addClass('selected');
- 	               choice_tags.push(hashtag);
- 	       }
- 	       update_Hashtag();
- 	   });
-    });
-    
- 	   function show_hashtags(category) {
- 	       var hashtags = get_tag(category);
- 	       var dropdown = $('.hashtag-dropdown').empty().show();
- 	       $.each(hashtags, function(index, hashtag) {
- 	           var div = $('<div/>', { 
- 	               text: hashtag,
- 	               class: 'hashtag'
- 	           }).appendTo(dropdown);
- 	           
- 	           if (choice_tags.indexOf(hashtag) !== -1) {
- 	               div.addClass('selected');
- 	           }
- 	       });
- 	   }
-
- 	   function get_tag(category) {
- 	       
- 	       var hashtags = {
- 	           "누구와": ["#가족", "#연인", "#혼자", "#친구", "#반려동물"],
- 	           "편의시설": ["#대중교통", "#자차필요", "#번화가"],
- 	           "바다": ["#에메랄드바다", "#백사장", "#고운모래", "#갯벌"],
- 	           "액티비티": ["#스쿠버다이빙", "#서핑", "#물놀이", "#바다낚시", "#캠핑"],
- 	           "풍경": ["#핫플", "#감성", "#사람이적어요", "#이국적", "#인생샷", "#일출맛집", "#전망대", "#항구"]
- 	       };
- 	       return hashtags[category];
- 	   }
-
- 	   function update_Hashtag() {
- 	       
- 	       $('#hashtags').val(choice_tags.join(' '));
- 	       display_tags();
- 	   }
- 	   
- 	   function display_tags() {
- 	       var tags_Area = $('#selected-tags');
- 	       tags_Area.empty(); // 이전 표시 내용 초기화
- 	       choice_tags.forEach(function(tag) {
- 	           $('<span/>', {
- 	               text: tag,
- 	               class: 'selected-tag'
- 	           }).appendTo(tags_Area);
- 	       });
-	   }
-
-    
-	    function changeColor(selectedDiv) {
-	        // 모든 category div 요소를 선택합니다.
-	        const categories = document.querySelectorAll('.category');
+	$(document).ready(function() {
+		
+		
+		// 페이지 로드시 그래프 초기화
+		$.ajax({
+            url: 'generateGraph',
+            type: 'GET',
+            success: function(imgRelativePath) {
+                const graphContainer = document.getElementById('graphContainer');
+                // 이미지가 있으면 제거
+                const imgElement = graphContainer.querySelector('img');
+                if (imgElement) {
+                    imgElement.remove(); // 이미지 제거
+                }
+                // 새로운 이미지 추가
+                graphContainer.innerHTML = '<img src="'+imgRelativePath+'">';
+            },
+            error: function(xhr, status, error) {
+                console.error('Error reloading graph:', status);
+            }
+        });
+		
+		$('.hashrank_container').hide();
+		$('.category').click(function() {
+		    var category = $(this).data('category');
+		    show_hashtags(category);
+		});
+		
+		$(document).on('click', '.hashtag', function() {
+		    var hashtag = $(this).text();
+		    if ($(this).hasClass('selected')) {
+		        $(this).removeClass('selected');
+		        $('#hashtagrank').empty(); // 선택 해제 시 테이블 비우기
+		    } else {
+		 	  $(".hashtag").removeClass('selected');
+		         $(this).addClass('selected');
+		         showHashtagRank(hashtag);
+		    }
+		});
+	});
+	    
+	function show_hashtags(category) {
+	    var hashtags = get_tag(category);
+	    var dropdown = $('.hashtag-dropdown').empty().show();
+	    $.each(hashtags, function(index, hashtag) {
+	        var div = $('<div/>', { 
+	            text: hashtag,
+	            class: 'hashtag'
+	        }).appendTo(dropdown);
+	    });
+	}
 	
-	        // 선택한 category div의 배경색을 변경합니다.
-	        categories.forEach(category => {
-	            if (category === selectedDiv) {
-	                category.style.backgroundColor = 'lightblue'; // 선택한 div의 배경색을 변경합니다.
-	            } else {
-	                category.style.backgroundColor = ''; // 선택하지 않은 div의 배경색을 초기화합니다.
-	            }
-	        });
-	    }
-    
+	function get_tag(category) {
+	    
+	    var hashtags = {
+	        "누구와": ["#가족", "#연인", "#혼자", "#친구", "#반려동물"],
+	        "편의시설": ["#대중교통", "#자차필요", "#번화가"],
+	        "바다": ["#에메랄드바다", "#백사장", "#고운모래", "#갯벌"],
+	        "액티비티": ["#스쿠버다이빙", "#서핑", "#물놀이", "#바다낚시", "#캠핑"],
+	        "풍경": ["#핫플", "#감성", "#사람이적어요", "#이국적", "#인생샷", "#일출맛집", "#전망대", "#항구"]
+	    };
+	    return hashtags[category];
+	}
+	
+	function showHashtagRank(hashtag){
+		
+		console.log("해시태그 : "+hashtag);
+		
+		$.ajax({
+	           url: "hashrank", 
+	           type: "GET",
+	           data: {'hashtag':hashtag},
+	           dataType: "json",
+	           success: function(response) {
+	               console.log("해시태그 : "+hashtag);
+	               console.log(response);
+	               
+	               $('#hash').text(hashtag);
+	               
+	               if(response[0].second_used_beach==null){
+	            	   $('#title1').text(response[0].most_used_beach);
+	            	   $('#title2').text('데이터 없음');
+	            	   $('#title3').text('데이터 없음');
+	            	   $('#hashimg1').html('<img src="./resources/image/'+response[0].most_used_beach_picture+'">');
+	            	   $('#hashimg2').html('<img src="./resources/image/nobeach.png">');
+		               $('#hashimg3').html('<img src="./resources/image/nobeach.png">');
+		               $('.hash_r1').first().attr('onclick', 'moveToSeaResultPage(' + response[0].most_used_beach_code + ')');
+
+	               }
+	               else if(response[0].second_used_beach && response[0].third_used_beach==null){
+	            	   $('#title1').text(response[0].most_used_beach);
+	            	   $('#title2').text(response[0].second_used_beach);
+	            	   $('#title3').text('데이터 없음');
+	            	   $('#hashimg1').html('<img src="./resources/image/'+response[0].most_used_beach_picture+'">');
+		               $('#hashimg2').html('<img src="./resources/image/'+response[0].second_used_beach_picture+'">');
+		               $('#hashimg3').html('<img src="./resources/image/nobeach.png">');
+		               $('.hash_r1').first().attr('onclick', 'moveToSeaResultPage(' + response[0].most_used_beach_code + ')');
+		               $('.hash_r2').first().attr('onclick', 'moveToSeaResultPage(' + response[0].second_used_beach_code + ')');
+
+	               }
+	               else{
+	            	   $('#title1').text(response[0].most_used_beach);
+		               $('#title2').text(response[0].second_used_beach);
+		               $('#title3').text(response[0].third_used_beach);
+		               $('#hashimg1').html('<img src="./resources/image/'+response[0].most_used_beach_picture+'">');
+		               $('#hashimg2').html('<img src="./resources/image/'+response[0].second_used_beach_picture+'">');
+		               $('#hashimg3').html('<img src="./resources/image/'+response[0].third_used_beach_picture+'">');
+		               $('.hash_r1').first().attr('onclick', 'moveToSeaResultPage(' + response[0].most_used_beach_code + ')');
+		               $('.hash_r2').first().attr('onclick', 'moveToSeaResultPage(' + response[0].second_used_beach_code + ')');
+		               $('.hash_r3').first().attr('onclick', 'moveToSeaResultPage(' + response[0].third_used_beach_code + ')');
+
+	               }
+
+	               $('.hashrank_container').show();
+	               
+	               
+	           },
+	           error: function(xhr, status, error) {
+	               console.error('ajax오류 : '+error); 
+	           }
+	       });
+	}
+	
     </script>
 </head>
 <body>
@@ -181,7 +221,7 @@
 	    		<img alt="" src="./resources/image/award.png">
 	   		</div>
 	    	<div class="rankbox revisit">
-	    		<div class="revisited no2" onclick="moveToSeaResultPage(${re_visitlist[1].beach_code})">
+	    		<div class="revisited no2" onclick="">
 	    			<div class="awardtitle best2title">${re_visitlist[1].beach}</div>
 	    			<div class="thumbnail best2img"><img src="./resources/image/${re_visitlist[1].picture}"></div>
 	    		</div>
@@ -220,9 +260,36 @@
 				</div>
 				<div class="hashtag-dropdown" style="display: none;"></div>
 			</div>
-    	
-    	</div>
+			
+		</div>
+		
+			<div class="hashrank_container">
+				<div class="hash_info"><span id="hash"></span>&nbsp;해시태그가 많이 쓰인 바다는...</div>
+				<div class="hashtag_rank">
+					<div class="hash_r1">
+						<div class="titlebox"><img src="./resources/image/1위.png" width="50px"><div id="title1"></div></div>
+						<div id="hashimg1"></div>
+					</div>
+					<div class="hash_r2">
+						<div class="titlebox"><img src="./resources/image/2위.png" width="50px"><div id="title2"></div></div>
+						<div id="hashimg2"></div>
+					</div>
+					<div class="hash_r3">
+						<div class="titlebox"><img src="./resources/image/3위.png" width="50px"><div id="title3"></div></div>
+						<div id="hashimg3"></div>
+					</div>					
+				</div>
+			</div>
     
+    	</div>
+    	
+    	
+    	<div class="bbti_container">
+    	
+    	<div id="rank_title">BBTI(바다성향) 분포도</div>
+    	<div id="rank_subtitle">* <바라는 바다> 유저들의 BBTI는 어떨까요? *</div>
+   		    <div id="graphContainer">
+			</div>
     	</div>
     	
     </div>
@@ -233,6 +300,24 @@
 <div id="loading" style="display: none;">
     <jsp:include page="../loading.jsp"/>
 </div>
+
+<script type="text/javascript">
+
+function changeColor(selectedDiv) {
+    // 모든 category div 요소를 선택합니다.
+    const categories = document.querySelectorAll('.category');
+
+    // 선택한 category div의 배경색을 변경합니다.
+    categories.forEach(category => {
+        if (category === selectedDiv) {
+            category.style.backgroundColor = 'lightblue'; // 선택한 div의 배경색을 변경합니다.
+        } else {
+            category.style.backgroundColor = ''; // 선택하지 않은 div의 배경색을 초기화합니다.
+        }
+    });
+}
+
+</script>
 
 </body>
 </html>

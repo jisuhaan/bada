@@ -584,4 +584,13 @@ WHERE rank <= 5 ]]>
 </delete>
 
 
+<!-- 마이페이지 -> 추천취소 -->
+<update id="unrecommend">
+    UPDATE bada_user_review
+    SET recommend = recommend - 1,
+        rec_id = REPLACE(rec_id, #{userId}, '')
+    WHERE review_num = #{reviewNum}
+</update>
+
+
 </mapper>

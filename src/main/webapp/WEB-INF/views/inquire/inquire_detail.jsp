@@ -127,6 +127,10 @@
 					<img src="./resources/image/delete_icon.png" width="20px" class="report_icon" onclick="confirmDelete('${dto.inquire_num}')">
 					<span>삭제</span>
 				</div>
+				<div class="list_btn" onclick="window.location.href='inquire_listout?sort=latest'">
+					<img src="./resources/image/icon_tolist.png" width="20px" class="report_icon">
+					<span>목록으로</span>
+				</div>
 			</div>
 		</c:when>
 		<c:otherwise>

@@ -93,10 +93,10 @@
 	            </div>
 	            <div class="button-container">
 	                <button type="button" class="rounded-button" onclick="confirmDelete('${dto.review_num}')">삭제</button>
-	            </div>
+	            </div>            
 	        </c:if>
             <div class="button-container">
-               <button type="button" class="rounded-button" onclick="history.go(-1);">목록</button>
+               <button type="button" class="rounded-button" onclick="window.location.href='review_page'">목록</button>
           	</div>
 	    </div>
 	    

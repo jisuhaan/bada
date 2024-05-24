@@ -278,6 +278,7 @@ window.onload = function() {
   if (selectedButton) {
     // 이전에 선택한 버튼이 있다면 해당 버튼의 스타일을 변경
     document.getElementById(selectedButton).classList.add('clicked');
+    localStorage.removeItem('selectedButton');
   }
 }
 

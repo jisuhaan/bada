@@ -592,5 +592,12 @@ WHERE rank <= 5 ]]>
     WHERE review_num = #{reviewNum}
 </update>
 
+<!-- 추천기능 실행시 조회수 증가 예방 -->
+<update id="hitdown">
+    UPDATE bada_user_review
+    SET hits = hits - 1
+    WHERE review_num = #{param1}
+</update>
+
 
 </mapper>

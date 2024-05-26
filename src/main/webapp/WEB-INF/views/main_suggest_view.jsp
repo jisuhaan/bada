@@ -141,7 +141,7 @@ $(document).ready(function(){
    </c:when>
    
    <c:otherwise>
-   <div id="titles">${name} 님께 이 바다를 추천드려요!</div>
+   <div id="titles">${name} 님께 추천하는 바다!</div>
    <input type="hidden" name="id" id="id" value="${loginid}">
    <div class="suggest_switch">
    <label class="switch">

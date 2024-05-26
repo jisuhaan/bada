@@ -50,7 +50,14 @@ if(hs.getAttribute("loginstate")==null){
          </div>   
          
          <script type="text/javascript">
-            $(document).ready(function(){            
+            $(document).ready(function(){
+            	
+                $("#area").keypress(function(event) {
+                    if (event.which == 13) {
+                        search_area();
+                    }
+                });
+            	
                 $('.main_banner').bxSlider({
                   mode:'vertical',
                   slideMargin: 5,

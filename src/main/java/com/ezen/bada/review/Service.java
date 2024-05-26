@@ -211,6 +211,8 @@ public interface Service {
 	// 마이페이지 -> 추천취소
 	void unrecommend(@Param("userId") String userId, @Param("reviewNum") int reviewNum);
 
+	void hitdown(int review_num);
+
 
 
 }

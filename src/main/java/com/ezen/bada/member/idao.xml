@@ -283,7 +283,7 @@ from. (정)지수 -->
 	    SELECT bi.beach_code as beach_code, bi.beach_name as beach, bi.picture1 as picture1
 	    FROM bada_info bi
 	    JOIN (
-	        SELECT bur.beach_code, AVG(bur.review_score) AS avgscore
+	        SELECT bur.beach_code, round(AVG(bur.review_score),1) AS avgscore
 	        FROM bada_user_review bur
 	        GROUP BY bur.beach_code
 	        HAVING COUNT(bur.review_num) >= 2
@@ -374,7 +374,7 @@ from. (정)지수 -->
 
 <!-- 특정 바다의 평균별점 -->
 <select id="getavgscore" resultType="double">
-	select avg(review_score) from bada_user_review where beach_code=#{param1}
+	select round(avg(review_score),1) from bada_user_review where beach_code=#{param1}
 	group by beach_code
 </select>
 

@@ -12,37 +12,56 @@
 
 <head>
 
-   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="${pageContext.request.contextPath}/resources/css/review_page.css" rel="stylesheet" type="text/css">
-   <title>바라는 바다! :: 문의 목록</title>
-   <style>
-        .wide-cell {
-        	padding: 10px;
-            cursor: pointer; /* 커서를 포인터로 변경하여 사용자에게 클릭 가능한 요소임을 나타냄 */
-        }
-        .hidden {
-            display: none; /* 숨겨진 요소 */
-        }
-        
-        .sort-options {
-        	text-align: right;
-    	}
-    	
-    	.notice {
-    		display:flex;
-    		justify-content: center;
-    		align-items: center;
-    		text-align: left;
-    		padding:30px;
-    		word-wrap: break-word;
-    		font-family:Pretendard-Regular';
-			font-size: 12px;
-			line-height:1.4;
-    	}
-        
-    </style>
-<script>
+ <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="${pageContext.request.contextPath}/resources/css/review_page.css" rel="stylesheet" type="text/css">
+<title>바라는 바다! :: 문의 목록</title>
+<style>
+    .wide-cell {
+    	padding: 10px;
+        cursor: pointer; /* 커서를 포인터로 변경하여 사용자에게 클릭 가능한 요소임을 나타냄 */
+    }
+    .hidden {
+        display: none; /* 숨겨진 요소 */
+    }
+    
+    .sort-options {
+    	text-align: right;
+	}
+ 	
+ 	.notice {
+ 		display:flex;
+ 		justify-content: center;
+ 		align-items: center;
+ 		text-align: left;
+ 		padding:30px;
+ 		word-wrap: break-word;
+ 		font-family:Pretendard-Regular';
+		font-size: 12px;
+		line-height:1.4;
+ 	}     
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	
+	var urlParams = new URLSearchParams(window.location.search);
+	var sortParam = urlParams.get('sort');
+	   
+	if (sortParam) {
+		$('.sort-box').removeClass('active');
+		if (sortParam === 'latest') {
+		    $('.sort-box.latest').addClass('active');
+		} else if (sortParam === 'popular') {
+		    $('.sort-box.popular').addClass('active');
+		}
+	}
+	else{
+		$('.sort-box.latest').addClass('active');
+	}
+});
+
 function toggleContent(id) {
     var content = document.getElementById("content" + id);
     var toggleIcon = document.getElementById("toggleIcon" + id);
@@ -54,6 +73,15 @@ function toggleContent(id) {
         toggleIcon.innerText = "▼"; // 아이콘 변경
     }
 }
+
+function sortAndColor(selectDiv, sortType){
+	
+    $('.sort-box').removeClass('active');
+    $(selectDiv).addClass('active');
+    window.location.href = "inquire_listout?sort=" + sortType;
+	
+}
+
 </script>
 
 </head>
@@ -62,8 +90,9 @@ function toggleContent(id) {
 <br>
 <br>
 <div class="sort-options">
-    <label>정렬 방식:</label>&nbsp;&nbsp;
-    <a href="inquire_listout?sort=latest">최신순</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="inquire_listout?sort=popular">추천순</a>
+	<label id="sort-title">정렬 방식</label>&nbsp;
+	<div class="sort-box latest" onclick="sortAndColor(this, 'latest')"><span>최신순</span></div>
+	<div class="sort-box popular" onclick="sortAndColor(this, 'popular')"><span>추천순</span></div>
 </div>
 <br>
 <div id="board-list">

@@ -60,6 +60,7 @@ if(hs.getAttribute("loginstate")==null){
             	
                 $('.main_banner').bxSlider({
                   mode:'vertical',
+                  speed: 200,
                   slideMargin: 5,
                   auto:true,
                   stopAutoOnClick:true,
@@ -102,7 +103,7 @@ function search_area() {
                alert("해당 지역은 저희 바다 데이터에 존재하지 않습니다 ㅠ.ㅠ!");
             }
             else if(response=='city'){
-               alert("해당 도시에 있는 바다 목록을 팝업창으로 보여드릴게요!")
+               alert("해당 도시에 있는 바다 목록을 팝업창으로 보여드릴게요!");
                window.open("search_city?city="+area, "바라는바다::바다목록", "width=605,height=605,resizable=no,scrollbars=no,menubar=no,location=no");
             }
             else{

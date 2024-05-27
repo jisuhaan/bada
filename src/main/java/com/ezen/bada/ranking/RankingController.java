@@ -40,7 +40,6 @@ public class RankingController {
 		
 		// 후기가 가장 많은 바다 top3
 		List<RankingBeachDTO> reviewCountlist = ss.reviewTopThree();
-		System.out.println(reviewCountlist.size());
 		for(int i=0;i<reviewCountlist.size();i++) {
 			Bada_info_DTO bdt = service.getbeachinfo(viewCountlist.get(i).getBeach_code());
 			reviewCountlist.get(i).setBdt(bdt);

@@ -20,14 +20,9 @@
             url: 'generateGraph',
             type: 'GET',
             success: function(imgRelativePath) {
-                const graphContainer = document.getElementById('graphContainer');
-                // 이미지가 있으면 제거
-                const imgElement = graphContainer.querySelector('img');
-                if (imgElement) {
-                    imgElement.remove(); // 이미지 제거
-                }
+            	$('#graphContainer').empty();
                 // 새로운 이미지 추가
-                graphContainer.innerHTML = '<img src="'+imgRelativePath+'">';
+                $('#graphContainer').html('<img src="'+imgRelativePath+'">');
             },
             error: function(xhr, status, error) {
                 console.error('Error reloading graph:', status);
@@ -288,8 +283,7 @@
     	
     	<div id="rank_title">BBTI(바다성향) 분포도</div>
     	<div id="rank_subtitle">* <바라는 바다> 유저들의 BBTI는 어떨까요? *</div>
-   		    <div id="graphContainer">
-			</div>
+   		    <div id="graphContainer"></div>
     	</div>
     	
     </div>

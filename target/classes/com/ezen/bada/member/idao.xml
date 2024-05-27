@@ -286,7 +286,7 @@ from. (정)지수 -->
 	        SELECT bur.beach_code, round(AVG(bur.review_score),1) AS avgscore
 	        FROM bada_user_review bur
 	        GROUP BY bur.beach_code
-	        HAVING COUNT(bur.review_num) >= 2
+	        HAVING COUNT(bur.review_num) >= 3
 	        ORDER BY avgscore DESC
 	    ) reviewed_beaches
 	    ON bi.beach_code = reviewed_beaches.beach_code

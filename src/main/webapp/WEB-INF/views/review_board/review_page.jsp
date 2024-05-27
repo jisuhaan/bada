@@ -15,6 +15,21 @@
 
 $(document).ready(function() {
 	
+	var urlParams = new URLSearchParams(window.location.search);
+	var sortParam = urlParams.get('sort');
+	   
+	if (sortParam) {
+		$('.sort-box').removeClass('active');
+		if (sortParam === 'latest') {
+		    $('.sort-box.latest').addClass('active');
+		} else if (sortParam === 'popular') {
+		    $('.sort-box.popular').addClass('active');
+		}
+	}
+	else{
+		$('.sort-box.latest').addClass('active');
+	}
+	
 	 $('#area').change(function() {
 	        var select_area = $(this).val(); // 선택된 지역값
 	        $.ajax({
@@ -100,6 +115,14 @@ function toggleContent(id) {
         toggleIcon.innerText = "▼"; // 아이콘 변경
     }
 }
+
+function sortAndColor(selectDiv, sortType){
+	
+    $('.sort-box').removeClass('active');
+    $(selectDiv).addClass('active');
+    window.location.href = "review_page?sort=" + sortType;
+	
+}
 </script>
 <style>
         .wide-cell {
@@ -124,18 +147,13 @@ function toggleContent(id) {
 <div class="review_container">
 
 <section class="notice">
-  <div class="page-title">
-        <div class="container">
-            <h3>바라는 바다 리뷰</h3>
-        </div>
-    </div>
 
     <!-- board seach area -->
     <div id="board-search">
         <div class="container">
             <div class="search-window">
             <div class="area_select">
-            	<span>지역선택&nbsp;</span> 
+            	<span>지역선택&nbsp;&nbsp;</span> 
         		<select name="area" id="area">
         			<option value="전체" selected>전체</option>
         			<option value="강원" id="강원">강원</option>
@@ -153,8 +171,9 @@ function toggleContent(id) {
         	</div>
         	    
 		    <div class="sort-options">
-		    <label>정렬 방식</label>&nbsp;&nbsp;
-		    <a href="review_page?sort=latest">최신순</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="review_page?sort=popular">추천순</a>
+		    <label id="sort-title">정렬 방식</label>&nbsp;
+		    <div class="sort-box latest" onclick="sortAndColor(this, 'latest')"><span>최신순</span></div>
+		    <div class="sort-box popular" onclick="sortAndColor(this, 'popular')"><span>추천순</span></div>
 			</div>
 			
 			<form id="search-form">

@@ -59,7 +59,7 @@
 	<c:forEach items="${list}" var="l">
 		<tr>		      
 		<td>	      	
-		<a href="review_ban_detail?ban_review_num=${l.ban_review_num}&ban_id=${l.ban_id}">
+		<a href="review_ban_detail?review_report_num=${l.review_report_num}&ban_id=${l.ban_id}">
 		${l.title}
 		</a>
 		</td>

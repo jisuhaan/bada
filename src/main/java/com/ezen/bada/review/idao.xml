@@ -348,7 +348,7 @@
 
 <!-- 신고내역 상세 내역 (관리자 확인페이지) -->
 <select id="review_ban_detail" resultType="com.ezen.bada.review.Review_report_DTO">
-	select * from bada_review_report where ban_review_num = #{param1}
+	select * from bada_review_report where review_report_num = #{param1}
 </select>
 
 <!-- 유저별 신고 누적회수 -->

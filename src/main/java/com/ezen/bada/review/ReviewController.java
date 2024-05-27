@@ -980,14 +980,14 @@ public class ReviewController {
 	@RequestMapping(value = "review_ban_detail")
 	public String ban_review_detail(HttpServletRequest request, Model mo, HttpServletResponse response) throws IOException {
 	
-		int ban_review_num;
+		int review_report_num;
 		try {
-			ban_review_num = Integer.parseInt(request.getParameter("ban_review_num"));
+			review_report_num = Integer.parseInt(request.getParameter("review_report_num"));
 		    } catch (NumberFormatException e) {
 		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
 		        return null;
 		    }
-		    if (ban_review_num == 0) {
+		    if (review_report_num == 0) {
 		        showAlertAndRedirect(response, "오류로 인해 진행이 어렵습니다. 새로고침 후 다시 시도해 주세요.");
 		        return null;
 		    }
@@ -999,7 +999,7 @@ public class ReviewController {
 		
 		Service ss=sqlsession.getMapper(Service.class);
 
-		Review_report_DTO dto=ss.review_ban_detail(ban_review_num);
+		Review_report_DTO dto=ss.review_ban_detail(review_report_num);
 		mo.addAttribute("dto", dto);
 
 		int ban_count=ss.review_ban_count(ban_id);

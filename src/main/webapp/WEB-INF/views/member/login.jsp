@@ -30,6 +30,13 @@ $(document).ready(function(){
         $("#remember").prop('checked', false);
         $("#id").val('');
     }
+    
+    // 엔터 키 이벤트 추가
+    $(".login_container").keypress(function(event) {
+        if (event.which == 13) { // 13은 엔터 키의 키코드
+            $("#login_button").click();
+        }
+    });
 
     $("#login_button").click(function(){
         var id = $("#id").val();

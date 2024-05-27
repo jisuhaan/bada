@@ -126,7 +126,7 @@
 		<td colspan="4">
 		 신고글 제목: <a href="inquire_ban_detail?i_banned_num=${d.i_banned_num}&ban_id=${d.ban_id}">${d.title}</a>
 		<span style="float: right;">
-		신고 대상: <a href="member_detail?user_number=${d.ban_user_number}"> ${d.ban_name}(${fn:substring(d.ban_id, 0, 4)}****) </a>님
+		신고 대상: <a href="member_detail?user_number=${d.ban_user_number}"> ${d.ban_name}(${d.ban_id})</a>님
 		</span>
 		</td>
 		<tr>

@@ -14,13 +14,6 @@
     font-style: normal;
 }
 
-@font-face {
-    font-family: 'TTHakgyoansimMonggeulmonggeulR';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimMonggeulmonggeulR.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
 /* 데스크탑, 태블릿(스마트폰) 공통 */
 
 * {

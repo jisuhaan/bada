@@ -98,13 +98,13 @@
             </tr>
             <tr>
 			    <td colspan="4">    
-		       		<div class="btnlists" onclick="confirmDeleteBan('${dto.review_report_num}')" style="display:flex; justify-content:space-between; gap:500px; align-items:center; text-align: center;">
-						<div class="deletebtn" style="width:150px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+		       		<div class="btnlists" style="display:flex; justify-content:space-between; gap:500px; align-items:center; text-align: center;">
+						<div class="deletebtn" onclick="confirmDeleteBan('${dto.review_report_num}')"  style="width:150px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
 						<img src="./resources/image/delete_icon.png" width="20px" class="">
 						<span>신고삭제</span>
 						</div>
 						<div class="listbtn" onclick="window.location.href='review_ban_listout'" style="width:150px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-						<img src="./resources/image/icon_tolist.png" width="20px" class="">
+							<img src="./resources/image/icon_tolist.png" width="20px" class="">
 						<span>목록으로</span>
 						</div>
 					</div>

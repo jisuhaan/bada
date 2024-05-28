@@ -88,20 +88,7 @@ public class RankingController {
 		
 		return jsonList;
 	}
-//	
-//	@RequestMapping("/pythonBBTI")
-//	public String pythonBBTI() throws IOException, InterruptedException {
-//	    String path; // 실행될 파이썬 파일의 경로 설정
-//	    ProcessBuilder processBuilder; // 실행 객체
-//	    path = "C:\\이젠디지탈12\\spring\\bada\\bada_bbtiOut.py";
-//	    processBuilder=new ProcessBuilder("python",path);
-//	    processBuilder.redirectErrorStream(true);
-//	    Process process=processBuilder.start();
-//	    int result=process.waitFor(); // 0이면 성공, 나머지는 실패
-//
-//	    return "redirect:/ranking_page";
-//	}
-//	
+
 	@ResponseBody
 	@RequestMapping(value = "/generateGraph", method=RequestMethod.GET)
     public String generateGraph() throws IOException, InterruptedException {

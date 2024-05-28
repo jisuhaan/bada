@@ -93,7 +93,7 @@ $(document).ready(function(){
 <div class="suggest_container">
    <c:choose>
    <c:when test="${loginstate==false || empty loginstate}">
-      <div id="titles">게스트 님께 이 바다를 추천드려요!</div>
+      <div id="titles">게스트 님께 추천하는 바다!</div>
       <div class="suggest_switch">
       <label class="switch">
         <input type="checkbox">

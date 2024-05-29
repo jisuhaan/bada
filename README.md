@@ -22,7 +22,16 @@
 
 ## 프로젝트 기간
 
+2024.03.21. ~ 2024.04.19. 총 30일.
+
 ## 팀원 소개
+
+
+| 이름 name | 정지은 | 한지수 | 정지수 | 홍문선 |
+| 사진 photo | ![KakaoTalk_20240529_154105938](https://github.com/doh3e/bada/assets/151860111/232142ac-9b04-4d54-8869-409d1a584d4f) | ![KakaoTalk_20240529_153927181](https://github.com/doh3e/bada/assets/151860111/3d5623ad-9984-4889-adc3-794e9c411330) | ![KakaoTalk_20240529_153954468](https://github.com/doh3e/bada/assets/151860111/535117e8-d2fb-42f9-95de-d0678debf770) | --- |
+| 역할 position | 2 | 3 | --- | --- |
+| 깃허브 github | 5 | 6 | --- | --- |
+
 
 ### 세부 역할
 

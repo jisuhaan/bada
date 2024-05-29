@@ -77,7 +77,7 @@ function mybbti(id){
         </div>
         <div class="action-item">
         	<img src="./resources/image/my_review.png" width="100px" height="100px">
-        	<p><strong>내가 쓴 리뷰 <span class="number-text">${review}</span>건!</strong></p>
+        	<p><strong>내가 남긴 리뷰 <span class="number-text">${review}</span>건!</strong></p>
             <button type="button" class="action-button" onclick="location.href='my_review'">나의 리뷰</button>
         </div>
         <div class="action-item">

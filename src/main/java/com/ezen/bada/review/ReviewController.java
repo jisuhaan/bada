@@ -7,6 +7,8 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1070,6 +1072,7 @@ public class ReviewController {
         obj.put("success", true);
         obj.put("loginid", loginid);
         obj.put("reply", reply);
+        obj.put("name", nickname);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String replyDate = sdf.format(new Date());

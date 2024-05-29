@@ -66,8 +66,8 @@ DB 설계 및 ERD 제작 및 관리 / 리뷰,바다(리뷰 게시판 CRUD 및 �
 ## 데이터베이스 ERD
 ![ERD](https://github.com/doh3e/bada/assets/151860111/66375dc5-89d8-4140-ab48-783594ef4470)
 
+　
 
- 
 ## 사용 기술
 
 <div align=left> 
@@ -84,6 +84,8 @@ DB 설계 및 ERD 제작 및 관리 / 리뷰,바다(리뷰 게시판 CRUD 및 �
 <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>
 
 </div>
+　
+
 <details>
 <summary><b> 백엔드</b></summary>
 <ul>
@@ -134,6 +136,30 @@ DB 설계 및 ERD 제작 및 관리 / 리뷰,바다(리뷰 게시판 CRUD 및 �
   <li>Oracle SQL Developer</li>
 </ul>
 </details>
+　
 
+# 💻 <바라는 바다!> 주요 기능 소개
+　
+## 메인페이지
+
+
+ 
+## 회원가입 / 로그인 / 회원 관리(관리자)
+
+
+ 
+## 추천, 바다!
+
+
+ 
+## 순위, 바바!
+
+
+ 
+## 리뷰, 바다!
+
+
+ 
+## 문의, 바다!
 
 

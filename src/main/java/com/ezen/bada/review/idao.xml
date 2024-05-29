@@ -133,7 +133,7 @@
 
 <!-- 댓글불러오기 -->
 <select id="reply_show" resultType="com.ezen.bada.review.ReplyDTO">
-	select * from bada_review_comment where review_num = #{param1}
+	select * from bada_review_comment where review_num = #{param1} order by reply_num asc
 </select>
 
 <!-- 중복 추천 확인 -->

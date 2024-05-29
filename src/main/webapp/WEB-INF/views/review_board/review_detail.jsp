@@ -262,15 +262,22 @@ $(document).ready(function() {
                 success: function(data) {
                     if(data.success) {
                     	alert('댓글을 등록했습니다!');
-                    	var new_html = '<div class="comment">' +
-                        '<strong>' + data.loginid + '</strong><span class="comment-date"> (' + data.reply_day + ')</span>' +
-                        '<p>' + data.reply + '</p>' +
-                        '<button type="button" class="btn reply_modify" data-reply_num="' + data.reply_num + '">수정</button> ' +
-                        '<button type="button" class="btn reply_delete" data-reply_num="' + data.reply_num + '">삭제</button>' +
-                        '</div>';
+                    	var maskedId = loginid.substring(0, 4) + "****";
+	                    	var new_html = '<div class="comment" data-reply_num="' + data.reply_num + '">' +
+	                        '<div class="user-id"><strong>' + data.name + '&nbsp;(' + maskedId + ')</strong>&nbsp;<span class="comment-date"><strong>(' + data.reply_day + ')</strong></span></div>' +
+	                        '<div class="user_comments">' + data.reply + '</div>' +
+	                        '<div class="comment_buttons">' +
+	                        '<button type="button" class="btn reply_modify" data-reply_num="' + data.reply_num + '">수정</button> ' +
+	                        '<button type="button" class="btn reply_delete" data-reply_num="' + data.reply_num + '">삭제</button>';
+	                    
+	                    if (data.loginid === 'admin') {
+	                        new_html += ' <button type="button" onclick="location.href=\'reply_ban_listout\'" class="btn">댓글 신고 확인</button>';
+	                    }
+	                    
+	                    new_html += '</div></div>';
 	                    $('.comments-list').append(new_html);
 	                    $('#reply').val('');
-	                    window.location.reload();
+	                    
 	                    
                		 } else {
                    		 alert('댓글을 등록하지 못했습니다.');
@@ -318,24 +325,34 @@ $(document).ready(function() {
    	
    	$('.comments-container').on('click', '.reply_modify', function() {
    	    var reply_num = $(this).data('reply_num');
-   	    var original_reply = $(this).closest('.comment').find('.user_comments').text().trim();
-   	    
-   	 	$(this).siblings('button').hide();
-   	    
-   	    var edit_monitor = '<textarea class="reply-edit">' + original_reply + '</textarea>' +
-        '<button type="button" class="btn reply-save" data-reply_num="' + reply_num + '">저장</button>';
-   	    
-   	    $(this).closest('.comment').find('.user_comments').replaceWith(edit_monitor);
-   		$(this).hide();
+        var $comment = $(this).closest('.comment');
+        var original_reply = $comment.find('.user_comments').text().trim();
+        
+        var edit_html = '<div style="display: flex;">' +
+        '<textarea class="reply-edit" style="flex: 1; margin-right: 10px; width: 630px; height: 28px;">' + original_reply + '</textarea>' +
+        '<div style="display: flex; flex-direction: row;">' +
+        '<button type="button" class="btn reply-save" data-reply_num="' + reply_num + '">저장</button>' +
+        '<button type="button" class="btn reply-cancel" data-original_reply="' + original_reply + '" style=" margin-left: 5px;" >취소</button>';
+        '</div></div>';
+
+        $comment.find('.user_comments').hide();
+        $(this).hide();
+        $comment.find('.reply_delete').hide();
+        $comment.append(edit_html);
+        
    		
    	});
    	
    	$('.comments-container').on('click', '.reply-save', function() {
    	    var reply_num = $(this).data('reply_num');
-   	    var update_reply = $(this).prev('.reply-edit').val().trim();
-   	    var review_num = $('#review_num').val();
    	 	var $comment = $(this).closest('.comment');
-
+	 	var $reply_edit = $comment.find('.reply-edit');
+   	    var update_reply = $reply_edit.val().trim();
+   	    var review_num = $('#review_num').val();
+   	 	
+	   	 console.log('저장 버튼이 클릭되었습니다.');
+	     console.log('댓글 번호:', reply_num);
+	     console.log('수정된 댓글 내용:', update_reply);
 
    	    if(update_reply) {
    	        $.ajax({
@@ -350,9 +367,20 @@ $(document).ready(function() {
    	            success: function(data) {
    	                if(data.success) {
    	                    
-   	                	$comment.find('.user_comments').text(update_reply);
-   	                	$comment.find('.reply-edit, .reply-save').remove();
-   	                	$comment.find('.reply_modify, .reply_delete').show();
+   	                	$comment.find('.reply-edit, .reply-save, .reply-cancel').remove();
+                        $comment.find('.user_comments').text(update_reply).show();
+                        $comment.find('.reply_modify, .reply_delete').show();
+                        
+                        
+                        var new_html = '<strong>' + id + '</strong><span class="comment-date"> (' +reply_day + ')</span>' +
+                        '<p class="user_comments">' + update_reply + '</p>' +
+                        '<button type="button" class="btn reply_modify" data-reply_num="' + reply_num + '">수정</button> ' +
+                        '<button type="button" class="btn reply_delete" data-reply_num="' + reply_num + '">삭제</button>';
+                       
+                        $comment.html(new_html);s
+                        $comment.find('.reply_modify').show();
+                        $comment.find('.reply_delete').show();
+                        
    	                    
    	                } else {
    	                    alert('댓글 수정 실패');
@@ -365,6 +393,15 @@ $(document).ready(function() {
    	    } else {
    	        alert('댓글 내용을 입력해주세요.');
    	    }
+   	});
+   	
+   	$('.comments-container').on('click', '.reply-cancel', function() {
+   	    var $comment = $(this).closest('.comment');
+   	    var original_reply = $(this).data('original_reply');
+   	    
+   	    $comment.find('.reply-edit, .reply-save, .reply-cancel').remove();
+   	    $comment.find('.user_comments').text(original_reply).show();
+   	    $comment.find('.reply_modify, .reply_delete').show();
    	});
    	
 });

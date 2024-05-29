@@ -29,39 +29,45 @@
 ## 팀원 소개
 
 
-|   Name   | 정지은 👑                          | 한지수                                            | 정지수                             | 홍문선                                                       |
+|   Name   | 정지은 👑                         | 한지수                                            | 정지수                             | 홍문선                                                       |
 | :------: | ------------------------------------ | ------------------------------------------------- | ---------------------------------- | ------------------------------------------------------------ |
 | Profile  |<p align="center"><img src = "https://github.com/doh3e/bada/assets/151860111/232142ac-9b04-4d54-8869-409d1a584d4f" width="127px" height="160px"></p>|<p align="center"><img src = "https://github.com/doh3e/bada/assets/151860111/3d5623ad-9984-4889-adc3-794e9c411330" width="127px" height="160px"></p>|<p align="center"><img src = "https://github.com/doh3e/bada/assets/151860111/535117e8-d2fb-42f9-95de-d0678debf770" width="127px" height="160px" ></p>|<p align="center"><img src = "https://github.com/doh3e/bada/assets/151860111/f8115a50-ab00-47fd-9cd8-f49a794020c9" width="127px" height="160px"></p>| 
 | Position | Front/Backend Develop  | Front/Backend Develop                                  | Front/Backend Develop                   | Front/Backend Develop                              |
 |   Git    | [@doh3e](https://github.com/doh3e) | [@jisuhaan](https://github.com/jisuhaan)            | [@jisu301203](https://github.com/jisu301203) | [@annesolHong](https://github.com/annesolHong)                 |
 |   E-mail    | wldms3333@gmail.com| haanjisu@gmail.com| jisu301203@naver.com| seizemyred@gmail.com|
 
+　
 
- 
 ### 세부 역할
 
-**허민영 (팀장)**  
-DB 설계 및 ERD 제작 / 메인화면 / 이달의 따봉왕 / 따봉 어워드 / 예약 HOT 랭킹 / Q & A / 웨이팅 / 카페 리스트 / 업체 측 회원 정보 관리 / 리뷰 삭제 /
-전반적인 CSS 및 코드 관리 담당
+**정지은(팀장)**  
+UI/UX 설계 / 전체 로직 설계 / 유스케이스 다이어그램 제작 / 메인화면(검색, 회원별 바다추천, 이벤트 배너, 베스트리뷰 슬라이드) / 추천, 바다(지도 선택 페이지, 결과 페이지 해수욕장 정보 및 지도) / 리뷰 기본페이지(싸이월드 스타일의 레트로&도트 디자인) / 전체 페이지 CSS 제작 관리 / 전반적인 코드 관리 / 깃허브 관리 담당
 
-**박정빈**  
-유스케이스 다이어그램 제작 / 유저용 주 기능 전반 (통합 검색 / 맞춤형 카페 추천 / 매장 상세 페이지 / 예약 / 즐겨찾기 / 리뷰) 및 CSS 담당
+**한지수(부팀장)**  
 
-**안형진**  
+
+**정지수**  
 UI/UX 설계 / 유스케이스 다이어그램 제작 / 회원 및 업체 관련 기능 전반 (로그인 / 회원 가입 / 아이디, 비밀번호 찾기 / 손님 측 회원 정보 관리 / 예약 현황), 메인화면 팝업창, 배너 제작, 이벤트 기능 및 CSS 담당
 
-**표가은**  
-UI/UX 설계 / 유스케이스 다이어그램 제작 / 업체 측 매장 CRUD / 즐겨찾기 목록 / 카페 추천 결과 / 따봉 어워드 CSS / PPT 담당
+**홍문선**  
+DB 설계 및 ERD 제작 / 유스케이스 다이어그램 제작 / 업체 측 매장 CRUD / 즐겨찾기 목록 / 카페 추천 결과 / 따봉 어워드 CSS / PPT 담당
 
+　
 
 # 📝 프로젝트 설계 및 구성
 
 ## 기획
 
 ## 유스케이스 다이어그램
+![bada_유스케이스다이어그램](https://github.com/doh3e/bada/assets/151860111/ce08a401-c4b9-47c5-8ff8-d76fa08886ea)
+
+　
 
 ## 데이터베이스 ERD
+![ERD](https://github.com/doh3e/bada/assets/151860111/66375dc5-89d8-4140-ab48-783594ef4470)
 
+
+ 
 ## 사용 기술
 
 <div align=left> 
@@ -104,7 +110,19 @@ UI/UX 설계 / 유스케이스 다이어그램 제작 / 업체 측 매장 CRUD /
 <summary><b> DB & WAS</b></summary>
 <ul>
   <li>Oracle(Oracle Database 11g Express Edition Release 11.2.0.2.0)</li>
-  <li>Tomcat 9(9.0.64)</li>
+  <li>Tomcat 9(9.0.85)</li>
+</ul>
+</details>
+
+<details>
+<summary><b> API & OpenData</b></summary>
+<ul>
+  <li>기상청 초단기 예보</li>
+  <li>기상청 단기 예보</li>
+  <li>한국 천문 연구원 출몰시각</li>
+  <li><a href="https://www.data.go.kr/data/15102239/openapi.do#/tab_layer_recommend_data">기상청 전국 해수욕장 날씨조회 서비스</a></li>
+  <li>기상 특보 조회 </li>
+  <li></li>
 </ul>
 </details>
 
@@ -115,7 +133,6 @@ UI/UX 설계 / 유스케이스 다이어그램 제작 / 업체 측 매장 CRUD /
   <li>STS(3.9.18)</li>
   <li>Git</li>
   <li>GitHub</li>
-  <li>Fork</li>
   <li>Oracle SQL Developer</li>
 </ul>
 </details>

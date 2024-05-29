@@ -117,12 +117,10 @@ DB 설계 및 ERD 제작 및 관리 / 리뷰,바다(리뷰 게시판 CRUD 및 �
 <details>
 <summary><b> API & OpenData</b></summary>
 <ul>
-  <li>기상청 초단기 예보</li>
-  <li>기상청 단기 예보</li>
-  <li>한국 천문 연구원 출몰시각</li>
-  <li><a href="https://www.data.go.kr/data/15102239/openapi.do#/tab_layer_recommend_data">기상청 전국 해수욕장 날씨조회 서비스</a></li>
-  <li>기상 특보 조회 </li>
-  <li></li>
+  <li><a href="https://www.data.go.kr/data/15084084/openapi.do">기상청_단기예보 ((구)_동네예보) 조회서비스</a></li>
+  <li><a href="https://www.data.go.kr/data/15012688/openapi.do)">한국 천문 연구원 출몰시각</a></li>
+  <li><a href="https://www.data.go.kr/data/15102239/openapi.do)">기상청 전국 해수욕장 날씨조회 서비스</a></li>
+  <li><a href="https://www.data.go.kr/data/15059093/openapi.do">기상청_지상(종관, ASOS) 일자료 조회서비스</a></li>
 </ul>
 </details>
 

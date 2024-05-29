@@ -105,12 +105,12 @@
 		        
 		<tr>
 		<td colspan="4" style="text-align: left; padding-left:20px;">
-		<div class="btnlists" onclick="confirmDeleteBan('${dto.i_banned_num}')" style="display:flex; justify-content:space-between; gap:500px; align-items:center; text-align: center;">
-			<div class="deletebtn" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+		<div class="btnlists" style="display:flex; justify-content:space-between; gap:500px; align-items:center; text-align: center;">
+			<div class="deletebtn" onclick="confirmDeleteBan('${dto.i_banned_num}')" style="display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer;">
 			<img src="./resources/image/delete_icon.png" width="20px" class="">
 			<span>신고삭제</span>
 			</div>
-			<div class="listbtn" onclick="window.location.href='inquire_ban_listout'" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+			<div class="listbtn" onclick="window.location.href='inquire_ban_listout'" style="display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer;">
 			<img src="./resources/image/icon_tolist.png" width="20px" class="">
 			<span>목록으로</span>
 			</div>

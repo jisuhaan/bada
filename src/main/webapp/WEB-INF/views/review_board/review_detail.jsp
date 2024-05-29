@@ -328,9 +328,9 @@ $(document).ready(function() {
         var $comment = $(this).closest('.comment');
         var original_reply = $comment.find('.user_comments').text().trim();
         
-        var edit_html = '<div style="display: flex;">' +
-        '<textarea class="reply-edit" style="flex: 1; margin-right: 10px; width: 630px; height: 28px;">' + original_reply + '</textarea>' +
-        '<div style="display: flex; flex-direction: row;">' +
+        var edit_html = '<div class="comment_modify_view">' +
+        '<textarea class="reply-edit">' + original_reply + '</textarea>' +
+        '<div class="comment_modify_btn" >' +
         '<button type="button" class="btn reply-save" data-reply_num="' + reply_num + '">저장</button>' +
         '<button type="button" class="btn reply-cancel" data-original_reply="' + original_reply + '" style=" margin-left: 5px;" >취소</button>';
         '</div></div>';
@@ -399,7 +399,7 @@ $(document).ready(function() {
    	    var $comment = $(this).closest('.comment');
    	    var original_reply = $(this).data('original_reply');
    	    
-   	    $comment.find('.reply-edit, .reply-save, .reply-cancel').remove();
+   	    $comment.find('.comment_modify_view').remove();
    	    $comment.find('.user_comments').text(original_reply).show();
    	    $comment.find('.reply_modify, .reply_delete').show();
    	});

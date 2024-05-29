@@ -422,6 +422,31 @@ hr {
 	resize: none;
 }
 
+.comment_modify_view {
+	margin: 0 auto;
+	margin-top: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap:20px;
+}
+
+.reply-edit {
+	width:630px;
+	height:50px;
+	border: 1px solid gray;
+	padding: 5px;
+	font-family: 'Pretendard-Regular';
+	resize: none;
+}
+
+.comment_modify_btn {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	gap:5px;
+}
+
 .modal {
 	display: none; /* 모달창을 기본적으로 숨깁니다 */
 	position: fixed; /* 페이지 내 고정 */

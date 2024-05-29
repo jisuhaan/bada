@@ -10,17 +10,17 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-    var errstack = parseInt(localStorage.getItem("errstack") || "0");
     var banTime = localStorage.getItem("banTime");
 
     // 밴 시간 확인
     if (banTime && new Date().getTime() < parseInt(banTime)) {
         alert("로그인 5회 연속 오류로 로그인이 1분간 금지되었습니다.");
+        
         return;
     } else if (banTime && new Date().getTime() >= parseInt(banTime)) {
         localStorage.removeItem("banTime");
         localStorage.setItem("errstack", "0");
-        location.reload(); // **** 잠금 해제 시 페이지 새로고침
+        return;
     }
 
     if (localStorage.getItem("remember") === "true") {
@@ -54,24 +54,18 @@ $(document).ready(function(){
             var banUntil = parseInt(localStorage.getItem("banTime"));
             if (new Date().getTime() < banUntil) {
                 alert("로그인 연속 5회 오류! 1분 동안 로그인이 금지됩니다.");
-                location.reload();
+                $("#pw").val('');
+                if (!$("#remember").is(":checked")) {
+                    $("#id").val('');
+                }
                 return;
             } else {
                 localStorage.setItem(id, "0");
                 localStorage.removeItem("banTime");
                 loginAttempts = 0;
-                location.reload();
             }
         }
         
-        if (banTime && new Date().getTime() >= parseInt(banTime)) {
-            localStorage.removeItem("banTime");
-            localStorage.setItem(id, "0");
-            localStorage.setItem("errstack", "0");
-            location.reload();
-        }
-        
-
         $.ajax({
             type: "post",
             url: "login_save",
@@ -86,19 +80,26 @@ $(document).ready(function(){
                         var banUntil = new Date().getTime() + 1 * 60000;
                         localStorage.setItem("banTime", banUntil.toString());
                         alert("로그인 5회 오류! 해당 아이디로 1분 동안 로그인이 금지됩니다.");
-                        location.reload();
+                        $("#pw").val('');
+                        if (!$("#remember").is(":checked")) {
+                            $("#id").val('');
+                        }
                         return;
                     } else if (loginAttempts === 3) {
                         var userChoice = confirm("로그인 3회 오류! 회원정보를 찾으시겠습니까?");
                         if (userChoice) {
                             window.location = "info_search";
-                        } else {
-                            window.location = "login";
                         }
                     } else {
                         alert("로그인 실패!");
-                        window.location = "login";
                     }
+                    
+                    $("#pw").val('');
+                    
+                    if (!$("#remember").is(":checked")) {
+                        $("#id").val('');
+                    }
+                    
                 } else {
                     alert(id + "님, 로그인 되었습니다!");
                     localStorage.setItem(id, "0");

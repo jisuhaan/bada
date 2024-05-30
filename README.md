@@ -222,7 +222,13 @@ https://github.com/doh3e/bada/assets/151860111/b9fe01f2-c777-4f97-a768-30ceffe58
 
 <details>
 <summary><b> 회원가입 로직</b></summary>
+
+　
+
 <img src="https://github.com/doh3e/bada/assets/151860111/5e75529d-ab92-491f-acfe-2cf4745c9ce8" width="300px">
+
+　
+
 </details>
 　
 

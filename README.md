@@ -431,4 +431,9 @@ BBTI 테스트는 총 9가지의 질문으로 구성되어있고, 이를 통해 
 
 　
 
-<a href="https://www.miricanvas.com/v/1398egb">이곳을 클릭하시면 프레젠테이션을 볼 수 있습니다!</a>
+<a href="https://docs.google.com/presentation/d/12K6poj45OPdaOykqcQhr6_QJjT9HOxp4/edit?usp=sharing&ouid=115614281961147788111&rtpof=true&sd=true">이곳을 클릭하시면 프레젠테이션을 열람하고 다운로드 할 수 있습니다!</a>
+
+
+
+
+  

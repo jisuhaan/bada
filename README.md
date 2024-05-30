@@ -1,4 +1,4 @@
-<img src="https://github.com/doh3e/bada/assets/151860111/ce83434a-1a6f-4d18-9ad8-578b1cc8112a" width="500px">
+<img src="https://github.com/doh3e/bada/assets/151860111/ce83434a-1a6f-4d18-9ad8-578b1cc8112a" style="width:500px; margin:0 auto;">
 
 
  　

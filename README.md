@@ -122,7 +122,9 @@ DB 설계 및 ERD 제작 및 관리 / 리뷰,바다(리뷰 게시판 CRUD 및 �
 <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=Spring&logoColor=white"/>
 <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white"/>
 <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white"/>
+<img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=Python&logoColor=white"/>
 <img src="https://img.shields.io/badge/jQuery-0769AD?style=flat-square&logo=jQuery&logoColor=white"/>
+<img src="https://img.shields.io/badge/JSON-000000?style=flat-square&logo=json&logoColor=white"/>
 <img src="https://img.shields.io/badge/ORACLE-F80000?style=flat-square&logo=oracle&logoColor=white"/>
 <img src="https://img.shields.io/badge/Apache Tomcat-F8DC75?style=flat-square&logo=apachetomcat&logoColor=black"/>
 <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white"/>
@@ -135,6 +137,7 @@ DB 설계 및 ERD 제작 및 관리 / 리뷰,바다(리뷰 게시판 CRUD 및 �
 <summary><b> 백엔드</b></summary>
 <ul>
   <li>JAVA 11</li>
+  <li>Python</li>
   <li>Spring MVC</li>
   <li>JSP</li>
   <li>MyBatis</li>
@@ -168,6 +171,8 @@ DB 설계 및 ERD 제작 및 관리 / 리뷰,바다(리뷰 게시판 CRUD 및 �
   <li><a href="https://www.data.go.kr/data/15012688/openapi.do)">한국 천문 연구원 출몰시각</a></li>
   <li><a href="https://www.data.go.kr/data/15102239/openapi.do)">기상청 전국 해수욕장 날씨조회 서비스</a></li>
   <li><a href="https://www.data.go.kr/data/15059093/openapi.do">기상청_지상(종관, ASOS) 일자료 조회서비스</a></li>
+  <li><a href="https://apis.map.kakao.com">카카오 지도 API</a></li>
+  <li><a href="https://developers.google.com/gmail/api/guides?hl=ko">Gmail API</a></li>
 </ul>
 </details>
 

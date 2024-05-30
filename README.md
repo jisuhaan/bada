@@ -140,7 +140,7 @@ DB 설계 및 ERD 제작 및 관리 / 리뷰,바다(리뷰 게시판 CRUD 및 �
 </ul>
 </details>
 
- <details>
+<details>
 <summary><b> 프론트엔드</b></summary>
 <ul>
   <li>HTML</li>
@@ -321,7 +321,36 @@ BBTI 테스트는 총 9가지의 질문으로 구성되어있고, 이를 통해 
  
 ## 관리자 모드
 
+　
 
+`관리자`는 admin이라는 아이디와 관리자라는 고유의 역할을 가집니다.
+
+관리자가 할 수 있는 건 아래와 같아요.
+
+　
+
+<details>
+<summary><b> 회원관리</b></summary>
+
+여기다가 회원관리하는 이미지나 움짤
+
+</details>
+
+<details>
+<summary><b> 문의관리</b></summary>
+
+여기다가 문의관리하는 이미지나 움짤
+
+</details>
+
+<details>
+<summary><b> 신고관리</b></summary>
+
+여기다가 신고관리하는 이미지나 움짤
+
+</details>
+
+　
 
 # 🔎 좀 더 자세히 보고 싶으신가요?
 

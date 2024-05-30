@@ -1,4 +1,5 @@
-<img src="https://github.com/doh3e/bada/assets/151860111/ce83434a-1a6f-4d18-9ad8-578b1cc8112a" style="width:500px; margin:0 auto;">
+<div style="margin:0 auto; display:flex; justify-contents:center; align-items:center;">
+<img src="https://github.com/doh3e/bada/assets/151860111/ce83434a-1a6f-4d18-9ad8-578b1cc8112a" width="600px">
 
 
  　

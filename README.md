@@ -1,4 +1,12 @@
 
+### <a href="https://docs.google.com/presentation/d/12K6poj45OPdaOykqcQhr6_QJjT9HOxp4/edit?usp=sharing&ouid=115614281961147788111&rtpof=true&sd=true">**프레젠테이션 보러가기(click)**</a>
+
+
+
+
+
+   
+
 <img src="https://github.com/doh3e/bada/assets/151860111/ce83434a-1a6f-4d18-9ad8-578b1cc8112a" width="800px">
 
 

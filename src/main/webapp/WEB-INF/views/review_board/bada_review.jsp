@@ -35,7 +35,7 @@
                 <바라는 바다!> 를 <br>많이 사랑해주세요!<br><br>
                 
                 게시판ver. :: <br>게시판 형태<br><br>
-                전체보기 :: <br>지역 상관없이<br><br>
+                전국 :: <br>전국 지역 상관없이<br><br>
                 지역선택 :: <br>해당 지역만
               </div>
               <div class="profile-username font-neo">

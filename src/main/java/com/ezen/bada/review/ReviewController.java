@@ -1059,13 +1059,20 @@ public class ReviewController {
         String nickname =  ss.getnickname(loginid);
         
         ss.reply_save(review_num,loginid,reply,nickname);
+        
+        int reply_num = ss.get_latest_reply_num(loginid);
+        
         ss.reply_update(review_num);
+        
+       
 
         JSONObject obj = new JSONObject();
         obj.put("success", true);
         obj.put("loginid", loginid);
         obj.put("reply", reply);
         obj.put("name", nickname);
+        obj.put("reply_num", reply_num);
+
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String replyDate = sdf.format(new Date());
@@ -1124,7 +1131,7 @@ public class ReviewController {
 		
 	//댓글 수정하는 기능
 	@ResponseBody
-	@RequestMapping(value = "modify_reply")
+	@RequestMapping(value = "modify_reply", produces = "application/json; charset=utf-8")
 	public String reply_modify(HttpServletRequest request, HttpServletResponse response) throws IOException {
       
 	  	JSONObject obj = new JSONObject();
@@ -1152,7 +1159,9 @@ public class ReviewController {
 	        ss.reply_modify(reply_num,modi_reply);
 	        ReplyDTO dto = ss.reply_info(reply_num);
 	        
-	        obj.put("id",dto.getId());
+	        
+	        obj.put("name", dto.getName());
+	        obj.put("id",dto.getId().substring(0, 4)+"****");
 	        obj.put("reply_day", dto.getReply_day().substring(0, 16));
 	        obj.put("success", true);
 	        

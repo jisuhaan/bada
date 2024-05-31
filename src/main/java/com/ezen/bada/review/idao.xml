@@ -125,6 +125,19 @@
 	VALUES (#{review_num},review_reply_seq.nextval, #{loginid}, #{reply}, #{name})
 </insert>
 
+<!-- 댓글번호 -->
+
+<select id="get_latest_reply_num" resultType="int">
+  SELECT reply_num 
+    FROM (
+        SELECT reply_num 
+        FROM bada_review_comment 
+        WHERE id = #{param1} 
+        ORDER BY reply_day DESC
+    ) 
+    WHERE ROWNUM = 1
+</select>
+
 <!-- 댓글수 up -->
 <update id="reply_update">
 	UPDATE bada_user_review SET reply = reply + 1 where review_num = #{param1}
@@ -185,7 +198,7 @@
 <!-- 댓글 실시간 반영 정보 추출 -->
 
 <select id="reply_info" resultType="com.ezen.bada.review.ReplyDTO">
-	select id, reply_day from bada_review_comment 
+	select * from bada_review_comment 
 	where reply_num =#{param1}
 </select>
 

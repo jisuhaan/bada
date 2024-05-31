@@ -50,7 +50,7 @@
 --  DDL for Sequence INQUIRE_P_R_SEQ
 --------------------------------------------------------
 
-   CREATE SEQUENCE  "EZEN"."INQUIRE_P_R_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 420 CACHE 20 NOORDER  NOCYCLE;
+   CREATE SEQUENCE  "EZEN"."INQUIRE_P_R_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 402 CACHE 20 NOORDER  NOCYCLE;
 --------------------------------------------------------
 --  DDL for Sequence NOTICE_SEQ
 --------------------------------------------------------
@@ -425,18 +425,20 @@ Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (804,'hj
 Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (805,'jisu301203','제정신','저도 지금 경기도에서 코딩하고 있어요...',to_timestamp('24/04/18 17:56:22.670000000','RR/MM/DD HH24:MI:SSXFF'),'경기인천');
 Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (806,'jisu301203','제정신','가고 싶은 곳은 제주도...니까 제주도 채팅도 하나ㅎ',to_timestamp('24/04/18 17:56:48.967000000','RR/MM/DD HH24:MI:SSXFF'),'제주');
 Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (807,'admin','관리자','다들 바다를 즐겁게 기대하고 계신가요 ^^',to_timestamp('24/04/18 18:17:27.812000000','RR/MM/DD HH24:MI:SSXFF'),'전국');
-Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (811,'admin','관리자','부산에 와있습니다 ^^ 다들 바다 보고 계신가요~?',to_timestamp('24/04/19 15:23:40.672000000','RR/MM/DD HH24:MI:SSXFF'),'부산울산');
-Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (812,'mee1234','밍규','전남여자손?',to_timestamp('24/04/19 16:49:06.362000000','RR/MM/DD HH24:MI:SSXFF'),'전남');
-Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (813,'daeunkim','김다긍','전남여자손은 전남여씨의 자손이라는 뜻임? 아니면 전남여자 손이라는 뜻임? 그도 아니면 전 남자 여자 손이라는 뜻임?',to_timestamp('24/04/19 16:50:16.560000000','RR/MM/DD HH24:MI:SSXFF'),'전남');
-Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (814,'david2','정태우','사랑비가 내려와아아아아아악~~~~~~!!!',to_timestamp('24/04/19 17:00:53.395000000','RR/MM/DD HH24:MI:SSXFF'),'전국');
-Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (815,'david2','정태우','이거 도배하면 잡혀가나요!!!!!!!!!!!!!?!?!?',to_timestamp('24/04/19 17:02:25.284000000','RR/MM/DD HH24:MI:SSXFF'),'전국');
-Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (828,'ktheohoon','후니','kt소닉붐 vs kcc이지스 결승 5차전 보고 바다로 놀러가시죠 ^^',to_timestamp('24/05/03 11:03:44.205000000','RR/MM/DD HH24:MI:SSXFF'),'경기인천');
-Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (817,'admin','관리자','즐거운 하루 되세요~',to_timestamp('24/04/19 18:15:50.736000000','RR/MM/DD HH24:MI:SSXFF'),'전국');
-Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (827,'isolation','조던될끼다','경남 날씨 괜찮네요. 금방 해수욕 철이 되겠어요.',to_timestamp('24/04/30 18:20:32.593000000','RR/MM/DD HH24:MI:SSXFF'),'경남');
-Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (829,'babyshark','아기상어','훈이햄 수고하셨어요!!!! 부산바다 함 놀러와서 쉬고 가시죠!!!!',to_timestamp('24/05/07 16:04:46.369000000','RR/MM/DD HH24:MI:SSXFF'),'경기인천');
-Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (830,'pey9635','동해야','강원도 사람이라 강원도 바다가 좋네요~~~~~ㅎㅎ',to_timestamp('24/05/24 12:40:36.434000000','RR/MM/DD HH24:MI:SSXFF'),'강원');
-Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (831,'sitdooly','억환',',,,,전북은 왜 댓글이없나요?,,,ㅎㅎ',to_timestamp('24/05/24 14:16:36.919000000','RR/MM/DD HH24:MI:SSXFF'),'전북');
-Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (832,'kimhamham','김햄햄','충남에 와있습니다! 날이 괜찮네요! 조용하다는 이미지랑은 다르게 참 재밌는 곳이라고 생각해요~😎',to_timestamp('24/05/24 16:48:50.350000000','RR/MM/DD HH24:MI:SSXFF'),'충남');
+Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (808,'admin','관리자','부산에 와있습니다 ^^ 다들 바다 보고 계신가요~?',to_timestamp('24/04/19 15:23:40.672000000','RR/MM/DD HH24:MI:SSXFF'),'부산울산');
+Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (809,'mee1234','밍규','전남여자손?',to_timestamp('24/04/19 16:49:06.362000000','RR/MM/DD HH24:MI:SSXFF'),'전남');
+Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (810,'daeunkim','김다긍','전남여자손은 전남여씨의 자손이라는 뜻임? 아니면 전남여자 손이라는 뜻임? 그도 아니면 전 남자 여자 손이라는 뜻임?',to_timestamp('24/04/19 16:50:16.560000000','RR/MM/DD HH24:MI:SSXFF'),'전남');
+Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (811,'david2','정태우','사랑비가 내려와아아아아아악~~~~~~!!!',to_timestamp('24/04/19 17:00:53.395000000','RR/MM/DD HH24:MI:SSXFF'),'전국');
+Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (812,'david2','정태우','이거 도배하면 잡혀가나요!!!!!!!!!!!!!?!?!?',to_timestamp('24/04/19 17:02:25.284000000','RR/MM/DD HH24:MI:SSXFF'),'전국');
+Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (813,'ktheohoon','후니','kt소닉붐 vs kcc이지스 결승 5차전 보고 바다로 놀러가시죠 ^^',to_timestamp('24/05/03 11:03:44.205000000','RR/MM/DD HH24:MI:SSXFF'),'경기인천');
+Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (814,'admin','관리자','즐거운 하루 되세요~',to_timestamp('24/04/19 18:15:50.736000000','RR/MM/DD HH24:MI:SSXFF'),'전국');
+Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (815,'isolation','조던될끼다','경남 날씨 괜찮네요. 금방 해수욕 철이 되겠어요.',to_timestamp('24/04/30 18:20:32.593000000','RR/MM/DD HH24:MI:SSXFF'),'경남');
+Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (816,'babyshark','아기상어','훈이햄 수고하셨어요!!!! 부산바다 함 놀러와서 쉬고 가시죠!!!!',to_timestamp('24/05/07 16:04:46.369000000','RR/MM/DD HH24:MI:SSXFF'),'경기인천');
+Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (817,'pey9635','동해야','강원도 사람이라 강원도 바다가 좋네요~~~~~ㅎㅎ',to_timestamp('24/05/24 12:40:36.434000000','RR/MM/DD HH24:MI:SSXFF'),'강원');
+Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (818,'sitdooly','억환',',,,,전북은 왜 댓글이없나요?,,,ㅎㅎ',to_timestamp('24/05/24 14:16:36.919000000','RR/MM/DD HH24:MI:SSXFF'),'전북');
+Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (819,'kimhamham','김햄햄','충남에 와있습니다! 날이 괜찮네요! 조용하다는 이미지랑은 다르게 참 재밌는 곳이라고 생각해요~😎',to_timestamp('24/05/24 16:48:50.350000000','RR/MM/DD HH24:MI:SSXFF'),'충남');
+Insert into EZEN.BADA_ONE (ONE_NUM,ID,NAME,CONTENT,ONE_DATE,LOC) values (820,'hjw0305','기도하는자','지역민이라 오늘 고래불 해수욕장에 바다구경하러 왔는데요~ 흐리고 바람이 좀 부네요. 바다에 들어가긴 좀 춥겠죠~?',to_timestamp('24/05/28 14:22:57.571000000','RR/MM/DD HH24:MI:SSXFF'),'경북');
+
 REM INSERTING into EZEN.BADA_BBTI
 SET DEFINE OFF;
 Insert into EZEN.BADA_BBTI (BBTI_CODE,BBTI_NAME,BBTI_HASHTAGS) values ('EAF','해운대','#친구 #연인 #물놀이 #대중교통 #번화가 #핫플');
@@ -526,7 +528,6 @@ Insert into EZEN.BADA_INQUIRE (INQUIRE_NUM,TITLE,CATEGORY,NAME,ID,I_DATE,PIC1,PI
 사진도 첨부합니다~','n','free',0,0,8,null);
 REM INSERTING into EZEN.BADA_INQUIRE_PERSONAL
 SET DEFINE OFF;
-Insert into EZEN.BADA_INQUIRE_PERSONAL (IP_NUM,TITLE,NAME,ID,EMAIL,CATEGORY,CONTENT,IP_DATE,PIC1,PIC2,PIC3,PIC4,PIC5,TF) values (2000,'햄스터가 너무 농구를 많이해요','지은정','nope','wldms3333@gmail.com','기타 문의','바다에서 헤엄치게 하면 농구 안할까요?',to_timestamp('24/04/17 17:43:11.655000000','RR/MM/DD HH24:MI:SSXFF'),'d5e39bdc-9862-4742-8136-d641f4c5f530_다운로드.png','nope','nope','nope','nope','답변 완료');
 Insert into EZEN.BADA_INQUIRE_PERSONAL (IP_NUM,TITLE,NAME,ID,EMAIL,CATEGORY,CONTENT,IP_DATE,PIC1,PIC2,PIC3,PIC4,PIC5,TF) values (2001,'제 회원 정보를 수정하고 싶어요','제정신','jisu301203','jisu301203@gmail.com','계정 정보 문의','제 회원 정보의 일부를 바꾸고 싶어서요... 방법 좀 알려주세요',to_timestamp('24/05/24 09:43:45.468000000','RR/MM/DD HH24:MI:SSXFF'),'nope','nope','nope','nope','nope','답변 완료');
 Insert into EZEN.BADA_INQUIRE_PERSONAL (IP_NUM,TITLE,NAME,ID,EMAIL,CATEGORY,CONTENT,IP_DATE,PIC1,PIC2,PIC3,PIC4,PIC5,TF) values (2002,'로그인이 안돼용 ㅠㅠ!!','정지','nope','o_o9164@naver.com','계정 정보 문의','로그인이 안돼요!!!!!! 제 이메일로 가입된 아이디가 안찾아져요!!!!!',to_timestamp('24/05/30 10:41:13.393000000','RR/MM/DD HH24:MI:SSXFF'),'nope','nope','nope','nope','nope','답변 완료');
 REM INSERTING into EZEN.BADA_INQUIRE_PERSONAL_REPLY
@@ -1035,30 +1036,37 @@ Insert into EZEN.BADA_USE_PERIOD (BADA_NAME,BADA_OPEN,BADA_CLOSE) values ('격�
 --  DDL for Function RADIANS. 먼저 정의하기.
 --------------------------------------------------------
 
-  CREATE OR REPLACE FUNCTION "EZEN"."RADIANS" (nDegrees IN NUMBER) 
-RETURN NUMBER DETERMINISTIC 
-IS
+DECLARE
+  FUNCTION RADIANS_EXISTS RETURN BOOLEAN IS
+    v_count NUMBER;
+  BEGIN
+    SELECT COUNT(*) INTO v_count FROM USER_OBJECTS WHERE OBJECT_TYPE = 'FUNCTION' AND OBJECT_NAME = 'RADIANS';
+    RETURN v_count > 0;
+  END;
 BEGIN
-      /*
-      -- radians = degrees / (180 / pi)
-      -- RETURN nDegrees / (180 / ACOS(-1)); but 180/pi is a constant, so...
-      */
-      RETURN nDegrees / 57.29577951308232087679815481410517033235;
-END RADIANS;
-
---------------------------------------------------------
---  DDL for Function DISTNACE_WGS84
---------------------------------------------------------
-
-  CREATE OR REPLACE FUNCTION "EZEN"."DISTNACE_WGS84" ( H_LAT IN NUMBER, H_LNG IN NUMBER, T_LAT IN NUMBER, T_LNG IN NUMBER)
-RETURN NUMBER DETERMINISTIC 
-IS
-BEGIN
-  RETURN (
+  IF NOT RADIANS_EXISTS THEN
+    EXECUTE IMMEDIATE '
+      CREATE OR REPLACE FUNCTION "EZEN"."RADIANS" (nDegrees IN NUMBER) 
+      RETURN NUMBER DETERMINISTIC 
+      IS
+      BEGIN
+        RETURN nDegrees / 57.29577951308232087679815481410517033235;
+      END RADIANS;';
+  END IF;
+  
+  EXECUTE IMMEDIATE '
+    CREATE OR REPLACE FUNCTION "EZEN"."DISTNACE_WGS84" ( H_LAT IN NUMBER, H_LNG IN NUMBER, T_LAT IN NUMBER, T_LNG IN NUMBER)
+    RETURN NUMBER DETERMINISTIC 
+    IS
+    BEGIN
+      RETURN (
         6371.0 * ACOS(  
           COS( RADIANS( H_LAT ) ) * COS( RADIANS( T_LAT /* 위도 */ ) )
           * COS( RADIANS( T_LNG /* 경도 */ ) - RADIANS( H_LNG ) )
           +
           SIN( RADIANS( H_LAT ) ) * SIN( RADIANS( T_LAT /* 위도 */ ) )        
          ));
-end DISTNACE_WGS84;
+    END DISTNACE_WGS84;';
+END;
+/
+

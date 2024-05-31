@@ -147,6 +147,7 @@
    <script src="./resources/js/sea_weatherEmoticon.js"></script>
    <script>
       document.addEventListener("DOMContentLoaded", function() {
+    	  
          var totalCount = ${timeLoop};
          for (var i = 0; i < totalCount; i++) {
             var fcstDate = document.getElementById("fcstDate_"+ i).innerText;

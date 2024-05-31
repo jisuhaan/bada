@@ -16,18 +16,7 @@
 		
 		
 		// 페이지 로드시 그래프 초기화
-		$.ajax({
-            url: 'generateGraph',
-            type: 'GET',
-            success: function(imgRelativePath) {
-            	$('#graphContainer').empty();
-                // 새로운 이미지 추가
-                $('#graphContainer').html('<img src="'+imgRelativePath+'">');
-            },
-            error: function(xhr, status, error) {
-                console.error('Error reloading graph:', status);
-            }
-        });
+		loadGraph();
 		
 		$('.hashrank_container').hide();
 		$('.category').click(function() {
@@ -47,6 +36,29 @@
 		    }
 		});
 	});
+	
+	function loadGraph() {
+        $.ajax({
+            url: 'generateGraph',
+            type: 'GET',
+            success: function(imgRelativePath) {
+                $('#graphContainer').empty();
+                // 새로운 이미지 추가
+                $('#graphContainer').html('<img src="'+imgRelativePath+'">');
+
+                // 이미지가 로드되지 않았을 때 새로고침하는 로직 추가
+                setTimeout(function() {
+                    var img = $('#graphContainer img');
+                    if (!img || !img[0] || !img[0].complete) {
+                        location.reload();
+                    }
+                }, 1000); // 1초 대기 후 체크
+            },
+            error: function(xhr, status, error) {
+                console.error('Error reloading graph:', status);
+            }
+        });
+    }
 	    
 	function show_hashtags(category) {
 	    var hashtags = get_tag(category);

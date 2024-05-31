@@ -20,6 +20,10 @@ function unrecommend(reviewNum,loginid) {
     }
 }
 
+function goToReviewPage() {
+    window.location.href = 'review_all_page';
+}
+
 </script>
 <link href="${pageContext.request.contextPath}/resources/css/my_favorite.css" rel="stylesheet" type="text/css">
 <meta charset="UTF-8">
@@ -27,6 +31,8 @@ function unrecommend(reviewNum,loginid) {
 </head>
 <body>
     <div class="grid-container">
+    	<c:choose>
+        <c:when test="${not empty list}">
         <c:forEach var="list" items="${list}">
             <div class="grid-item" onclick="gogo('review_detail?review_num=${list.review_num}')">
 				<c:choose>
@@ -82,6 +88,17 @@ function unrecommend(reviewNum,loginid) {
                 </div>
             </div>  
         </c:forEach>
+        </c:when>
+            <c:otherwise>
+            <div class="empty-message-wrapper">
+                <div class="empty-message">
+                    <img src="./resources/image/empty_bookmark.png" class="empty-image">
+                    <p class="empty-text">북마크 목록이 비어 있습니다!</p>
+                    <button class="review-button" onclick="goToReviewPage()">북마크에 리뷰 담으러 가기 😀</button>
+                </div>
+            </div> 
+            </c:otherwise>
+        </c:choose>
     </div>
 </body>
 </html>

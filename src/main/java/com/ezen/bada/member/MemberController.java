@@ -421,6 +421,7 @@ public class MemberController {
       hs.removeAttribute("loginid");
       hs.removeAttribute("pw");
       hs.removeAttribute("position");
+      hs.removeAttribute("name");
       
       response.setCharacterEncoding("UTF-8");
       response.setContentType("text/html; charset=UTF-8");
@@ -600,6 +601,7 @@ public class MemberController {
          hs.removeAttribute("loginid");
          hs.removeAttribute("pw");
          hs.removeAttribute("position");
+         hs.removeAttribute("name");
 
       return "main";
 		  
@@ -769,7 +771,7 @@ public class MemberController {
    
    
    
-   //bbti값 저장하기2
+   //bbti값 저장하기2 (기존 결과가 존재하는 경우 덮어쓰기)
    @RequestMapping(value="/bbti_save2", method = RequestMethod.GET)
    public String bbti2(HttpServletRequest request, HttpServletResponse response) throws IOException {
 	   

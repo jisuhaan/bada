@@ -24,17 +24,30 @@ document.addEventListener("DOMContentLoaded", function() {
 	    document.querySelector('.box0').classList.remove('hidden');
 	    document.querySelector('.fcstoday').style.backgroundColor = '#CDE4F2';
 	
-	    // 검색 버튼 클릭 이벤트 처리
-	    $("#searchBtn").click(function() {
-	        var monthInput = parseInt($("#beachMonth").val());
-	        var dayInput = parseInt($("#beachDay").val());
-	
-	        if (!validateInput(monthInput, dayInput)) {
-	            return;
-	        }
-	
-	        getWthrDataList(monthInput, dayInput, currentYear, beach_code);
-	        alert("지난 바다 날씨 검색을 시작합니다.");
+		// 검색 로직
+		function handleSearch() {
+		    var monthInput = parseInt($("#beachMonth").val());
+		    var dayInput = parseInt($("#beachDay").val());
+		
+		    if (!validateInput(monthInput, dayInput)) {
+		        return;
+		    }
+		
+		    getWthrDataList(monthInput, dayInput, currentYear, beach_code);
+		    alert("지난 바다 날씨 검색을 시작합니다.");
+		}
+		
+		// 클릭 시
+		$("#searchBtn").click(handleSearch);
+		
+		// 엔터 키 누를 시
+		[monthInput, dayInput].forEach(function(input) {
+	        input.addEventListener("keydown", function(event) {
+	            if (event.key === "Enter") {
+	                event.preventDefault(); // 기본 엔터 동작 방지
+	                handleSearch();
+	            }
+	        });
 	    });
 	});
 	

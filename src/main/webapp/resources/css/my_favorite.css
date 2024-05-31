@@ -1,5 +1,13 @@
 @charset "UTF-8";
 
+@font-face {
+    font-family: 'Ownglyph_meetme-Rg';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/Ownglyph_meetme-Rg.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
   .grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3열 그리드 */
@@ -185,3 +193,55 @@
     .grid-item:hover .close-button {
         display: block; /* 호버 시 보이기 */
     }
+    
+     .empty-message {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     text-align: center;
+    }
+    
+    .empty-message-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+        position: absolute;
+        top: 0%;
+        left:0%;
+        z-index: 10;
+
+    }
+    
+    .empty-image {
+        max-width: 400px; /* 이미지 크기를 줄임 */
+        height: auto;
+        margin-bottom: -50px;
+    }
+    .empty-text {
+    	
+    	font-family:'Ownglyph_meetme-Rg';
+        font-size: 1.8em;
+        color: #333;
+        bottom: 10px;
+    }
+    
+    .review-button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 1em;
+        font-family:'Ownglyph_meetme-Rg';
+        color: white;
+        background-color: orange;
+        border-radius: 10px;
+        text-decoration: none;
+        cursor: pointer;
+        border: none;
+        margin-top: 20px;
+    }
+    .review-button:hover {
+        background-color: darkorange;
+    }    
+    

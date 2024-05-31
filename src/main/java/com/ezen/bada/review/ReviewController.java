@@ -165,14 +165,7 @@ public class ReviewController {
 	    return "main";
 	}
 	
-	
-	//리뷰 저장2
-	@RequestMapping(value = "review_input2")
-	public String review2(HttpServletRequest request, HttpServletResponse response, Model mo) throws IOException {
-		
-		return "review_input2";
-			
-	}
+
 	
 
 	//리뷰 페이지의 가장 첫 번째 페이지(미니 홈페이지 ver)

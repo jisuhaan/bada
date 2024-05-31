@@ -559,16 +559,17 @@ public class InquireController {
 		  
 		//댓글 저장
 		ss.inquire_reply_save(inquire_num, content, inquire_num);
-			
-		//댓글 출력
-		ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
-		mo.addAttribute("list", list);
-	
+		
 		//해당 글에 답 여부(댓글 갯수) 수정
 		int reply_count=0;
 		reply_count= ss.inquire_reply_count(inquire_num);
 		if(reply_count==0) {System.out.println("답이 없네");} //답 갯수가 0인 경우
 		else {ss.inquire_reply_check(inquire_num);}
+			
+		//댓글 출력
+		ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
+		mo.addAttribute("list", list);
+	
 			
 		//디테일에 가져가는 정보
 		InquireDTO dto=ss.inquire_detail(inquire_num);
@@ -611,17 +612,17 @@ public class InquireController {
 		Service ss = sqlsession.getMapper(Service.class);
 		 
 		ss.inquire_reply_delete(inquire_reply_num);
-		 
-		ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
-		mo.addAttribute("list", list);
-	     
-	   //해당 문의글의 답 여부(댓글 갯수) 수정
+		
+		//해당 문의글의 답 여부(댓글 갯수) 수정
 		int reply_count=0;
 		reply_count= ss.inquire_reply_count(inquire_num);
 		if(reply_count==0) {System.out.println("답이 없네");
 		ss.inquire_reply_reset(inquire_num);
 		} //답 갯수가 0인 경우
 		else {ss.inquire_reply_check(inquire_num);} //
+		 
+		ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
+		mo.addAttribute("list", list);
 			
 		//문의글 디테일에 가져가는 정보
 		InquireDTO dto=ss.inquire_detail(inquire_num);

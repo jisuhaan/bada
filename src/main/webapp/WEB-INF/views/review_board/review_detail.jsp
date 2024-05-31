@@ -106,7 +106,7 @@
 				<img src="./resources/image/icon_eye.png" width="20px" class="eye_icon">
 				<span>${dto.hits}</span>
 			</div>
-			<div class="button-container rec_btn" onclick="window.location.href='review_recommend?review_num=${dto.review_num}&loginid=${loginid}'">
+			<div class="button-container rec_btn" onclick="recommend('${dto.review_num}','${loginid}')">
 				<c:choose>
 					<c:when test="${dto.rec_id.contains(loginid)}">
 						<img src="./resources/image/like_on.png" width="20px" class="like_icon recommended">
@@ -127,6 +127,30 @@
 	</c:if>	    	    
 	</div>
 </div> 
+
+<script>
+
+function recommend(review_num, loginid) {
+    const recBtn = document.querySelector('.rec_btn');
+
+    recBtn.addEventListener('click', function() {
+      const likeIcon = recBtn.querySelector('.like_icon');
+      
+      // 아이콘에 bounce 클래스를 추가합니다.
+      likeIcon.classList.add('bounce');
+
+      // 애니메이션이 끝난 후 bounce 클래스를 제거하고 페이지를 이동합니다.
+      likeIcon.addEventListener('animationend', function() {
+        likeIcon.classList.remove('bounce');
+        window.location.href = 'review_recommend?review_num=' + review_num + '&loginid=' + loginid;
+      }, { once: true });
+    });
+
+    // 트리거 클릭 이벤트
+    recBtn.click();
+  }
+
+</script>
  
 <!-- 댓글 영역 전체를 감싸는 상자 -->
 <div class="comments-container">
@@ -166,7 +190,7 @@
 	    <c:choose>
 	      <c:when test="${not empty loginid}">
 	          <input type="hidden" id="review_num" name="review_num" value="${dto.review_num}" />
-	          <div id="loginid" class="user-id2"> ${loginid} </div>
+	          <div id="loginid" class="user-id2">${loginid}</div>
 	          <div class="reply_input_area">
 	          <textarea id="reply" name="reply" placeholder="댓글을 입력하세요"></textarea>
 	          </div>
@@ -278,6 +302,8 @@ $(document).ready(function() {
 	                    $('.comments-list').append(new_html);
 	                    $('#reply').val('');
 	                    
+	                    window.location.reload();
+	                    
 	                    
                		 } else {
                    		 alert('댓글을 등록하지 못했습니다.');
@@ -310,6 +336,7 @@ $(document).ready(function() {
                 success: function(data) {
                     if(data.success) {
                         $('button[data-reply_num="' + reply_num + '"]').closest('.comment').remove();
+                        window.location.reload();
                     } else {
                         alert('댓글 삭제 실패');
                     }
@@ -349,6 +376,7 @@ $(document).ready(function() {
 	 	var $reply_edit = $comment.find('.reply-edit');
    	    var update_reply = $reply_edit.val().trim();
    	    var review_num = $('#review_num').val();
+   	    var id = $('#loginid').text();
    	 	
 	   	 console.log('저장 버튼이 클릭되었습니다.');
 	     console.log('댓글 번호:', reply_num);
@@ -377,10 +405,11 @@ $(document).ready(function() {
                         '<button type="button" class="btn reply_modify" data-reply_num="' + reply_num + '">수정</button> ' +
                         '<button type="button" class="btn reply_delete" data-reply_num="' + reply_num + '">삭제</button>';
                        
-                        $comment.html(new_html);s
+                        $comment.html(new_html);
                         $comment.find('.reply_modify').show();
                         $comment.find('.reply_delete').show();
                         
+                        window.location.reload();
    	                    
    	                } else {
    	                    alert('댓글 수정 실패');

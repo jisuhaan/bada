@@ -355,18 +355,19 @@ $(document).ready(function() {
         var $comment = $(this).closest('.comment');
         var original_reply = $comment.find('.user_comments').text().trim();
         
+        $comment.find('.comment_modify_view').remove();
+        
         var edit_html = '<div class="comment_modify_view">' +
         '<textarea class="reply-edit">' + original_reply + '</textarea>' +
         '<div class="comment_modify_btn" >' +
         '<button type="button" class="btn reply-save" data-reply_num="' + reply_num + '">저장</button>' +
         '<button type="button" class="btn reply-cancel" data-original_reply="' + original_reply + '" style=" margin-left: 5px;" >취소</button>';
         '</div></div>';
-
+        
         $comment.find('.user_comments').hide();
         $(this).hide();
         $comment.find('.reply_delete').hide();
         $comment.append(edit_html);
-        
    		
    	});
    	
@@ -394,7 +395,9 @@ $(document).ready(function() {
    	            },
    	            success: function(data) {
    	                if(data.success) {
-   	                    
+   	                	
+   	                	$comment.find('.comment_modify_view').remove();
+   	                	
    	                	$comment.find('.reply-edit, .reply-save, .reply-cancel').remove();
                         $comment.find('.user_comments').text(update_reply).show();
                         $comment.find('.reply_modify, .reply_delete').show();
@@ -409,7 +412,7 @@ $(document).ready(function() {
                         $comment.find('.reply_modify').show();
                         $comment.find('.reply_delete').show();
                         
-                        window.location.reload();
+                        
    	                    
    	                } else {
    	                    alert('댓글 수정 실패');

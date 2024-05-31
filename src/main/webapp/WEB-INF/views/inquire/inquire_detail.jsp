@@ -91,6 +91,8 @@
 			<script type="text/javascript">
 				$(document).ready(function(){
 					
+					
+					
 					 $('.inquire-images').slick({
 					 	autoplay:true,
 					 	autoplaySpeed: 2000,
@@ -175,6 +177,10 @@
    
 <!-- 댓글 영역 시작-->  
 
+
+<c:choose>
+<c:when test="${not empty l.content}">
+		
 <div class="comments_container">
  
 	<div class="comments_list">
@@ -187,7 +193,6 @@
 			</div>
 			
 			<div class="reply_lists">${l.content}</div>
-			
 			<c:choose>
 			<c:when test="${loginstate==true && position=='admin'}">
 			   
@@ -227,6 +232,12 @@
 	</form>
   
 </div>
+
+</c:when>
+<c:otherwise>
+	<div class="comments_container">아직 관리자가 답변을 남기지 않았어요. 답변을 기다려주세요!</div>
+</c:otherwise>
+</c:choose>
 
 </div>
 

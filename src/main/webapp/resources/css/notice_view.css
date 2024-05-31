@@ -10,7 +10,7 @@
 }
 
 .board-table {
-	width: 800px;
+	width: 900px;
 	border-collapse: collapse;
 	margin-bottom: 20px;
 }
@@ -20,6 +20,7 @@ th {
 }
 
 .notice-box {
+	width:100%;
 	margin-top: 20px;
 	background-color: white;
 	border-radius: 10px;
@@ -38,4 +39,9 @@ th {
 	border-top: 1px solid #ccc; /* 상단에 일직선의 줄 추가 */
 	margin-top: 30px;
 
+}
+
+td > img {
+	width:100%;
+	object-fit:cover;
 }

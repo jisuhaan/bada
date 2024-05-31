@@ -10,7 +10,7 @@
 }
 
 .board-table {
-	width: 800px;
+	width: 900px;
 	border-collapse: collapse;
 	margin-bottom: 20px;
 }
@@ -20,9 +20,15 @@
 }
 
 .event-box {
+	width:100%;
 	background-color: white;
 	border-radius: 10px;
 	border: 1px solid #ccc;
 	padding: 15px;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+td > img {
+	width:100%;
+	object-fit:cover;
 }

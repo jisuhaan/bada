@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <div class="notice-content">
 	<div class="notice_img">
-		<img src ="./resources/image/notice.jpg" width="1400px">
+		<img src ="./resources/image/notice.jpg">
 	</div>
     <div class="flex-container">
         <div class="category-box" onclick="choice_category(this);">

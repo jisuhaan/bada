@@ -27,37 +27,21 @@ public class RankingController {
 	
 	@RequestMapping(value = "/ranking_page")
 	public String ranking1(Model mo) {
-		com.ezen.bada.weathers.Service service = sqlsession.getMapper(com.ezen.bada.weathers.Service.class);
+
 		com.ezen.bada.ranking.Service ss = sqlsession.getMapper(com.ezen.bada.ranking.Service.class);
 		
 		
 		// 바라는 바다 유저들이 가장 많이 찾아 본 바다 top3 바다
 		List<RankingBeachDTO> viewCountlist = ss.viewTopThree();
-		for(int i=0;i<viewCountlist.size();i++) {
-			Bada_info_DTO bdt = service.getbeachinfo(viewCountlist.get(i).getBeach_code());
-			viewCountlist.get(i).setBdt(bdt);
-		}
 		
 		// 후기가 가장 많은 바다 top3
 		List<RankingBeachDTO> reviewCountlist = ss.reviewTopThree();
-		for(int i=0;i<reviewCountlist.size();i++) {
-			Bada_info_DTO bdt = service.getbeachinfo(viewCountlist.get(i).getBeach_code());
-			reviewCountlist.get(i).setBdt(bdt);
-		}
-		
 		// 리뷰 별점이 높은 바다 top3
 		List<RankingBeachDTO> reviewScorelist = ss.reviewScoreTopThree();
-		for(int i=0;i<reviewScorelist.size();i++) {
-			Bada_info_DTO bdt = service.getbeachinfo(viewCountlist.get(i).getBeach_code());
-			reviewScorelist.get(i).setBdt(bdt);
-		}
 		
 		// 재방문 의사가 높은 바다 top3
 		List<RankingBeachDTO> re_visitlist = ss.re_visitTopThree();
-		for(int i=0;i<re_visitlist.size();i++) {
-			Bada_info_DTO bdt = service.getbeachinfo(viewCountlist.get(i).getBeach_code());
-			re_visitlist.get(i).setBdt(bdt);
-		}
+		
 		
 		// 최다 bbti top3
 		List<RankingBBTIDTO> topBBTIlist = ss.bbtiTopThree();

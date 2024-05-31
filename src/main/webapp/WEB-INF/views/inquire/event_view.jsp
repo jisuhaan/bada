@@ -15,11 +15,6 @@
 
 	<div class="container">
 		<table class="board-table">
-			<thead>
-				<tr>
-					<th>바라는 바다! 이벤트 바다!</th>
-				</tr>
-			</thead>
 			<tbody>
 				<tr>
 					<td class="event-box"><img src="./resources/image/${photo}">

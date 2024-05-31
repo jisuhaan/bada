@@ -8,7 +8,6 @@ public class RankingBeachDTO {
     double count;
     int rank;
     String picture;
-    Bada_info_DTO bdt;
     
 	public RankingBeachDTO() {
 		super();
@@ -22,7 +21,6 @@ public class RankingBeachDTO {
 		this.count = count;
 		this.rank = rank;
 		this.picture = picture;
-		this.bdt = bdt;
 	}
 
 	public int getBeach_code() {
@@ -63,14 +61,6 @@ public class RankingBeachDTO {
 
 	public void setPicture(String picture) {
 		this.picture = picture;
-	}
-
-	public Bada_info_DTO getBdt() {
-		return bdt;
-	}
-
-	public void setBdt(Bada_info_DTO bdt) {
-		this.bdt = bdt;
 	}
 
 

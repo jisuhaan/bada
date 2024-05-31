@@ -1,13 +1,16 @@
 @charset "UTF-8";
 
 .container {
-	max-width: 1000px;
-	margin: auto;
+	width: 1000px;
+	margin: 0 auto;
 	padding: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .board-table {
-	width: 100%;
+	width: 800px;
 	border-collapse: collapse;
 	margin-bottom: 20px;
 }

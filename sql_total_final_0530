@@ -50,7 +50,7 @@
 --  DDL for Sequence INQUIRE_P_R_SEQ
 --------------------------------------------------------
 
-   CREATE SEQUENCE  "EZEN"."INQUIRE_P_R_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 420 CACHE 20 NOORDER  NOCYCLE;
+   CREATE SEQUENCE  "EZEN"."INQUIRE_P_R_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 402 CACHE 20 NOORDER  NOCYCLE;
 --------------------------------------------------------
 --  DDL for Sequence NOTICE_SEQ
 --------------------------------------------------------
@@ -528,7 +528,6 @@ Insert into EZEN.BADA_INQUIRE (INQUIRE_NUM,TITLE,CATEGORY,NAME,ID,I_DATE,PIC1,PI
 사진도 첨부합니다~','n','free',0,0,8,null);
 REM INSERTING into EZEN.BADA_INQUIRE_PERSONAL
 SET DEFINE OFF;
-Insert into EZEN.BADA_INQUIRE_PERSONAL (IP_NUM,TITLE,NAME,ID,EMAIL,CATEGORY,CONTENT,IP_DATE,PIC1,PIC2,PIC3,PIC4,PIC5,TF) values (2000,'햄스터가 너무 농구를 많이해요','지은정','nope','wldms3333@gmail.com','기타 문의','바다에서 헤엄치게 하면 농구 안할까요?',to_timestamp('24/04/17 17:43:11.655000000','RR/MM/DD HH24:MI:SSXFF'),'d5e39bdc-9862-4742-8136-d641f4c5f530_다운로드.png','nope','nope','nope','nope','답변 완료');
 Insert into EZEN.BADA_INQUIRE_PERSONAL (IP_NUM,TITLE,NAME,ID,EMAIL,CATEGORY,CONTENT,IP_DATE,PIC1,PIC2,PIC3,PIC4,PIC5,TF) values (2001,'제 회원 정보를 수정하고 싶어요','제정신','jisu301203','jisu301203@gmail.com','계정 정보 문의','제 회원 정보의 일부를 바꾸고 싶어서요... 방법 좀 알려주세요',to_timestamp('24/05/24 09:43:45.468000000','RR/MM/DD HH24:MI:SSXFF'),'nope','nope','nope','nope','nope','답변 완료');
 Insert into EZEN.BADA_INQUIRE_PERSONAL (IP_NUM,TITLE,NAME,ID,EMAIL,CATEGORY,CONTENT,IP_DATE,PIC1,PIC2,PIC3,PIC4,PIC5,TF) values (2002,'로그인이 안돼용 ㅠㅠ!!','정지','nope','o_o9164@naver.com','계정 정보 문의','로그인이 안돼요!!!!!! 제 이메일로 가입된 아이디가 안찾아져요!!!!!',to_timestamp('24/05/30 10:41:13.393000000','RR/MM/DD HH24:MI:SSXFF'),'nope','nope','nope','nope','nope','답변 완료');
 REM INSERTING into EZEN.BADA_INQUIRE_PERSONAL_REPLY

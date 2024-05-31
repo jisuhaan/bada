@@ -17,11 +17,6 @@
 <body>
     <div class="container">
         <table class="board-table">
-            <thead>
-                <tr>
-                    <th>공지 사항</th>
-                </tr>
-            </thead>
             <tbody>
                 <c:if test="${notice_num == 1}">
                     <!-- 1번 공지사항 내용 -->
@@ -29,12 +24,12 @@
                         <td class="notice-box">
                         <img src="./resources/image/manual.png">
 			    
-			      	<div class="contact-info">
-					Contact us <br>
-					경기 수원시 팔달구 향교로 2(매산로1가 60-3) [16455] <br>
-					031-253-6776 <br>
-					ezen.bada@gmail.com <br>
-					</div>
+				      	<div class="contact-info">
+						Contact us <br>
+						경기 수원시 팔달구 향교로 2(매산로1가 60-3) [16455] <br>
+						031-253-6776 <br>
+						ezen.bada@gmail.com <br>
+						</div>
                         </td>
                     </tr>
                 </c:if>
@@ -44,12 +39,12 @@
                     <tr>
                         <td class="notice-box">
 						<img src="./resources/image/bada_rule.jpg">
-					<div class="contact-info">
-					Contact us <br>
-					경기 수원시 팔달구 향교로 2(매산로1가 60-3) [16455] <br>
-					031-253-6776 <br>
-					ezen.bada@gmail.com <br>
-					</div>
+						<div class="contact-info">
+						Contact us <br>
+						경기 수원시 팔달구 향교로 2(매산로1가 60-3) [16455] <br>
+						031-253-6776 <br>
+						ezen.bada@gmail.com <br>
+						</div>
                         </td>
                     </tr>
                 </c:if>
@@ -58,7 +53,7 @@
                     <!-- 3번 공지사항 내용 -->
                     <tr>
                         <td class="notice-box">
-					<img src="./resources/image/notice_report.jpg">
+						<img src="./resources/image/notice_report.jpg">
                         </td>
                     </tr>
                 </c:if>

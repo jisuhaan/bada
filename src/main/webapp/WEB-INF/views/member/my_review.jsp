@@ -35,36 +35,7 @@
                     <th scope="col" class="th-num view">조회수</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr class="notice_line">
-                    <td>3</td>
-                    <td class="text_title"><a href="#">[공지사항] 3번 </a></td>
-                    <td>관리자</td>
-                    <td></td>
-                    <td>2024-04-08</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-
-                <tr class="notice_line">
-                    <td>2</td>
-                    <td class="text_title"><a href="#">[공지사항] 2번 </a></td>
-                    <td>관리자</td>
-                    <td></td>
-                    <td>2024-04-08</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-
-                <tr class="notice_line">
-                    <td>1</td>
-                    <td class="text_title"><a href="#">[공지사항] 1번 </a></td>
-                    <td>관리자</td>
-                    <td></td>
-                    <td>2024-04-08</td>
-                    <td></td>
-                    <td></td>
-                </tr>
+                <tbody>           
                	<c:forEach items="${list}" var="list">
 	                <tr>
 	                  <td>${list.review_num}</td> 
@@ -75,7 +46,7 @@
 	                  </td>
 	                  <td>${list.name}(${fn:substring(list.id, 0, 4)}****)님</td>
 	                  <td>${list.visit_day}</td>
-	                  <td>${list.write_day}</td>
+	                  <td>${fn:substring(list.write_day, 0, 10)}</td>
 	                  <td>${list.recommend}</td>
 	                  <td>${list.hits}</td> 
 	                </tr>

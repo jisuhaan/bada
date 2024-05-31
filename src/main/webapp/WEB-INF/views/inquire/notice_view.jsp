@@ -17,11 +17,6 @@
 <body>
     <div class="container">
         <table class="board-table">
-            <thead>
-                <tr>
-                    <th>공지 사항</th>
-                </tr>
-            </thead>
             <tbody>
                 <c:if test="${notice_num == 1}">
                     <!-- 1번 공지사항 내용 -->

@@ -67,41 +67,6 @@
                   </thead>
                   
 <tbody>
-
-<c:forEach items="${list2}" var="l2">
-         <tr class="notice_line">
-            <td colspan="2">
-            [추천순 top3]
-            <a href="to_inquire_detail?inquire_num=${l2.inquire_num}">
-                   <c:choose>
-                       <c:when test="${l2.secret == 'y'}">
-                           <img src="./resources/image/lock_icon.png" width="20px" class="lock-icon">
-                           ${l2.title}
-                       </c:when>
-                       <c:otherwise>
-                           ${l2.title}
-                       </c:otherwise>
-                   </c:choose>
-               </a>
-               </td>
-            <td>${l2.category}</td>
-            <td>
-            ${l2.name}(${fn:substring(l2.id, 0, 4)}****) 님
-            </td>
-            <td>
-               ${fn:substring(l2.i_date, 0, 19)}
-            </td>
-            <td>
-               <c:choose>
-                <c:when test="${l2.reply == 0}">미응답</c:when>
-                <c:otherwise>완료</c:otherwise>
-            </c:choose>
-            </td>
-            <td>${l2.rec}</td>
-            <td>${l2.cnt}</td>
-         </tr>
-         </c:forEach>
-
                <c:forEach items="${list}" var="l">
                <tr>
                   <td colspan="2">

@@ -31,15 +31,14 @@
                   alt="프로필 이미지"
                 />
               </div>
-              <div class="profile-text font-kyobohand">
-                <바라는 바다!> 를 많이<br>
-                사랑해주세요!<br><br>
+              <div class="profile-text font-neo">
+                <바라는 바다!> 를 <br>많이 사랑해주세요!<br><br>
                 
-                게시판ver. :: 게시판 형태<br>
-                전체보기 :: 지역 상관없이<br>
-                지역선택 :: 해당 지역만
+                게시판ver. :: <br>게시판 형태<br><br>
+                전체보기 :: <br>지역 상관없이<br><br>
+                지역선택 :: <br>해당 지역만
               </div>
-              <div class="profile-username font-kyobohand">
+              <div class="profile-username font-neo">
                 <span style="color: #0f1b5c">${name}(${id})</span>
               </div>
               <div class="profile-dropdown">

@@ -167,6 +167,11 @@
 	update bada_inquire set reply = 1 where inquire_num = #{param1}
 </update>
 
+<!-- 답변이 0개일 시 '응답'이 '미응답'으로 바뀌도록 함 -->
+<update id="inquire_reply_reset">
+	update bada_inquire set reply = 0 where inquire_num = #{param1}
+</update>
+
 
 
  <!-- 문의글 답변 삭제 -->
@@ -197,6 +202,13 @@
 	where inquire_num = #{param2}
 </update>
 
+<!-- 문의글 추천 취소 기능 -->
+<update id="inquire_recommand_reset">
+    update bada_inquire 
+    set rec = rec - 1, 
+        rec_id = REPLACE(rec_id, #{param1}, ',')
+    where inquire_num = #{param2}
+</update>
 
 
 <!-- 문의 신고당하는 사람의 유저 넘버 가져오기 -->
@@ -208,7 +220,7 @@
 <select id="inquire_ban_check" resultType="java.lang.String">
 	select title 
 	from bada_i_banned 
-	where id=#{param1} and BAN_INQUIRE_NUM=#{param2} and category=#{param3} and content=#{param4}
+	where id=#{param1} and BAN_INQUIRE_NUM=#{param2} and category=#{param3} 
 </select>
 
 <!-- 문의글 신고 저장 -->

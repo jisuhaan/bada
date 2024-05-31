@@ -564,7 +564,7 @@ public class InquireController {
 		int reply_count=0;
 		reply_count= ss.inquire_reply_count(inquire_num);
 		if(reply_count==0) {System.out.println("답이 없네");} //답 갯수가 0인 경우
-		else {ss.inquire_reply_check(inquire_num);} //
+		else {ss.inquire_reply_check(inquire_num);}
 			
 		//댓글 출력
 		ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
@@ -575,7 +575,7 @@ public class InquireController {
 		InquireDTO dto=ss.inquire_detail(inquire_num);
 		mo.addAttribute("dto", dto);
 		
-		return "inquire_detail";
+		return page(request, mo);
 	}
 	
 	
@@ -616,7 +616,9 @@ public class InquireController {
 		//해당 문의글의 답 여부(댓글 갯수) 수정
 		int reply_count=0;
 		reply_count= ss.inquire_reply_count(inquire_num);
-		if(reply_count==0) {System.out.println("답이 없네");} //답 갯수가 0인 경우
+		if(reply_count==0) {System.out.println("답이 없네");
+		ss.inquire_reply_reset(inquire_num);
+		} //답 갯수가 0인 경우
 		else {ss.inquire_reply_check(inquire_num);} //
 		 
 		ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
@@ -711,9 +713,12 @@ public class InquireController {
 		ss.inquire_recommand(loginid, inquire_num);
 		InquireDTO dto=ss.inquire_detail(inquire_num);
 		mo.addAttribute("dto", dto);
+		ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
+		mo.addAttribute("list", list);
 		}
 		
 		else {
+			ss.inquire_recommand_reset(loginid, inquire_num);
 	        InquireDTO dto=ss.inquire_detail(inquire_num);
 			mo.addAttribute("dto", dto);
 			ArrayList<Inquire_reply_DTO> list=ss.inquire_reply_out(inquire_num);
@@ -799,7 +804,7 @@ public class InquireController {
         Service ss=sqlsession.getMapper(Service.class);
         String inquire_check="";
         String result="";
-        inquire_check=ss.inquire_ban_check(id, ban_inquire_num, category, content); //동일한 사람이 동일한 글을 동일한 사유로 여러번 신고할 수 없도록 중복 방지
+        inquire_check=ss.inquire_ban_check(id, ban_inquire_num, category); //동일한 사람이 동일한 글을 동일한 사유로 여러번 신고할 수 없도록 중복 방지
         
         if (inquire_check==null) {result="ok";}
         else {result="nope";}

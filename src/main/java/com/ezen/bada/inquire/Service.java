@@ -71,6 +71,9 @@ public interface Service {
 	
 	//문의 답변 갯수를 반영해 답변 여부를 반영
 	void inquire_reply_check(int inquire_num);
+	
+	//문의 답변 댓수가 0이면 답변 여부를 미응답으로 수정
+	void inquire_reply_reset(int inquire_num);
 
 	
 	//문의글에 달린 답변을 삭제
@@ -87,12 +90,15 @@ public interface Service {
 	//문의 추천 시 추천인 아이디를 저장
 	void inquire_recommand(String loginid, int inquire_num);
 	
+	//문의 추천 중복 결과 중복이면 추천을 취소
+	void inquire_recommand_reset(String loginid, int inquire_num);
+	
 	
 	//신고된 대상의 유저 넘버 가져오기
 	int ban_user_number(String ban_id);
 	
 	//신고 시 신고가 중복인지 확인
-	String inquire_ban_check(String id, int ban_inquire_num, String category, String content);
+	String inquire_ban_check(String id, int ban_inquire_num, String category);
 	
 	//신고 정보를 저장
 	void inquire_ban_save(String title, String name, String id, int ban_inquire_num, String ban_name, String ban_id,

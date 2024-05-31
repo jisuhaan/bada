@@ -106,7 +106,7 @@
 				<img src="./resources/image/icon_eye.png" width="20px" class="eye_icon">
 				<span>${dto.hits}</span>
 			</div>
-			<div class="button-container rec_btn" onclick="window.location.href='review_recommend?review_num=${dto.review_num}&loginid=${loginid}'">
+			<div class="button-container rec_btn" onclick="recommend('${dto.review_num}','${loginid}')">
 				<c:choose>
 					<c:when test="${dto.rec_id.contains(loginid)}">
 						<img src="./resources/image/like_on.png" width="20px" class="like_icon recommended">
@@ -127,6 +127,30 @@
 	</c:if>	    	    
 	</div>
 </div> 
+
+<script>
+
+function recommend(review_num, loginid) {
+    const recBtn = document.querySelector('.rec_btn');
+
+    recBtn.addEventListener('click', function() {
+      const likeIcon = recBtn.querySelector('.like_icon');
+      
+      // 아이콘에 bounce 클래스를 추가합니다.
+      likeIcon.classList.add('bounce');
+
+      // 애니메이션이 끝난 후 bounce 클래스를 제거하고 페이지를 이동합니다.
+      likeIcon.addEventListener('animationend', function() {
+        likeIcon.classList.remove('bounce');
+        window.location.href = 'review_recommend?review_num=' + review_num + '&loginid=' + loginid;
+      }, { once: true });
+    });
+
+    // 트리거 클릭 이벤트
+    recBtn.click();
+  }
+
+</script>
  
 <!-- 댓글 영역 전체를 감싸는 상자 -->
 <div class="comments-container">

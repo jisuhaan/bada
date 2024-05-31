@@ -55,7 +55,7 @@
 | :------: | ------------------------------------ | ------------------------------------------------- | ---------------------------------- | ------------------------------------------------------------ |
 | Profile  |<p align="center"><img src = "https://github.com/doh3e/bada/assets/151860111/232142ac-9b04-4d54-8869-409d1a584d4f" width="127px" height="160px"></p>|<p align="center"><img src = "https://github.com/doh3e/bada/assets/151860111/3d5623ad-9984-4889-adc3-794e9c411330" width="127px" height="160px"></p>|<p align="center"><img src = "https://github.com/doh3e/bada/assets/151860111/535117e8-d2fb-42f9-95de-d0678debf770" width="127px" height="160px" ></p>|<p align="center"><img src = "https://github.com/doh3e/bada/assets/151860111/f8115a50-ab00-47fd-9cd8-f49a794020c9" width="127px" height="160px"></p>| 
 | Position | Front/Backend Develop  | Front/Backend Develop                                  | Front/Backend Develop                   | Front/Backend Develop                              |
-|   Git    | [@doh3e](https://github.com/doh3e) | [@jisuhaan](https://github.com/jisuhaan)            | [@jisu301203](https://github.com/jisu301203) | [@annesolHong](https://github.com/annesolHong)                 |
+|   Git    | [@doh3e](https://github.com/doh3e) | [@jisuhaan](https://github.com/jisuhaan)            | [@jisu301203](https://github.com/jisu301203) | [@annesolHong](https://github.com/annesolHong) & [@9Sol](http://github.com/9Sol |
 |   E-mail    | wldms3333@gmail.com| haanjisu@gmail.com| jisu301203@naver.com| seizemyred@gmail.com|
 
 　

@@ -213,6 +213,9 @@ public interface Service {
 
 	void hitdown(int review_num);
 
+	int get_latest_reply_num(String loginid);
+
+
 
 
 }

@@ -14,6 +14,7 @@ $(document).ready(function() {
 	
 	var originalEmail = '${info.email}';
 	var email_check = true;
+	var pw_changed = false;
 	
 	$('#email').change(function() {
 		
@@ -22,6 +23,10 @@ $(document).ready(function() {
 			email_check = false;
 		}
 		
+	});
+	
+	$('#pw').change(function() {
+		pw_changed = true;
 	});
 	
     $("#emailcheck").click(function() {
@@ -61,10 +66,13 @@ $(document).ready(function() {
         	return false;
         }
         
-        if(allinfo_check()){
-        	confirm_Pw();
+        if(allinfo_check()) {
+            if(pw_changed) {
+                confirm_Pw("본인 확인을 위해 기존 비밀번호를 입력해주세요!");
+            } else {
+                confirm_Pw("본인 확인을 위해 비밀번호를 입력해주세요.");
+            }
         }
-
     });
     
     
@@ -107,8 +115,8 @@ $(document).ready(function() {
    }
        
 
-    window.confirm_Pw = function() {
-        var password = prompt("본인 확인을 위해 비밀번호를 입력해주세요.");
+    window.confirm_Pw = function(message) {
+        var password = prompt(message);
         if (password !== null && password !== "") {
             $.ajax({
                 type: "POST",

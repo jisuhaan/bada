@@ -51,8 +51,8 @@ $(document).ready(function(){
     });
 
     $("#search_pw").click(function(){
-        var id = $("#id").val();
-        var email = $("#email").val();
+        var id = $("#password_id").val();
+        var email = $("#password_email").val();
         
         if (!id || !email) {
             alert("모든 정보를 입력해주세요!");
@@ -93,7 +93,7 @@ $(document).ready(function(){
     <div class="main-container">
         <h2>아이디 찾기</h2>
         <div class="input-group">
-            <input type="text" id="name" placeholder="이름">
+            <input type="text" id="name" placeholder="닉네임">
             <input type="email" id="email" placeholder="이메일">
         </div>
         <div class="button-group">
@@ -108,8 +108,8 @@ $(document).ready(function(){
     <div class="main-container">
         <h2>비밀번호 찾기</h2>
         <div class="input-group">
-            <input type="text" id="id" placeholder="아이디">
-            <input type="email" id="email" placeholder="이메일">
+            <input type="text" id="password_id" placeholder="아이디">
+            <input type="email" id="password_email" placeholder="이메일">
         </div>
         <div class="button-group">
             <button id="search_pw">비밀번호 찾기</button>

@@ -24,33 +24,54 @@ public interface Service {
 	
 	ArrayList<MemberDTO> member_list(PageDTO dto);
 	
-	ArrayList<MemberDTO> memberout();
 	
+	int total_search_num_n_n1(String value);
 	
+	int total_search_num_n_a(String value, int age);
 	
-	ArrayList<MemberDTO> member_search_num_n_n(String value);
+	int total_search_num_g_n(String value, String gender);
 	
-	ArrayList<MemberDTO> member_search_num_n_a(String value, int age);
+	int total_search_num_g_a(String value, String gender, int age);
 	
-	ArrayList<MemberDTO> member_search_num_g_n(String value, String gender);
+	int total_search_id_n_n(String value);
 	
-	ArrayList<MemberDTO> member_search_num_g_a(String value, String gender, int age);
+	int total_search_id_n_a(String value, int age);
 	
-	ArrayList<MemberDTO> member_search_id_n_n(String value);
+	int total_search_id_g_n(String value, String gender);
 	
-	ArrayList<MemberDTO> member_search_id_n_a(String value, int age);
+	int total_search_id_g_a(String value, String gender, int age);
 	
-	ArrayList<MemberDTO> member_search_id_g_n(String value, String gender);
+	int total_search_name_n_n(String value);
 	
-	ArrayList<MemberDTO> member_search_id_g_a(String value, String gender, int age);
+	int total_search_name_n_a(String value, int age);
 	
-	ArrayList<MemberDTO> member_search_name_n_n(String value);
+	int total_search_name_g_n(String value, String gender);
 	
-	ArrayList<MemberDTO> member_search_name_n_a(String value, int age);
+	int total_search_name_g_a(String value, String gender, int age);
 	
-	ArrayList<MemberDTO> member_search_name_g_n(String value, String gender);
+	ArrayList<MemberDTO> member_search_num_n_n1(String value, int start, int end);
 	
-	ArrayList<MemberDTO> member_search_name_g_a(String value, String gender, int age);
+	ArrayList<MemberDTO> member_search_num_n_a(String value, int age, int start, int end);
+	
+	ArrayList<MemberDTO> member_search_num_g_n(String value, String gender, int start, int end);
+	
+	ArrayList<MemberDTO> member_search_num_g_a(String value, String gender, int age, int start, int end);
+	
+	ArrayList<MemberDTO> member_search_id_n_n(String value, int start, int end);
+	
+	ArrayList<MemberDTO> member_search_id_n_a(String value, int age, int start, int end);
+	
+	ArrayList<MemberDTO> member_search_id_g_n(String value, String gender, int start, int end);
+	
+	ArrayList<MemberDTO> member_search_id_g_a(String value, String gender, int age, int start, int end);
+	
+	ArrayList<MemberDTO> member_search_name_n_n(String value, int start, int end);
+	
+	ArrayList<MemberDTO> member_search_name_n_a(String value, int age, int start, int end);
+	
+	ArrayList<MemberDTO> member_search_name_g_n(String value, String gender, int start, int end);
+	
+	ArrayList<MemberDTO> member_search_name_g_a(String value, String gender, int age, int start, int end);
 	
 	
 	
@@ -133,5 +154,7 @@ public interface Service {
 	int getreviewcnt(int beach_code);
 
 	List<String> get3hash(int beach_code);
+
+	ArrayList<MemberDTO> member_search_num_n_n(String value, int start, int end);
 
 }

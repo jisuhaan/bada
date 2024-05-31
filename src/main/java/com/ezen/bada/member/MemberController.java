@@ -121,37 +121,6 @@ public class MemberController {
    
    
    
-   //회원 출력 메소드
-   @RequestMapping(value = "/member_out")
-   public String memberout(HttpServletRequest request, Model mo, PageDTO dto) {
-	   
-	   String nowPage=request.getParameter("nowPage");
-	   String cntPerPage=request.getParameter("cntPerPage");
-	   Service ss = sqlsession.getMapper(Service.class);
-	   int total=ss.total();
-		
-	   if(nowPage==null && cntPerPage == null) {    
-	  	 nowPage="1";
-	  // 현재 페이지 번호                                   
-	  	 cntPerPage="20";
-	 // 한 페이지당 보여줄 게시물 수
-	   }
-	   else if(nowPage==null) {
-	      nowPage="1";
-	   }
-	   else if(cntPerPage==null) {
-	      cntPerPage="20";
-	   }
-		
-	   dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
-	   mo.addAttribute("paging",dto);
-	   mo.addAttribute("list",ss.member_list(dto));
-      
-	   return "member_out";
-   }
-   
-   
-   
    //회원 정보 디테일 출력창
    @RequestMapping(value = "/member_detail")
    public String member_detail(HttpServletRequest request, Model mo) {
@@ -241,65 +210,141 @@ public class MemberController {
    }
    
    
+ //회원 출력 메소드
+   @RequestMapping(value = "/member_out")
+   public String memberout(HttpServletRequest request, Model mo, PageDTO dto) {
+	   
+	   String nowPage=request.getParameter("nowPage");
+	   String cntPerPage=request.getParameter("cntPerPage");
+	   Service ss = sqlsession.getMapper(Service.class);
+	   int total=ss.total();
+		
+	   if(nowPage==null && cntPerPage == null) {    
+	  	 nowPage="1";
+	  // 현재 페이지 번호                                   
+	  	 cntPerPage="20";
+	 // 한 페이지당 보여줄 게시물 수
+	   }
+	   else if(nowPage==null) {
+	      nowPage="1";
+	   }
+	   else if(cntPerPage==null) {
+	      cntPerPage="20";
+	   }
+		
+	   dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+	   mo.addAttribute("paging",dto);
+	   mo.addAttribute("list",ss.member_list(dto));
+      
+	   return "member_out";
+   }
+   
    
    
    //회원 검색 기능
    @RequestMapping(value = "/member_search")
    public String membersearch(HttpServletRequest request, Model mo) {
-      
+      // 페이징 처리 영역
+	   String nowPage=request.getParameter("nowPage");
+	   String cntPerPage=request.getParameter("cntPerPage");
+	   Service ss = sqlsession.getMapper(Service.class);
+	   int total=0;
+	   PageDTO dto=null;
+		  
+	   if(nowPage==null && cntPerPage == null) {    
+	  	 nowPage="1";
+	  	 // 현재 페이지 번호                                   
+	  	 cntPerPage="20";
+  	 	 // 한 페이지당 보여줄 게시물 수
+	   }
+	   else if(nowPage==null) {
+	      nowPage="1";
+	   }
+	   else if(cntPerPage==null) {
+	      cntPerPage="20";
+	   }
+	   
+	  // 검색 영역 
       String keyword=request.getParameter("search_keyword");
       String value=request.getParameter("search_value");
       String gender=request.getParameter("gender");
       int age=Integer.parseInt(request.getParameter("age"));
       
-      Service ss=sqlsession.getMapper(Service.class);
       ArrayList<MemberDTO> list;
       
       if(keyword.equals("user_number")) { //검색 키워드가 회원 번호인 경우
          if(gender.equals("") && age==0) { //성별과 나이를 모두 입력하지 않은 경우
-            list=ss.member_search_num_n_n(value);
+        	total = ss.total_search_num_n_n1(value);
+        	dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+      	  
+            list=ss.member_search_num_n_n1(value, dto.getStart(), dto.getEnd());
+            
          }//내부 if문 끝
          else if(gender.equals("") && age!=0) { //성별은 입력하지 않고 나이는 입력한 경우
-            list=ss.member_search_num_n_a(value, age);
+        	 total=ss.total_search_num_n_a(value, age);
+        	 dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+            list=ss.member_search_num_n_a(value, age, dto.getStart(), dto.getEnd());
          }//내부 else if문 끝
          else if(gender!=null && age==0) { //성별은 입력하고 나이는 입력하지 않은 경우
-            list=ss.member_search_num_g_n(value, gender);
+        	 total=ss.total_search_num_g_n(value, gender);
+        	 dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+            list=ss.member_search_num_g_n(value, gender, dto.getStart(), dto.getEnd());
          }//내부 else if문2 끝
          else { //성별과 나이 모두 입력한 경우
-            list=ss.member_search_num_g_a(value, gender, age);
+        	 total=ss.total_search_num_g_a(value, gender, age);
+        	 dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+            list=ss.member_search_num_g_a(value, gender, age, dto.getStart(), dto.getEnd());
          }//내부 else문 끝
       }
       
       else if(keyword.equals("id")) { //검색 키워드가 아이디인 경우
          if(gender.equals("") && age==0) {
-            list=ss.member_search_id_n_n(value);
+        	 total=ss.total_search_id_n_n(value);
+        	 dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+            list=ss.member_search_id_n_n(value, dto.getStart(), dto.getEnd());
          }//내부 if문 끝
          else if(gender.equals("") && age!=0) {
-            list=ss.member_search_id_n_a(value, age);
+        	 total=ss.total_search_id_n_a(value, age);
+        	 dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+            list=ss.member_search_id_n_a(value, age, dto.getStart(), dto.getEnd());
          }//내부 else if문 끝
          else if(gender!=null && age==0) {
-            list=ss.member_search_id_g_n(value, gender);
+        	 total=ss.total_search_id_g_n(value, gender);
+        	 dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+            list=ss.member_search_id_g_n(value, gender, dto.getStart(), dto.getEnd());
          }//내부 else if문2 끝
          else {
-            list=ss.member_search_id_g_a(value, gender, age);
+        	 total=ss.total_search_id_g_a(value, gender, age);
+        	 dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+            list=ss.member_search_id_g_a(value, gender, age, dto.getStart(), dto.getEnd());
          }//내부 else문 끝
       }
       
       else { //검색 키워드가 이름인 경우
          if(gender.equals("") && age==0) {
-            list=ss.member_search_name_n_n(value);
+        	 total=ss.total_search_name_n_n(value);
+        	 dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+            list=ss.member_search_name_n_n(value, dto.getStart(), dto.getEnd());
          }//내부 if문 끝
          else if(gender.equals("") && age!=0) {
-            list=ss.member_search_name_n_a(value, age);
+        	 total=ss.total_search_name_n_a(value, age);
+        	 dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+            list=ss.member_search_name_n_a(value, age, dto.getStart(), dto.getEnd());
          }//내부 else if문 끝
          else if(gender!=null && age==0) {
-            list=ss.member_search_name_g_n(value, gender);
+        	 total=ss.total_search_name_g_n(value, gender);
+        	 dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+            list=ss.member_search_name_g_n(value, gender, dto.getStart(), dto.getEnd());
          }//내부 else if문2 끝
          else {
-            list=ss.member_search_name_g_a(value, gender, age);
+        	 total=ss.total_search_name_g_a(value, gender, age);
+        	 dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
+            list=ss.member_search_name_g_a(value, gender, age, dto.getStart(), dto.getEnd());
          }//내부 else문 끝
       }
       
+      
+      mo.addAttribute("paging",dto);
       mo.addAttribute("list", list);
       
       return "member_out";

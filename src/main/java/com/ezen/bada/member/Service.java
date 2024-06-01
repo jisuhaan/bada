@@ -25,7 +25,7 @@ public interface Service {
 	ArrayList<MemberDTO> member_list(PageDTO dto);
 	
 	
-	int total_search_num_n_n1(String value);
+	int total_search_num_n_n(String value);
 	
 	int total_search_num_n_a(String value, int age);
 	

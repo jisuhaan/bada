@@ -274,7 +274,7 @@ public class MemberController {
       
       if(keyword.equals("user_number")) { //검색 키워드가 회원 번호인 경우
          if(gender.equals("") && age==0) { //성별과 나이를 모두 입력하지 않은 경우
-        	total = ss.total_search_num_n_n1(value);
+        	total = ss.total_search_num_n_n(value);
         	dto=new PageDTO(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
       	  
             list=ss.member_search_num_n_n1(value, dto.getStart(), dto.getEnd());
